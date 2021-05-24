@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+Allow: /archives/
+Allow: /categories/
+Allow: /tags/ 
+Allow: /about/ 
+Allow: /archives/
+Allow: /friends/
+Allow: /contact/
+
+Disallow: /js/
+Disallow: /css/
+Disallow: /fonts/
+Disallow: /vendors/
+Disallow: /fancybox/
+
+Sitemap: http://www.hanlele.cn/search.xml
+Sitemap: http://www.hanlele.cn/sitemap.xml
+Sitemap: http://www.hanlele.cn/baidusitemap.xml
