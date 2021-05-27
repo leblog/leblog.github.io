@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>程序员小乐</title>
+  
+  <subtitle>热爱生活</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://leblog.github.io/"/>
+  <updated>2021-05-26T08:27:08.000Z</updated>
+  <id>https://leblog.github.io/</id>
+  
+  <author>
+    <name>小乐</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>GitHub PR 合并后自动删除相应的分支</title>
+    <link href="https://leblog.github.io/2021/05/26/github-pr-he-bing-hou-zi-dong-shan-chu-xiang-ying-de-fen-zhi/"/>
+    <id>https://leblog.github.io/2021/05/26/github-pr-he-bing-hou-zi-dong-shan-chu-xiang-ying-de-fen-zhi/</id>
+    <published>2021-05-26T08:20:54.000Z</published>
+    <updated>2021-05-26T08:27:08.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;GitHub-PR-合并后自动删除相应的分支&quot;&gt;&lt;a href=&quot;#GitHub-PR-合并后自动删除相应的分支&quot; class=&quot;headerlink&quot; title=&quot;GitHub PR 合并后自动删除相应的分支&quot;&gt;&lt;/a&gt;GitHub PR
+        
+      
+    
+    </summary>
+    
+      <category term="git" scheme="https://leblog.github.io/categories/git/"/>
+    
+    
+      <category term="git" scheme="https://leblog.github.io/tags/git/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Vue和React的区别</title>
+    <link href="https://leblog.github.io/2021/05/24/vue-he-react-de-qu-bie/"/>
+    <id>https://leblog.github.io/2021/05/24/vue-he-react-de-qu-bie/</id>
+    <published>2021-05-24T11:15:23.000Z</published>
+    <updated>2021-05-25T02:56:00.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;个人理解Vue和React区别&quot;&gt;&lt;a href=&quot;#个人理解Vue和React区别&quot; class=&quot;headerlink&quot; title=&quot;个人理解Vue和React区别&quot;&gt;&lt;/a&gt;个人理解Vue和React区别&lt;/h2&gt;&lt;p&gt;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="React" scheme="https://leblog.github.io/tags/React/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>nginx的使用</title>
+    <link href="https://leblog.github.io/2020/07/12/nginx-de-shi-yong/"/>
+    <id>https://leblog.github.io/2020/07/12/nginx-de-shi-yong/</id>
+    <published>2020-07-12T09:15:16.000Z</published>
+    <updated>2020-07-12T09:17:44.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;http://nginx.org/nginx.png&quot; alt&gt;&lt;/p&gt;
+&lt;h3 id=&quot;1-Nginx是什么？&quot;&gt;&lt;a href=&quot;#1-Nginx是什么？&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Nginx" scheme="https://leblog.github.io/tags/Nginx/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Nginx反向代理</title>
+    <link href="https://leblog.github.io/2020/06/14/nginx-fan-xiang-dai-li/"/>
+    <id>https://leblog.github.io/2020/06/14/nginx-fan-xiang-dai-li/</id>
+    <published>2020-06-14T11:03:53.000Z</published>
+    <updated>2020-07-12T09:19:16.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，并在一个BSD-like 协议下发行。其特点是占有内存少，并发能力强。&lt;/p&gt;
+&lt;p&gt;Nginx
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Nginx" scheme="https://leblog.github.io/tags/Nginx/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>在Ubuntu16.04中安装hexo</title>
+    <link href="https://leblog.github.io/2020/05/12/zai-ubuntu16-04-zhong-an-zhuang-hexo/"/>
+    <id>https://leblog.github.io/2020/05/12/zai-ubuntu16-04-zhong-an-zhuang-hexo/</id>
+    <published>2020-05-12T09:22:59.000Z</published>
+    <updated>2020-07-12T09:24:44.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;在Ubuntu16.04中安装hexo出现一系列的问题，总结一下安装hexo的步骤;&lt;/p&gt;
+&lt;p&gt;首先安装noejs，Ubuntu源中的nodejs时旧版本，所以需要在安装后更新nodejs;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; &amp;gt; sudo apt-get
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Ubuntu" scheme="https://leblog.github.io/tags/Ubuntu/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>兼职资源总结</title>
+    <link href="https://leblog.github.io/2020/04/03/jian-zhi-zi-yuan-zong-jie/"/>
+    <id>https://leblog.github.io/2020/04/03/jian-zhi-zi-yuan-zong-jie/</id>
+    <published>2020-04-03T09:21:15.000Z</published>
+    <updated>2020-07-12T09:28:04.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;兼职资源总结&quot;&gt;&lt;a href=&quot;#兼职资源总结&quot; class=&quot;headerlink&quot; title=&quot;兼职资源总结&quot;&gt;&lt;/a&gt;兼职资源总结&lt;/h1&gt;&lt;h2 id=&quot;体力型&quot;&gt;&lt;a href=&quot;#体力型&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="兼职" scheme="https://leblog.github.io/tags/%E5%85%BC%E8%81%8C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>南怀瑾经典语录</title>
+    <link href="https://leblog.github.io/2020/03/12/nan-huai-jin-jing-dian-yu-lu/"/>
+    <id>https://leblog.github.io/2020/03/12/nan-huai-jin-jing-dian-yu-lu/</id>
+    <published>2020-03-12T09:25:56.000Z</published>
+    <updated>2020-07-12T09:26:36.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;南怀瑾经典语录&quot;&gt;&lt;a href=&quot;#南怀瑾经典语录&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="经典语录" scheme="https://leblog.github.io/tags/%E7%BB%8F%E5%85%B8%E8%AF%AD%E5%BD%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux 搭建 LNMP 环境</title>
+    <link href="https://leblog.github.io/2020/02/17/linux-da-jian-lnmp-huan-jing/"/>
+    <id>https://leblog.github.io/2020/02/17/linux-da-jian-lnmp-huan-jing/</id>
+    <published>2020-02-17T13:12:30.000Z</published>
+    <updated>2020-05-17T13:31:02.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;本教程以 Ubuntu 16.04 操作系统为例讲解如何搭建 LNMP 环境。&lt;/p&gt;
+&lt;p&gt;1.在操作系统安装完毕后你需要更新下系统，执行&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;sudo apt-get update &amp;amp;&amp;amp; sudo apt-get
+        
+      
+    
+    </summary>
+    
+    
+      <category term="服务器环境" scheme="https://leblog.github.io/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%8E%AF%E5%A2%83/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2019总结</title>
+    <link href="https://leblog.github.io/2019/12/30/2019-zong-jie/"/>
+    <id>https://leblog.github.io/2019/12/30/2019-zong-jie/</id>
+    <published>2019-12-30T13:49:53.000Z</published>
+    <updated>2020-01-04T14:57:34.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;https://note.youdao.com/yws/public/resource/634e73a4b1678da03a11a7867217a79f/xmlnote/FF2A2CFF3B244F76BB67EFE3F8EFAF0A/4572&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="随笔" scheme="https://leblog.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
+    
+    
+      <category term="随笔" scheme="https://leblog.github.io/tags/%E9%9A%8F%E7%AC%94/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2019好书推荐</title>
+    <link href="https://leblog.github.io/2019/12/04/2019-hao-shu-tui-jian/"/>
+    <id>https://leblog.github.io/2019/12/04/2019-hao-shu-tui-jian/</id>
+    <published>2019-12-04T14:55:52.000Z</published>
+    <updated>2020-01-04T14:57:36.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h3&gt;&lt;font face=&quot;仿宋&quot; size=&quot;6&quot; color=&quot;green&quot;&gt;1.引言&lt;/font&gt;&lt;/h3&gt;
+
+&lt;p&gt;2019
+        
+      
+    
+    </summary>
+    
+      <category term="随笔" scheme="https://leblog.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
+    
+    
+      <category term="随笔" scheme="https://leblog.github.io/tags/%E9%9A%8F%E7%AC%94/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CentOS安装宝塔</title>
+    <link href="https://leblog.github.io/2019/06/24/centos-an-zhuang-bao-ta/"/>
+    <id>https://leblog.github.io/2019/06/24/centos-an-zhuang-bao-ta/</id>
+    <published>2019-06-24T10:34:44.000Z</published>
+    <updated>2019-12-24T10:45:02.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;1.安装可视化面板&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;yum install -y wget &amp;amp;&amp;amp; wget -O install.sh http://download.bt.cn/install/install.sh &amp;amp;&amp;amp; sh
+        
+      
+    
+    </summary>
+    
+      <category term="服务器" scheme="https://leblog.github.io/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    
+    
+      <category term="服务器" scheme="https://leblog.github.io/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    
+      <category term="宝塔" scheme="https://leblog.github.io/tags/%E5%AE%9D%E5%A1%94/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java分布式的创建</title>
+    <link href="https://leblog.github.io/2019/04/08/java-fen-bu-shi-de-chuang-jian/"/>
+    <id>https://leblog.github.io/2019/04/08/java-fen-bu-shi-de-chuang-jian/</id>
+    <published>2019-04-08T13:50:53.000Z</published>
+    <updated>2019-11-17T14:19:36.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;注册中心的创建&quot;&gt;&lt;a href=&quot;#注册中心的创建&quot; class=&quot;headerlink&quot; title=&quot;注册中心的创建&quot;&gt;&lt;/a&gt;注册中心的创建&lt;/h2&gt;&lt;p&gt;1、建立注册中心(EurekaServer)，需要引入依赖。&lt;br&gt;Spring Cloud
+        
+      
+    
+    </summary>
+    
+      <category term="分布式" scheme="https://leblog.github.io/categories/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+    
+      <category term="Java" scheme="https://leblog.github.io/tags/Java/"/>
+    
+      <category term="分布式" scheme="https://leblog.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>通过Python爬取链家所有房源和小区</title>
+    <link href="https://leblog.github.io/2019/03/17/tong-guo-python-pa-qu-lian-jia-suo-you-fang-yuan-he-xiao-qu/"/>
+    <id>https://leblog.github.io/2019/03/17/tong-guo-python-pa-qu-lian-jia-suo-you-fang-yuan-he-xiao-qu/</id>
+    <published>2019-03-17T13:36:52.000Z</published>
+    <updated>2019-11-17T13:37:42.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;通过Python爬取链家所有房源和小区信息&quot;&gt;&lt;a href=&quot;#通过Python爬取链家所有房源和小区信息&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="Python爬虫" scheme="https://leblog.github.io/categories/Python%E7%88%AC%E8%99%AB/"/>
+    
+    
+      <category term="Python" scheme="https://leblog.github.io/tags/Python/"/>
+    
+      <category term="Python爬虫" scheme="https://leblog.github.io/tags/Python%E7%88%AC%E8%99%AB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>微信小程序与后端SpringBoot通信</title>
+    <link href="https://leblog.github.io/2019/02/03/wei-xin-xiao-cheng-xu-yu-hou-duan-springboot-tong-xin/"/>
+    <id>https://leblog.github.io/2019/02/03/wei-xin-xiao-cheng-xu-yu-hou-duan-springboot-tong-xin/</id>
+    <published>2019-02-02T16:31:21.000Z</published>
+    <updated>2019-11-15T16:33:02.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;微信小程序与后端SpringBoot通信&quot;&gt;&lt;a href=&quot;#微信小程序与后端SpringBoot通信&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="SpringBoot" scheme="https://leblog.github.io/categories/SpringBoot/"/>
+    
+    
+      <category term="SpringBoot" scheme="https://leblog.github.io/tags/SpringBoot/"/>
+    
+      <category term="微信小程序" scheme="https://leblog.github.io/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>你如何理解用户痛点</title>
+    <link href="https://leblog.github.io/2018/12/28/ni-ru-he-li-jie-yong-hu-tong-dian/"/>
+    <id>https://leblog.github.io/2018/12/28/ni-ru-he-li-jie-yong-hu-tong-dian/</id>
+    <published>2018-12-28T13:26:41.000Z</published>
+    <updated>2019-11-17T13:28:58.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;你如何理解用户痛点&quot;&gt;&lt;a href=&quot;#你如何理解用户痛点&quot; class=&quot;headerlink&quot; title=&quot;你如何理解用户痛点&quot;&gt;&lt;/a&gt;你如何理解用户痛点&lt;/h1&gt;&lt;h3 id=&quot;什么是用户“痛点”&quot;&gt;&lt;a href=&quot;#什么是用户“痛点”&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="随笔" scheme="https://leblog.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
+    
+    
+      <category term="随笔" scheme="https://leblog.github.io/tags/%E9%9A%8F%E7%AC%94/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>23种设计模式的设计理念</title>
+    <link href="https://leblog.github.io/2018/12/17/23-chong-she-ji-mo-shi-de-she-ji-li-nian/"/>
+    <id>https://leblog.github.io/2018/12/17/23-chong-she-ji-mo-shi-de-she-ji-li-nian/</id>
+    <published>2018-12-17T13:09:33.000Z</published>
+    <updated>2019-11-17T13:10:40.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;23-种设计模式的设计理念&quot;&gt;&lt;a href=&quot;#23-种设计模式的设计理念&quot; class=&quot;headerlink&quot; title=&quot;23 种设计模式的设计理念&quot;&gt;&lt;/a&gt;23 种设计模式的设计理念&lt;/h1&gt;&lt;h3 id=&quot;什么是设计模式&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+      <category term="设计模式" scheme="https://leblog.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="23种设计模式" scheme="https://leblog.github.io/tags/23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>谈谈我对设计原则的理解</title>
+    <link href="https://leblog.github.io/2018/12/11/tan-tan-wo-dui-she-ji-yuan-ze-de-li-jie/"/>
+    <id>https://leblog.github.io/2018/12/11/tan-tan-wo-dui-she-ji-yuan-ze-de-li-jie/</id>
+    <published>2018-12-11T13:04:35.000Z</published>
+    <updated>2019-11-17T13:10:30.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;说说你对设计原则的理解&quot;&gt;&lt;a href=&quot;#说说你对设计原则的理解&quot; class=&quot;headerlink&quot; title=&quot;说说你对设计原则的理解&quot;&gt;&lt;/a&gt;说说你对设计原则的理解&lt;/h1&gt;&lt;h3 id=&quot;口诀&quot;&gt;&lt;a href=&quot;#口诀&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="设计原则" scheme="https://leblog.github.io/categories/%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/"/>
+    
+    
+      <category term="随笔" scheme="https://leblog.github.io/tags/%E9%9A%8F%E7%AC%94/"/>
+    
+      <category term="设计原则" scheme="https://leblog.github.io/tags/%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MySQL优化</title>
+    <link href="https://leblog.github.io/2018/12/02/mysql-you-hua/"/>
+    <id>https://leblog.github.io/2018/12/02/mysql-you-hua/</id>
+    <published>2018-12-02T12:56:30.000Z</published>
+    <updated>2019-11-17T12:57:16.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;MySQL-优化&quot;&gt;&lt;a href=&quot;#MySQL-优化&quot; class=&quot;headerlink&quot; title=&quot;MySQL 优化&quot;&gt;&lt;/a&gt;MySQL 优化&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;表关联查询时务必遵循 &lt;strong&gt;小表驱动大表&lt;/strong&gt;
+        
+      
+    
+    </summary>
+    
+      <category term="SQL" scheme="https://leblog.github.io/categories/SQL/"/>
+    
+    
+      <category term="SQL" scheme="https://leblog.github.io/tags/SQL/"/>
+    
+      <category term="MySQL优化" scheme="https://leblog.github.io/tags/MySQL%E4%BC%98%E5%8C%96/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>后台常用万能密码</title>
+    <link href="https://leblog.github.io/2018/11/23/wan-neng-mi-ma/"/>
+    <id>https://leblog.github.io/2018/11/23/wan-neng-mi-ma/</id>
+    <published>2018-11-23T12:42:13.000Z</published>
+    <updated>2019-11-17T12:44:32.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;绕过登陆常用万能密码&quot;&gt;&lt;a href=&quot;#绕过登陆常用万能密码&quot; class=&quot;headerlink&quot; title=&quot;绕过登陆常用万能密码&quot;&gt;&lt;/a&gt;绕过登陆常用万能密码&lt;/h1&gt;&lt;p&gt;
+        
+      
+    
+    </summary>
+    
+      <category term="SQL" scheme="https://leblog.github.io/categories/SQL/"/>
+    
+    
+      <category term="SQL" scheme="https://leblog.github.io/tags/SQL/"/>
+    
+      <category term="万能密码" scheme="https://leblog.github.io/tags/%E4%B8%87%E8%83%BD%E5%AF%86%E7%A0%81/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SQL注入的简单案例</title>
+    <link href="https://leblog.github.io/2018/10/17/sql-zhu-ru-de-jian-dan-an-li/"/>
+    <id>https://leblog.github.io/2018/10/17/sql-zhu-ru-de-jian-dan-an-li/</id>
+    <published>2018-10-17T12:40:42.000Z</published>
+    <updated>2019-11-17T12:41:50.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;什么是SQL注入&quot;&gt;&lt;a href=&quot;#什么是SQL注入&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="SQL" scheme="https://leblog.github.io/categories/SQL/"/>
+    
+    
+      <category term="SQL" scheme="https://leblog.github.io/tags/SQL/"/>
+    
+      <category term="万能密码" scheme="https://leblog.github.io/tags/%E4%B8%87%E8%83%BD%E5%AF%86%E7%A0%81/"/>
+    
+      <category term="SQL注入" scheme="https://leblog.github.io/tags/SQL%E6%B3%A8%E5%85%A5/"/>
+    
+  </entry>
+  
+</feed>
