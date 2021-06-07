@@ -33,16 +33,33 @@
 
     <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
     <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+    <!--百度统计-->
     <script>
         var _hmt = _hmt || [];
         (function() {
           var hm = document.createElement("script");
-          hm.src = "https://hm.baidu.com/hm.js?04476ac950f250c2c3b0f4cea720bc57";
+          hm.src = "https://hm.baidu.com/hm.js?952b50978d16e6ae6c408a7ff9097b48";
           var s = document.getElementsByTagName("script")[0]; 
           s.parentNode.insertBefore(hm, s);
         })();
     </script>
+    <!--360统计-->
+    <script>
+        (function(b,a,e,h,f,c,g,s){b[h]=b[h]||function(){(b[h].c=b[h].c||[]).push(arguments)};
+        b[h].s=!!c;g=a.getElementsByTagName(e)[0];s=a.createElement(e);
+        s.src="//s.union.360.cn/"+f+".js";s.defer=!0;s.async=!0;g.parentNode.insertBefore(s,g)
+        })(window,document,"script","_qha",399925,false);
+    </script>
 
+    <!-- google统计 - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XNDRSTWEQ8"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-XNDRSTWEQ8');
+    </script>
 
 <link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
 <link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
@@ -203,11 +220,74 @@
         </li>
         
         
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/leblog" class="waves-effect waves-light" target="_blank">
+                <i class="fa fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
     </ul>
 </div>
 
         </div>
 
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/leblog" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
         
     </nav>
 
@@ -259,21 +339,21 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                     <div class="post-statis col l4 hide-on-med-and-down" data-aos="zoom-in-right">
                         
 <div class="statis">
-    <span class="count"><a href="/" target="_blank">51</a></span>
+    <span class="count"><a href="/" target="_blank">52</a></span>
     <span class="name">文章</span>
 </div>
 
 
 
 <div class="statis">
-    <span class="count"><a href="/categories" target="_blank">22</a></span>
+    <span class="count"><a href="/categories" target="_blank">23</a></span>
     <span class="name">分类</span>
 </div>
 
 
 
 <div class="statis">
-    <span class="count"><a href="/tags" target="_blank">48</a></span>
+    <span class="count"><a href="/tags" target="_blank">49</a></span>
     <span class="name">标签</span>
 </div>
 
@@ -288,21 +368,21 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                                 <div class="post-statis hide-on-large-only" data-aos="zoom-in-right">
                                     
 <div class="statis">
-    <span class="count"><a href="/" target="_blank">51</a></span>
+    <span class="count"><a href="/" target="_blank">52</a></span>
     <span class="name">文章</span>
 </div>
 
 
 
 <div class="statis">
-    <span class="count"><a href="/categories" target="_blank">22</a></span>
+    <span class="count"><a href="/categories" target="_blank">23</a></span>
     <span class="name">分类</span>
 </div>
 
 
 
 <div class="statis">
-    <span class="count"><a href="/tags" target="_blank">48</a></span>
+    <span class="count"><a href="/tags" target="_blank">49</a></span>
     <span class="name">标签</span>
 </div>
 
@@ -311,9 +391,13 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                                 <div class="career"><h1>一个爱折腾的程序员 </h1></div>
                                 <div class="social-link hide-on-large-only" data-aos="zoom-in-left">
                                     
+    <a href="https://github.com/https://github.com/leblog" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
 
 
-    <a href="mailto:hanelele96@163.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+
+    <a href="mailto:lusifer9527@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
         <i class="fa fa-envelope-open"></i>
     </a>
 
@@ -340,9 +424,13 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                     <div class="col l4 hide-on-med-and-down" data-aos="zoom-in-left">
                         <div class="social-link">
                             
+    <a href="https://github.com/https://github.com/leblog" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
 
 
-    <a href="mailto:hanelele96@163.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+
+    <a href="mailto:lusifer9527@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
         <i class="fa fa-envelope-open"></i>
     </a>
 
@@ -427,7 +515,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                 name: '文章篇数',
                 type: 'line',
                 color: ['#6772e5'],
-                data: [1,1,0,0,0,0,0,0,0,0,0,2,0],
+                data: [1,1,1,0,0,0,0,0,0,0,0,2,0],
                 markPoint: {
                     symbolSize: 45,
                     color: ['#fa755a','#3ecf8e','#82d3f4'],
@@ -469,7 +557,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                 type: 'pie',
                 radius: '50%',
                 color: ['#6772e5', '#ff9e0f', '#fa755a', '#3ecf8e', '#82d3f4', '#ab47bc', '#525f7f', '#f51c47', '#26A69A'],
-                data: [{"name":"博客","value":3},{"name":"随笔","value":4},{"name":"设计模式","value":1},{"name":"服务器","value":1},{"name":"Ajax","value":1},{"name":"学习笔记","value":2},{"name":"教程","value":1},{"name":"git","value":1},{"name":"JAVA","value":5},{"name":"分布式","value":1},{"name":"Linux","value":10},{"name":"SQL","value":3},{"name":"资源","value":1},{"name":"Spring","value":1},{"name":"log4j","value":1},{"name":"MVC模式","value":1},{"name":"架构","value":1},{"name":"Github","value":2},{"name":"IDEA","value":1},{"name":"SpringBoot","value":1},{"name":"设计原则","value":1},{"name":"Python爬虫","value":1}],
+                data: [{"name":"博客","value":3},{"name":"随笔","value":4},{"name":"设计模式","value":1},{"name":"Ajax","value":1},{"name":"学习笔记","value":2},{"name":"服务器","value":1},{"name":"git","value":1},{"name":"教程","value":1},{"name":"JAVA","value":5},{"name":"分布式","value":1},{"name":"Linux","value":10},{"name":"SQL","value":3},{"name":"Spring","value":1},{"name":"资源","value":1},{"name":"blog","value":1},{"name":"log4j","value":1},{"name":"MVC模式","value":1},{"name":"架构","value":1},{"name":"Github","value":2},{"name":"IDEA","value":1},{"name":"SpringBoot","value":1},{"name":"设计原则","value":1},{"name":"Python爬虫","value":1}],
                 itemStyle: {
                     emphasis: {
                         shadowBlur: 10,
@@ -493,7 +581,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
         xAxis: [
             {
                 type: 'category',
-                data: ["学习笔记","Linux","随笔","教程","JAVA","SQL","博客","JUint","Nginx","Xshell"]
+                data: ["学习笔记","Linux","随笔","教程","JAVA","SQL","博客","JUint","Xshell","Nginx"]
             }
         ],
         yAxis: [
@@ -559,27 +647,27 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
         
         <div class="col s12 m6 l4" data-aos="fade-up">
             <div class="info center-align">
-                <a href="http://nav.zhoushanfangshui.top:8001/" class="icon"
+                <a href="http://hanlele.cn:8091/archives/wo-de-xiang-mu" class="icon"
                    style="background: linear-gradient(to bottom right, #F06292 0%, #EF5350 100%)" target="_blank">
                     <i class="fa fa-database"></i>
                 </a>
                 <div class="info-title">
-                    <a href="http://nav.zhoushanfangshui.top:8001/" target="_blank">ConParser</a>
+                    <a href="http://hanlele.cn:8091/archives/wo-de-xiang-mu" target="_blank">ConParser</a>
                 </div>
-                <div class="info-desc">在线小游戏。</div>
+                <div class="info-desc">杭州市大学生见习训练-微信搜索。</div>
             </div>
         </div>
         
         <div class="col s12 m6 l4" data-aos="fade-up">
             <div class="info center-align">
-                <a href="http://blog.zhoushanfangshui.top:8000/" class="icon"
+                <a href="https://qt.nice-work.cn" class="icon"
                    style="background: linear-gradient(to bottom right, #29B6F6 0%, #1E88E5 100%)" target="_blank">
                     <i class="fa fa-file-text-o"></i>
                 </a>
                 <div class="info-title">
-                    <a href="http://blog.zhoushanfangshui.top:8000/" target="_blank">ECNU-BeamerTemplate</a>
+                    <a href="https://qt.nice-work.cn" target="_blank">ECNU-BeamerTemplate</a>
                 </div>
-                <div class="info-desc">内容管理模板。</div>
+                <div class="info-desc">钱塘新区人才一件事导航</div>
             </div>
         </div>
         
@@ -714,18 +802,6 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
             
             
             
-            <a href="/tags/服务器/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">服务器</span>
-            </a>
-            
-            
-            
-            <a href="/tags/宝塔/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">宝塔</span>
-            </a>
-            
-            
-            
             <a href="/tags/分页/" target="_blank">
                 <span class="chip center-align waves-effect waves-light chip-default">分页</span>
             </a>
@@ -750,20 +826,14 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
             
             
             
-            <a href="/tags/博客，教程/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">博客，教程</span>
+            <a href="/tags/服务器/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">服务器</span>
             </a>
             
             
             
-            <a href="/tags/教程/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">教程</span>
-            </a>
-            
-            
-            
-            <a href="/tags/小知识/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">小知识</span>
+            <a href="/tags/宝塔/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">宝塔</span>
             </a>
             
             
@@ -774,16 +844,26 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
             
             
             
-            <a href="/tags/JAVA/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">JAVA</span>
+            <a href="/tags/小知识/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">小知识</span>
             </a>
             
             
             
+            <a href="/tags/教程/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">教程</span>
+            </a>
             
             
-            <a href="/tags/分布式/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">分布式</span>
+            
+            <a href="/tags/博客，教程/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">博客，教程</span>
+            </a>
+            
+            
+            
+            <a href="/tags/JAVA/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">JAVA</span>
             </a>
             
             
@@ -800,14 +880,16 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
             
             
             
-            <a href="/tags/Linux/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">Linux</span>
+            
+            
+            <a href="/tags/分布式/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">分布式</span>
             </a>
             
             
             
-            <a href="/tags/Tomcat/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">Tomcat</span>
+            <a href="/tags/Linux/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">Linux</span>
             </a>
             
             
@@ -818,14 +900,14 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
             
             
             
-            <a href="/tags/服务器环境/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">服务器环境</span>
+            <a href="/tags/Tomcat/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">Tomcat</span>
             </a>
             
             
             
-            <a href="/tags/Nginx/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">Nginx</span>
+            <a href="/tags/服务器环境/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">服务器环境</span>
             </a>
             
             
@@ -844,20 +926,8 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
             
             
             
-            <a href="/tags/React/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">React</span>
-            </a>
-            
-            
-            
-            <a href="/tags/资源/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">资源</span>
-            </a>
-            
-            
-            
-            <a href="/tags/Spring/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">Spring</span>
+            <a href="/tags/Nginx/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">Nginx</span>
             </a>
             
             
@@ -870,6 +940,30 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
             
             <a href="/tags/SQL注入/" target="_blank">
                 <span class="chip center-align waves-effect waves-light chip-default">SQL注入</span>
+            </a>
+            
+            
+            
+            <a href="/tags/Spring/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">Spring</span>
+            </a>
+            
+            
+            
+            <a href="/tags/资源/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">资源</span>
+            </a>
+            
+            
+            
+            <a href="/tags/React/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">React</span>
+            </a>
+            
+            
+            
+            <a href="/tags/hexo/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">hexo</span>
             </a>
             
             
@@ -910,26 +1004,26 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
             
             
             
-            <a href="/tags/兼职/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">兼职</span>
-            </a>
-            
-            
-            
             <a href="/tags/Intelij-IDEA/" target="_blank">
                 <span class="chip center-align waves-effect waves-light chip-default">Intelij IDEA</span>
             </a>
             
             
             
-            <a href="/tags/Ubuntu/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">Ubuntu</span>
+            <a href="/tags/兼职/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">兼职</span>
             </a>
             
             
             
             <a href="/tags/经典语录/" target="_blank">
                 <span class="chip center-align waves-effect waves-light chip-default">经典语录</span>
+            </a>
+            
+            
+            
+            <a href="/tags/Ubuntu/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">Ubuntu</span>
             </a>
             
             
@@ -1044,7 +1138,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
             
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">63.9k</span>
+            <span class="white-color">64.2k</span>
             
 
             <br>
@@ -1069,9 +1163,13 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
             
         </div>
         <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/https://github.com/leblog" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
 
 
-    <a href="mailto:hanelele96@163.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+
+    <a href="mailto:lusifer9527@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
         <i class="fa fa-envelope-open"></i>
     </a>
 
@@ -1153,22 +1251,33 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
     siteTime();
 </script>
 
-<!--  百度统计
-<script type="text/javascript">
-var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F140dd3dc3eb949d6e77762baa6202ce9' type='text/javascript'%3E%3C/script%3E"));
-</script>
--->
+    <!--百度统计-->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?952b50978d16e6ae6c408a7ff9097b48";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    <!--360统计-->
+    <script>
+        (function(b,a,e,h,f,c,g,s){b[h]=b[h]||function(){(b[h].c=b[h].c||[]).push(arguments)};
+        b[h].s=!!c;g=a.getElementsByTagName(e)[0];s=a.createElement(e);
+        s.src="//s.union.360.cn/"+f+".js";s.defer=!0;s.async=!0;g.parentNode.insertBefore(s,g)
+        })(window,document,"script","_qha",399925,false);
+    </script>
 
-<script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?04476ac950f250c2c3b0f4cea720bc57";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
+    <!-- google统计 - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XNDRSTWEQ8"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-XNDRSTWEQ8');
+    </script>
 
 
 

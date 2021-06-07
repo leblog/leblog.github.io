@@ -48,6 +48,31 @@
     
     
     <entry>
+      <title>hexo发生error：spawn failed错误的解决方法</title>
+      <link href="2020/08/07/hexo-fa-sheng-error-spawn-failed-cuo-wu-de-jie-jue-fang-fa/"/>
+      <url>2020/08/07/hexo-fa-sheng-error-spawn-failed-cuo-wu-de-jie-jue-fang-fa/</url>
+      
+        <content type="html"><![CDATA[<h1 id="hexo发生error：spawn-failed错误的解决方法"><a href="#hexo发生error：spawn-failed错误的解决方法" class="headerlink" title="hexo发生error：spawn failed错误的解决方法"></a>hexo发生error：spawn failed错误的解决方法</h1><p>hexo突然上传不了，出错了。</p><p>今天hexo突然部署不了文章了，错误页面如下。</p><p><img src="https://raw.githubusercontent.com/leblog/img/main/blog/image-20210607182538223.png" alt="image-20210607182538223"></p><p>然后就去github仓库看了一下，发下之前的ssh key没了，重新设了一个也连接不上。最后找到一个方法。</p><p>在存放key的目录下新建config文件。</p><p><img src="https://raw.githubusercontent.com/leblog/img/main/blog/image-20210607194226257.png" alt="image-20210607194226257"></p><p>填入以下内容</p><pre><code>Host github.comUser 你GitHub的邮箱Hostname ssh.github.comPreferredAuthentications publickeyIdentityFile ~/.ssh/id_rsaPort 443</code></pre><p>然后用 <code>ssh -T git@github.com</code>命令测试能否连接</p><p>如果没有出现ssh不能连接的话，忽略以上内容</p><p>接着回到博客的根目录</p><p>第一种方法：</p><p>删除.deploy_git文件</p><p>然后输入<code>git config --gloabl core.autocrlf false</code></p><p>重新hexo clean</p><p>hexo g</p><p>hexo d</p><p>部署</p><p>但是发现好像只是一次性的。并不能永久解决</p><p>第二种方法：</p><p>打开_config.yml配置文件</p><p>修改以下内容</p><p>deploy:</p><p>type: git</p><p>repo: <a href="https://github.com/yourname/yourname.github.io.git" target="_blank" rel="noopener">https://github.com/yourname/yourname.github.io.git</a></p><p>branch: master</p><p>其中的repo修改为</p><p><a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>:yourname/yourname.github.io.git</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> blog </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> hexo </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>nginx的使用</title>
       <link href="2020/07/12/nginx-de-shi-yong/"/>
       <url>2020/07/12/nginx-de-shi-yong/</url>
