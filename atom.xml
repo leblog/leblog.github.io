@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://leblog.github.io/"/>
-  <updated>2021-05-26T08:27:08.000Z</updated>
+  <updated>2021-06-26T04:29:16.609Z</updated>
   <id>https://leblog.github.io/</id>
   
   <author>
@@ -17,11 +17,37 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Windows10安装Windows Terminal + Omyzsh</title>
+    <link href="https://leblog.github.io/2021/06/26/windows10-an-zhuang-windows-terminal-omyzsh/"/>
+    <id>https://leblog.github.io/2021/06/26/windows10-an-zhuang-windows-terminal-omyzsh/</id>
+    <published>2021-06-26T04:23:52.000Z</published>
+    <updated>2021-06-26T04:29:16.609Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;Windows10安装Windows-Terminal-Omyzsh&quot;&gt;&lt;a href=&quot;#Windows10安装Windows-Terminal-Omyzsh&quot; class=&quot;headerlink&quot; title=&quot;Windows10安装Windows
+        
+      
+    
+    </summary>
+    
+      <category term="OMyZSH" scheme="https://leblog.github.io/categories/OMyZSH/"/>
+    
+    
+      <category term="Windows，OMyZSH" scheme="https://leblog.github.io/tags/Windows%EF%BC%8COMyZSH/"/>
+    
+  </entry>
+  
+  <entry>
     <title>GitHub PR 合并后自动删除相应的分支</title>
     <link href="https://leblog.github.io/2021/05/26/github-pr-he-bing-hou-zi-dong-shan-chu-xiang-ying-de-fen-zhi/"/>
     <id>https://leblog.github.io/2021/05/26/github-pr-he-bing-hou-zi-dong-shan-chu-xiang-ying-de-fen-zhi/</id>
     <published>2021-05-26T08:20:54.000Z</published>
-    <updated>2021-05-26T08:27:08.000Z</updated>
+    <updated>2021-06-26T04:27:51.183Z</updated>
     
     <summary type="html">
     
@@ -38,7 +64,7 @@
       <category term="git" scheme="https://leblog.github.io/categories/git/"/>
     
     
-      <category term="git" scheme="https://leblog.github.io/tags/git/"/>
+      <category term="git，github" scheme="https://leblog.github.io/tags/git%EF%BC%8Cgithub/"/>
     
   </entry>
   
@@ -139,6 +165,32 @@
     
     
       <category term="Nginx" scheme="https://leblog.github.io/tags/Nginx/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>hexo博客整体性能优化</title>
+    <link href="https://leblog.github.io/2020/05/26/hexo-bo-ke-zheng-ti-xing-neng-you-hua/"/>
+    <id>https://leblog.github.io/2020/05/26/hexo-bo-ke-zheng-ti-xing-neng-you-hua/</id>
+    <published>2020-05-26T04:22:33.000Z</published>
+    <updated>2021-06-26T04:27:53.119Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h3 id=&quot;hexo博客整体性能优化&quot;&gt;&lt;a href=&quot;#hexo博客整体性能优化&quot; class=&quot;headerlink&quot; title=&quot;hexo博客整体性能优化&quot;&gt;&lt;/a&gt;hexo博客整体性能优化&lt;/h3&gt;&lt;h4 id=&quot;1-查找原因&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+      <category term="博客" scheme="https://leblog.github.io/categories/%E5%8D%9A%E5%AE%A2/"/>
+    
+    
+      <category term="博客，hexo" scheme="https://leblog.github.io/tags/%E5%8D%9A%E5%AE%A2%EF%BC%8Chexo/"/>
     
   </entry>
   
@@ -486,63 +538,6 @@
       <category term="随笔" scheme="https://leblog.github.io/tags/%E9%9A%8F%E7%AC%94/"/>
     
       <category term="设计原则" scheme="https://leblog.github.io/tags/%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MySQL优化</title>
-    <link href="https://leblog.github.io/2018/12/02/mysql-you-hua/"/>
-    <id>https://leblog.github.io/2018/12/02/mysql-you-hua/</id>
-    <published>2018-12-02T12:56:30.000Z</published>
-    <updated>2019-11-17T12:57:16.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;MySQL-优化&quot;&gt;&lt;a href=&quot;#MySQL-优化&quot; class=&quot;headerlink&quot; title=&quot;MySQL 优化&quot;&gt;&lt;/a&gt;MySQL 优化&lt;/h1&gt;&lt;ul&gt;
-&lt;li&gt;表关联查询时务必遵循 &lt;strong&gt;小表驱动大表&lt;/strong&gt;
-        
-      
-    
-    </summary>
-    
-      <category term="SQL" scheme="https://leblog.github.io/categories/SQL/"/>
-    
-    
-      <category term="SQL" scheme="https://leblog.github.io/tags/SQL/"/>
-    
-      <category term="MySQL优化" scheme="https://leblog.github.io/tags/MySQL%E4%BC%98%E5%8C%96/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>后台常用万能密码</title>
-    <link href="https://leblog.github.io/2018/11/23/wan-neng-mi-ma/"/>
-    <id>https://leblog.github.io/2018/11/23/wan-neng-mi-ma/</id>
-    <published>2018-11-23T12:42:13.000Z</published>
-    <updated>2019-11-17T12:44:32.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;绕过登陆常用万能密码&quot;&gt;&lt;a href=&quot;#绕过登陆常用万能密码&quot; class=&quot;headerlink&quot; title=&quot;绕过登陆常用万能密码&quot;&gt;&lt;/a&gt;绕过登陆常用万能密码&lt;/h1&gt;&lt;p&gt;
-        
-      
-    
-    </summary>
-    
-      <category term="SQL" scheme="https://leblog.github.io/categories/SQL/"/>
-    
-    
-      <category term="SQL" scheme="https://leblog.github.io/tags/SQL/"/>
-    
-      <category term="万能密码" scheme="https://leblog.github.io/tags/%E4%B8%87%E8%83%BD%E5%AF%86%E7%A0%81/"/>
     
   </entry>
   
