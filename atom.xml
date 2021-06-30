@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://leblog.github.io/"/>
-  <updated>2021-06-26T04:38:41.636Z</updated>
+  <updated>2021-06-30T15:14:46.488Z</updated>
   <id>https://leblog.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Win10局域网机共享教程（内含详细图文）</title>
+    <link href="https://leblog.github.io/2021/06/30/win10-ju-yu-wang-ji-gong-xiang-jiao-cheng-nei-han-xiang-xi-tu-wen/"/>
+    <id>https://leblog.github.io/2021/06/30/win10-ju-yu-wang-ji-gong-xiang-jiao-cheng-nei-han-xiang-xi-tu-wen/</id>
+    <published>2021-06-30T15:13:37.000Z</published>
+    <updated>2021-06-30T15:14:46.488Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h3 id=&quot;Win10局域网机共享教程（内含详细图文）&quot;&gt;&lt;a href=&quot;#Win10局域网机共享教程（内含详细图文）&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="打印机" scheme="https://leblog.github.io/categories/%E6%89%93%E5%8D%B0%E6%9C%BA/"/>
+    
+    
+      <category term="教程" scheme="https://leblog.github.io/tags/%E6%95%99%E7%A8%8B/"/>
+    
+  </entry>
   
   <entry>
     <title>Windows10安装Windows Terminal + oh-my-posh</title>
@@ -119,6 +145,32 @@
   </entry>
   
   <entry>
+    <title>提问的智慧</title>
+    <link href="https://leblog.github.io/2020/07/30/ti-wen-de-zhi-hui/"/>
+    <id>https://leblog.github.io/2020/07/30/ti-wen-de-zhi-hui/</id>
+    <published>2020-07-30T15:15:25.000Z</published>
+    <updated>2021-06-30T15:20:06.231Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;提问的智慧&quot;&gt;&lt;a href=&quot;#提问的智慧&quot; class=&quot;headerlink&quot; title=&quot;提问的智慧&quot;&gt;&lt;/a&gt;提问的智慧&lt;/h1&gt;&lt;p&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+      <category term="转载" scheme="https://leblog.github.io/categories/%E8%BD%AC%E8%BD%BD/"/>
+    
+    
+      <category term="转载" scheme="https://leblog.github.io/tags/%E8%BD%AC%E8%BD%BD/"/>
+    
+  </entry>
+  
+  <entry>
     <title>nginx的使用</title>
     <link href="https://leblog.github.io/2020/07/12/nginx-de-shi-yong/"/>
     <id>https://leblog.github.io/2020/07/12/nginx-de-shi-yong/</id>
@@ -140,6 +192,41 @@
     
     
       <category term="Nginx" scheme="https://leblog.github.io/tags/Nginx/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>苏东坡-人生赏心十六件乐事</title>
+    <link href="https://leblog.github.io/2020/06/30/su-dong-po-ren-sheng-shang-xin-shi-liu-jian-le-shi/"/>
+    <id>https://leblog.github.io/2020/06/30/su-dong-po-ren-sheng-shang-xin-shi-liu-jian-le-shi/</id>
+    <published>2020-06-30T15:12:13.000Z</published>
+    <updated>2021-06-30T15:13:12.895Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;清溪浅水行舟；&lt;/p&gt;
+&lt;p&gt;微雨竹窗夜话；&lt;/p&gt;
+&lt;p&gt;暑至临溪濯足；&lt;/p&gt;
+&lt;p&gt;雨后登楼看山；&lt;/p&gt;
+&lt;p&gt;柳荫堤畔闲行；&lt;/p&gt;
+&lt;p&gt;花坞樽前微笑；&lt;/p&gt;
+&lt;p&gt;隔江山寺闻钟；&lt;/p&gt;
+&lt;p&gt;月下东邻吹箫；&lt;/p&gt;
+&lt;p&gt;晨兴半柱茗香；&lt;/p&gt;
+&lt;p&gt;午倦
+        
+      
+    
+    </summary>
+    
+      <category term="随笔" scheme="https://leblog.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
+    
+    
+      <category term="随笔" scheme="https://leblog.github.io/tags/%E9%9A%8F%E7%AC%94/"/>
     
   </entry>
   
@@ -458,86 +545,6 @@
       <category term="SpringBoot" scheme="https://leblog.github.io/tags/SpringBoot/"/>
     
       <category term="微信小程序" scheme="https://leblog.github.io/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>你如何理解用户痛点</title>
-    <link href="https://leblog.github.io/2018/12/28/ni-ru-he-li-jie-yong-hu-tong-dian/"/>
-    <id>https://leblog.github.io/2018/12/28/ni-ru-he-li-jie-yong-hu-tong-dian/</id>
-    <published>2018-12-28T13:26:41.000Z</published>
-    <updated>2019-11-17T13:28:58.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;你如何理解用户痛点&quot;&gt;&lt;a href=&quot;#你如何理解用户痛点&quot; class=&quot;headerlink&quot; title=&quot;你如何理解用户痛点&quot;&gt;&lt;/a&gt;你如何理解用户痛点&lt;/h1&gt;&lt;h3 id=&quot;什么是用户“痛点”&quot;&gt;&lt;a href=&quot;#什么是用户“痛点”&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="随笔" scheme="https://leblog.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
-    
-    
-      <category term="随笔" scheme="https://leblog.github.io/tags/%E9%9A%8F%E7%AC%94/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>23种设计模式的设计理念</title>
-    <link href="https://leblog.github.io/2018/12/17/23-chong-she-ji-mo-shi-de-she-ji-li-nian/"/>
-    <id>https://leblog.github.io/2018/12/17/23-chong-she-ji-mo-shi-de-she-ji-li-nian/</id>
-    <published>2018-12-17T13:09:33.000Z</published>
-    <updated>2019-11-17T13:10:40.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;23-种设计模式的设计理念&quot;&gt;&lt;a href=&quot;#23-种设计模式的设计理念&quot; class=&quot;headerlink&quot; title=&quot;23 种设计模式的设计理念&quot;&gt;&lt;/a&gt;23 种设计模式的设计理念&lt;/h1&gt;&lt;h3 id=&quot;什么是设计模式&quot;&gt;&lt;a
-        
-      
-    
-    </summary>
-    
-      <category term="设计模式" scheme="https://leblog.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-    
-      <category term="23种设计模式" scheme="https://leblog.github.io/tags/23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>谈谈我对设计原则的理解</title>
-    <link href="https://leblog.github.io/2018/12/11/tan-tan-wo-dui-she-ji-yuan-ze-de-li-jie/"/>
-    <id>https://leblog.github.io/2018/12/11/tan-tan-wo-dui-she-ji-yuan-ze-de-li-jie/</id>
-    <published>2018-12-11T13:04:35.000Z</published>
-    <updated>2019-11-17T13:10:30.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;说说你对设计原则的理解&quot;&gt;&lt;a href=&quot;#说说你对设计原则的理解&quot; class=&quot;headerlink&quot; title=&quot;说说你对设计原则的理解&quot;&gt;&lt;/a&gt;说说你对设计原则的理解&lt;/h1&gt;&lt;h3 id=&quot;口诀&quot;&gt;&lt;a href=&quot;#口诀&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="设计原则" scheme="https://leblog.github.io/categories/%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/"/>
-    
-    
-      <category term="随笔" scheme="https://leblog.github.io/tags/%E9%9A%8F%E7%AC%94/"/>
-    
-      <category term="设计原则" scheme="https://leblog.github.io/tags/%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/"/>
     
   </entry>
   
