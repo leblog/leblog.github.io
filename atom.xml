@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://leblog.github.io/"/>
-  <updated>2021-06-26T04:29:16.609Z</updated>
+  <updated>2021-06-26T04:38:41.636Z</updated>
   <id>https://leblog.github.io/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Windows10安装Windows Terminal + Omyzsh</title>
+    <title>Windows10安装Windows Terminal + oh-my-posh</title>
     <link href="https://leblog.github.io/2021/06/26/windows10-an-zhuang-windows-terminal-omyzsh/"/>
     <id>https://leblog.github.io/2021/06/26/windows10-an-zhuang-windows-terminal-omyzsh/</id>
     <published>2021-06-26T04:23:52.000Z</published>
-    <updated>2021-06-26T04:29:16.609Z</updated>
+    <updated>2021-06-26T04:38:41.636Z</updated>
     
     <summary type="html">
     
@@ -29,16 +29,16 @@
       
         
         
-          &lt;h1 id=&quot;Windows10安装Windows-Terminal-Omyzsh&quot;&gt;&lt;a href=&quot;#Windows10安装Windows-Terminal-Omyzsh&quot; class=&quot;headerlink&quot; title=&quot;Windows10安装Windows
+          &lt;h1 id=&quot;Windows10安装Windows-Terminal-oh-my-posh&quot;&gt;&lt;a href=&quot;#Windows10安装Windows-Terminal-oh-my-posh&quot; class=&quot;headerlink&quot;
         
       
     
     </summary>
     
-      <category term="OMyZSH" scheme="https://leblog.github.io/categories/OMyZSH/"/>
+      <category term="oh-my-posh" scheme="https://leblog.github.io/categories/oh-my-posh/"/>
     
     
-      <category term="Windows，OMyZSH" scheme="https://leblog.github.io/tags/Windows%EF%BC%8COMyZSH/"/>
+      <category term="Windows，oh-my-posh" scheme="https://leblog.github.io/tags/Windows%EF%BC%8Coh-my-posh/"/>
     
   </entry>
   
