@@ -62,7 +62,7 @@ video:
   enable: false
   showTitle: true
   title: 邓紫棋 - 差不多姑娘
-  url: /medias/video/chabuduoguniang.mp4 # 必填
+  url: https://upyun.hanlele.cn/blog/source/video/chabuduoguniang.mp4 # 必填
   pic:
   thumbnails:
   height: # 如：400
@@ -79,26 +79,26 @@ recommend:
 
 # Configure website favicon and LOGO
 # 配置网站favicon和网站LOGO
-favicon: /favicon.png
-logo: /medias/logo.png
+favicon: https://upyun.hanlele.cn/blog/source/logo.png
+logo: https://upyun.hanlele.cn/blog/source/logo.png
 
 # The configuration of the second button in the home banner,
 # including the display name of the button, the font awesome icon, and the hyperlink to the button.
 # 首页 banner 中的第二个按钮的配置，包括按钮的显示名称、font awesome图标和按钮的超链接.
 indexbtn:
-  enable: false
+  enable: true
   name: Github
   icon: fa-github-alt
-  url: https://github.com/
+  url: https://github.com/leblog
 
 # The configurations of the second line of home banner
 # icon/button will not show up if you leave the corresponding socialLink empty
 # 首页 banner 中的第二行个人信息配置，留空即不启用
 socialLink:
   qq: 1260842695  
-  github: #
+  github: leblog  
   weibo: #
-  email: hanelele96@163.com
+  email: lusifer9527@gmail.com
   zhihu: #
 
 # Whether to activate the Post TOC, and Configure which title types are supported by TOC support.
@@ -119,8 +119,8 @@ code:
 reward:
   enable: true
   title: 写作不易，客官能否打赏一杯奶茶？
-  wechat: /medias/reward/wechat.png
-  alipay: /medias/reward/alipay.jpg
+  wechat: https://upyun.hanlele.cn/blog/source/reward/wechat.png
+  alipay: https://upyun.hanlele.cn/blog/source/reward/alipay.jpg
 
 # Whether to activate the copyright information of the blog and author when copying the post content.
 # minCharNumber: Approve copyright information by copying at least how many characters.
@@ -164,7 +164,7 @@ text:
 # profile in about page, including avatars, career, and personal introductions.
 # 在”关于”页面中配置个人信息，包括头像、职业和个人介绍.
 profile: 
-  avatar: /medias/avatars/xiaole.jpg
+  avatar: https://upyun.hanlele.cn/blog/source/avatars/xiaole.jpg
   career: <h1>一个爱折腾的程序员 </h1>
   introduction: 
 
@@ -174,21 +174,37 @@ profile:
 myProjects:
   enable: true
   data:
-    hexo-matery-modified:
+    博客源码:
       icon: fa-meetup
       iconBackground: 'linear-gradient(to bottom right, #66BB6A 0%, #81C784 100%)'
       url: https://github.com/leblog/leblog.github.io
       desc: 我的个性化配置过的博客源码，即下即用。
-    ConParser:
+    杭州市大学生见习训练:
         icon: fa-database
         iconBackground: 'linear-gradient(to bottom right, #F06292 0%, #EF5350 100%)'
-        url: http://nav.zhoushanfangshui.top:8001/
-        desc: 在线小游戏。
-    ECNU-BeamerTemplate:
+        url: http://hanlele.cn:8091/archives/wo-de-xiang-mu
+        desc: 杭州市大学生见习训练-微信搜索。
+    人才一件事导航:
         icon: fa-file-text-o
         iconBackground: 'linear-gradient(to bottom right, #29B6F6 0%, #1E88E5 100%)'
-        url: http://blog.zhoushanfangshui.top:8000/
-        desc: 内容管理模板。
+        url: https://qt.nice-work.cn
+        desc: 钱塘新区人才一件事导航
+    我的Halo博客:
+        icon: fa-database
+        iconBackground: 'linear-gradient(to bottom right, #F06292 0%, #EF5350 100%)'
+        url: http://hanlele.cn:8091/
+        desc: 热爱生活
+    直播统计人数:
+        icon: fa-file-text-o
+        iconBackground: 'linear-gradient(to bottom right, #F06292 0%, #EF5350 100%)'
+        url: https://nice-work.cn/visit/index.html#/
+        desc: 2020钱塘新区首届大学生创新创业大赛启动仪式  
+    图文直播:
+      icon: fa-meetup
+      iconBackground: 'linear-gradient(to bottom right, #66BB6A 0%, #81C784 100%)'
+      url: https://nice-work.cn/dxszygh/index.html#/
+      desc: 大学学生职业生涯
+
 
 # config my skills informations in about page.
 # If you don't want to display this `My Skills` content, you can deactivate or delete this configuration.
@@ -228,7 +244,7 @@ mySkills:
 myGallery:
   enable: true
   data:
-    - /medias/reward/0.jpg
+    - https://upyun.hanlele.cn/blog/source/reward/0.jpg
     
 
 # Whether to display post-calender in the `archive` page
@@ -285,7 +301,7 @@ valine:
 # Whether to display fork me on github icon and link, default true, You can change it to your repo address
 # 配置是否在 header 中显示 fork me on github 的图标，默认为true，你可以修改为你的仓库地址.
 githubLink:
-  enable: false
+  enable: true
   url: https://github.com/leblog
   title: Fork Me
 
@@ -351,56 +367,74 @@ libs:
 
 # The post featured images that needs to be displayed when there is no image.
 # 无文章特色图片时需要显示的文章特色图片.
-featureImages: 
-- /medias/featureimages/0.jpg
-- /medias/featureimages/1.jpg
-- /medias/featureimages/2.jpg
-- /medias/featureimages/3.jpg
-- /medias/featureimages/4.jpg
-- /medias/featureimages/5.jpg
-- /medias/featureimages/6.jpg
-- /medias/featureimages/7.jpg
-- /medias/featureimages/8.jpg
-- /medias/featureimages/9.jpg
-- /medias/featureimages/10.jpg
-- /medias/featureimages/11.jpg
-- /medias/featureimages/12.jpg
-- /medias/featureimages/13.jpg
-- /medias/featureimages/14.jpg
-- /medias/featureimages/15.jpg
-- /medias/featureimages/16.jpg
-- /medias/featureimages/17.jpg
-- /medias/featureimages/18.jpg
-- /medias/featureimages/19.jpg
-- /medias/featureimages/20.jpg
-- /medias/featureimages/21.jpg
-- /medias/featureimages/22.jpg
-- /medias/featureimages/23.jpg
-- /medias/featureimages/24.jpg
-- /medias/featureimages/25.jpg
-- /medias/featureimages/26.jpg
-- /medias/featureimages/27.jpg
-- /medias/featureimages/28.jpg
-- /medias/featureimages/29.jpg
-- /medias/featureimages/30.jpg
-- /medias/featureimages/31.jpg
-- /medias/featureimages/32.jpg
-- /medias/featureimages/33.jpg
-- /medias/featureimages/34.jpg
-- /medias/featureimages/35.jpg
-- /medias/featureimages/36.jpg
-- /medias/featureimages/37.jpg
-- /medias/featureimages/38.jpg
-- /medias/featureimages/39.jpg
-- /medias/featureimages/40.jpg
-- /medias/featureimages/41.jpg
-- /medias/featureimages/42.jpg
-- /medias/featureimages/43.jpg
-- /medias/featureimages/44.jpg
-- /medias/featureimages/45.jpg
-- /medias/featureimages/46.jpg
-- /medias/featureimages/47.jpg
+featureImages:  
+  - https://upyun.hanlele.cn/blog/source/featureimages/0.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/1.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/2.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/3.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/4.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/5.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/6.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/7.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/8.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/9.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/10.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/11.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/12.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/13.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/14.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/15.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/16.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/17.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/18.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/19.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/20.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/21.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/22.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/23.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/24.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/25.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/26.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/27.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/28.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/29.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/30.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/31.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/32.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/33.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/34.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/35.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/36.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/37.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/38.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/39.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/40.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/41.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/42.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/43.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/44.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/45.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/46.jpg
+  - https://upyun.hanlele.cn/blog/source/featureimages/47.jpg
 
+
+# - http://api.btstu.cn/sjbz/?lx=meizi
+# - https://api88.net/api/img/rand/
+# - https://api88.net/api/bing/rand
+# - https://www.dmoe.cc/random.php
+# - https://api.btstu.cn/sjbz/zsy.php
+# - https://api.btstu.cn/sjbz/?lx=dongman
+# - http://api.btstu.cn/sjbz/?lx=suiji
+# - http://api.btstu.cn/sjbz/?lx=m_dongman
+# - http://api.btstu.cn/sjbz/?lx=m_meizi
+# - https://3650000.xyz/api/
+# - https://3650000.xyz/random/
+# - https://3650000.xyz/api/360.php
+# - https://3650000.xyz/api/bing.php
+# - https://picsum.photos/1920/1080
+# - https://placeimg.com/1920/1080/any
+# - https://placekitten.com/1920/1080
+# - https://loremflickr.com/1920/1080/cat
 
 
   # default configs that the default policy for every articles/posts
@@ -429,4 +463,4 @@ reprint:
 
 # 雪花特效
 snow:
-  enable: true
+  enable: true 

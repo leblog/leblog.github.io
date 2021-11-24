@@ -1,6 +1,21 @@
-[{
-	"name":"生而为人",
-	"artist":"老恋（半吨兄弟） ",
-	"url":"medias/avatars/生而为人.mp3",
-	"cover":"medias/avatars/clipboard.png"
-}]
+[
+	{
+		"name":"生而为人",
+		"artist":"老恋（半吨兄弟） ",
+		"url":"https://music.163.com/song/media/outer/url?id=1366072759.mp3",
+		"cover":"https://3650000.xyz/api/"
+	},
+	{
+		"name":"当你老了",
+		"artist":"赵照",
+		"url":"https://music.163.com/song/media/outer/url?id=26090100.mp3",
+		"cover":"https://3650000.xyz/api/"
+	},
+	{
+		"name":"夏に花が散る",
+		"artist":"羽肿",
+		"url":"https://music.163.com/song/media/outer/url?id=490687121.mp3",
+		"cover":"https://3650000.xyz/api/"
+	}
+
+]

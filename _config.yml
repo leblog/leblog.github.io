@@ -13,7 +13,7 @@ timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://www.hanlele.cn
+url: https://leblog.github.io
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -101,7 +101,7 @@ time_format: HH:mm:ss
 
 # Pagination
 ## Set per_page to 0 to disable pagination
-per_page: 12
+per_page: 9
 pagination_dir: page
 
 # Extensions
@@ -113,7 +113,7 @@ theme: matery
 # Docs: https://hexo.io/docs/deployment.html
 deploy:
 - type: git
-  repo: https://github.com/leblog/leblog.github.io
+  repo: git@github.com:leblog/leblog.github.io.git
   branch: master
 # - type: coding
 #   repo: https://git.coding.net/leblog/leblog.github.io.git
@@ -121,6 +121,16 @@ deploy:
 
  
 # - type: baidu_url_submitter
+
+# baidu_url_submit:
+#   count: 100   # 提交最新的一个链接
+#   host: www.hanlele.cn   # 在百度站长平台中注册的域名
+#   token: 0msUhuhZCgRoUnzn       # 请注意这是您的秘钥， 所以请不要把博客源代码发布在公众仓库里!
+#   path: baidu_urls.txt   # 文本文档的地址， 新链接会保存在此文本文档里
+
+# baidu_tongji:
+#   enable: true
+#   sitecode: 952b50978d16e6ae6c408a7ff9097b48 ## e.g.  your baidu tongji site code
 
 # - type: coding
 #   repo: git@e.coding.net:leblog/le.git
@@ -133,34 +143,28 @@ deploy:
 # 在加入新的deploye
 
 # 动漫人物
-live2d: 
-  enable: true
-  scriptFrom: local 
-  pluginRootPath: live2dw/ 
-  pluginJsPath: lib/ 
-  pluginModelPath: assets/ 
-  tagMode: false 
-  log: false 
-  model: 
-    use: live2d-widget-model-haruto shizuku
-  display: 
-    position:  
-    width: 150 
-    height: 300 
-  mobile: 
-    show: true 
-  react: 
-    opacity: 0.7
-
-# baidu_url_submit:
-#   count: 100   # 提交最新的一个链接
-#   host: www.hanlele.cn   # 在百度站长平台中注册的域名
-#   token: 85TCATNGrlSZdQjK5chssUfo       # 请注意这是您的秘钥， 所以请不要把博客源代码发布在公众仓库里!
-#   path: baidu_urls.txt   # 文本文档的地址， 新链接会保存在此文本文档里
-
-# baidu_tongji:
+# live2d: 
 #   enable: true
-#   sitecode: 04476ac950f250c2c3b0f4cea720bc57 ## e.g.  your baidu tongji site code
+#   scriptFrom: local 
+#   pluginRootPath: live2dw/ 
+#   pluginJsPath: lib/ 
+#   pluginModelPath: assets/ 
+#   tagMode: false 
+#   log: false 
+#   model: 
+#     use: live2d-widget-model-haruto shizuku
+#   display: 
+#     position:  
+#     width: 150 
+#     height: 300 
+#   mobile: 
+#     show: true 
+#   react: 
+#     opacity: 0.7
+
+
+
+
 
 #  use: live2d-widget-model-shizuku  shizuku  女生
 

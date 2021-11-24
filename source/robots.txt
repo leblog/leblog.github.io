@@ -14,6 +14,6 @@ Disallow: /fonts/
 Disallow: /vendors/
 Disallow: /fancybox/
 
-Sitemap: http://www.hanlele.cn/search.xml
-Sitemap: http://www.hanlele.cn/sitemap.xml
-Sitemap: http://www.hanlele.cn/baidusitemap.xml
+Sitemap: https://leblog.github.io/search.xml
+Sitemap: https://leblog.github.io/sitemap.xml
+Sitemap: https://leblog.github.io/baidusitemap.xml

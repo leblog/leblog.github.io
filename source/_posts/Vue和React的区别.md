@@ -1,5 +1,5 @@
 ---
-title: test
+title: Vue和React的区别
 top: false
 cover: false
 toc: true
@@ -7,7 +7,7 @@ mathjax: true
 date: 2021-05-24 19:15:23
 password:
 summary:
-tags:
+tags: React
 categories:
 
 ---

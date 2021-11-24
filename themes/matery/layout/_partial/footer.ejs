@@ -1,7 +1,14 @@
 <footer class="page-footer bg-color">
     <div class="container row center-align">
         <div class="col s12 m8 l8 copy-right">
-            &copy; 2020 程序员小乐. All Rights Reserved.
+            &copy; 2021 程序员小乐. All Rights Reserved.
+            
+            <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral">
+                <image width="10%" src="https://p.upyun.com/demo/tmp/AwUtv8f1.png"></image>
+                &nbsp;提供CDN加速/云存储服务&nbsp;
+
+            </a>
+            
             
             <% if (theme.wordCount.enable && theme.wordCount.totalCount) { %>
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
@@ -92,20 +99,32 @@
     siteTime();
 </script>
 
-<!--  百度统计
-<script type="text/javascript">
-var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F140dd3dc3eb949d6e77762baa6202ce9' type='text/javascript'%3E%3C/script%3E"));
-</script>
--->
+    <!--百度统计-->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?952b50978d16e6ae6c408a7ff9097b48";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    <!--360统计-->
+    <script>
+        (function(b,a,e,h,f,c,g,s){b[h]=b[h]||function(){(b[h].c=b[h].c||[]).push(arguments)};
+        b[h].s=!!c;g=a.getElementsByTagName(e)[0];s=a.createElement(e);
+        s.src="//s.union.360.cn/"+f+".js";s.defer=!0;s.async=!0;g.parentNode.insertBefore(s,g)
+        })(window,document,"script","_qha",399925,false);
+    </script>
 
-<script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?04476ac950f250c2c3b0f4cea720bc57";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
+    <!-- google统计 - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XNDRSTWEQ8"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-XNDRSTWEQ8');
+    </script>
+
 
