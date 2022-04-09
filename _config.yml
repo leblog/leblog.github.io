@@ -120,7 +120,7 @@ deploy:
 #   branch: master
 
  
-# - type: baidu_url_submitter
+# - type: baidu_url_submitter.
 
 # baidu_url_submit:
 #   count: 100   # 提交最新的一个链接
