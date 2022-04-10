@@ -21,9 +21,6 @@
 %>
 
 <main class="<%- containerClass %> content">
-    <!-- 主页广告 -->
-    
-     <!-- 主页广告 -->
 
     <% if (isTocEnable) { %>
     <%- partial('_partial/post-detail-toc.ejs') %>
@@ -31,6 +28,7 @@
     <%- partial('_partial/post-detail.ejs') %>
     <% } %>
 
+    
 </main>
 
 <% if (theme.mathjax.enable && page.mathjax) { %>

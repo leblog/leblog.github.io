@@ -1,0 +1,557 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>程序员小乐</title>
+  
+  <subtitle>热爱生活</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://leblog.github.io/"/>
+  <updated>2022-04-10T15:36:46.499Z</updated>
+  <id>https://leblog.github.io/</id>
+  
+  <author>
+    <name>小乐</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>深度思考，拯救低效勤奋</title>
+    <link href="https://leblog.github.io/2021/07/30/shen-du-si-kao-zheng-jiu-di-xiao-qin-fen/"/>
+    <id>https://leblog.github.io/2021/07/30/shen-du-si-kao-zheng-jiu-di-xiao-qin-fen/</id>
+    <published>2021-07-30T14:51:05.000Z</published>
+    <updated>2022-04-10T15:36:46.499Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h3 id=&quot;深度思考，拯救低效勤奋&quot;&gt;&lt;a href=&quot;#深度思考，拯救低效勤奋&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="总结" scheme="https://leblog.github.io/categories/%E6%80%BB%E7%BB%93/"/>
+    
+    
+      <category term="反思" scheme="https://leblog.github.io/tags/%E5%8F%8D%E6%80%9D/"/>
+    
+      <category term="总结" scheme="https://leblog.github.io/tags/%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Git默认编辑器设置</title>
+    <link href="https://leblog.github.io/2021/07/30/git-mo-ren-bian-ji-qi-she-zhi/"/>
+    <id>https://leblog.github.io/2021/07/30/git-mo-ren-bian-ji-qi-she-zhi/</id>
+    <published>2021-07-30T14:41:23.000Z</published>
+    <updated>2022-04-10T15:08:22.191Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;将Git的默认编辑器设置为VS-Code&quot;&gt;&lt;a href=&quot;#将Git的默认编辑器设置为VS-Code&quot; class=&quot;headerlink&quot; title=&quot;将Git的默认编辑器设置为VS Code&quot;&gt;&lt;/a&gt;将Git的默认编辑器设置为VS
+        
+      
+    
+    </summary>
+    
+      <category term="git" scheme="https://leblog.github.io/categories/git/"/>
+    
+    
+      <category term="Git" scheme="https://leblog.github.io/tags/Git/"/>
+    
+      <category term="编辑器" scheme="https://leblog.github.io/tags/%E7%BC%96%E8%BE%91%E5%99%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>分析github推送以及访问github慢的原因</title>
+    <link href="https://leblog.github.io/2021/07/29/fen-xi-github-tui-song-yi-ji-fang-wen-github-man-de-yuan-yin/"/>
+    <id>https://leblog.github.io/2021/07/29/fen-xi-github-tui-song-yi-ji-fang-wen-github-man-de-yuan-yin/</id>
+    <published>2021-07-29T14:49:54.000Z</published>
+    <updated>2022-04-10T15:08:22.231Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;分析github推送以及访问github慢的原因&quot;&gt;&lt;a href=&quot;#分析github推送以及访问github慢的原因&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="Gihub" scheme="https://leblog.github.io/categories/Gihub/"/>
+    
+    
+      <category term="Git" scheme="https://leblog.github.io/tags/Git/"/>
+    
+      <category term="Gihub" scheme="https://leblog.github.io/tags/Gihub/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Win10局域网机共享教程（内含详细图文）</title>
+    <link href="https://leblog.github.io/2021/06/30/win10-ju-yu-wang-ji-gong-xiang-jiao-cheng-nei-han-xiang-xi-tu-wen/"/>
+    <id>https://leblog.github.io/2021/06/30/win10-ju-yu-wang-ji-gong-xiang-jiao-cheng-nei-han-xiang-xi-tu-wen/</id>
+    <published>2021-06-30T15:13:37.000Z</published>
+    <updated>2022-04-10T15:08:22.209Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h3 id=&quot;Win10局域网机共享教程（内含详细图文）&quot;&gt;&lt;a href=&quot;#Win10局域网机共享教程（内含详细图文）&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="打印机" scheme="https://leblog.github.io/categories/%E6%89%93%E5%8D%B0%E6%9C%BA/"/>
+    
+    
+      <category term="教程" scheme="https://leblog.github.io/tags/%E6%95%99%E7%A8%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Windows10安装Windows Terminal + oh-my-posh</title>
+    <link href="https://leblog.github.io/2021/06/26/windows10-an-zhuang-windows-terminal-omyzsh/"/>
+    <id>https://leblog.github.io/2021/06/26/windows10-an-zhuang-windows-terminal-omyzsh/</id>
+    <published>2021-06-26T04:23:52.000Z</published>
+    <updated>2022-04-10T16:00:26.146Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;Windows10安装Windows-Terminal-oh-my-posh&quot;&gt;&lt;a href=&quot;#Windows10安装Windows-Terminal-oh-my-posh&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="oh-my-posh" scheme="https://leblog.github.io/categories/oh-my-posh/"/>
+    
+    
+      <category term="Windows，oh-my-posh" scheme="https://leblog.github.io/tags/Windows%EF%BC%8Coh-my-posh/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>git操作流程</title>
+    <link href="https://leblog.github.io/2021/06/01/git-cao-zuo-liu-cheng/"/>
+    <id>https://leblog.github.io/2021/06/01/git-cao-zuo-liu-cheng/</id>
+    <published>2021-06-01T14:43:53.000Z</published>
+    <updated>2022-04-10T15:08:22.210Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;先学一下git命令的含义,判断什么情况下使用&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;前置条件已安装好git环境,并有远程仓库&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;先拉取指定远程仓库别人的提交&lt;code&gt;git fetch
+        
+      
+    
+    </summary>
+    
+      <category term="git" scheme="https://leblog.github.io/categories/git/"/>
+    
+    
+      <category term="Git" scheme="https://leblog.github.io/tags/Git/"/>
+    
+      <category term="编辑器" scheme="https://leblog.github.io/tags/%E7%BC%96%E8%BE%91%E5%99%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>GitHub PR 合并后自动删除相应的分支</title>
+    <link href="https://leblog.github.io/2021/05/26/github-pr-he-bing-hou-zi-dong-shan-chu-xiang-ying-de-fen-zhi/"/>
+    <id>https://leblog.github.io/2021/05/26/github-pr-he-bing-hou-zi-dong-shan-chu-xiang-ying-de-fen-zhi/</id>
+    <published>2021-05-26T08:20:54.000Z</published>
+    <updated>2022-04-10T15:08:22.191Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;GitHub-PR-合并后自动删除相应的分支&quot;&gt;&lt;a href=&quot;#GitHub-PR-合并后自动删除相应的分支&quot; class=&quot;headerlink&quot; title=&quot;GitHub PR 合并后自动删除相应的分支&quot;&gt;&lt;/a&gt;GitHub PR
+        
+      
+    
+    </summary>
+    
+      <category term="git" scheme="https://leblog.github.io/categories/git/"/>
+    
+    
+      <category term="git，github" scheme="https://leblog.github.io/tags/git%EF%BC%8Cgithub/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Vue和React的区别</title>
+    <link href="https://leblog.github.io/2021/05/24/vue-he-react-de-qu-bie/"/>
+    <id>https://leblog.github.io/2021/05/24/vue-he-react-de-qu-bie/</id>
+    <published>2021-05-24T11:15:23.000Z</published>
+    <updated>2022-04-10T15:08:22.208Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;个人理解Vue和React区别&quot;&gt;&lt;a href=&quot;#个人理解Vue和React区别&quot; class=&quot;headerlink&quot; title=&quot;个人理解Vue和React区别&quot;&gt;&lt;/a&gt;个人理解Vue和React区别&lt;/h2&gt;&lt;p&gt;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="React" scheme="https://leblog.github.io/tags/React/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>win11安装教程</title>
+    <link href="https://leblog.github.io/2021/05/10/win11-an-zhuang-jiao-cheng/"/>
+    <id>https://leblog.github.io/2021/05/10/win11-an-zhuang-jiao-cheng/</id>
+    <published>2021-05-10T14:46:11.000Z</published>
+    <updated>2022-04-10T15:08:22.225Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h3 id=&quot;Windows11-Insider-Preview-10-0-22000-51简体中文专业版&quot;&gt;&lt;a href=&quot;#Windows11-Insider-Preview-10-0-22000-51简体中文专业版&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="Windows" scheme="https://leblog.github.io/categories/Windows/"/>
+    
+    
+      <category term="Windows" scheme="https://leblog.github.io/tags/Windows/"/>
+    
+      <category term="win11" scheme="https://leblog.github.io/tags/win11/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>hexo发生error：spawn failed错误的解决方法</title>
+    <link href="https://leblog.github.io/2020/08/07/hexo-fa-sheng-error-spawn-failed-cuo-wu-de-jie-jue-fang-fa/"/>
+    <id>https://leblog.github.io/2020/08/07/hexo-fa-sheng-error-spawn-failed-cuo-wu-de-jie-jue-fang-fa/</id>
+    <published>2020-08-07T11:46:11.000Z</published>
+    <updated>2022-04-10T15:08:22.222Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;hexo发生error：spawn-failed错误的解决方法&quot;&gt;&lt;a href=&quot;#hexo发生error：spawn-failed错误的解决方法&quot; class=&quot;headerlink&quot; title=&quot;hexo发生error：spawn
+        
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="https://leblog.github.io/categories/blog/"/>
+    
+    
+      <category term="hexo" scheme="https://leblog.github.io/tags/hexo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>提问的智慧</title>
+    <link href="https://leblog.github.io/2020/07/30/ti-wen-de-zhi-hui/"/>
+    <id>https://leblog.github.io/2020/07/30/ti-wen-de-zhi-hui/</id>
+    <published>2020-07-30T15:15:25.000Z</published>
+    <updated>2022-04-10T15:08:22.236Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;提问的智慧&quot;&gt;&lt;a href=&quot;#提问的智慧&quot; class=&quot;headerlink&quot; title=&quot;提问的智慧&quot;&gt;&lt;/a&gt;提问的智慧&lt;/h1&gt;&lt;p&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+      <category term="转载" scheme="https://leblog.github.io/categories/%E8%BD%AC%E8%BD%BD/"/>
+    
+    
+      <category term="转载" scheme="https://leblog.github.io/tags/%E8%BD%AC%E8%BD%BD/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>nginx的使用</title>
+    <link href="https://leblog.github.io/2020/07/12/nginx-de-shi-yong/"/>
+    <id>https://leblog.github.io/2020/07/12/nginx-de-shi-yong/</id>
+    <published>2020-07-12T09:15:16.000Z</published>
+    <updated>2022-04-10T15:08:22.223Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;http://nginx.org/nginx.png&quot; alt&gt;&lt;/p&gt;
+&lt;h3 id=&quot;1-Nginx是什么？&quot;&gt;&lt;a href=&quot;#1-Nginx是什么？&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Nginx" scheme="https://leblog.github.io/tags/Nginx/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>苏东坡-人生赏心十六件乐事</title>
+    <link href="https://leblog.github.io/2020/06/30/su-dong-po-ren-sheng-shang-xin-shi-liu-jian-le-shi/"/>
+    <id>https://leblog.github.io/2020/06/30/su-dong-po-ren-sheng-shang-xin-shi-liu-jian-le-shi/</id>
+    <published>2020-06-30T15:12:13.000Z</published>
+    <updated>2022-04-10T15:08:22.239Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;清溪浅水行舟；&lt;/p&gt;
+&lt;p&gt;微雨竹窗夜话；&lt;/p&gt;
+&lt;p&gt;暑至临溪濯足；&lt;/p&gt;
+&lt;p&gt;雨后登楼看山；&lt;/p&gt;
+&lt;p&gt;柳荫堤畔闲行；&lt;/p&gt;
+&lt;p&gt;花坞樽前微笑；&lt;/p&gt;
+&lt;p&gt;隔江山寺闻钟；&lt;/p&gt;
+&lt;p&gt;月下东邻吹箫；&lt;/p&gt;
+&lt;p&gt;晨兴半柱茗香；&lt;/p&gt;
+&lt;p&gt;午倦
+        
+      
+    
+    </summary>
+    
+      <category term="随笔" scheme="https://leblog.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
+    
+    
+      <category term="随笔" scheme="https://leblog.github.io/tags/%E9%9A%8F%E7%AC%94/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>如何正确的使用百度精准搜索</title>
+    <link href="https://leblog.github.io/2020/06/30/ru-he-zheng-que-de-shi-yong-bai-du-jing-zhun-sou-suo/"/>
+    <id>https://leblog.github.io/2020/06/30/ru-he-zheng-que-de-shi-yong-bai-du-jing-zhun-sou-suo/</id>
+    <published>2020-06-30T14:47:48.000Z</published>
+    <updated>2022-04-10T15:08:22.234Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;如何正确的使用百度精准搜索&quot;&gt;&lt;a href=&quot;#如何正确的使用百度精准搜索&quot; class=&quot;headerlink&quot; title=&quot;如何正确的使用百度精准搜索&quot;&gt;&lt;/a&gt;如何正确的使用百度精准搜索&lt;/h1&gt;&lt;h4 id=&quot;1-去除广告推荐&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+      <category term="搜索引擎" scheme="https://leblog.github.io/categories/%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E/"/>
+    
+    
+      <category term="SEO" scheme="https://leblog.github.io/tags/SEO/"/>
+    
+      <category term="精准搜索" scheme="https://leblog.github.io/tags/%E7%B2%BE%E5%87%86%E6%90%9C%E7%B4%A2/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Nginx反向代理</title>
+    <link href="https://leblog.github.io/2020/06/14/nginx-fan-xiang-dai-li/"/>
+    <id>https://leblog.github.io/2020/06/14/nginx-fan-xiang-dai-li/</id>
+    <published>2020-06-14T11:03:53.000Z</published>
+    <updated>2022-04-10T15:08:22.205Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，并在一个BSD-like 协议下发行。其特点是占有内存少，并发能力强。&lt;/p&gt;
+&lt;p&gt;Nginx
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Nginx" scheme="https://leblog.github.io/tags/Nginx/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>hexo博客整体性能优化</title>
+    <link href="https://leblog.github.io/2020/05/26/hexo-bo-ke-zheng-ti-xing-neng-you-hua/"/>
+    <id>https://leblog.github.io/2020/05/26/hexo-bo-ke-zheng-ti-xing-neng-you-hua/</id>
+    <published>2020-05-26T04:22:33.000Z</published>
+    <updated>2022-04-10T15:08:22.221Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h3 id=&quot;hexo博客整体性能优化&quot;&gt;&lt;a href=&quot;#hexo博客整体性能优化&quot; class=&quot;headerlink&quot; title=&quot;hexo博客整体性能优化&quot;&gt;&lt;/a&gt;hexo博客整体性能优化&lt;/h3&gt;&lt;h4 id=&quot;1-查找原因&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+      <category term="博客" scheme="https://leblog.github.io/categories/%E5%8D%9A%E5%AE%A2/"/>
+    
+    
+      <category term="博客，hexo" scheme="https://leblog.github.io/tags/%E5%8D%9A%E5%AE%A2%EF%BC%8Chexo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>在Ubuntu16.04中安装hexo</title>
+    <link href="https://leblog.github.io/2020/05/12/zai-ubuntu16-04-zhong-an-zhuang-hexo/"/>
+    <id>https://leblog.github.io/2020/05/12/zai-ubuntu16-04-zhong-an-zhuang-hexo/</id>
+    <published>2020-05-12T09:22:59.000Z</published>
+    <updated>2022-04-10T15:08:22.233Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;在Ubuntu16.04中安装hexo出现一系列的问题，总结一下安装hexo的步骤;&lt;/p&gt;
+&lt;p&gt;首先安装noejs，Ubuntu源中的nodejs时旧版本，所以需要在安装后更新nodejs;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; &amp;gt; sudo apt-get
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Ubuntu" scheme="https://leblog.github.io/tags/Ubuntu/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>兼职资源总结</title>
+    <link href="https://leblog.github.io/2020/04/03/jian-zhi-zi-yuan-zong-jie/"/>
+    <id>https://leblog.github.io/2020/04/03/jian-zhi-zi-yuan-zong-jie/</id>
+    <published>2020-04-03T09:21:15.000Z</published>
+    <updated>2022-04-10T15:08:22.231Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;兼职资源总结&quot;&gt;&lt;a href=&quot;#兼职资源总结&quot; class=&quot;headerlink&quot; title=&quot;兼职资源总结&quot;&gt;&lt;/a&gt;兼职资源总结&lt;/h1&gt;&lt;h2 id=&quot;体力型&quot;&gt;&lt;a href=&quot;#体力型&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="兼职" scheme="https://leblog.github.io/tags/%E5%85%BC%E8%81%8C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>南怀瑾经典语录</title>
+    <link href="https://leblog.github.io/2020/03/12/nan-huai-jin-jing-dian-yu-lu/"/>
+    <id>https://leblog.github.io/2020/03/12/nan-huai-jin-jing-dian-yu-lu/</id>
+    <published>2020-03-12T09:25:56.000Z</published>
+    <updated>2022-04-10T15:08:22.232Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;南怀瑾经典语录&quot;&gt;&lt;a href=&quot;#南怀瑾经典语录&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="经典语录" scheme="https://leblog.github.io/tags/%E7%BB%8F%E5%85%B8%E8%AF%AD%E5%BD%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux 搭建 LNMP 环境</title>
+    <link href="https://leblog.github.io/2020/02/17/linux-da-jian-lnmp-huan-jing/"/>
+    <id>https://leblog.github.io/2020/02/17/linux-da-jian-lnmp-huan-jing/</id>
+    <published>2020-02-17T13:12:30.000Z</published>
+    <updated>2022-04-10T15:08:22.200Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;本教程以 Ubuntu 16.04 操作系统为例讲解如何搭建 LNMP 环境。&lt;/p&gt;
+&lt;p&gt;1.在操作系统安装完毕后你需要更新下系统，执行&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;sudo apt-get update &amp;amp;&amp;amp; sudo apt-get
+        
+      
+    
+    </summary>
+    
+    
+      <category term="服务器环境" scheme="https://leblog.github.io/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%8E%AF%E5%A2%83/"/>
+    
+  </entry>
+  
+</feed>

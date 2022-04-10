@@ -8,6 +8,8 @@ Allow: /archives/
 Allow: /friends/
 Allow: /contact/
 
+Allow: /ads.txt/
+
 Disallow: /js/
 Disallow: /css/
 Disallow: /fonts/
