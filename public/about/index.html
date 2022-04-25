@@ -35,6 +35,17 @@
     <!-- 谷歌广告 -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3969824567415808" crossorigin="anonymous"></script>
 
+     <!-- 谷歌分析 -->
+     <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XNDRSTWEQ8"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-XNDRSTWEQ8');
+    </script>
+
     
      
 <link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
@@ -320,21 +331,21 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                     <div class="post-statis col l4 hide-on-med-and-down" data-aos="zoom-in-right">
                         
 <div class="statis">
-    <span class="count"><a href="/" target="_blank">64</a></span>
+    <span class="count"><a href="/" target="_blank">68</a></span>
     <span class="name">文章</span>
 </div>
 
 
 
 <div class="statis">
-    <span class="count"><a href="/categories" target="_blank">31</a></span>
+    <span class="count"><a href="/categories" target="_blank">35</a></span>
     <span class="name">分类</span>
 </div>
 
 
 
 <div class="statis">
-    <span class="count"><a href="/tags" target="_blank">63</a></span>
+    <span class="count"><a href="/tags" target="_blank">69</a></span>
     <span class="name">标签</span>
 </div>
 
@@ -349,21 +360,21 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                                 <div class="post-statis hide-on-large-only" data-aos="zoom-in-right">
                                     
 <div class="statis">
-    <span class="count"><a href="/" target="_blank">64</a></span>
+    <span class="count"><a href="/" target="_blank">68</a></span>
     <span class="name">文章</span>
 </div>
 
 
 
 <div class="statis">
-    <span class="count"><a href="/categories" target="_blank">31</a></span>
+    <span class="count"><a href="/categories" target="_blank">35</a></span>
     <span class="name">分类</span>
 </div>
 
 
 
 <div class="statis">
-    <span class="count"><a href="/tags" target="_blank">63</a></span>
+    <span class="count"><a href="/tags" target="_blank">69</a></span>
     <span class="name">标签</span>
 </div>
 
@@ -496,7 +507,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                 name: '文章篇数',
                 type: 'line',
                 color: ['#6772e5'],
-                data: [0,3,3,3,0,0,0,0,0,0,0,0,0],
+                data: [0,4,3,3,3,0,0,0,0,0,0,0,0],
                 markPoint: {
                     symbolSize: 45,
                     color: ['#fa755a','#3ecf8e','#82d3f4'],
@@ -538,7 +549,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                 type: 'pie',
                 radius: '50%',
                 color: ['#6772e5', '#ff9e0f', '#fa755a', '#3ecf8e', '#82d3f4', '#ab47bc', '#525f7f', '#f51c47', '#26A69A'],
-                data: [{"name":"博客","value":4},{"name":"随笔","value":5},{"name":"Ajax","value":1},{"name":"git","value":3},{"name":"设计模式","value":1},{"name":"服务器","value":1},{"name":"学习笔记","value":2},{"name":"教程","value":1},{"name":"JAVA","value":5},{"name":"分布式","value":1},{"name":"Linux","value":10},{"name":"SQL","value":3},{"name":"资源","value":1},{"name":"oh-my-posh","value":1},{"name":"Spring","value":1},{"name":"打印机","value":1},{"name":"log4j","value":1},{"name":"blog","value":1},{"name":"Windows","value":1},{"name":"架构","value":1},{"name":"名言","value":1},{"name":"MVC模式","value":1},{"name":"Github","value":2},{"name":"Gihub","value":1},{"name":"搜索引擎","value":1},{"name":"IDEA","value":1},{"name":"SpringBoot","value":1},{"name":"转载","value":1},{"name":"设计原则","value":1},{"name":"Python爬虫","value":1},{"name":"总结","value":1}],
+                data: [{"name":"博客","value":4},{"name":"随笔","value":5},{"name":"Ajax","value":1},{"name":"学习笔记","value":2},{"name":"设计模式","value":1},{"name":"服务器","value":1},{"name":"git","value":3},{"name":"ES6","value":1},{"name":"教程","value":1},{"name":"JAVA","value":5},{"name":"分布式","value":1},{"name":"Linux","value":10},{"name":"SQL","value":3},{"name":"Spring","value":1},{"name":"React","value":1},{"name":"打印机","value":1},{"name":"资源","value":1},{"name":"vue","value":1},{"name":"oh-my-posh","value":1},{"name":"log4j","value":1},{"name":"blog","value":1},{"name":"名言","value":1},{"name":"Windows","value":1},{"name":"架构","value":1},{"name":"MVC模式","value":1},{"name":"Github","value":2},{"name":"IDEA","value":1},{"name":"Gihub","value":1},{"name":"搜索引擎","value":1},{"name":"SpringBoot","value":1},{"name":"总结","value":1},{"name":"设计原则","value":1},{"name":"web","value":2},{"name":"转载","value":1},{"name":"Python爬虫","value":1}],
                 itemStyle: {
                     emphasis: {
                         shadowBlur: 10,
@@ -562,7 +573,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
         xAxis: [
             {
                 type: 'category',
-                data: ["学习笔记","Linux","随笔","教程","JAVA","Git","SQL","博客","编辑器","JUint"]
+                data: ["学习笔记","Linux","随笔","web","教程","JAVA","Git","SQL","博客","编辑器"]
             }
         ],
         yAxis: [
@@ -575,7 +586,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                 type: 'bar',
                 color: ['#82d3f4'],
                 barWidth : 18,
-                data: [13,10,7,5,4,3,3,2,2,2],
+                data: [13,10,7,5,5,4,3,3,2,2],
                 markPoint: {
                     symbolSize: 45,
                     data: [{
@@ -828,8 +839,14 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
             
             
             
-            <a href="/tags/git，github/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">git，github</span>
+            <a href="/tags/bootstrap/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">bootstrap</span>
+            </a>
+            
+            
+            
+            <a href="/tags/学习笔记/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">学习笔记</span>
             </a>
             
             
@@ -864,14 +881,8 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
             
             
             
-            <a href="/tags/博客，教程/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">博客，教程</span>
-            </a>
-            
-            
-            
-            <a href="/tags/学习笔记/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">学习笔记</span>
+            <a href="/tags/git，github/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">git，github</span>
             </a>
             
             
@@ -882,14 +893,26 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
             
             
             
-            <a href="/tags/教程/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">教程</span>
+            <a href="/tags/博客，教程/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">博客，教程</span>
             </a>
             
             
             
-            <a href="/tags/bootstrap/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">bootstrap</span>
+            <a href="/tags/web/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">web</span>
+            </a>
+            
+            
+            
+            <a href="/tags/ES6/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">ES6</span>
+            </a>
+            
+            
+            
+            <a href="/tags/教程/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">教程</span>
             </a>
             
             
@@ -920,8 +943,14 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
             
             
             
-            <a href="/tags/MySql/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">MySql</span>
+            <a href="/tags/JUint/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">JUint</span>
+            </a>
+            
+            
+            
+            <a href="/tags/Tomcat/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">Tomcat</span>
             </a>
             
             
@@ -932,14 +961,8 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
             
             
             
-            <a href="/tags/JUint/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">JUint</span>
-            </a>
-            
-            
-            
-            <a href="/tags/Tomcat/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">Tomcat</span>
+            <a href="/tags/MySql/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">MySql</span>
             </a>
             
             
@@ -958,8 +981,20 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
             
             
             
+            <a href="/tags/Spring/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">Spring</span>
+            </a>
+            
+            
+            
             <a href="/tags/Nginx/" target="_blank">
                 <span class="chip center-align waves-effect waves-light chip-default">Nginx</span>
+            </a>
+            
+            
+            
+            <a href="/tags/React/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">React</span>
             </a>
             
             
@@ -976,14 +1011,14 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
             
             
             
-            <a href="/tags/React/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">React</span>
+            <a href="/tags/资源/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">资源</span>
             </a>
             
             
             
-            <a href="/tags/资源/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">资源</span>
+            <a href="/tags/vue/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">vue</span>
             </a>
             
             
@@ -994,26 +1029,14 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
             
             
             
-            <a href="/tags/Spring/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">Spring</span>
-            </a>
-            
-            
-            
-            <a href="/tags/博客，hexo/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">博客，hexo</span>
-            </a>
-            
-            
-            
             <a href="/tags/log4j/" target="_blank">
                 <span class="chip center-align waves-effect waves-light chip-default">log4j</span>
             </a>
             
             
             
-            <a href="/tags/hexo/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">hexo</span>
+            <a href="/tags/博客，hexo/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">博客，hexo</span>
             </a>
             
             
@@ -1026,6 +1049,24 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
             
             <a href="/tags/centos/" target="_blank">
                 <span class="chip center-align waves-effect waves-light chip-default">centos</span>
+            </a>
+            
+            
+            
+            <a href="/tags/hexo/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">hexo</span>
+            </a>
+            
+            
+            
+            <a href="/tags/名言/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">名言</span>
+            </a>
+            
+            
+            
+            <a href="/tags/感悟/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">感悟</span>
             </a>
             
             
@@ -1048,18 +1089,6 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
             
             
             
-            <a href="/tags/名言/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">名言</span>
-            </a>
-            
-            
-            
-            <a href="/tags/感悟/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">感悟</span>
-            </a>
-            
-            
-            
             <a href="/tags/MVC模式/" target="_blank">
                 <span class="chip center-align waves-effect waves-light chip-default">MVC模式</span>
             </a>
@@ -1072,14 +1101,26 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
             
             
             
-            <a href="/tags/兼职/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">兼职</span>
+            <a href="/tags/Intelij-IDEA/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">Intelij IDEA</span>
             </a>
             
             
             
             <a href="/tags/Gihub/" target="_blank">
                 <span class="chip center-align waves-effect waves-light chip-default">Gihub</span>
+            </a>
+            
+            
+            
+            <a href="/tags/经典语录/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">经典语录</span>
+            </a>
+            
+            
+            
+            <a href="/tags/兼职/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">兼职</span>
             </a>
             
             
@@ -1096,26 +1137,8 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
             
             
             
-            <a href="/tags/Intelij-IDEA/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">Intelij IDEA</span>
-            </a>
-            
-            
-            
             <a href="/tags/Ubuntu/" target="_blank">
                 <span class="chip center-align waves-effect waves-light chip-default">Ubuntu</span>
-            </a>
-            
-            
-            
-            <a href="/tags/软件测试/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">软件测试</span>
-            </a>
-            
-            
-            
-            <a href="/tags/经典语录/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">经典语录</span>
             </a>
             
             
@@ -1132,22 +1155,8 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
             
             
             
-            <a href="/tags/转载/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">转载</span>
-            </a>
-            
-            
-            
-            <a href="/tags/设计原则/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">设计原则</span>
-            </a>
-            
-            
-            
-            
-            
-            <a href="/tags/Python爬虫/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">Python爬虫</span>
+            <a href="/tags/软件测试/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">软件测试</span>
             </a>
             
             
@@ -1164,8 +1173,46 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
             
             
             
+            <a href="/tags/设计原则/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">设计原则</span>
+            </a>
+            
+            
+            
+            <a href="/tags/转载/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">转载</span>
+            </a>
+            
+            
+            
             <a href="/tags/面试/" target="_blank">
                 <span class="chip center-align waves-effect waves-light chip-default">面试</span>
+            </a>
+            
+            
+            
+            
+            
+            <a href="/tags/Python爬虫/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">Python爬虫</span>
+            </a>
+            
+            
+            
+            <a href="/tags/html/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">html</span>
+            </a>
+            
+            
+            
+            <a href="/tags/css/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">css</span>
+            </a>
+            
+            
+            
+            <a href="/tags/js/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">js</span>
             </a>
             
             
@@ -1254,7 +1301,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                 data-full-width-responsive="true"></ins>
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">90.7k</span>
+            <span class="white-color">153.3k</span>
             
 
             <br>
@@ -1440,7 +1487,7 @@ $(function () {
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
-<script async src="https://www.googletagmanager.com/gtag/js?id="></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XNDRSTWEQ8"></script>
 <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() {
@@ -1448,7 +1495,7 @@ $(function () {
     }
 
     gtag('js', new Date());
-    gtag('config', '');
+    gtag('config', 'G-XNDRSTWEQ8');
 </script>
 
 

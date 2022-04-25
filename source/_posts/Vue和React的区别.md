@@ -7,8 +7,8 @@ mathjax: true
 date: 2021-05-24 19:15:23
 password:
 summary:
-tags: React
-categories:
+tags: [web,React]
+categories: React
 
 ---
 
