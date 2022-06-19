@@ -1,3 +1,3 @@
 @echo off
-cd D:\work\dev\leblog.github.io
+cd D:\dev\vscode\blog\leblog.github.io
 hexo clean&&hexo g&&hexo d

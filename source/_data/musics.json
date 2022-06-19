@@ -1,5 +1,23 @@
 [
 	{
+		"name":"稻香",
+		"artist":"周杰伦",
+		"url":"http://dl.stream.qqmusic.qq.com/M5000020wJDo3cx0j3.mp3?vkey=F2D577626CCF41D1C1C5F043303F045E4DB480A862FE0B745998DE689C17A35C252368085629C55EE5ACB22E927ED3231F0CF3633F7F0556&uin=0&guid=0&fromtag=470",
+		"cover":"https://y.gtimg.cn/music/photo_new/T002R800x800M000002Neh8l0uciQZ.jpg"
+	},
+	{
+		"name":"像我这样的人",
+		"artist":"毛不易",
+		"url":"https://music.163.com/song/media/outer/url?id=569213220.mp3",
+		"cover":"http://p1.music.126.net/vmCcDvD1H04e9gm97xsCqg==/109951163350929740.jpg?param=130y130"
+	},
+	{
+		"name":"一荤一素",
+		"artist":"毛不易",
+		"url":"https://music.163.com/song/media/outer/url?id=569200212.mp3",
+		"cover":"http://p1.music.126.net/vmCcDvD1H04e9gm97xsCqg==/109951163350929740.jpg?param=130y130"
+	},
+	{
 		"name":"生而为人",
 		"artist":"老恋（半吨兄弟） ",
 		"url":"https://music.163.com/song/media/outer/url?id=1366072759.mp3",

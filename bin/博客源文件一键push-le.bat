@@ -1,5 +1,5 @@
 @echo off
-cd D:\work\dev\leblog.github.io
+cd D:\dev\vscode\blog\leblog.github.io
 git add .
-git commit -m '更新'
+git commit -m 'update'
 git push origin le
