@@ -338,8 +338,24 @@
     </div>
 </div>
 <script>
+// 定义图片数组
+const bannerImages = [
+    "https://wp-cdn.4ce.cn/v2/pB4Nwsk.jpeg",
+    "https://wp-cdn.4ce.cn/v2/lqUYjmJ.jpeg",
+    "https://wp-cdn.4ce.cn/v2/a9cCnaY.jpeg",
+    "https://wp-cdn.4ce.cn/v2/2zm6c19.jpeg",
+    "https://wp-cdn.4ce.cn/v2/nsFvQcG.jpeg",
+    "https://wp-cdn.4ce.cn/v2/pgM9LkT.jpeg",
+    "https://wp-cdn.4ce.cn/v2/oJXxOOP.jpeg",
+];
+
+// 获取当前星期几（0 表示星期日，1 到 6 表示星期一到星期六）
+const dayOfWeek = new Date().getDay();
+
+// 设置背景图片
+$('.bg-cover').css('background-image', 'url(' + bannerImages[dayOfWeek] + ')');
 // 每天切换 banner 图.  Switch banner image every day.
-$('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay() + '.jpg)');
+//$('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay() + '.jpg)');
 </script>
     </div>
 </div>
@@ -364,7 +380,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                         <div class="card-image">
                             
                             
-                            <img src="https://wp-cdn.4ce.cn/v2/PkFkFHq.jpeg" class="responsive-img" alt="SQL注入的简单案例">
+                            <img src="https://wp-cdn.4ce.cn/v2/qezDlYK.jpeg" class="responsive-img" alt="SQL注入的简单案例">
                             
                             <span class="card-title">SQL注入的简单案例</span>
                         </div>
@@ -419,7 +435,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                         <div class="card-image">
                             
                             
-                            <img src="https://wp-cdn.4ce.cn/v2/MnPzei7.jpeg" class="responsive-img" alt="Linux 用户和组管理">
+                            <img src="https://wp-cdn.4ce.cn/v2/mVjKKdm.jpeg" class="responsive-img" alt="Linux 用户和组管理">
                             
                             <span class="card-title">Linux 用户和组管理</span>
                         </div>
@@ -471,7 +487,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                         <div class="card-image">
                             
                             
-                            <img src="https://wp-cdn.4ce.cn/v2/qezDlYK.jpeg" class="responsive-img" alt="Linux LVM 磁盘扩容">
+                            <img src="https://wp-cdn.4ce.cn/v2/FJ5aEy4.jpeg" class="responsive-img" alt="Linux LVM 磁盘扩容">
                             
                             <span class="card-title">Linux LVM 磁盘扩容</span>
                         </div>
@@ -518,7 +534,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                         <div class="card-image">
                             
                             
-                            <img src="https://wp-cdn.4ce.cn/v2/MKZGh0l.jpeg" class="responsive-img" alt="Linux 安装 MySQL">
+                            <img src="https://wp-cdn.4ce.cn/v2/FJ5aEy4.jpeg" class="responsive-img" alt="Linux 安装 MySQL">
                             
                             <span class="card-title">Linux 安装 MySQL</span>
                         </div>
@@ -569,7 +585,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                         <div class="card-image">
                             
                             
-                            <img src="https://wp-cdn.4ce.cn/v2/xuRBq8r.jpeg" class="responsive-img" alt="Linux 安装 Tomcat">
+                            <img src="https://wp-cdn.4ce.cn/v2/sVibUfz.jpeg" class="responsive-img" alt="Linux 安装 Tomcat">
                             
                             <span class="card-title">Linux 安装 Tomcat</span>
                         </div>
@@ -624,7 +640,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                         <div class="card-image">
                             
                             
-                            <img src="https://wp-cdn.4ce.cn/v2/MHJC0Sq.jpeg" class="responsive-img" alt="Linux 安装 Java">
+                            <img src="https://wp-cdn.4ce.cn/v2/HAz9p47.jpeg" class="responsive-img" alt="Linux 安装 Java">
                             
                             <span class="card-title">Linux 安装 Java</span>
                         </div>
@@ -678,7 +694,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                         <div class="card-image">
                             
                             
-                            <img src="https://wp-cdn.4ce.cn/v2/oWKM4zI.jpeg" class="responsive-img" alt="Linux 文件权限管理">
+                            <img src="https://wp-cdn.4ce.cn/v2/HpbUCi5.jpeg" class="responsive-img" alt="Linux 文件权限管理">
                             
                             <span class="card-title">Linux 文件权限管理</span>
                         </div>
@@ -726,7 +742,7 @@ ls -l 文件名 显示信息包括：文件类型 (d 目录，-普通文件，l 
                         <div class="card-image">
                             
                             
-                            <img src="https://wp-cdn.4ce.cn/v2/3m4WYCP.jpeg" class="responsive-img" alt="Linux软件包管理">
+                            <img src="https://wp-cdn.4ce.cn/v2/fwziXCb.jpeg" class="responsive-img" alt="Linux软件包管理">
                             
                             <span class="card-title">Linux软件包管理</span>
                         </div>
@@ -777,7 +793,7 @@ ls -l 文件名 显示信息包括：文件类型 (d 目录，-普通文件，l 
                         <div class="card-image">
                             
                             
-                            <img src="https://wp-cdn.4ce.cn/v2/mVjKKdm.jpeg" class="responsive-img" alt="详细的Linux基本操作">
+                            <img src="https://wp-cdn.4ce.cn/v2/MnPzei7.jpeg" class="responsive-img" alt="详细的Linux基本操作">
                             
                             <span class="card-title">详细的Linux基本操作</span>
                         </div>
@@ -828,7 +844,7 @@ ls -l 文件名 显示信息包括：文件类型 (d 目录，-普通文件，l 
                         <div class="card-image">
                             
                             
-                            <img src="https://wp-cdn.4ce.cn/v2/7NPjiEl.jpeg" class="responsive-img" alt="Linux简介">
+                            <img src="https://wp-cdn.4ce.cn/v2/12SY8CQ.jpeg" class="responsive-img" alt="Linux简介">
                             
                             <span class="card-title">Linux简介</span>
                         </div>
@@ -879,7 +895,7 @@ ls -l 文件名 显示信息包括：文件类型 (d 目录，-普通文件，l 
                         <div class="card-image">
                             
                             
-                            <img src="https://wp-cdn.4ce.cn/v2/KDwZO8f.jpeg" class="responsive-img" alt="JAVA小知识总结">
+                            <img src="https://wp-cdn.4ce.cn/v2/ouHaaal.jpeg" class="responsive-img" alt="JAVA小知识总结">
                             
                             <span class="card-title">JAVA小知识总结</span>
                         </div>
@@ -928,7 +944,7 @@ ls -l 文件名 显示信息包括：文件类型 (d 目录，-普通文件，l 
                         <div class="card-image">
                             
                             
-                            <img src="https://wp-cdn.4ce.cn/v2/ANRlK22.jpeg" class="responsive-img" alt="HTTP 请求的 GET 与 POST 方式的区别">
+                            <img src="https://wp-cdn.4ce.cn/v2/rl3FlWL.jpeg" class="responsive-img" alt="HTTP 请求的 GET 与 POST 方式的区别">
                             
                             <span class="card-title">HTTP 请求的 GET 与 POST 方式的区别</span>
                         </div>

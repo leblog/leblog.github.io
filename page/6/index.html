@@ -338,8 +338,24 @@
     </div>
 </div>
 <script>
+// 定义图片数组
+const bannerImages = [
+    "https://wp-cdn.4ce.cn/v2/pB4Nwsk.jpeg",
+    "https://wp-cdn.4ce.cn/v2/lqUYjmJ.jpeg",
+    "https://wp-cdn.4ce.cn/v2/a9cCnaY.jpeg",
+    "https://wp-cdn.4ce.cn/v2/2zm6c19.jpeg",
+    "https://wp-cdn.4ce.cn/v2/nsFvQcG.jpeg",
+    "https://wp-cdn.4ce.cn/v2/pgM9LkT.jpeg",
+    "https://wp-cdn.4ce.cn/v2/oJXxOOP.jpeg",
+];
+
+// 获取当前星期几（0 表示星期日，1 到 6 表示星期一到星期六）
+const dayOfWeek = new Date().getDay();
+
+// 设置背景图片
+$('.bg-cover').css('background-image', 'url(' + bannerImages[dayOfWeek] + ')');
 // 每天切换 banner 图.  Switch banner image every day.
-$('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay() + '.jpg)');
+//$('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay() + '.jpg)');
 </script>
     </div>
 </div>
@@ -364,7 +380,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                         <div class="card-image">
                             
                             
-                            <img src="https://wp-cdn.4ce.cn/v2/MHJC0Sq.jpeg" class="responsive-img" alt="测试知识浅谈">
+                            <img src="https://wp-cdn.4ce.cn/v2/fZIuhXf.jpeg" class="responsive-img" alt="测试知识浅谈">
                             
                             <span class="card-title">测试知识浅谈</span>
                         </div>
@@ -423,7 +439,7 @@ TDD测试驱动编程，编程方法，编程思想
                         <div class="card-image">
                             
                             
-                            <img src="https://wp-cdn.4ce.cn/v2/xuRBq8r.jpeg" class="responsive-img" alt="JUint单元测试">
+                            <img src="https://wp-cdn.4ce.cn/v2/fZIuhXf.jpeg" class="responsive-img" alt="JUint单元测试">
                             
                             <span class="card-title">JUint单元测试</span>
                         </div>
@@ -482,7 +498,7 @@ JUnit 提供：
                         <div class="card-image">
                             
                             
-                            <img src="https://wp-cdn.4ce.cn/v2/xuRBq8r.jpeg" class="responsive-img" alt="Bootstrap之网格系统">
+                            <img src="https://wp-cdn.4ce.cn/v2/fZIuhXf.jpeg" class="responsive-img" alt="Bootstrap之网格系统">
                             
                             <span class="card-title">Bootstrap之网格系统</span>
                         </div>
@@ -537,7 +553,7 @@ JUnit 提供：
                         <div class="card-image">
                             
                             
-                            <img src="https://wp-cdn.4ce.cn/v2/KDwZO8f.jpeg" class="responsive-img" alt="VMware Workstation Pro 15下载">
+                            <img src="https://wp-cdn.4ce.cn/v2/DOyj6lh.jpeg" class="responsive-img" alt="VMware Workstation Pro 15下载">
                             
                             <span class="card-title">VMware Workstation Pro 15下载</span>
                         </div>
@@ -584,7 +600,7 @@ JUnit 提供：
                         <div class="card-image">
                             
                             
-                            <img src="https://wp-cdn.4ce.cn/v2/Qf99e2o.jpeg" class="responsive-img" alt="ubuntu与centos的区别">
+                            <img src="https://wp-cdn.4ce.cn/v2/Pgmzyb2.jpeg" class="responsive-img" alt="ubuntu与centos的区别">
                             
                             <span class="card-title">ubuntu与centos的区别</span>
                         </div>
@@ -642,7 +658,7 @@ JUnit 提供：
                         <div class="card-image">
                             
                             
-                            <img src="https://wp-cdn.4ce.cn/v2/wtBQUJw.jpeg" class="responsive-img" alt="Git page搭建个人博客教程">
+                            <img src="https://wp-cdn.4ce.cn/v2/ouHaaal.jpeg" class="responsive-img" alt="Git page搭建个人博客教程">
                             
                             <span class="card-title">Git page搭建个人博客教程</span>
                         </div>
@@ -692,7 +708,7 @@ JUnit 提供：
                         <div class="card-image">
                             
                             
-                            <img src="https://wp-cdn.4ce.cn/v2/ANRlK22.jpeg" class="responsive-img" alt="为什么说程序员都应该写一写博客">
+                            <img src="https://wp-cdn.4ce.cn/v2/oWKM4zI.jpeg" class="responsive-img" alt="为什么说程序员都应该写一写博客">
                             
                             <span class="card-title">为什么说程序员都应该写一写博客</span>
                         </div>
@@ -748,7 +764,7 @@ JUnit 提供：
                         <div class="card-image">
                             
                             
-                            <img src="https://wp-cdn.4ce.cn/v2/3AjsJmV.jpeg" class="responsive-img" alt="Hexo 绑定自己的域名">
+                            <img src="https://wp-cdn.4ce.cn/v2/7Aw0Rgx.jpeg" class="responsive-img" alt="Hexo 绑定自己的域名">
                             
                             <span class="card-title">Hexo 绑定自己的域名</span>
                         </div>

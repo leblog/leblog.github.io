@@ -337,8 +337,24 @@
     </div>
 </div>
 <script>
+// 定义图片数组
+const bannerImages = [
+    "https://wp-cdn.4ce.cn/v2/pB4Nwsk.jpeg",
+    "https://wp-cdn.4ce.cn/v2/lqUYjmJ.jpeg",
+    "https://wp-cdn.4ce.cn/v2/a9cCnaY.jpeg",
+    "https://wp-cdn.4ce.cn/v2/2zm6c19.jpeg",
+    "https://wp-cdn.4ce.cn/v2/nsFvQcG.jpeg",
+    "https://wp-cdn.4ce.cn/v2/pgM9LkT.jpeg",
+    "https://wp-cdn.4ce.cn/v2/oJXxOOP.jpeg",
+];
+
+// 获取当前星期几（0 表示星期日，1 到 6 表示星期一到星期六）
+const dayOfWeek = new Date().getDay();
+
+// 设置背景图片
+$('.bg-cover').css('background-image', 'url(' + bannerImages[dayOfWeek] + ')');
 // 每天切换 banner 图.  Switch banner image every day.
-$('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay() + '.jpg)');
+//$('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay() + '.jpg)');
 </script>
     </div>
 </div>
@@ -384,19 +400,10 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                 </a>
                 
                 
-                <a href="/categories/Ajax/" title="Ajax: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #E8F8F5;">Ajax
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
                 <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="学习笔记: 2">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #FEF9E7;">学习笔记
+                            style="background-color: #E8F8F5;">学习笔记
                         <span class="tag-length">2</span>
                     </span>
                 </a>
@@ -405,7 +412,16 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                 <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/" title="服务器: 1">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #F8F9F9;">服务器
+                            style="background-color: #FEF9E7;">服务器
+                        <span class="tag-length">1</span>
+                    </span>
+                </a>
+                
+                
+                <a href="/categories/Ajax/" title="Ajax: 1">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-default "
+                            style="background-color: #F8F9F9;">Ajax
                         <span class="tag-length">1</span>
                     </span>
                 </a>
@@ -420,10 +436,19 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                 </a>
                 
                 
+                <a href="/categories/ES6/" title="ES6: 1">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-default "
+                            style="background-color: #D7BDE2;">ES6
+                        <span class="tag-length">1</span>
+                    </span>
+                </a>
+                
+                
                 <a href="/categories/%E6%95%99%E7%A8%8B/" title="教程: 1">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #D7BDE2;">教程
+                            style="background-color: #A3E4D7;">教程
                         <span class="tag-length">1</span>
                     </span>
                 </a>
@@ -432,17 +457,8 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                 <a href="/categories/JAVA/" title="JAVA: 5">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #A3E4D7;">JAVA
+                            style="background-color: #85C1E9;">JAVA
                         <span class="tag-length">5</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/ES6/" title="ES6: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #85C1E9;">ES6
-                        <span class="tag-length">1</span>
                     </span>
                 </a>
                 
@@ -474,6 +490,15 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                 </a>
                 
                 
+                <a href="/categories/Spring/" title="Spring: 1">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-default "
+                            style="background-color: #F9E79F;">Spring
+                        <span class="tag-length">1</span>
+                    </span>
+                </a>
+                
+                
                 <a href="/categories/%E8%B5%84%E6%BA%90/" title="资源: 1">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
@@ -492,10 +517,10 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                 </a>
                 
                 
-                <a href="/categories/Spring/" title="Spring: 1">
+                <a href="/categories/vue/" title="vue: 1">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #F9E79F;">Spring
+                            style="background-color: #85C1E9;">vue
                         <span class="tag-length">1</span>
                     </span>
                 </a>
@@ -510,37 +535,19 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                 </a>
                 
                 
-                <a href="/categories/blog/" title="blog: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #A3E4D7;">blog
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/log4j/" title="log4j: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #F9E79F;">log4j
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/vue/" title="vue: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #85C1E9;">vue
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
                 <a href="/categories/%E6%89%93%E5%8D%B0%E6%9C%BA/" title="打印机: 1">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
                             style="background-color: #FFF;">打印机
+                        <span class="tag-length">1</span>
+                    </span>
+                </a>
+                
+                
+                <a href="/categories/blog/" title="blog: 1">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-default "
+                            style="background-color: #A3E4D7;">blog
                         <span class="tag-length">1</span>
                     </span>
                 </a>
@@ -555,10 +562,10 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                 </a>
                 
                 
-                <a href="/categories/%E5%90%8D%E8%A8%80/" title="名言: 1">
+                <a href="/categories/MVC%E6%A8%A1%E5%BC%8F/" title="MVC模式: 1">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #FEF9E7;">名言
+                            style="background-color: #E8F8F5;">MVC模式
                         <span class="tag-length">1</span>
                     </span>
                 </a>
@@ -573,10 +580,10 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                 </a>
                 
                 
-                <a href="/categories/MVC%E6%A8%A1%E5%BC%8F/" title="MVC模式: 1">
+                <a href="/categories/%E5%90%8D%E8%A8%80/" title="名言: 1">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #E8F8F5;">MVC模式
+                            style="background-color: #FEF9E7;">名言
                         <span class="tag-length">1</span>
                     </span>
                 </a>
@@ -595,6 +602,15 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
                             style="background-color: #A3E4D7;">Gihub
+                        <span class="tag-length">1</span>
+                    </span>
+                </a>
+                
+                
+                <a href="/categories/log4j/" title="log4j: 1">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-default "
+                            style="background-color: #F9E79F;">log4j
                         <span class="tag-length">1</span>
                     </span>
                 </a>
@@ -688,7 +704,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                         <div class="card-image tag-image">
                             
                             
-                            <img src="https://wp-cdn.4ce.cn/v2/2UFdm3y.jpeg" class="responsive-img" alt="微信小程序与后端SpringBoot通信">
+                            <img src="https://wp-cdn.4ce.cn/v2/QYd4n5r.jpeg" class="responsive-img" alt="微信小程序与后端SpringBoot通信">
                             
                             <span class="card-title">微信小程序与后端SpringBoot通信</span>
                         </div>
