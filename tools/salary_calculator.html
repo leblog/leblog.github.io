@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>工资计算器 - 带倒计时</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+         
+        body {
+            background: linear-gradient(135deg, #1a2a6c 0%, #2a5298 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+         
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+         
+        .header {
+            background: linear-gradient(to right, #4b6cb7, #182848);
+            color: white;
+            text-align: center;
+            padding: 25px 20px;
+            position: relative;
+        }
+         
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+         
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+         
+        .header i {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 28px;
+            opacity: 0.8;
+        }
+         
+        .countdown-container {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 15px;
+            margin: 20px auto;
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+         
+        .countdown-title {
+            font-size: 16px;
+            margin-bottom: 10px;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+         
+        #countdown {
+            font-size: 36px;
+            font-weight: 800;
+            font-family: 'Courier New', monospace;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 10px 25px;
+            border-radius: 15px;
+            min-width: 220px;
+            text-align: center;
+            color: #fff;
+            letter-spacing: 2px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+         
+        .content {
+            padding: 30px;
+        }
+         
+        .input-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+         
+        .input-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #333;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+         
+        .input-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+         
+        .time-input {
+            flex: 1;
+            position: relative;
+        }
+         
+        .time-input i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #4b6cb7;
+            font-size: 18px;
+        }
+         
+        input {
+            width: 100%;
+            padding: 16px 15px 16px 50px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s;
+            outline: none;
+            background: #f9faff;
+        }
+         
+        input:focus {
+            border-color: #4b6cb7;
+            box-shadow: 0 0 0 3px rgba(75, 108, 183, 0.25);
+            background: #fff;
+        }
+         
+        input[type="number"] {
+            padding-left: 50px;
+        }
+         
+        .divider {
+            font-size: 20px;
+            font-weight: bold;
+            color: #4b6cb7;
+            padding: 0 5px;
+        }
+         
+        .calculate-btn {
+            background: linear-gradient(to right, #4b6cb7, #182848);
+            color: white;
+            border: none;
+            padding: 17px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            letter-spacing: 1px;
+            margin-top: 10px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+         
+        .calculate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 9px 20px rgba(0, 0, 0, 0.25);
+            background: linear-gradient(to right, #5a7bc7, #283a68);
+        }
+         
+        .calculate-btn:active {
+            transform: translateY(-1px);
+        }
+         
+        .results {
+            margin-top: 30px;
+            background: linear-gradient(135deg, #f8f9ff 0%, #eef2ff 100%);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+            display: none;
+            border: 1px solid #e0e7ff;
+        }
+         
+        .results.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+         
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+         
+        .results h3 {
+            text-align: center;
+            color: #4b6cb7;
+            margin-bottom: 20px;
+            font-size: 22px;
+            padding-bottom: 15px;
+            position: relative;
+        }
+         
+        .results h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(to right, #4b6cb7, #182848);
+            border-radius: 3px;
+        }
+         
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 18px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid #e0e7ff;
+        }
+         
+        .result-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+         
+        .result-label {
+            font-weight: 600;
+            color: #555;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+         
+        .result-value {
+            font-weight: 700;
+            color: #182848;
+            font-size: 17px;
+        }
+         
+        .highlight {
+            color: #ff6b6b;
+            font-size: 22px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+         
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 13px;
+            background: #f8f9ff;
+            border-top: 1px solid #e0e7ff;
+        }
+         
+        .money-animation {
+            position: absolute;
+            font-size: 24px;
+            opacity: 0;
+            animation: moneyFloat 3s ease-out forwards;
+        }
+         
+        @keyframes moneyFloat {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-100px); opacity: 0; }
+        }
+         
+        [url=home.php?mod=space&uid=945662]@media[/url] (max-width: 480px) {
+            .header h1 {
+                font-size: 24px;
+            }
+             
+            .content {
+                padding: 20px 15px;
+            }
+             
+            .input-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+             
+            .divider {
+                transform: rotate(90deg);
+                margin: 5px 0;
+            }
+             
+            #countdown {
+                font-size: 30px;
+                padding: 8px 15px;
+                min-width: 180px;
+            }
+             
+            input {
+                padding: 14px 14px 14px 45px;
+            }
+        }
+    </style>
+<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+<body>
+    <div class="container">
+        <div class="header">
+            <i class="fas fa-coins"></i>
+            <h1>工资计算器</h1>
+            <p>计算您的工作时间和应得工资</p>
+             
+            <div class="countdown-container">
+                <div class="countdown-title"><i class="fas fa-clock"></i> 距离下班还有</div>
+                <div id="countdown">00:00:00</div>
+            </div>
+        </div>
+         
+        <div class="content">
+            <div class="input-group">
+                <label for="start-time"><i class="fas fa-sign-in-alt"></i> 上班时间</label>
+                <div class="input-container">
+                    <div class="time-input">
+                        <i class="fas fa-briefcase"></i>
+                        <input type="time" id="start-time" value="09:00">
+                    </div>
+                    <div class="divider">→</div>
+                    <div class="time-input">
+                        <i class="fas fa-home"></i>
+                        <input type="time" id="end-time" value="18:00">
+                    </div>
+                </div>
+            </div>
+             
+            <div class="input-group">
+                <label for="break-time"><i class="fas fa-utensils"></i> 午休时间 (小时)</label>
+                <div class="time-input">
+                    <i class="fas fa-coffee"></i>
+                    <input type="number" id="break-time" min="0" max="4" step="0.5" value="1.0">
+                </div>
+            </div>
+             
+            <div class="input-group">
+                <label for="salary"><i class="fas fa-money-bill-wave"></i> 月薪 (元)</label>
+                <div class="time-input">
+                    <i class="fas fa-wallet"></i>
+                    <input type="number" id="salary" min="0" step="100" value="10000">
+                </div>
+            </div>
+             
+            <div class="input-group">
+                <label for="work-days"><i class="fas fa-calendar-alt"></i> 每月工作日 (天)</label>
+                <div class="time-input">
+                    <i class="fas fa-calendar-day"></i>
+                    <input type="number" id="work-days" min="1" max="31" value="22">
+                </div>
+            </div>
+             
+            <button class="calculate-btn" id="calculate">
+                <i class="fas fa-calculator"></i> 计算我的工资
+            </button>
+             
+            <div class="results" id="results">
+                <h3><i class="fas fa-file-invoice-dollar"></i> 工资计算结果</h3>
+                <div class="result-item">
+                    <span class="result-label"><i class="fas fa-clock"></i> 工作时长：</span>
+                    <span class="result-value" id="work-hours">0 小时</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label"><i class="fas fa-hourglass-half"></i> 时薪：</span>
+                    <span class="result-value" id="hourly-rate">0.00 元</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label"><i class="fas fa-sun"></i> 日薪：</span>
+                    <span class="result-value" id="daily-salary">0.00 元</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label"><i class="fas fa-money-check"></i> 今日工资：</span>
+                    <span class="result-value highlight" id="today-salary">0.00 元</span>
+                </div>
+            </div>
+        </div>
+         
+        <div class="footer">
+            <p>&#169; 2025 工资计算器 | 下班倒计时</p>
+        </div>
+    </div>
+ 
+    <script>
+        // 下班倒计时功能
+        function updateCountdown() {
+            const endTimeInput = document.getElementById('end-time').value;
+            if (!endTimeInput) return;
+             
+            const now = new Date();
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+             
+            // 解析下班时间
+            const [endHours, endMinutes] = endTimeInput.split(':').map(Number);
+            const endTime = new Date(today);
+            endTime.setHours(endHours, endMinutes, 0, 0);
+             
+            // 如果当前时间已超过下班时间，设置为明天的下班时间
+            if (now > endTime) {
+                endTime.setDate(endTime.getDate() + 1);
+                document.getElementById('countdown').style.color = "#a0a0a0";
+            } else {
+                document.getElementById('countdown').style.color = "#ffffff";
+            }
+             
+            // 计算时间差（毫秒）
+            const diff = endTime - now;
+             
+            // 如果时间差为负（不应该发生），返回
+            if (diff < 0) {
+                document.getElementById('countdown').textContent = "已下班！";
+                return;
+            }
+             
+            // 计算小时、分钟和秒
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+             
+            // 格式化显示
+            const formatted = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            document.getElementById('countdown').textContent = formatted;
+             
+            // 更新倒计时颜色（如果快下班了）
+            if (hours === 0 && minutes < 30) {
+                document.getElementById('countdown').style.background = "linear-gradient(to right, #ff6b6b, #ff8e8e)";
+            } else {
+                document.getElementById('countdown').style.background = "rgba(0, 0, 0, 0.25)";
+            }
+        }
+         
+        // 工资计算功能
+        document.getElementById('calculate').addEventListener('click', function() {
+            // 获取输入值
+            const startTime = document.getElementById('start-time').value;
+            const endTime = document.getElementById('end-time').value;
+            const breakTime = parseFloat(document.getElementById('break-time').value) || 0;
+            const salary = parseFloat(document.getElementById('salary').value) || 0;
+            const workDays = parseFloat(document.getElementById('work-days').value) || 22;
+             
+            // 验证输入
+            if (!startTime || !endTime) {
+                alert('请填写上班和下班时间');
+                return;
+            }
+             
+            if (salary <= 0) {
+                alert('请输入有效的月薪');
+                return;
+            }
+             
+            // 计算工作时间（小时）
+            const start = parseTime(startTime);
+            const end = parseTime(endTime);
+             
+            let workMinutes = 0;
+            if (end >= start) {
+                workMinutes = end - start;
+            } else {
+                // 处理跨天的情况（如夜班）
+                workMinutes = (24 * 60 - start) + end;
+            }
+             
+            // 转换为小时，减去午休时间
+            let workHours = (workMinutes / 60) - breakTime;
+             
+            // 确保工作时间不为负
+            if (workHours < 0) workHours = 0;
+             
+            // 计算工资数据
+            const dailySalary = salary / workDays;
+            const hourlyRate = dailySalary / 8; // 假设标准工作日为8小时
+            const todaySalary = (workHours / 8) * dailySalary;
+             
+            // 显示结果
+            document.getElementById('work-hours').textContent = workHours.toFixed(1) + ' 小时';
+            document.getElementById('hourly-rate').textContent = hourlyRate.toFixed(2) + ' 元';
+            document.getElementById('daily-salary').textContent = dailySalary.toFixed(2) + ' 元';
+            document.getElementById('today-salary').textContent = todaySalary.toFixed(2) + ' 元';
+             
+            // 显示结果区域
+            document.getElementById('results').classList.add('show');
+             
+            // 添加金钱动画效果
+            createMoneyAnimation();
+        });
+         
+        // 创建金钱动画效果
+        function createMoneyAnimation() {
+            const button = document.getElementById('calculate');
+            const rect = button.getBoundingClientRect();
+            const container = document.querySelector('.container');
+             
+            for (let i = 0; i < 8; i++) {
+                const money = document.createElement('div');
+                money.classList.add('money-animation');
+                money.innerHTML = '&#128176;';
+                money.style.left = `${rect.left + rect.width/2}px`;
+                money.style.top = `${rect.top}px`;
+                money.style.position = 'fixed';
+                money.style.zIndex = '1000';
+                 
+                // 随机水平偏移
+                const offsetX = (Math.random() - 0.5) * 100;
+                money.style.setProperty('--offset-x', `${offsetX}px`);
+                 
+                document.body.appendChild(money);
+                 
+                // 动画结束后移除元素
+                setTimeout(() => {
+                    money.remove();
+                }, 3000);
+            }
+        }
+         
+        // 将时间字符串转换为分钟数
+        function parseTime(timeStr) {
+            const [hours, minutes] = timeStr.split(':').map(num => parseInt(num, 10));
+            return hours * 60 + minutes;
+        }
+         
+        // 初始化倒计时
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+         
+        // 当下班时间改变时更新倒计时
+        document.getElementById('end-time').addEventListener('change', updateCountdown);
+        document.getElementById('start-time').addEventListener('change', updateCountdown);
+         
+        // 页面加载时自动计算一次工资
+        window.addEventListener('load', function() {
+            document.getElementById('calculate').click();
+        });
+    </script>
+</body>
+</html>
