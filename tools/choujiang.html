@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>特权抽奖系统 - 领导优先版</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+         
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+         
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+         
+        [url=home.php?mod=space&uid=945662]@media[/url] (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+         
+        header {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+         
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+        }
+         
+        .subtitle {
+            font-size: 1.2rem;
+            color: #FFD700;
+            margin-bottom: 15px;
+        }
+         
+        .card {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+         
+        h2 {
+            color: #FFD700;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+         
+        .control-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+         
+        input, select, button {
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+        }
+         
+        input, select {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+         
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+         
+        button {
+            background: linear-gradient(45deg, #FFD700, #FF8C00);
+            color: #1a1a2e;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+         
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+         
+        button:active {
+            transform: translateY(1px);
+        }
+         
+        .vip-button {
+            background: linear-gradient(45deg, #8A2BE2, #4B0082);
+            color: white;
+        }
+         
+        .list-container {
+            max-height: 300px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 15px;
+        }
+         
+        ul {
+            list-style: none;
+        }
+         
+        li {
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            margin-bottom: 8px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+         
+        .vip-item {
+            background: linear-gradient(90deg, rgba(138, 43, 226, 0.3), transparent);
+            border-left: 4px solid #8A2BE2;
+        }
+         
+        .lottery-section {
+            grid-column: 1 / -1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+         
+        .current-display {
+            font-size: 3rem;
+            font-weight: bold;
+            text-align: center;
+            margin: 30px 0;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+        }
+         
+        .vip-display {
+            color: #FFD700;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.9);
+        }
+         
+        .actions {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+        }
+         
+        .action-button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+        }
+         
+        .congrats {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            display: none;
+        }
+         
+        .congrats-content {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 80%;
+            position: relative;
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.7);
+        }
+         
+        .congrats.vip-congrats .congrats-content {
+            background: linear-gradient(135deg, #4B0082, #8A2BE2);
+            box-shadow: 0 0 50px rgba(138, 43, 226, 0.8);
+        }
+         
+        .congrats h2 {
+            font-size: 3rem;
+            color: #FFD700;
+            margin-bottom: 20px;
+            border: none;
+        }
+         
+        .vip-congrats h2 {
+            color: #FFD700;
+            text-shadow: 0 0 20px gold;
+        }
+         
+        .congrats p {
+            font-size: 2rem;
+            margin-bottom: 30px;
+        }
+         
+        .close-congrats {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+         
+        .crown-animation {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: crownPulse 2s infinite;
+        }
+         
+        @keyframes crownPulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 1; text-shadow: 0 0 30px gold; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+         
+        .flattering {
+            font-style: italic;
+            color: #FFD700;
+            margin-top: 20px;
+            font-size: 1.5rem;
+        }
+         
+        .winners-section {
+            grid-column: 1 / -1;
+        }
+         
+        .winners-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+         
+        .winner-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+         
+        .vip-winner {
+            background: linear-gradient(90deg, rgba(138, 43, 226, 0.3), transparent);
+            border-left: 4px solid #8A2BE2;
+        }
+         
+        .winner-name {
+            font-weight: bold;
+        }
+         
+        .winner-prize {
+            color: #FFD700;
+        }
+         
+        .firework {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+         
+        @keyframes firework {
+            0% { transform: translate(0, 0); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)); opacity: 0; }
+        }
+         
+        footer {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+         
+        .mode-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+         
+        .mode-btn {
+            padding: 10px 20px;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+         
+        .mode-btn.active {
+            background: linear-gradient(45deg, #FFD700, #FF8C00);
+            color: #1a1a2e;
+            font-weight: bold;
+        }
+    </style>
+<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-crown"></i> 特权抽奖系统</h1>
+            <div class="subtitle">领导优先中奖 &#8226; 公平公正 &#8226; 透明公开</div>
+            <p>为领导提供专属抽奖通道，确保高层获得应有荣誉与奖励</p>
+        </header>
+         
+        <div class="card">
+            <h2><i class="fas fa-users"></i> 参与者管理</h2>
+            <div class="control-group">
+                <input type="text" id="nameInput" placeholder="输入参与者姓名">
+                <button id="addParticipantBtn"><i class="fas fa-plus"></i> 添加参与者</button>
+            </div>
+             
+            <h3>普通参与者名单 <span id="participantCount">(0人)</span></h3>
+            <div class="list-container">
+                <ul id="participantList"></ul>
+            </div>
+        </div>
+         
+        <div class="card">
+            <h2><i class="fas fa-crown"></i> 领导管理</h2>
+            <div class="control-group">
+                <input type="text" id="vipInput" placeholder="输入领导姓名">
+                <button id="addVipBtn" class="vip-button"><i class="fas fa-plus"></i> 添加领导</button>
+            </div>
+             
+            <h3>领导名单 <span id="vipCount">(0人)</span></h3>
+            <div class="list-container">
+                <ul id="vipList"></ul>
+            </div>
+        </div>
+         
+        <div class="card lottery-section">
+            <h2><i class="fas fa-gift"></i> 抽奖控制</h2>
+             
+            <div class="mode-selector">
+                <button class="mode-btn active" data-mode="normal">普通抽奖</button>
+                <button class="mode-btn" data-mode="privilege">特权抽奖</button>
+            </div>
+             
+            <div class="control-group">
+                <input type="text" id="prizeInput" placeholder="输入奖项名称（如：特等奖）">
+                <select id="speedSelect">
+                    <option value="80">超快速度</option>
+                    <option value="120" selected>快速</option>
+                    <option value="200">中速</option>
+                    <option value="300">慢速</option>
+                </select>
+            </div>
+             
+            <div class="current-display" id="currentDisplay">
+                等待抽奖开始...
+            </div>
+             
+            <div class="actions">
+                <button class="action-button" id="startBtn"><i class="fas fa-play"></i> 开始抽奖</button>
+                <button class="action-button" id="stopBtn"><i class="fas fa-stop"></i> 停止抽奖</button>
+                <button class="action-button vip-button" id="vipDrawBtn"><i class="fas fa-crown"></i> 特权抽奖</button>
+            </div>
+        </div>
+         
+        <div class="card winners-section">
+            <h2><i class="fas fa-trophy"></i> 中奖名单</h2>
+             
+            <div class="winners-container">
+                <div>
+                    <h3><i class="fas fa-crown"></i> 领导获奖名单</h3>
+                    <div id="vipWinners" class="list-container">
+                        <!-- 领导中奖名单动态生成 -->
+                    </div>
+                </div>
+                 
+                <div>
+                    <h3><i class="fas fa-user-friends"></i> 普通获奖名单</h3>
+                    <div id="normalWinners" class="list-container">
+                        <!-- 普通中奖名单动态生成 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+         
+        <footer>
+            <p>特权抽奖系统 v2.0 | 尊贵领导优先体验 | &#169; 2025 版权所有</p>
+            <p>系统设计原则：领导优先，层级分明，公平公正</p>
+        </footer>
+    </div>
+     
+    <div class="congrats" id="congrats">
+        <div class="congrats-content">
+            <div class="crown-animation">&#128081; &#128081; &#128081;</div>
+            <h2 id="winnerName">中奖者姓名</h2>
+            <p>获得 <span id="winnerPrize" class="winner-prize">奖项名称</span></p>
+            <div class="flattering" id="flatteringRemark">领导的智慧与运气相得益彰！</div>
+            <div class="close-congrats" id="closeCongrats">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+    </div>
+ 
+    <script>
+        // 数据初始化
+        let participants = [];
+        let vipList = [];
+        let winners = [];
+        let isRunning = false;
+        let intervalId = null;
+        let currentCandidate = null;
+        let speed = 120;
+        let mode = 'normal';
+         
+        // DOM元素
+        const nameInput = document.getElementById('nameInput');
+        const addParticipantBtn = document.getElementById('addParticipantBtn');
+        const participantList = document.getElementById('participantList');
+        const participantCount = document.getElementById('participantCount');
+         
+        const vipInput = document.getElementById('vipInput');
+        const addVipBtn = document.getElementById('addVipBtn');
+        const vipListEl = document.getElementById('vipList');
+        const vipCount = document.getElementById('vipCount');
+         
+        const prizeInput = document.getElementById('prizeInput');
+        const speedSelect = document.getElementById('speedSelect');
+        const currentDisplay = document.getElementById('currentDisplay');
+         
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const vipDrawBtn = document.getElementById('vipDrawBtn');
+         
+        const vipWinnersEl = document.getElementById('vipWinners');
+        const normalWinnersEl = document.getElementById('normalWinners');
+         
+        const congratsEl = document.getElementById('congrats');
+        const winnerNameEl = document.getElementById('winnerName');
+        const winnerPrizeEl = document.getElementById('winnerPrize');
+        const flatteringRemarkEl = document.getElementById('flatteringRemark');
+        const closeCongrats = document.getElementById('closeCongrats');
+         
+        const modeButtons = document.querySelectorAll('.mode-btn');
+         
+        // 添加普通参与者
+        addParticipantBtn.addEventListener('click', () => {
+            const name = nameInput.value.trim();
+            if (name) {
+                if (vipList.includes(name)) {
+                    alert('该人员是领导，请通过领导名单添加！');
+                    return;
+                }
+                 
+                if (!participants.includes(name)) {
+                    participants.push(name);
+                    renderParticipantList();
+                    nameInput.value = '';
+                } else {
+                    alert('该参与者已存在！');
+                }
+            }
+        });
+         
+        // 添加领导
+        addVipBtn.addEventListener('click', () => {
+            const name = vipInput.value.trim();
+            if (name) {
+                if (participants.includes(name)) {
+                    // 从普通名单中移除
+                    participants = participants.filter(p => p !== name);
+                    renderParticipantList();
+                }
+                 
+                if (!vipList.includes(name)) {
+                    vipList.push(name);
+                    renderVipList();
+                    vipInput.value = '';
+                } else {
+                    alert('该领导已存在！');
+                }
+            }
+        });
+         
+        // 开始抽奖
+        startBtn.addEventListener('click', () => {
+            if (isRunning) return;
+             
+            const availableParticipants = getAvailableParticipants();
+             
+            if (availableParticipants.length === 0) {
+                alert('没有可参与抽奖的人员');
+                return;
+            }
+             
+            speed = parseInt(speedSelect.value);
+            isRunning = true;
+             
+            intervalId = setInterval(() => {
+                const randomIndex = Math.floor(Math.random() * availableParticipants.length);
+                currentCandidate = availableParticipants[randomIndex];
+                currentDisplay.textContent = currentCandidate;
+                 
+                // VIP高亮显示
+                if (vipList.includes(currentCandidate)) {
+                    currentDisplay.classList.add('vip-display');
+                } else {
+                    currentDisplay.classList.remove('vip-display');
+                }
+            }, speed);
+        });
+         
+        // 停止抽奖
+        stopBtn.addEventListener('click', () => {
+            if (!isRunning) return;
+             
+            clearInterval(intervalId);
+            isRunning = false;
+             
+            if (!currentCandidate) return;
+             
+            const prize = prizeInput.value.trim() || '幸运奖';
+            const isVip = vipList.includes(currentCandidate);
+             
+            const winner = {
+                name: currentCandidate,
+                prize: prize,
+                time: new Date().toLocaleString(),
+                type: isVip ? 'VIP' : '普通'
+            };
+             
+            winners.push(winner);
+            renderWinners();
+             
+            // 显示庆祝效果
+            showCongratulations(winner.name, winner.prize, isVip);
+        });
+         
+        // 特权抽奖
+        vipDrawBtn.addEventListener('click', () => {
+            if (vipList.length === 0) {
+                if (!confirm('未设置领导名单，确定继续普通抽奖吗？')) return;
+                startBtn.click();
+                return;
+            }
+             
+            // 特权抽奖逻辑
+            const availableVips = vipList.filter(vip => 
+                !winners.some(w => w.name === vip && w.type === 'VIP')
+            );
+             
+            if (availableVips.length === 0) {
+                alert('所有领导都已中奖！');
+                return;
+            }
+             
+            const prize = prizeInput.value.trim() || '特等奖';
+            const randomIndex = Math.floor(Math.random() * availableVips.length);
+            const winnerName = availableVips[randomIndex];
+             
+            const winner = {
+                name: winnerName,
+                prize: prize,
+                time: new Date().toLocaleString(),
+                type: 'VIP'
+            };
+             
+            winners.push(winner);
+            renderWinners();
+             
+            // 显示领导专属庆祝效果
+            showCongratulations(winner.name, winner.prize, true);
+        });
+         
+        // 获取可用参与者（排除已中奖者）
+        function getAvailableParticipants() {
+            return [...participants, ...vipList].filter(name => 
+                !winners.some(winner => winner.name === name)
+            );
+        }
+         
+        // 渲染参与者列表
+        function renderParticipantList() {
+            participantList.innerHTML = participants.map(name => `
+                <li>
+                    <span>${name}</span>
+                    <button><i class="fas fa-trash"></i></button>
+                </li>
+            `).join('');
+             
+            participantCount.textContent = `(${participants.length}人)`;
+            saveData();
+        }
+         
+        // 渲染领导列表
+        function renderVipList() {
+            vipListEl.innerHTML = vipList.map(name => `
+                <li class="vip-item">
+                    <span><i class="fas fa-crown"></i> ${name}</span>
+                    <button><i class="fas fa-trash"></i></button>
+                </li>
+            `).join('');
+             
+            vipCount.textContent = `(${vipList.length}人)`;
+            saveData();
+        }
+         
+        // 渲染中奖名单
+        function renderWinners() {
+            const vipWinners = winners.filter(w => w.type === 'VIP');
+            const normalWinners = winners.filter(w => w.type === '普通');
+             
+            vipWinnersEl.innerHTML = vipWinners.map(winner => `
+                <div class="winner-card vip-winner">
+                    <div>
+                        <div class="winner-name"><i class="fas fa-crown"></i> ${winner.name}</div>
+                        <div>${winner.time}</div>
+                    </div>
+                    <div class="winner-prize">${winner.prize}</div>
+                </div>
+            `).join('');
+             
+            normalWinnersEl.innerHTML = normalWinners.map(winner => `
+                <div class="winner-card">
+                    <div>
+                        <div class="winner-name">${winner.name}</div>
+                        <div>${winner.time}</div>
+                    </div>
+                    <div class="winner-prize">${winner.prize}</div>
+                </div>
+            `).join('');
+             
+            saveData();
+        }
+         
+        // 显示庆祝效果
+        function showCongratulations(name, prize, isVip = false) {
+            winnerNameEl.textContent = name;
+            winnerPrizeEl.textContent = prize;
+             
+            // 生成随机恭维语
+            const remarks = [
+                "领导鸿运当头，实至名归！",
+                "领导的智慧与运气相得益彰！",
+                "此乃众望所归，领导英明！",
+                "天选之人，非领导莫属！",
+                "领导中奖，团队之福！"
+            ];
+            flatteringRemarkEl.textContent = isVip ? 
+                remarks[Math.floor(Math.random() * remarks.length)] : 
+                "恭喜中奖！";
+             
+            // 设置VIP特效
+            congratsEl.className = isVip ? 'congrats vip-congrats' : 'congrats';
+            congratsEl.style.display = 'flex';
+             
+            // 创建烟花效果
+            createFireworks();
+             
+            // 5秒后自动关闭（领导10秒）
+            setTimeout(() => {
+                congratsEl.style.display = 'none';
+            }, isVip ? 10000 : 5000);
+        }
+         
+        // 创建烟花效果
+        function createFireworks() {
+            const colors = ['#FFD700', '#FF8C00', '#8A2BE2', '#FF0000', '#00FFFF'];
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const firework = document.createElement('div');
+                    firework.className = 'firework';
+                    firework.style.left = `${Math.random() * 100}%`;
+                    firework.style.top = `${Math.random() * 100}%`;
+                    firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    firework.style.setProperty('--tx', `${(Math.random() - 0.5) * 300}px`);
+                    firework.style.setProperty('--ty', `${(Math.random() - 0.5) * 300}px`);
+                    firework.style.animation = `firework ${Math.random() * 1 + 0.5}s forwards`;
+                    document.body.appendChild(firework);
+                     
+                    // 移除烟花元素
+                    setTimeout(() => {
+                        firework.remove();
+                    }, 1000);
+                }, i * 100);
+            }
+        }
+         
+        // 移除参与者
+        function removeParticipant(name) {
+            participants = participants.filter(p => p !== name);
+            renderParticipantList();
+        }
+         
+        // 移除领导
+        function removeVip(name) {
+            vipList = vipList.filter(v => v !== name);
+            renderVipList();
+        }
+         
+        // 关闭庆祝弹窗
+        closeCongrats.addEventListener('click', () => {
+            congratsEl.style.display = 'none';
+        });
+         
+        // 模式切换
+        modeButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                modeButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                mode = btn.dataset.mode;
+            });
+        });
+         
+        // 保存数据到本地存储
+        function saveData() {
+            const data = {
+                participants,
+                vipList,
+                winners
+            };
+            localStorage.setItem('lotteryData', JSON.stringify(data));
+        }
+         
+        // 从本地存储加载数据
+        function loadData() {
+            const data = JSON.parse(localStorage.getItem('lotteryData'));
+            if (data) {
+                participants = data.participants || [];
+                vipList = data.vipList || [];
+                winners = data.winners || [];
+                 
+                renderParticipantList();
+                renderVipList();
+                renderWinners();
+            }
+        }
+         
+        // 初始化
+        window.removeParticipant = removeParticipant;
+        window.removeVip = removeVip;
+        loadData();
+    </script>
+</body>
+</html>

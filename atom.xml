@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://leblog.github.io/"/>
-  <updated>2025-04-29T03:22:13.152Z</updated>
+  <updated>2025-08-15T04:01:01.801Z</updated>
   <id>https://leblog.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Docker虚拟化技术的历史、现状与发展趋势</title>
+    <link href="https://leblog.github.io/2022/01/30/docker/"/>
+    <id>https://leblog.github.io/2022/01/30/docker/</id>
+    <published>2022-01-30T13:49:53.000Z</published>
+    <updated>2025-08-15T04:01:01.801Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h3 id=&quot;Docker虚拟化技术的历史、现状与发展趋势&quot;&gt;&lt;a href=&quot;#Docker虚拟化技术的历史、现状与发展趋势&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="docker" scheme="https://leblog.github.io/categories/docker/"/>
+    
+    
+      <category term="docker" scheme="https://leblog.github.io/tags/docker/"/>
+    
+  </entry>
   
   <entry>
     <title>ES6参考手册简化版</title>
@@ -544,32 +570,6 @@
     
     
       <category term="Nginx" scheme="https://leblog.github.io/tags/Nginx/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>hexo博客整体性能优化</title>
-    <link href="https://leblog.github.io/2020/05/26/hexo-bo-ke-zheng-ti-xing-neng-you-hua/"/>
-    <id>https://leblog.github.io/2020/05/26/hexo-bo-ke-zheng-ti-xing-neng-you-hua/</id>
-    <published>2020-05-26T04:22:33.000Z</published>
-    <updated>2025-04-29T03:22:13.157Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h3 id=&quot;hexo博客整体性能优化&quot;&gt;&lt;a href=&quot;#hexo博客整体性能优化&quot; class=&quot;headerlink&quot; title=&quot;hexo博客整体性能优化&quot;&gt;&lt;/a&gt;hexo博客整体性能优化&lt;/h3&gt;&lt;h4 id=&quot;1-查找原因&quot;&gt;&lt;a
-        
-      
-    
-    </summary>
-    
-      <category term="博客" scheme="https://leblog.github.io/categories/%E5%8D%9A%E5%AE%A2/"/>
-    
-    
-      <category term="博客，hexo" scheme="https://leblog.github.io/tags/%E5%8D%9A%E5%AE%A2%EF%BC%8Chexo/"/>
     
   </entry>
   
