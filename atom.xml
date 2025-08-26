@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://leblog.github.io/"/>
-  <updated>2025-08-15T04:01:01.801Z</updated>
+  <updated>2025-08-19T09:48:48.620Z</updated>
   <id>https://leblog.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>人们以为自己在思考，其实是在重新编排自己的偏见。</title>
+    <link href="https://leblog.github.io/2023/03/02/nan-huai-jin-jing-dian-yu-lu-copy/"/>
+    <id>https://leblog.github.io/2023/03/02/nan-huai-jin-jing-dian-yu-lu-copy/</id>
+    <published>2023-03-02T09:25:56.000Z</published>
+    <updated>2025-08-19T09:48:48.620Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;人们以为自己在思考，其实是在重新编排自己的偏见。&lt;/p&gt;
+
+        
+      
+    
+    </summary>
+    
+    
+      <category term="经典语录" scheme="https://leblog.github.io/tags/%E7%BB%8F%E5%85%B8%E8%AF%AD%E5%BD%95/"/>
+    
+  </entry>
   
   <entry>
     <title>Docker虚拟化技术的历史、现状与发展趋势</title>
@@ -545,31 +570,6 @@
       <category term="SEO" scheme="https://leblog.github.io/tags/SEO/"/>
     
       <category term="精准搜索" scheme="https://leblog.github.io/tags/%E7%B2%BE%E5%87%86%E6%90%9C%E7%B4%A2/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Nginx反向代理</title>
-    <link href="https://leblog.github.io/2020/06/14/nginx-fan-xiang-dai-li/"/>
-    <id>https://leblog.github.io/2020/06/14/nginx-fan-xiang-dai-li/</id>
-    <published>2020-06-14T11:03:53.000Z</published>
-    <updated>2025-04-29T03:22:13.154Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，并在一个BSD-like 协议下发行。其特点是占有内存少，并发能力强。&lt;/p&gt;
-&lt;p&gt;Nginx
-        
-      
-    
-    </summary>
-    
-    
-      <category term="Nginx" scheme="https://leblog.github.io/tags/Nginx/"/>
     
   </entry>
   
