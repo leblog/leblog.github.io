@@ -13,7 +13,7 @@ layout: "about"
 
 </head>
 <body>
-<button><a style="text-decoration:none;" href="https://www.hanlele.cn/pdf/1.pdf">我的简历</a></button>
+<!--<button><a style="text-decoration:none;" href="https://www.hanlele.cn/pdf/1.pdf">我的简历</a></button>-->
 
 </body>
 </html>

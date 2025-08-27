@@ -24,5 +24,21 @@
 
 <script>
     // 每天切换 banner 图.  Switch banner image every day.
-    $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay() + '.jpg)');
+    //$('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay() + '.jpg)');
+    // 定义图片数组
+    const bannerImages = [
+        "https://wp-cdn.4ce.cn/v2/pB4Nwsk.jpeg",
+        "https://wp-cdn.4ce.cn/v2/lqUYjmJ.jpeg",
+        "https://wp-cdn.4ce.cn/v2/a9cCnaY.jpeg",
+        "https://wp-cdn.4ce.cn/v2/2zm6c19.jpeg",
+        "https://wp-cdn.4ce.cn/v2/nsFvQcG.jpeg",
+        "https://wp-cdn.4ce.cn/v2/pgM9LkT.jpeg",
+        "https://wp-cdn.4ce.cn/v2/oJXxOOP.jpeg",
+    ];
+
+    // 获取当前星期几（0 表示星期日，1 到 6 表示星期一到星期六）
+    const dayOfWeek = new Date().getDay();
+
+    // 设置背景图片
+    $('.bg-cover').css('background-image', 'url(' + bannerImages[dayOfWeek] + ')');
 </script>

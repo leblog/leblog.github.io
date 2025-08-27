@@ -5,7 +5,7 @@
 # Site
 title: 程序员小乐
 subtitle: 热爱生活
-description:  计算机科学与技术 | 软件技术
+description:  计算机科学与技术
 keywords: 程序员小乐
 author: 小乐
 language: zh-CN
@@ -26,7 +26,8 @@ archive_dir: archives
 category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
-skip_render:
+skip_render: 
+  - "/source/tools/*"
 
 # Writing
 new_post_name: :title.md # File name of new posts
@@ -76,6 +77,9 @@ baidusitemap:
     path: baidusitemap.xml
 sitemap:
     path: sitemap.xml
+    include:
+      - /source/_posts/*
+      - /source/tools/*
 
   
 # Home page setting

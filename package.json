@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "hexo": {
-    "version": "3.9.0"
+    "version": "4.2.1"
   },
   "dependencies": {
     "eslint": "^6.8.0",
@@ -12,7 +12,7 @@
     "gulp-imagemin": "^6.2.0",
     "gulp-minify-css": "^1.2.4",
     "gulp-uglify": "^3.0.2",
-    "hexo": "^3.9.0",
+    "hexo": "^4.2.1",
     "hexo-deployer-git": "^1.0.0",
     "hexo-generator-archive": "^0.1.5",
     "hexo-generator-baidu-sitemap": "^0.1.9",

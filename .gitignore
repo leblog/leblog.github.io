@@ -1,2 +1,28 @@
+# Е÷╨Г║─Е©╫Г∙╔Х╖└Е┬≥
+.DS_Store
+*.log
+*.swp
+*.swo
+
+# Д╬²Х╣√Г⌡╝Е╫∙
 node_modules/
-*.log                    # кЫспрт '.a' н╙╨Св╨╣днд╪Ч╤╪фа╠н╣Т
+.npm/
+.yarn/
+
+# Г■÷Ф┬░Ф√┤Д╩╤
+public/
+.deploy_git/
+db.json
+
+# Г╪⌠Е╜≤Ф√┤Д╩╤
+.cache/
+.temp/
+
+# Г╪√Х╬▒Е≥╗И┘█Г╫╝
+.idea/
+.vscode/
+*.code-workspace
+
+# Х╟┐Х╞∙Ф√┤Д╩╤
+debug.log
+yarn-error.log

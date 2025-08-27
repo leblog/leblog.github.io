@@ -3,25 +3,28 @@
 menu:
   Index:
     url: /
-    icon:
+    icon: fa-home
   Tags:
     url: /tags
-    icon:
+    icon: fa-tags
   Categories:
     url: /categories
-    icon:
+    icon: fa-list
   Archives:
     url: /archives
-    icon:
+    icon: fa-archive
   About:
     url: /about
-    icon:
+    icon: fa-address-card
   Friends:
     url: /friends
-    icon:
+    icon: fa-users
   Contact:
     url: /contact
-    icon:
+    icon: fa-volume-control-phone
+  Tools:
+    url: /tools
+    icon:  fa-inbox
 
 # Index cover carousel configuration.
 # 首页封面轮播图的相关配置.
@@ -59,12 +62,14 @@ music:
 # Whether to display the videos.
 # 是否在首页显示视频.
 video:
-  enable: false
+  enable: true
   showTitle: true
   title: 邓紫棋 - 差不多姑娘
-  url: https://upyun.hanlele.cn/blog/source/video/chabuduoguniang.mp4 # 必填
-  pic:
-  thumbnails:
+  url: //player.bilibili.com/player.html?isOutside=true&aid=699929596&bvid=BV1km4y1Y7VD&cid=1167710192&p=1
+  #https://xbeibeix.com/api/bilibili/biliplayer/?url=BV1dS4y1n7VP 
+  # https://player.bilibili.com/player.html?aid=728164053&cid=BV1dS4y1n7VP&page=1&autoplay=0&danmaku=0&high_quality=0 # 必填
+  pic: http://i1.hdslb.com/bfs/archive/92ee15689ada3be147aa0293414f86261e1c60c2.jpg
+  thumbnails: http://i1.hdslb.com/bfs/storyff/n220707a23ezjqiz9fr2wn2x6qqyz3i0_firsti.jpg
   height: # 如：400
   autoplay: true # 是否自动播放
   theme: '#42b983'
@@ -79,8 +84,8 @@ recommend:
 
 # Configure website favicon and LOGO
 # 配置网站favicon和网站LOGO
-favicon: https://upyun.hanlele.cn/blog/source/logo.png
-logo: https://upyun.hanlele.cn/blog/source/logo.png
+favicon: https://wp-cdn.4ce.cn/v2/aTeDpXd.png
+logo: https://wp-cdn.4ce.cn/v2/aTeDpXd.png
 
 # The configuration of the second button in the home banner,
 # including the display name of the button, the font awesome icon, and the hyperlink to the button.
@@ -118,9 +123,9 @@ code:
 # 是否激活文章末尾的打赏功能，默认激活（你替换为的你自己的微信、支付宝二维码图片、或者使用网络图片也可以）.
 reward:
   enable: true
-  title: 写作不易，客官能否打赏一杯奶茶？
-  wechat: https://upyun.hanlele.cn/blog/source/reward/wechat.png
-  alipay: https://upyun.hanlele.cn/blog/source/reward/alipay.jpg
+  title: 写作不易，客官能否打赏一杯Cooffee？
+  wechat: https://wp-cdn.4ce.cn/v2/yUS7sDT.png
+  alipay: https://wp-cdn.4ce.cn/v2/MJ8peBx.png
 
 # Whether to activate the copyright information of the blog and author when copying the post content.
 # minCharNumber: Approve copyright information by copying at least how many characters.
@@ -164,7 +169,7 @@ text:
 # profile in about page, including avatars, career, and personal introductions.
 # 在”关于”页面中配置个人信息，包括头像、职业和个人介绍.
 profile: 
-  avatar: https://upyun.hanlele.cn/blog/source/avatars/xiaole.jpg
+  avatar: https://wp-cdn.4ce.cn/v2/aE31CCB.png
   career: <h1>一个爱折腾的程序员 </h1>
   introduction: 
 
@@ -244,7 +249,7 @@ mySkills:
 myGallery:
   enable: true
   data:
-    - https://upyun.hanlele.cn/blog/source/reward/0.jpg
+    - https://wp-cdn.4ce.cn/v2/VS0fFSz.png
     
 
 # Whether to display post-calender in the `archive` page
@@ -254,12 +259,12 @@ postCalendar: true
 # the Gitalk config，default disabled
 # Gitalk 评论模块的配置，默认为不激活
 gitalk:
-  enable: false
+  enable: true
   owner: leblog
   repo: leblog.github.io
   oauth:
-    clientId: 
-    clientSecret: 
+    clientId: Ov23liwpvtv7XfsKCkXW
+    clientSecret: 364dbe0a734b080fb0559e395442e58f15c4dc31
   admin: leblog
 
 # the Gitment config，default disabled
@@ -288,7 +293,7 @@ livere:
 # To use it, activate the configuration item and set appId and appKey.
 # Valine 评论模块的配置，默认为不激活，如要使用，就请激活该配置项，并设置 appId 和 appKey.
 valine:
-  enable: true
+  enable: false
   appId: YmPE2S3A30K4F45f4v2KMEE3-gzGzoHsz
   appKey: qIRjv9za1uexAgQlRqF8dScd
   notify: false
@@ -334,7 +339,7 @@ googleAnalytics:
 # 使用到的前端库，可按需替换成对应的CDN地址，如果下面未指定具体的版本号，使用最新的版本即可.
 libs:
   css:
-    fontAwesome: /libs/awesome/css/font-awesome.min.css # V4.7.0
+    fontAwesome: /libs/awesome/css/font-awesome.min.css # V6.7.2
     materialize: /libs/materialize/materialize.min.css # 1.0.0
     aos: /libs/aos/aos.css
     animate: /libs/animate/animate.min.css # V3.5.1
@@ -345,7 +350,7 @@ libs:
     jqcloud: /libs/jqcloud/jqcloud.css
     tocbot: /libs/tocbot/tocbot.css
   js:
-    jquery: /libs/jquery/jquery-2.2.0.min.js
+    jquery: /libs/jquery/jquery-3.7.1.min.js
     materialize: /libs/materialize/materialize.min.js # 1.0.0
     masonry: /libs/masonry/masonry.pkgd.min.js # v4.0.0
     aos: /libs/aos/aos.js
@@ -368,54 +373,102 @@ libs:
 # The post featured images that needs to be displayed when there is no image.
 # 无文章特色图片时需要显示的文章特色图片.
 featureImages:  
-  - https://upyun.hanlele.cn/blog/source/featureimages/0.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/1.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/2.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/3.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/4.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/5.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/6.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/7.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/8.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/9.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/10.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/11.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/12.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/13.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/14.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/15.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/16.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/17.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/18.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/19.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/20.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/21.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/22.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/23.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/24.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/25.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/26.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/27.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/28.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/29.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/30.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/31.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/32.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/33.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/34.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/35.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/36.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/37.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/38.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/39.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/40.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/41.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/42.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/43.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/44.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/45.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/46.jpg
-  - https://upyun.hanlele.cn/blog/source/featureimages/47.jpg
+  - https://wp-cdn.4ce.cn/v2/HpbUCi5.jpeg
+  - https://wp-cdn.4ce.cn/v2/oWKM4zI.jpeg
+  - https://wp-cdn.4ce.cn/v2/ANRlK22.jpeg
+  - https://wp-cdn.4ce.cn/v2/rl3FlWL.jpeg
+  - https://wp-cdn.4ce.cn/v2/l1lDyji.jpeg
+  - https://wp-cdn.4ce.cn/v2/DOyj6lh.jpeg
+  - https://wp-cdn.4ce.cn/v2/KDwZO8f.jpeg
+  - https://wp-cdn.4ce.cn/v2/ouHaaal.jpeg
+  - https://wp-cdn.4ce.cn/v2/wtBQUJw.jpeg
+  - https://wp-cdn.4ce.cn/v2/y2ntlnH.jpeg
+  - https://wp-cdn.4ce.cn/v2/iddne6X.jpeg
+  - https://wp-cdn.4ce.cn/v2/3BLqmaP.jpeg
+  - https://wp-cdn.4ce.cn/v2/CZCYe7R.jpeg
+  - https://wp-cdn.4ce.cn/v2/3m4WYCP.jpeg
+  - https://wp-cdn.4ce.cn/v2/fwziXCb.jpeg
+  - https://wp-cdn.4ce.cn/v2/azp4OgR.jpeg
+  - https://wp-cdn.4ce.cn/v2/DK22ElL.jpeg
+  - https://wp-cdn.4ce.cn/v2/2ilj03K.jpeg
+  - https://wp-cdn.4ce.cn/v2/12SY8CQ.jpeg
+  - https://wp-cdn.4ce.cn/v2/7NPjiEl.jpeg
+  - https://wp-cdn.4ce.cn/v2/MnPzei7.jpeg
+  - https://wp-cdn.4ce.cn/v2/mVjKKdm.jpeg
+  - https://wp-cdn.4ce.cn/v2/3AjsJmV.jpeg
+  - https://wp-cdn.4ce.cn/v2/7Aw0Rgx.jpeg
+  - https://wp-cdn.4ce.cn/v2/bWdcX09.jpeg
+  - https://wp-cdn.4ce.cn/v2/s4PB7zj.jpeg
+  - https://wp-cdn.4ce.cn/v2/Ke7cOFz.jpeg
+  - https://wp-cdn.4ce.cn/v2/PkFkFHq.jpeg
+  - https://wp-cdn.4ce.cn/v2/qezDlYK.jpeg
+  - https://wp-cdn.4ce.cn/v2/FJ5aEy4.jpeg
+  - https://wp-cdn.4ce.cn/v2/MKZGh0l.jpeg
+  - https://wp-cdn.4ce.cn/v2/sVibUfz.jpeg
+  - https://wp-cdn.4ce.cn/v2/xuRBq8r.jpeg
+  - https://wp-cdn.4ce.cn/v2/fZIuhXf.jpeg
+  - https://wp-cdn.4ce.cn/v2/MHJC0Sq.jpeg
+  - https://wp-cdn.4ce.cn/v2/HAz9p47.jpeg
+  - https://wp-cdn.4ce.cn/v2/8xozB8N.jpeg
+  - https://wp-cdn.4ce.cn/v2/Pgmzyb2.jpeg
+  - https://wp-cdn.4ce.cn/v2/Qf99e2o.jpeg
+  - https://wp-cdn.4ce.cn/v2/YPsSLd4.jpeg
+  - https://wp-cdn.4ce.cn/v2/QYd4n5r.jpeg
+  - https://wp-cdn.4ce.cn/v2/2UFdm3y.jpeg
+  - https://wp-cdn.4ce.cn/v2/UQOJYth.jpeg
+  - https://wp-cdn.4ce.cn/v2/svNaOB5.jpeg
+  - https://wp-cdn.4ce.cn/v2/CY6RJoX.jpeg
+  - https://wp-cdn.4ce.cn/v2/XT4OFp1.jpeg
+  - https://wp-cdn.4ce.cn/v2/WTQE1w8.jpeg
+  - https://wp-cdn.4ce.cn/v2/BpQYXq3.jpeg
+#  - medias/featureimages/0.jpg
+#  - medias/featureimages/1.jpg
+#  - medias/featureimages/2.jpg
+#  - medias/featureimages/3.jpg
+#  - medias/featureimages/4.jpg
+#  - medias/featureimages/5.jpg
+#  - medias/featureimages/6.jpg
+#  - medias/featureimages/7.jpg
+#  - medias/featureimages/8.jpg
+#  - medias/featureimages/9.jpg
+#  - medias/featureimages/10.jpg
+#  - medias/featureimages/11.jpg
+#  - medias/featureimages/12.jpg
+#  - medias/featureimages/13.jpg
+#  - medias/featureimages/14.jpg
+#  - medias/featureimages/15.jpg
+#  - medias/featureimages/16.jpg
+#  - medias/featureimages/17.jpg
+#  - medias/featureimages/18.jpg
+#  - medias/featureimages/19.jpg
+#  - medias/featureimages/20.jpg
+#  - medias/featureimages/21.jpg
+#  - medias/featureimages/22.jpg
+#  - medias/featureimages/23.jpg
+#  - medias/featureimages/24.jpg
+#  - medias/featureimages/25.jpg
+#  - medias/featureimages/26.jpg
+#  - medias/featureimages/27.jpg
+#  - medias/featureimages/28.jpg
+#  - medias/featureimages/29.jpg
+#  - medias/featureimages/30.jpg
+#  - medias/featureimages/31.jpg
+#  - medias/featureimages/32.jpg
+#  - medias/featureimages/33.jpg
+#  - medias/featureimages/34.jpg
+#  - medias/featureimages/35.jpg
+#  - medias/featureimages/36.jpg
+#  - medias/featureimages/37.jpg
+#  - medias/featureimages/38.jpg
+#  - medias/featureimages/39.jpg
+#  - medias/featureimages/40.jpg
+#  - medias/featureimages/41.jpg
+#  - medias/featureimages/42.jpg
+#  - medias/featureimages/43.jpg
+#  - medias/featureimages/44.jpg
+#  - medias/featureimages/45.jpg
+#  - medias/featureimages/46.jpg
+#  - medias/featureimages/47.jpg
 
 
 # - http://api.btstu.cn/sjbz/?lx=meizi

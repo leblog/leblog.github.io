@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown 在线转 HTML</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked@4.0.0/marked.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/highlight.js@11.5.1/styles/github.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.5.1/lib/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.5.1/lib/languages/python.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#10b981',
+                        dark: '#1e293b',
+                        light: '#f8fafc'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .editor-shadow {
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            }
+            .resize-handle {
+                cursor: col-resize;
+                background-color: #e2e8f0;
+                width: 4px;
+                transition: background-color 0.2s;
+            }
+            .resize-handle:hover {
+                background-color: #94a3b8;
+            }
+            .markdown-preview h1 {
+                font-size: 2em;
+                font-weight: bold;
+                margin-bottom: 0.5em;
+                border-bottom: 1px solid #e5e7eb;
+                padding-bottom: 0.3em;
+            }
+            .markdown-preview h2 {
+                font-size: 1.5em;
+                font-weight: bold;
+                margin-bottom: 0.5em;
+                border-bottom: 1px solid #e5e7eb;
+                padding-bottom: 0.3em;
+            }
+            .markdown-preview h3 {
+                font-size: 1.25em;
+                font-weight: bold;
+                margin-bottom: 0.5em;
+            }
+            .markdown-preview p {
+                margin-bottom: 1em;
+            }
+            .markdown-preview ul, .markdown-preview ol {
+                margin-bottom: 1em;
+                padding-left: 2em;
+            }
+            .markdown-preview ul {
+                list-style-type: disc;
+            }
+            .markdown-preview ol {
+                list-style-type: decimal;
+            }
+            .markdown-preview pre {
+                background-color: #f3f4f6;
+                padding: 1em;
+                border-radius: 0.375rem;
+                margin-bottom: 1em;
+                overflow-x: auto;
+            }
+            .markdown-preview code {
+                font-family: 'Fira Code', monospace;
+                font-size: 0.9em;
+                background-color: #f3f4f6;
+                padding: 0.2em 0.4em;
+                border-radius: 0.25rem;
+            }
+            .markdown-preview pre code {
+                background-color: transparent;
+                padding: 0;
+            }
+            .markdown-preview blockquote {
+                border-left: 4px solid #e5e7eb;
+                padding-left: 1em;
+                margin-left: 0;
+                margin-bottom: 1em;
+                color: #6b7280;
+            }
+            .markdown-preview a {
+                color: #3b82f6;
+                text-decoration: none;
+            }
+            .markdown-preview a:hover {
+                text-decoration: underline;
+            }
+            .markdown-preview img {
+                max-width: 100%;
+                height: auto;
+                margin-bottom: 1em;
+                border-radius: 0.375rem;
+            }
+            .markdown-preview table {
+                border-collapse: collapse;
+                width: 100%;
+                margin-bottom: 1em;
+            }
+            .markdown-preview th, .markdown-preview td {
+                border: 1px solid #e5e7eb;
+                padding: 0.5em 1em;
+                text-align: left;
+            }
+            .markdown-preview th {
+                background-color: #f3f4f6;
+                font-weight: bold;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    <!-- 导航栏 -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa fa-markdown text-primary text-2xl"></i>
+                <h1 class="text-xl font-bold text-dark">Markdown <span class="text-primary">转</span> HTML</h1>
+            </div>
+            <div class="flex space-x-3">
+                <button id="copyBtn" class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-md transition-all duration-200 flex items-center">
+                    <i class="fa fa-clipboard mr-2"></i>复制HTML
+                </button>
+                <button id="clearBtn" class="bg-gray-200 hover:bg-gray-300 text-dark px-4 py-2 rounded-md transition-all duration-200 flex items-center">
+                    <i class="fa fa-trash mr-2"></i>清空
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容区域 -->
+    <main class="flex-grow container mx-auto px-4 py-6">
+        <div class="bg-white rounded-lg shadow-md overflow-hidden h-[calc(100vh-120px)]">
+            <!-- 工具栏 -->
+            <div class="bg-gray-100 border-b border-gray-200 px-4 py-2 flex justify-between items-center">
+                <div class="flex space-x-2">
+                    <button id="boldBtn" class="p-2 hover:bg-gray-200 rounded transition-colors" title="粗体 (Ctrl+B)">
+                        <i class="fa fa-bold"></i>
+                    </button>
+                    <button id="italicBtn" class="p-2 hover:bg-gray-200 rounded transition-colors" title="斜体 (Ctrl+I)">
+                        <i class="fa fa-italic"></i>
+                    </button>
+                    <button id="linkBtn" class="p-2 hover:bg-gray-200 rounded transition-colors" title="链接 (Ctrl+L)">
+                        <i class="fa fa-link"></i>
+                    </button>
+                    <button id="imageBtn" class="p-2 hover:bg-gray-200 rounded transition-colors" title="图片 (Ctrl+P)">
+                        <i class="fa fa-image"></i>
+                    </button>
+                    <button id="headingBtn" class="p-2 hover:bg-gray-200 rounded transition-colors" title="标题 (Ctrl+H)">
+                        <i class="fa fa-header"></i>
+                    </button>
+                    <button id="listBtn" class="p-2 hover:bg-gray-200 rounded transition-colors" title="列表 (Ctrl+U)">
+                        <i class="fa fa-list-ul"></i>
+                    </button>
+                    <button id="codeBtn" class="p-2 hover:bg-gray-200 rounded transition-colors" title="代码块 (Ctrl+K)">
+                        <i class="fa fa-code"></i>
+                    </button>
+                    <button id="quoteBtn" class="p-2 hover:bg-gray-200 rounded transition-colors" title="引用 (Ctrl+Q)">
+                        <i class="fa fa-quote-left"></i>
+                    </button>
+                </div>
+                <div class="flex items-center text-sm text-gray-500">
+                    <span id="charCount">字符数: 0</span>
+                </div>
+            </div>
+            
+            <!-- 编辑器和预览区域 -->
+            <div class="flex h-[calc(100%-56px)]">
+                <!-- Markdown 编辑器 -->
+                <div id="editorContainer" class="flex-grow h-full overflow-hidden">
+                    <div class="relative h-full">
+                        <textarea id="markdownEditor" class="w-full h-full p-4 font-mono text-sm focus:outline-none resize-none" placeholder="在此输入Markdown内容..."># 欢迎使用 Markdown 编辑器
+
+这是一个**在线Markdown转HTML工具**，让你可以实时预览Markdown文本转换后的HTML效果。
+
+## 主要功能
+
+- 实时预览Markdown渲染效果
+- 支持常见的Markdown语法
+- 提供便捷的格式化工具栏
+- 一键复制生成的HTML代码
+
+## 基本语法示例
+
+### 标题
+
+# H1
+## H2
+### H3
+
+### 列表
+
+1. 有序列表项1
+2. 有序列表项2
+3. 有序列表项3
+
+- 无序列表项1
+- 无序列表项2
+- 无序列表项3
+
+### 链接和图片
+
+[百度](https://www.baidu.com)
+
+![示例图片](https://picsum.photos/800/400)
+
+### 代码块def hello_world():
+    print("Hello, World!")
+    # 这是一个Python代码示例
+### 引用
+
+> 这是一段引用文本，可以用来引用他人的话语或段落。
+
+### 表格
+
+| 姓名 | 年龄 | 职业 |
+|------|------|------|
+| 张三 | 28   | 工程师 |
+| 李四 | 32   | 设计师 |
+| 王五 | 45   | 产品经理 |</textarea>
+                        <div class="absolute bottom-2 right-2 text-xs text-gray-400">
+                            <span id="lineCount">1</span> 行
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 分隔条 -->
+                <div id="resizeHandle" class="resize-handle"></div>
+                
+                <!-- 预览区域 -->
+                <div id="previewContainer" class="flex-grow h-full overflow-hidden bg-gray-50">
+                    <div class="h-full overflow-auto p-6 markdown-preview">
+                        <div id="htmlPreview" class="bg-white p-6 rounded-lg shadow-sm min-h-full">
+                            <h1>欢迎使用 Markdown 编辑器</h1>
+                            <p>这是一个<strong>在线Markdown转HTML工具</strong>，让你可以实时预览Markdown文本转换后的HTML效果。</p>
+                            <h2>主要功能</h2>
+                            <ul>
+                                <li>实时预览Markdown渲染效果</li>
+                                <li>支持常见的Markdown语法</li>
+                                <li>提供便捷的格式化工具栏</li>
+                                <li>一键复制生成的HTML代码</li>
+                            </ul>
+                            <h2>基本语法示例</h2>
+                            <h3>标题</h3>
+                            <h1>H1</h1>
+                            <h2>H2</h2>
+                            <h3>H3</h3>
+                            <h3>列表</h3>
+                            <ol>
+                                <li>有序列表项1</li>
+                                <li>有序列表项2</li>
+                                <li>有序列表项3</li>
+                            </ol>
+                            <ul>
+                                <li>无序列表项1</li>
+                                <li>无序列表项2</li>
+                                <li>无序列表项3</li>
+                            </ul>
+                            <h3>链接和图片</h3>
+                            <p><a href="https://www.baidu.com">百度</a></p>
+                            <p><img src="https://picsum.photos/800/400" alt="示例图片"></p>
+                            <h3>代码块</h3>
+                            <pre><code class="language-python">def hello_world():
+    print("Hello, World!")
+    # 这是一个Python代码示例
+</code></pre>
+                            <h3>引用</h3>
+                            <blockquote>
+                                <p>这是一段引用文本，可以用来引用他人的话语或段落。</p>
+                            </blockquote>
+                            <h3>表格</h3>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>姓名</th>
+                                        <th>年龄</th>
+                                        <th>职业</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>张三</td>
+                                        <td>28</td>
+                                        <td>工程师</td>
+                                    </tr>
+                                    <tr>
+                                        <td>李四</td>
+                                        <td>32</td>
+                                        <td>设计师</td>
+                                    </tr>
+                                    <tr>
+                                        <td>王五</td>
+                                        <td>45</td>
+                                        <td>产品经理</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container mx-auto px-4 text-center text-sm">
+            <p>© 2025 Markdown 转 HTML 工具 | 使用 Tailwind CSS v3 和 Marked.js 构建</p>
+        </div>
+    </footer>
+
+    <!-- 复制成功提示 -->
+    <div id="copyNotification" class="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-md shadow-lg transform translate-y-16 opacity-0 transition-all duration-300">
+        <i class="fa fa-check mr-2"></i>HTML 代码已复制到剪贴板
+    </div>
+
+    <script>
+        // 初始化 marked 配置
+        marked.setOptions({
+            highlight: function(code, lang) {
+                if (lang && hljs.getLanguage(lang)) {
+                    return hljs.highlight(code, { language: lang }).value;
+                }
+                return hljs.highlightAuto(code).value;
+            },
+            breaks: true,
+            gfm: true
+        });
+
+        // 获取DOM元素
+        const markdownEditor = document.getElementById('markdownEditor');
+        const htmlPreview = document.getElementById('htmlPreview');
+        const charCount = document.getElementById('charCount');
+        const lineCount = document.getElementById('lineCount');
+        const copyBtn = document.getElementById('copyBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const copyNotification = document.getElementById('copyNotification');
+        const resizeHandle = document.getElementById('resizeHandle');
+        const editorContainer = document.getElementById('editorContainer');
+        const previewContainer = document.getElementById('previewContainer');
+        
+        // 工具栏按钮
+        const boldBtn = document.getElementById('boldBtn');
+        const italicBtn = document.getElementById('italicBtn');
+        const linkBtn = document.getElementById('linkBtn');
+        const imageBtn = document.getElementById('imageBtn');
+        const headingBtn = document.getElementById('headingBtn');
+        const listBtn = document.getElementById('listBtn');
+        const codeBtn = document.getElementById('codeBtn');
+        const quoteBtn = document.getElementById('quoteBtn');
+
+        // 初始编辑器和预览区域的宽度比例
+        let editorRatio = 0.5;
+
+        // 更新编辑器和预览区域的宽度
+        function updateLayout() {
+            const containerWidth = editorContainer.parentElement.offsetWidth;
+            editorContainer.style.width = `${editorRatio * 100}%`;
+            previewContainer.style.width = `${(1 - editorRatio) * 100}%`;
+        }
+
+        // 初始化布局
+        updateLayout();
+
+        // 监听窗口大小变化，更新布局
+        window.addEventListener('resize', updateLayout);
+
+        // 实现分隔条拖动功能
+        let isResizing = false;
+
+        resizeHandle.addEventListener('mousedown', (e) => {
+            isResizing = true;
+            document.body.style.cursor = 'col-resize';
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isResizing) return;
+            
+            const container = editorContainer.parentElement;
+            const containerRect = container.getBoundingClientRect();
+            const containerWidth = containerRect.width;
+            const mouseX = e.clientX - containerRect.left;
+            
+            // 限制最小宽度为20%
+            if (mouseX > containerWidth * 0.2 && mouseX < containerWidth * 0.8) {
+                editorRatio = mouseX / containerWidth;
+                updateLayout();
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isResizing = false;
+            document.body.style.cursor = '';
+        });
+
+        // 更新预览内容
+        function updatePreview() {
+            const markdown = markdownEditor.value;
+            const html = marked.parse(markdown);
+            htmlPreview.innerHTML = html;
+            
+            // 更新字符数和行数
+            charCount.textContent = `字符数: ${markdown.length}`;
+            lineCount.textContent = `${markdown.split('\n').length} 行`;
+            
+            // 对预览区域内的代码块应用语法高亮
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightElement(block);
+            });
+        }
+
+        // 初始更新预览
+        updatePreview();
+
+        // 监听编辑器内容变化，实时更新预览
+        markdownEditor.addEventListener('input', updatePreview);
+
+        // 复制HTML代码到剪贴板
+        copyBtn.addEventListener('click', () => {
+            const htmlContent = htmlPreview.innerHTML;
+            
+            navigator.clipboard.writeText(htmlContent)
+                .then(() => {
+                    // 显示复制成功提示
+                    copyNotification.classList.remove('translate-y-16', 'opacity-0');
+                    copyNotification.classList.add('translate-y-0', 'opacity-100');
+                    
+                    // 3秒后隐藏提示
+                    setTimeout(() => {
+                        copyNotification.classList.remove('translate-y-0', 'opacity-100');
+                        copyNotification.classList.add('translate-y-16', 'opacity-0');
+                    }, 3000);
+                })
+                .catch(err => {
+                    console.error('复制失败: ', err);
+                    alert('复制失败，请手动复制。');
+                });
+        });
+
+        // 清空编辑器和预览
+        clearBtn.addEventListener('click', () => {
+            if (confirm('确定要清空所有内容吗？')) {
+                markdownEditor.value = '';
+                updatePreview();
+            }
+        });
+
+        // 处理键盘快捷键
+        markdownEditor.addEventListener('keydown', (e) => {
+            // Ctrl+B 加粗
+            if (e.ctrlKey && e.key.toLowerCase() === 'b') {
+                e.preventDefault();
+                insertMarkdownSyntax('**', '**', '粗体文本');
+            }
+            
+            // Ctrl+I 斜体
+            if (e.ctrlKey && e.key.toLowerCase() === 'i') {
+                e.preventDefault();
+                insertMarkdownSyntax('*', '*', '斜体文本');
+            }
+            
+            // Ctrl+L 链接
+            if (e.ctrlKey && e.key.toLowerCase() === 'l') {
+                e.preventDefault();
+                insertMarkdownSyntax('[', '](https://)', '链接文本');
+            }
+            
+            // Ctrl+P 图片
+            if (e.ctrlKey && e.key.toLowerCase() === 'p') {
+                e.preventDefault();
+                insertMarkdownSyntax('![', '](https://picsum.photos/800/400)', '图片描述');
+            }
+            
+            // Ctrl+H 标题
+            if (e.ctrlKey && e.key.toLowerCase() === 'h') {
+                e.preventDefault();
+                insertMarkdownSyntax('# ', '', '标题文本');
+            }
+            
+            // Ctrl+K 代码块
+            if (e.ctrlKey && e.key.toLowerCase() === 'k') {
+                e.preventDefault();
+                insertMarkdownSyntax('```python\n', '\n```', 'print("Hello, World!")');
+            }
+            
+            // Ctrl+Q 引用
+            if (e.ctrlKey && e.key.toLowerCase() === 'q') {
+                e.preventDefault();
+                insertMarkdownSyntax('> ', '', '引用文本');
+            }
+            
+            // Ctrl+U 无序列表
+            if (e.ctrlKey && e.key.toLowerCase() === 'u') {
+                e.preventDefault();
+                insertMarkdownSyntax('- ', '', '列表项');
+            }
+        });
+
+        // 工具栏按钮点击事件
+        boldBtn.addEventListener('click', () => insertMarkdownSyntax('**', '**', '粗体文本'));
+        italicBtn.addEventListener('click', () => insertMarkdownSyntax('*', '*', '斜体文本'));
+        linkBtn.addEventListener('click', () => insertMarkdownSyntax('[', '](https://)', '链接文本'));
+        imageBtn.addEventListener('click', () => insertMarkdownSyntax('![', '](https://picsum.photos/800/400)', '图片描述'));
+        headingBtn.addEventListener('click', () => insertMarkdownSyntax('# ', '', '标题文本'));
+        listBtn.addEventListener('click', () => insertMarkdownSyntax('- ', '', '列表项'));
+        codeBtn.addEventListener('click', () => insertMarkdownSyntax('```python\n', '\n```', 'print("Hello, World!")'));
+        quoteBtn.addEventListener('click', () => insertMarkdownSyntax('> ', '', '引用文本'));
+
+        // 在光标位置插入Markdown语法
+        function insertMarkdownSyntax(prefix, suffix, placeholder) {
+            const textarea = markdownEditor;
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const selectedText = textarea.value.substring(start, end);
+            
+            // 如果有选中文本，直接包裹
+            const content = selectedText || placeholder;
+            
+            // 插入新文本
+            textarea.value = 
+                textarea.value.substring(0, start) + 
+                prefix + content + suffix + 
+                textarea.value.substring(end);
+            
+            // 设置光标位置
+            const newCursorPos = selectedText 
+                ? start + prefix.length + selectedText.length + suffix.length 
+                : start + prefix.length + placeholder.length;
+            
+            textarea.focus();
+            textarea.setSelectionRange(newCursorPos, newCursorPos);
+            
+            // 更新预览
+            updatePreview();
+        }
+    </script>
+</body>
+</html>
+    

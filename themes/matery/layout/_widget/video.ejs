@@ -7,13 +7,68 @@
     <% } %>
     <div class="row">
         <div class="col l8 offset-l2 m10 offset-m1 s12">
-            <div id="dplayer" class="dplayer-video"
-                    <% if (theme.video.height) { %> style="height: <%- theme.video.height %>px;"<% } %>></div>
+            <!-- 播放器容器 -->
+            <div class="bilibili-player-container" id="playerContainer">
+            <iframe 
+                id="bilibiliIframe"
+                src="//player.bilibili.com/player.html?isOutside=true&aid=728164053&bvid=BV1dS4y1n7VP&cid=766205505&p=1" 
+                scrolling="no" 
+                border="0" 
+                frameborder="no" 
+                framespacing="0" 
+                allowfullscreen="true"
+            ></iframe>
+            </div>
         </div>
     </div>
 </div>
 
-<script src="<%- theme.libs.js.dplayer %>"></script>
+
+
+
+<script>
+// 视频宽高比（16:9）
+const ASPECT_RATIO = 9 / 16;
+
+// 计算并设置iframe宽高
+function setPlayerSize() {
+  const container = document.getElementById('playerContainer');
+  const iframe = document.getElementById('bilibiliIframe');
+  
+  // 获取容器宽度（自适应父元素）
+  const containerWidth = container.clientWidth;
+  
+  // 计算高度（宽度 × 比例）
+  const containerHeight = containerWidth * ASPECT_RATIO;
+  
+  // 设置iframe宽高
+  iframe.style.width = `${containerWidth}px`;
+  iframe.style.height = `${containerHeight}px`;
+}
+
+// 初始化时执行
+setPlayerSize();
+
+// 监听窗口大小变化，实时调整
+window.addEventListener('resize', setPlayerSize);
+</script>
+
+<style>
+/* 容器样式：限制最大宽度，避免过大 */
+.bilibili-player-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* 移除iframe默认样式干扰 */
+#bilibiliIframe {
+  border: none;
+  display: block; /* 避免底部留白 */
+}
+</style>
+
+<!--<script src="<%- theme.libs.js.dplayer %>"></script>
 <script>
     $(function () {
         new DPlayer({
@@ -31,4 +86,4 @@
             }
         });
     });
-</script>
+</script>-->

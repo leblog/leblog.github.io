@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
     <meta charset="utf-8">
     <meta name="keywords" content="微信小程序与后端SpringBoot通信, 程序员小乐">
 
@@ -20,7 +20,7 @@ https://ngrok.com/download
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>微信小程序与后端SpringBoot通信 | 程序员小乐</title>
-    <link rel="icon" type="image/png" href="https://upyun.hanlele.cn/blog/source/logo.png">
+    <link rel="icon" type="image/png" href="https://wp-cdn.4ce.cn/v2/aTeDpXd.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
@@ -33,11 +33,12 @@ https://ngrok.com/download
         
     </style>
 
-    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+    <script src="/libs/jquery/jquery-3.7.1.min.js"></script>
     <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
 
     <!-- 谷歌广告 -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3969824567415808" crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3969824567415808"
+     crossorigin="anonymous"></script>
 
      <!-- 谷歌分析 -->
      <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -52,7 +53,7 @@ https://ngrok.com/download
 
     
      
-<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
 <link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 <body>
@@ -63,7 +64,7 @@ https://ngrok.com/download
             <div class="brand-logo">
                 <a href="/" class="waves-effect waves-light">
                     
-                    <img src="https://upyun.hanlele.cn/blog/source/logo.png" class="logo-img" alt="LOGO">
+                    <img src="https://wp-cdn.4ce.cn/v2/aTeDpXd.png" class="logo-img" alt="LOGO">
                     
                     <span class="logo-span">程序员小乐</span>
                 </a>
@@ -76,12 +77,16 @@ https://ngrok.com/download
     <li class="hide-on-med-and-down">
         <a href="/" class="waves-effect waves-light">
             
+            <i class="fa fa-home"></i>
+            
             <span>首页</span>
         </a>
     </li>
     
     <li class="hide-on-med-and-down">
         <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
             
             <span>标签</span>
         </a>
@@ -90,12 +95,16 @@ https://ngrok.com/download
     <li class="hide-on-med-and-down">
         <a href="/categories" class="waves-effect waves-light">
             
+            <i class="fa fa-list"></i>
+            
             <span>分类</span>
         </a>
     </li>
     
     <li class="hide-on-med-and-down">
         <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
             
             <span>归档</span>
         </a>
@@ -104,12 +113,16 @@ https://ngrok.com/download
     <li class="hide-on-med-and-down">
         <a href="/about" class="waves-effect waves-light">
             
+            <i class="fa fa-address-card"></i>
+            
             <span>关于</span>
         </a>
     </li>
     
     <li class="hide-on-med-and-down">
         <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-users"></i>
             
             <span>友情链接</span>
         </a>
@@ -118,7 +131,18 @@ https://ngrok.com/download
     <li class="hide-on-med-and-down">
         <a href="/contact" class="waves-effect waves-light">
             
+            <i class="fa fa-volume-control-phone"></i>
+            
             <span>留言板</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tools" class="waves-effect waves-light">
+            
+            <i class="fa fa-inbox"></i>
+            
+            <span>Tools</span>
         </a>
     </li>
     
@@ -133,12 +157,12 @@ https://ngrok.com/download
 
     <div class="mobile-head bg-color">
         
-        <img src="https://upyun.hanlele.cn/blog/source/logo.png" class="logo-img circle responsive-img">
+        <img src="https://wp-cdn.4ce.cn/v2/aTeDpXd.png" class="logo-img circle responsive-img">
         
         <div class="logo-name">程序员小乐</div>
         <div class="logo-desc">
             
-            计算机科学与技术 | 软件技术
+            计算机科学与技术
             
         </div>
     </div>
@@ -150,7 +174,7 @@ https://ngrok.com/download
         <li>
             <a href="/" class="waves-effect waves-light">
                 
-                <i class="fa fa-fw fa-link"></i>
+                <i class="fa fa-fw fa-home"></i>
                 
                 首页
             </a>
@@ -159,7 +183,7 @@ https://ngrok.com/download
         <li>
             <a href="/tags" class="waves-effect waves-light">
                 
-                <i class="fa fa-fw fa-link"></i>
+                <i class="fa fa-fw fa-tags"></i>
                 
                 标签
             </a>
@@ -168,7 +192,7 @@ https://ngrok.com/download
         <li>
             <a href="/categories" class="waves-effect waves-light">
                 
-                <i class="fa fa-fw fa-link"></i>
+                <i class="fa fa-fw fa-list"></i>
                 
                 分类
             </a>
@@ -177,7 +201,7 @@ https://ngrok.com/download
         <li>
             <a href="/archives" class="waves-effect waves-light">
                 
-                <i class="fa fa-fw fa-link"></i>
+                <i class="fa fa-fw fa-archive"></i>
                 
                 归档
             </a>
@@ -186,7 +210,7 @@ https://ngrok.com/download
         <li>
             <a href="/about" class="waves-effect waves-light">
                 
-                <i class="fa fa-fw fa-link"></i>
+                <i class="fa fa-fw fa-address-card"></i>
                 
                 关于
             </a>
@@ -195,7 +219,7 @@ https://ngrok.com/download
         <li>
             <a href="/friends" class="waves-effect waves-light">
                 
-                <i class="fa fa-fw fa-link"></i>
+                <i class="fa fa-fw fa-users"></i>
                 
                 友情链接
             </a>
@@ -204,9 +228,18 @@ https://ngrok.com/download
         <li>
             <a href="/contact" class="waves-effect waves-light">
                 
-                <i class="fa fa-fw fa-link"></i>
+                <i class="fa fa-fw fa-volume-control-phone"></i>
                 
                 留言板
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tools" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-inbox"></i>
+                
+                Tools
             </a>
         </li>
         
@@ -301,7 +334,7 @@ https://ngrok.com/download
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://upyun.hanlele.cn/blog/source/featureimages/37.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://wp-cdn.4ce.cn/v2/YPsSLd4.jpeg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -422,7 +455,7 @@ https://ngrok.com/download
                             <span class="chip bg-color">SpringBoot</span>
                         </a>
                         
-                        <a href="/tags/微信小程序/" target="_blank">
+                        <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" target="_blank">
                             <span class="chip bg-color">微信小程序</span>
                         </a>
                         
@@ -483,19 +516,19 @@ https://ngrok.com/download
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="微信小程序与后端SpringBoot通信"><a href="#微信小程序与后端SpringBoot通信" class="headerlink" title="微信小程序与后端SpringBoot通信"></a>微信小程序与后端SpringBoot通信</h1><h3 id="案例概述"><a href="#案例概述" class="headerlink" title="案例概述"></a>案例概述</h3><p>微信小程序请求后端SpirngBoot,中间使用Ngrok做内网穿透.<br><img src="https://note.youdao.com/yws/public/resource/a7b28e89afc8e429d20c7293f6faa483/xmlnote/CE885778600E42938491F27E91BC8E79/2661" alt></p>
+                <h1 id="微信小程序与后端SpringBoot通信"><a href="#微信小程序与后端SpringBoot通信" class="headerlink" title="微信小程序与后端SpringBoot通信"></a>微信小程序与后端SpringBoot通信</h1><h3 id="案例概述"><a href="#案例概述" class="headerlink" title="案例概述"></a>案例概述</h3><p>微信小程序请求后端SpirngBoot,中间使用Ngrok做内网穿透.<br><img src="https://note.youdao.com/yws/public/resource/a7b28e89afc8e429d20c7293f6faa483/xmlnote/CE885778600E42938491F27E91BC8E79/2661" alt=""></p>
 <h3 id="内网穿透Ngrok配置"><a href="#内网穿透Ngrok配置" class="headerlink" title="内网穿透Ngrok配置"></a>内网穿透Ngrok配置</h3><h3 id="下载Ngrok"><a href="#下载Ngrok" class="headerlink" title="下载Ngrok"></a>下载Ngrok</h3><blockquote>
 <p><a href="https://ngrok.com/download" target="_blank" rel="noopener">https://ngrok.com/download</a></p>
 </blockquote>
 <h3 id="注册并配置Ngrok认证"><a href="#注册并配置Ngrok认证" class="headerlink" title="注册并配置Ngrok认证"></a>注册并配置Ngrok认证</h3><p>注册完Ngrok之后进入个人主页在Auth页面找到自己的验证码,然后打开Ngrok认证即可</p>
-<p><img src="https://s2.ax1x.com/2019/07/03/ZtnNxe.png" alt></p>
+<p><img src="https://s2.ax1x.com/2019/07/03/ZtnNxe.png" alt=""></p>
 <h3 id="配置端口和协议"><a href="#配置端口和协议" class="headerlink" title="配置端口和协议"></a>配置端口和协议</h3><p>我这里的端口是8181,因为我Tomcat的端口是8181\</p>
 <blockquote>
 <p>ngrok http 8181</p>
 </blockquote>
 <h3 id="Ngrok配置完成"><a href="#Ngrok配置完成" class="headerlink" title="Ngrok配置完成"></a>Ngrok配置完成</h3><p>配置完成之后Ngrok会为我们提供两个链接,一个是http协议的一个市https协议的.</p>
 <p>Ngrok的作用说白了就是将你本地某个端口上运行的服务暴露在了公网上.</p>
-<p>这里的穿透指的就是将内网中的服务穿过防火墙.<br><img src="https://note.youdao.com/yws/public/resource/a7b28e89afc8e429d20c7293f6faa483/xmlnote/ED9712F8F49443C1B0A9D65EAA8B6E8A/2665" alt></p>
+<p>这里的穿透指的就是将内网中的服务穿过防火墙.<br><img src="https://note.youdao.com/yws/public/resource/a7b28e89afc8e429d20c7293f6faa483/xmlnote/ED9712F8F49443C1B0A9D65EAA8B6E8A/2665" alt=""></p>
 <h3 id="后端SpringBoot"><a href="#后端SpringBoot" class="headerlink" title="后端SpringBoot"></a>后端SpringBoot</h3><h3 id="Controller"><a href="#Controller" class="headerlink" title="Controller"></a>Controller</h3><p>接收微信小程序发来的请求,并根据请求做出响应</p>
 <pre><code>package le.controll;
 
@@ -700,10 +733,10 @@ Page({
     })
   }
 
-})</code></pre><h3 id="完整的流程"><a href="#完整的流程" class="headerlink" title="完整的流程"></a>完整的流程</h3><p><img src="https://note.youdao.com/yws/public/resource/a7b28e89afc8e429d20c7293f6faa483/xmlnote/7DA9DB9E98644776B0AD870AAAC8523C/2667" alt></p>
-<h3 id="特别提醒"><a href="#特别提醒" class="headerlink" title="特别提醒"></a>特别提醒</h3><p>因为我们使用的是Ngrok做的内网穿透,微信小程序默认识别出Ngrok的接口时非法的.<br><img src="https://note.youdao.com/yws/public/resource/a7b28e89afc8e429d20c7293f6faa483/xmlnote/1A5B10B7B372467BA836F71645423091/2669" alt></p>
+})</code></pre><h3 id="完整的流程"><a href="#完整的流程" class="headerlink" title="完整的流程"></a>完整的流程</h3><p><img src="https://note.youdao.com/yws/public/resource/a7b28e89afc8e429d20c7293f6faa483/xmlnote/7DA9DB9E98644776B0AD870AAAC8523C/2667" alt=""></p>
+<h3 id="特别提醒"><a href="#特别提醒" class="headerlink" title="特别提醒"></a>特别提醒</h3><p>因为我们使用的是Ngrok做的内网穿透,微信小程序默认识别出Ngrok的接口时非法的.<br><img src="https://note.youdao.com/yws/public/resource/a7b28e89afc8e429d20c7293f6faa483/xmlnote/1A5B10B7B372467BA836F71645423091/2669" alt=""></p>
 <p>这时候我们就必须要<strong>设置不校验合法域名</strong></p>
-<p><img src="https://note.youdao.com/yws/public/resource/a7b28e89afc8e429d20c7293f6faa483/xmlnote/5C3B2976BF574C7780F48218C16B37B3/2671" alt></p>
+<p><img src="https://note.youdao.com/yws/public/resource/a7b28e89afc8e429d20c7293f6faa483/xmlnote/5C3B2976BF574C7780F48218C16B37B3/2671" alt=""></p>
 
             </div>
             <hr />
@@ -808,7 +841,7 @@ Page({
     <div id="rewardModal" class="modal">
         <div class="modal-content">
             <a class="close modal-close"><i class="fa fa-close"></i></a>
-            <h4 class="reward-title">写作不易，客官能否打赏一杯奶茶？</h4>
+            <h4 class="reward-title">写作不易，客官能否打赏一杯Cooffee？</h4>
             <div class="reward-content">
                 <div class="reward-tabs">
                     <ul class="tabs row">
@@ -816,10 +849,10 @@ Page({
                         <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
                     </ul>
                     <div id="alipay">
-                        <img src="https://upyun.hanlele.cn/blog/source/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                        <img src="https://wp-cdn.4ce.cn/v2/MJ8peBx.png" class="reward-img" alt="支付宝打赏二维码">
                     </div>
                     <div id="wechat">
-                        <img src="https://upyun.hanlele.cn/blog/source/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                        <img src="https://wp-cdn.4ce.cn/v2/yUS7sDT.png" class="reward-img" alt="微信打赏二维码">
                     </div>
                 </div>
             </div>
@@ -853,7 +886,7 @@ Page({
         </p>
         
             <div class="center-align">
-                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank">
                     <img alt=""
                          style="border-width:0"
                          src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
@@ -868,7 +901,7 @@ Page({
                rel="cc:attributionURL">
                 小乐
             </a> 采用
-            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+            <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank">
                 知识共享署名 4.0 国际许可协议
             </a>进行许可。
         
@@ -897,274 +930,34 @@ Page({
     data-full-width-responsive="true"></ins>
     
     
+    <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
 
-    
-
-    
-
-    
-
-    
-    <style>
-    .valine-card {
-        margin: 1.5rem auto;
-    }
-
-    .valine-card .card-content {
-        padding: 20px 20px 5px 20px;
-    }
-
-    #vcomments input[type=text],
-    #vcomments input[type=email],
-    #vcomments input[type=url],
-    #vcomments textarea {
-        box-sizing: border-box;
-    }
-
-    #vcomments p {
-        margin: 2px 2px 10px;
-        font-size: 1.05rem;
-        line-height: 1.78rem;
-    }
-
-    #vcomments blockquote p {
-        text-indent: 0.2rem;
-    }
-
-    #vcomments a {
-        padding: 0 2px;
-        color: #42b983;
-        font-weight: 500;
-        text-decoration: underline;
-    }
-
-    #vcomments img {
-        max-width: 100%;
-        height: auto;
-        cursor: pointer;
-    }
-
-    #vcomments ol li {
-        list-style-type: decimal;
-    }
-
-    #vcomments ol,
-    ul {
-        display: block;
-        padding-left: 2em;
-        word-spacing: 0.05rem;
-    }
-
-    #vcomments ul li,
-    ol li {
-        display: list-item;
-        line-height: 1.8rem;
-        font-size: 1rem;
-    }
-
-    #vcomments ul li {
-        list-style-type: disc;
-    }
-
-    #vcomments ul ul li {
-        list-style-type: circle;
-    }
-
-    #vcomments table, th, td {
-        padding: 12px 13px;
-        border: 1px solid #dfe2e5;
-    }
-
-    #vcomments table, th, td {
-        border: 0;
-    }
-
-    table tr:nth-child(2n), thead {
-        background-color: #fafafa;
-    }
-
-    #vcomments table th {
-        background-color: #f2f2f2;
-        min-width: 80px;
-    }
-
-    #vcomments table td {
-        min-width: 80px;
-    }
-
-    #vcomments h1 {
-        font-size: 1.85rem;
-        font-weight: bold;
-        line-height: 2.2rem;
-    }
-
-    #vcomments h2 {
-        font-size: 1.65rem;
-        font-weight: bold;
-        line-height: 1.9rem;
-    }
-
-    #vcomments h3 {
-        font-size: 1.45rem;
-        font-weight: bold;
-        line-height: 1.7rem;
-    }
-
-    #vcomments h4 {
-        font-size: 1.25rem;
-        font-weight: bold;
-        line-height: 1.5rem;
-    }
-
-    #vcomments h5 {
-        font-size: 1.1rem;
-        font-weight: bold;
-        line-height: 1.4rem;
-    }
-
-    #vcomments h6 {
-        font-size: 1rem;
-        line-height: 1.3rem;
-    }
-
-    #vcomments p {
-        font-size: 1rem;
-        line-height: 1.5rem;
-    }
-
-    #vcomments hr {
-        margin: 12px 0;
-        border: 0;
-        border-top: 1px solid #ccc;
-    }
-
-    #vcomments blockquote {
-        margin: 15px 0;
-        border-left: 5px solid #42b983;
-        padding: 1rem 0.8rem 0.3rem 0.8rem;
-        color: #666;
-        background-color: rgba(66, 185, 131, .1);
-    }
-
-    #vcomments pre {
-        font-family: monospace, monospace;
-        padding: 1.2em;
-        margin: .5em 0;
-        background: #272822;
-        overflow: auto;
-        border-radius: 0.3em;
-        tab-size: 4;
-    }
-
-    #vcomments code {
-        font-family: monospace, monospace;
-        padding: 1px 3px;
-        font-size: 0.92rem;
-        color: #e96900;
-        background-color: #f8f8f8;
-        border-radius: 2px;
-    }
-
-    #vcomments pre code {
-        font-family: monospace, monospace;
-        padding: 0;
-        color: #e8eaf6;
-        background-color: #272822;
-    }
-
-    #vcomments pre[class*="language-"] {
-        padding: 1.2em;
-        margin: .5em 0;
-    }
-
-    #vcomments code[class*="language-"],
-    pre[class*="language-"] {
-        color: #e8eaf6;
-    }
-
-    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
-        position: inherit;
-        margin-left: -1.3rem;
-        margin-right: 0.4rem;
-        margin-top: -1px;
-        vertical-align: middle;
-        left: unset;
-        visibility: visible;
-    }
-
-    #vcomments b,
-    strong {
-        font-weight: bold;
-    }
-
-    #vcomments dfn {
-        font-style: italic;
-    }
-
-    #vcomments small {
-        font-size: 85%;
-    }
-
-    #vcomments cite {
-        font-style: normal;
-    }
-
-    #vcomments mark {
-        background-color: #fcf8e3;
-        padding: .2em;
-    }
-
-    #vcomments table, th, td {
-        padding: 12px 13px;
-        border: 1px solid #dfe2e5;
-    }
-
-    table tr:nth-child(2n), thead {
-        background-color: #fafafa;
-    }
-
-    #vcomments table th {
-        background-color: #f2f2f2;
-        min-width: 80px;
-    }
-
-    #vcomments table td {
-        min-width: 80px;
-    }
-
-    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
-        position: inherit;
-        margin-left: -1.3rem;
-        margin-right: 0.4rem;
-        margin-top: -1px;
-        vertical-align: middle;
-        left: unset;
-        visibility: visible;
-    }
-</style>
-
-<div class="card valine-card" data-aos="fade-up">
-    <div id="vcomments" class="card-content"></div>
+<div class="card gitalk-card" data-aos="fade-up">
+    <div id="gitalk-container" class="card-content"></div>
 </div>
 
-<script src="/libs/valine/av-min.js"></script>
-<script src="/libs/valine/Valine.min.js"></script>
-<!-- <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script> -->
-
+<script src="/libs/gitalk/gitalk.min.js"></script>
 <script>
-    new Valine({
-        el: '#vcomments',
-        appId: 'YmPE2S3A30K4F45f4v2KMEE3-gzGzoHsz',
-        appKey: 'qIRjv9za1uexAgQlRqF8dScd',
-        notify: 'false' === 'true',
-        verify: 'false' === 'true',
-        visitor: 'false' === 'true',
-        avatar: 'wavatar',
-        pageSize: '10',
-        lang: 'zh-cn',
-        placeholder: '如果你没有GitHub账号，还可以在这里评论啦！'
+    let gitalk = new Gitalk({
+        clientID: 'Ov23liwpvtv7XfsKCkXW',
+        clientSecret: '364dbe0a734b080fb0559e395442e58f15c4dc31',
+        repo: 'leblog.github.io',
+        owner: 'leblog',
+        admin: "leblog",
+        id: '2019/02/03/wei-xin-xiao-cheng-xu-yu-hou-duan-springboot-tong-xin/',
+        distractionFreeMode: false  // Facebook-like distraction free mode
     });
+
+    gitalk.render('gitalk-container');
 </script>
+    
+
+    
+
+    
+
+    
 
     
 
@@ -1181,7 +974,7 @@ Page({
                     <div class="card-image">
                         
                         
-                        <img src="https://upyun.hanlele.cn/blog/source/featureimages/14.jpg" class="responsive-img" alt="通过Python爬取链家所有房源和小区">
+                        <img src="https://wp-cdn.4ce.cn/v2/CZCYe7R.jpeg" class="responsive-img" alt="通过Python爬取链家所有房源和小区">
                         
                         <span class="card-title">通过Python爬取链家所有房源和小区</span>
                     </div>
@@ -1202,7 +995,7 @@ Page({
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Python爬虫/" class="post-category" target="_blank">
+                            <a href="/categories/Python%E7%88%AC%E8%99%AB/" class="post-category" target="_blank">
                                     Python爬虫
                                 </a>
                             
@@ -1217,7 +1010,7 @@ Page({
                         <span class="chip bg-color">Python</span>
                     </a>
                     
-                    <a href="/tags/Python爬虫/" target="_blank">
+                    <a href="/tags/Python%E7%88%AC%E8%99%AB/" target="_blank">
                         <span class="chip bg-color">Python爬虫</span>
                     </a>
                     
@@ -1236,7 +1029,7 @@ Page({
                     <div class="card-image">
                         
                         
-                        <img src="https://upyun.hanlele.cn/blog/source/featureimages/29.jpg" class="responsive-img" alt="你如何理解用户痛点">
+                        <img src="https://wp-cdn.4ce.cn/v2/sVibUfz.jpeg" class="responsive-img" alt="你如何理解用户痛点">
                         
                         <span class="card-title">你如何理解用户痛点</span>
                     </div>
@@ -1257,7 +1050,7 @@ Page({
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/随笔/" class="post-category" target="_blank">
+                            <a href="/categories/%E9%9A%8F%E7%AC%94/" class="post-category" target="_blank">
                                     随笔
                                 </a>
                             
@@ -1268,7 +1061,7 @@ Page({
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/随笔/" target="_blank">
+                    <a href="/tags/%E9%9A%8F%E7%AC%94/" target="_blank">
                         <span class="chip bg-color">随笔</span>
                     </a>
                     
@@ -1325,6 +1118,11 @@ Page({
             <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
             <div id="toc-content"></div>
         </div>
+        <!--广告图片-->
+        <div class="expanded col l3 hide-on-med-and-down">
+            <img src="https://wp-cdn.4ce.cn/v2/CY6RJoX.jpeg" alt="">
+        </div>
+
     </div>
 
     <!-- 插入谷歌广告 目录-->
@@ -1426,26 +1224,20 @@ Page({
 </main>
 
 
-    <footer class="page-footer bg-color">
+    <!--   
+<ins class="adsbygoogle"
+style="display:block"
+data-ad-client="ca-pub-3969824567415808"
+data-ad-slot="5525027918"
+data-ad-format="auto"
+data-full-width-responsive="true"></ins>-->
+<footer class="page-footer bg-color">
     <div class="container row center-align">
         <div class="col s12 m8 l8 copy-right">
-            &copy; 2021 程序员小乐. All Rights Reserved.
-            
-            <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral">
-                <image width="10%" src="https://p.upyun.com/demo/tmp/AwUtv8f1.png"></image>
-                &nbsp;提供CDN加速/云存储服务&nbsp;
-
-            </a>
-            <!-- 插入谷歌广告 页脚-->
-            <ins class="adsbygoogle"
-                style="display:block"
-                data-ad-client="ca-pub-3969824567415808"
-                data-ad-slot="5525027918"
-                data-ad-format="auto"
-                data-full-width-responsive="true"></ins>
+            &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">153.3k</span>
+            <span class="white-color">154.8k</span>
             
 
             <br>

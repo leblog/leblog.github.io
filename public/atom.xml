@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://leblog.github.io/"/>
-  <updated>2022-06-19T01:32:46.602Z</updated>
+  <updated>2025-08-19T09:48:48.620Z</updated>
   <id>https://leblog.github.io/</id>
   
   <author>
@@ -17,11 +17,62 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>人们以为自己在思考，其实是在重新编排自己的偏见。</title>
+    <link href="https://leblog.github.io/2023/03/02/nan-huai-jin-jing-dian-yu-lu-copy/"/>
+    <id>https://leblog.github.io/2023/03/02/nan-huai-jin-jing-dian-yu-lu-copy/</id>
+    <published>2023-03-02T09:25:56.000Z</published>
+    <updated>2025-08-19T09:48:48.620Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;人们以为自己在思考，其实是在重新编排自己的偏见。&lt;/p&gt;
+
+        
+      
+    
+    </summary>
+    
+    
+      <category term="经典语录" scheme="https://leblog.github.io/tags/%E7%BB%8F%E5%85%B8%E8%AF%AD%E5%BD%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Docker虚拟化技术的历史、现状与发展趋势</title>
+    <link href="https://leblog.github.io/2022/01/30/docker/"/>
+    <id>https://leblog.github.io/2022/01/30/docker/</id>
+    <published>2022-01-30T13:49:53.000Z</published>
+    <updated>2025-08-15T04:01:01.801Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h3 id=&quot;Docker虚拟化技术的历史、现状与发展趋势&quot;&gt;&lt;a href=&quot;#Docker虚拟化技术的历史、现状与发展趋势&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="docker" scheme="https://leblog.github.io/categories/docker/"/>
+    
+    
+      <category term="docker" scheme="https://leblog.github.io/tags/docker/"/>
+    
+  </entry>
+  
+  <entry>
     <title>ES6参考手册简化版</title>
     <link href="https://leblog.github.io/2021/08/18/es6-can-kao-shou-ce-jian-hua-ban/"/>
     <id>https://leblog.github.io/2021/08/18/es6-can-kao-shou-ce-jian-hua-ban/</id>
     <published>2021-08-18T11:43:49.000Z</published>
-    <updated>2022-06-19T01:32:46.602Z</updated>
+    <updated>2025-04-29T03:22:13.152Z</updated>
     
     <summary type="html">
     
@@ -50,7 +101,7 @@
     <link href="https://leblog.github.io/2021/08/15/html-css-js-can-kao-shou-ce/"/>
     <id>https://leblog.github.io/2021/08/15/html-css-js-can-kao-shou-ce/</id>
     <published>2021-08-15T11:20:30.000Z</published>
-    <updated>2022-06-19T01:32:46.604Z</updated>
+    <updated>2025-04-29T03:22:13.153Z</updated>
     
     <summary type="html">
     
@@ -82,7 +133,7 @@
     <link href="https://leblog.github.io/2021/08/12/vue-mian-shi-ti/"/>
     <id>https://leblog.github.io/2021/08/12/vue-mian-shi-ti/</id>
     <published>2021-08-12T04:28:30.000Z</published>
-    <updated>2022-06-19T01:32:46.613Z</updated>
+    <updated>2025-04-29T03:22:13.155Z</updated>
     
     <summary type="html">
     
@@ -110,7 +161,7 @@
     <link href="https://leblog.github.io/2021/07/30/shen-du-si-kao-zheng-jiu-di-xiao-qin-fen/"/>
     <id>https://leblog.github.io/2021/07/30/shen-du-si-kao-zheng-jiu-di-xiao-qin-fen/</id>
     <published>2021-07-30T14:51:05.000Z</published>
-    <updated>2022-06-19T01:32:46.630Z</updated>
+    <updated>2025-04-29T03:22:13.160Z</updated>
     
     <summary type="html">
     
@@ -138,7 +189,7 @@
     <link href="https://leblog.github.io/2021/07/30/git-mo-ren-bian-ji-qi-she-zhi/"/>
     <id>https://leblog.github.io/2021/07/30/git-mo-ren-bian-ji-qi-she-zhi/</id>
     <published>2021-07-30T14:41:23.000Z</published>
-    <updated>2022-06-19T01:32:46.603Z</updated>
+    <updated>2025-04-29T03:22:13.152Z</updated>
     
     <summary type="html">
     
@@ -166,7 +217,7 @@
     <link href="https://leblog.github.io/2021/07/29/fen-xi-github-tui-song-yi-ji-fang-wen-github-man-de-yuan-yin/"/>
     <id>https://leblog.github.io/2021/07/29/fen-xi-github-tui-song-yi-ji-fang-wen-github-man-de-yuan-yin/</id>
     <published>2021-07-29T14:49:54.000Z</published>
-    <updated>2022-06-19T01:32:46.624Z</updated>
+    <updated>2025-04-29T03:22:13.158Z</updated>
     
     <summary type="html">
     
@@ -194,7 +245,7 @@
     <link href="https://leblog.github.io/2021/06/30/win10-ju-yu-wang-ji-gong-xiang-jiao-cheng-nei-han-xiang-xi-tu-wen/"/>
     <id>https://leblog.github.io/2021/06/30/win10-ju-yu-wang-ji-gong-xiang-jiao-cheng-nei-han-xiang-xi-tu-wen/</id>
     <published>2021-06-30T15:13:37.000Z</published>
-    <updated>2022-06-19T01:32:46.614Z</updated>
+    <updated>2025-04-29T03:22:13.155Z</updated>
     
     <summary type="html">
     
@@ -220,7 +271,7 @@
     <link href="https://leblog.github.io/2021/06/26/windows10-an-zhuang-windows-terminal-omyzsh/"/>
     <id>https://leblog.github.io/2021/06/26/windows10-an-zhuang-windows-terminal-omyzsh/</id>
     <published>2021-06-26T04:23:52.000Z</published>
-    <updated>2022-06-19T01:32:46.614Z</updated>
+    <updated>2025-04-29T03:22:13.155Z</updated>
     
     <summary type="html">
     
@@ -246,7 +297,7 @@
     <link href="https://leblog.github.io/2021/06/01/git-cao-zuo-liu-cheng/"/>
     <id>https://leblog.github.io/2021/06/01/git-cao-zuo-liu-cheng/</id>
     <published>2021-06-01T14:43:53.000Z</published>
-    <updated>2022-06-19T01:32:46.614Z</updated>
+    <updated>2025-04-29T03:22:13.155Z</updated>
     
     <summary type="html">
     
@@ -279,7 +330,7 @@
     <link href="https://leblog.github.io/2021/05/26/github-pr-he-bing-hou-zi-dong-shan-chu-xiang-ying-de-fen-zhi/"/>
     <id>https://leblog.github.io/2021/05/26/github-pr-he-bing-hou-zi-dong-shan-chu-xiang-ying-de-fen-zhi/</id>
     <published>2021-05-26T08:20:54.000Z</published>
-    <updated>2022-06-19T01:32:46.603Z</updated>
+    <updated>2025-04-29T03:22:13.152Z</updated>
     
     <summary type="html">
     
@@ -305,7 +356,7 @@
     <link href="https://leblog.github.io/2021/05/25/jin-yong-chrome-huan-cun-gong-neng/"/>
     <id>https://leblog.github.io/2021/05/25/jin-yong-chrome-huan-cun-gong-neng/</id>
     <published>2021-05-25T09:35:23.000Z</published>
-    <updated>2022-06-19T01:32:46.630Z</updated>
+    <updated>2025-04-29T03:22:13.160Z</updated>
     
     <summary type="html">
     
@@ -331,7 +382,7 @@
     <link href="https://leblog.github.io/2021/05/24/vue-he-react-de-qu-bie/"/>
     <id>https://leblog.github.io/2021/05/24/vue-he-react-de-qu-bie/</id>
     <published>2021-05-24T11:15:23.000Z</published>
-    <updated>2022-06-19T01:32:46.612Z</updated>
+    <updated>2025-04-29T03:22:13.155Z</updated>
     
     <summary type="html">
     
@@ -359,7 +410,7 @@
     <link href="https://leblog.github.io/2021/05/10/win11-an-zhuang-jiao-cheng/"/>
     <id>https://leblog.github.io/2021/05/10/win11-an-zhuang-jiao-cheng/</id>
     <published>2021-05-10T14:46:11.000Z</published>
-    <updated>2022-06-19T01:32:46.621Z</updated>
+    <updated>2025-04-29T03:22:13.157Z</updated>
     
     <summary type="html">
     
@@ -387,7 +438,7 @@
     <link href="https://leblog.github.io/2020/08/07/hexo-fa-sheng-error-spawn-failed-cuo-wu-de-jie-jue-fang-fa/"/>
     <id>https://leblog.github.io/2020/08/07/hexo-fa-sheng-error-spawn-failed-cuo-wu-de-jie-jue-fang-fa/</id>
     <published>2020-08-07T11:46:11.000Z</published>
-    <updated>2022-06-19T01:32:46.620Z</updated>
+    <updated>2025-04-29T03:22:13.157Z</updated>
     
     <summary type="html">
     
@@ -413,7 +464,7 @@
     <link href="https://leblog.github.io/2020/07/30/ti-wen-de-zhi-hui/"/>
     <id>https://leblog.github.io/2020/07/30/ti-wen-de-zhi-hui/</id>
     <published>2020-07-30T15:15:25.000Z</published>
-    <updated>2022-06-19T01:32:46.629Z</updated>
+    <updated>2025-04-29T03:22:13.160Z</updated>
     
     <summary type="html">
     
@@ -439,7 +490,7 @@
     <link href="https://leblog.github.io/2020/07/12/nginx-de-shi-yong/"/>
     <id>https://leblog.github.io/2020/07/12/nginx-de-shi-yong/</id>
     <published>2020-07-12T09:15:16.000Z</published>
-    <updated>2022-06-19T01:32:46.621Z</updated>
+    <updated>2025-04-29T03:22:13.157Z</updated>
     
     <summary type="html">
     
@@ -447,7 +498,7 @@
       
         
         
-          &lt;p&gt;&lt;img src=&quot;http://nginx.org/nginx.png&quot; alt&gt;&lt;/p&gt;
+          &lt;p&gt;&lt;img src=&quot;http://nginx.org/nginx.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;h3 id=&quot;1-Nginx是什么？&quot;&gt;&lt;a href=&quot;#1-Nginx是什么？&quot; class=&quot;headerlink&quot;
         
       
@@ -464,7 +515,7 @@
     <link href="https://leblog.github.io/2020/06/30/su-dong-po-ren-sheng-shang-xin-shi-liu-jian-le-shi/"/>
     <id>https://leblog.github.io/2020/06/30/su-dong-po-ren-sheng-shang-xin-shi-liu-jian-le-shi/</id>
     <published>2020-06-30T15:12:13.000Z</published>
-    <updated>2022-06-19T01:32:46.631Z</updated>
+    <updated>2025-04-29T03:22:13.160Z</updated>
     
     <summary type="html">
     
@@ -499,7 +550,7 @@
     <link href="https://leblog.github.io/2020/06/30/ru-he-zheng-que-de-shi-yong-bai-du-jing-zhun-sou-suo/"/>
     <id>https://leblog.github.io/2020/06/30/ru-he-zheng-que-de-shi-yong-bai-du-jing-zhun-sou-suo/</id>
     <published>2020-06-30T14:47:48.000Z</published>
-    <updated>2022-06-19T01:32:46.628Z</updated>
+    <updated>2025-04-29T03:22:13.159Z</updated>
     
     <summary type="html">
     
@@ -519,57 +570,6 @@
       <category term="SEO" scheme="https://leblog.github.io/tags/SEO/"/>
     
       <category term="精准搜索" scheme="https://leblog.github.io/tags/%E7%B2%BE%E5%87%86%E6%90%9C%E7%B4%A2/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Nginx反向代理</title>
-    <link href="https://leblog.github.io/2020/06/14/nginx-fan-xiang-dai-li/"/>
-    <id>https://leblog.github.io/2020/06/14/nginx-fan-xiang-dai-li/</id>
-    <published>2020-06-14T11:03:53.000Z</published>
-    <updated>2022-06-19T01:32:46.611Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，并在一个BSD-like 协议下发行。其特点是占有内存少，并发能力强。&lt;/p&gt;
-&lt;p&gt;Nginx
-        
-      
-    
-    </summary>
-    
-    
-      <category term="Nginx" scheme="https://leblog.github.io/tags/Nginx/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>hexo博客整体性能优化</title>
-    <link href="https://leblog.github.io/2020/05/26/hexo-bo-ke-zheng-ti-xing-neng-you-hua/"/>
-    <id>https://leblog.github.io/2020/05/26/hexo-bo-ke-zheng-ti-xing-neng-you-hua/</id>
-    <published>2020-05-26T04:22:33.000Z</published>
-    <updated>2022-06-19T01:32:46.620Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h3 id=&quot;hexo博客整体性能优化&quot;&gt;&lt;a href=&quot;#hexo博客整体性能优化&quot; class=&quot;headerlink&quot; title=&quot;hexo博客整体性能优化&quot;&gt;&lt;/a&gt;hexo博客整体性能优化&lt;/h3&gt;&lt;h4 id=&quot;1-查找原因&quot;&gt;&lt;a
-        
-      
-    
-    </summary>
-    
-      <category term="博客" scheme="https://leblog.github.io/categories/%E5%8D%9A%E5%AE%A2/"/>
-    
-    
-      <category term="博客，hexo" scheme="https://leblog.github.io/tags/%E5%8D%9A%E5%AE%A2%EF%BC%8Chexo/"/>
     
   </entry>
   

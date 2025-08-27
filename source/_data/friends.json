@@ -1,28 +1,30 @@
-[{
-    "avatar": "https://picsum.photos/50/50",
-    "name": "码酱",
-    "introduction": "我不是大佬，只是在追寻大佬的脚步",
-    "url": "http://luokangyuan.com/",
-    "title": "前去学习"
-}, {
-    "avatar": "https://3650000.xyz/api/",
-    "name": "闪烁之狐",
-    "introduction": "编程界大佬，技术牛，人还特别好，不懂的都可以请教大佬",
-    "url": "https://blinkfox.github.io/",
-    "title": "前去学习"
-}, {
-    "avatar": "https://www.amazingk.cn/upload/2021/04/20210404211159-3ebb9a2454c944cfb70ef289a6b2b400.jpg",
-    "name": "K’Blog",
-    "introduction": "大力出奇迹",
-    "url": "https://www.amazingk.cn",
-    "title": "前去学习"
-}, {
-    "avatar": "https://huangdf.xyz/avatar",
-    "name": "柒月是ni的谎言",
-    "introduction": "人生如逆旅,我亦是行人,但愿初相遇,不负有心人",
-    "url": "https://huangdf.xyz/",
-    "title": "前去学习"
-}
-
-
+[
+    {
+        "avatar": "https://api.anosu.top/img?1",
+        "name": "闪烁之狐",
+        "introduction": "编程界大佬，技术牛，人还特别好，不懂的都可以请教大佬",
+        "url": "https://blinkfox.github.io/",
+        "title": "前去学习"
+    },
+    {
+        "avatar": "https://api.anosu.top/img?2",
+        "name": "K’Blog",
+        "introduction": "大力出奇迹",
+        "url": "https://www.amazingk.cn",
+        "title": "前去学习"
+    },
+    {
+        "avatar": "https://api.anosu.top/img?3",
+        "name": "柒月是ni的谎言",
+        "introduction": "人生如逆旅,我亦是行人,但愿初相遇,不负有心人",
+        "url": "https://huangdf.xyz/",
+        "title": "前去学习"
+    },
+    {
+        "avatar": "https://www.ruanyifeng.com/favicon.ico",
+        "name": "阮一峰",
+        "introduction": "阮一峰的网络日志",
+        "url": "https://www.ruanyifeng.com/blog/",
+        "title": "前去学习"
+    }
 ]
