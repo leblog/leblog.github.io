@@ -80,5 +80,17 @@
         "introduction": "每日待办事项管理",
         "url": "https://leblog.github.io/tools/daily-to-do-list/index.html",
         "title": "前去体验"
+    },{
+        "avatar": "https://api.anosu.top/img?q=13",
+        "name": "逃离迷宫",
+        "introduction": "方向键控制、计时器、最短路径奖励、重新开始按钮",
+        "url": "https://leblog.github.io/tools/escape_the_maze.html",
+        "title": "前去体验"
+    },{
+        "avatar": "https://api.anosu.top/img?q=14",
+        "name": "快递费计算",
+        "introduction": "快递费计算",
+        "url": "https://leblog.github.io/tools/kuaidi.html",
+        "title": "前去体验"
     }
 ]
