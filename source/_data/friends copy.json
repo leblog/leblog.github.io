@@ -7,6 +7,20 @@
         "title": "前去学习"
     },
     {
+        "avatar": "https://api.anosu.top/img?2",
+        "name": "K’Blog",
+        "introduction": "大力出奇迹",
+        "url": "https://www.amazingk.cn",
+        "title": "前去学习"
+    },
+    {
+        "avatar": "https://api.anosu.top/img?3",
+        "name": "柒月是ni的谎言",
+        "introduction": "人生如逆旅,我亦是行人,但愿初相遇,不负有心人",
+        "url": "https://huangdf.xyz/",
+        "title": "前去学习"
+    },
+    {
         "avatar": "https://www.ruanyifeng.com/favicon.ico",
         "name": "阮一峰",
         "introduction": "阮一峰的网络日志",
@@ -19,21 +33,5 @@
         "introduction": "任何记录都是为了让以后有迹可循",
         "url": "https://www.hxy.cc/",
         "title": "前去学习"
-    },
-    {
-        "avatar": "https://www.wnblog.com/logo.png",
-        "name": "蜗牛博客",
-        "introduction": "这里有我的故事和思考",
-        "url": "https://www.wnblog.com",
-        "title": "前去学习"
-    },
-    {
-        "avatar": "https://blog.zeruns.com/tx.jpg",
-        "name": "Zeruns",
-        "introduction": "爱折腾软件和硬件的技术宅",
-        "url": "https://blog.zeruns.com",
-        "title": "前去学习"
     }
 ]
-
-
