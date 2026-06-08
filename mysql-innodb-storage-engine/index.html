@@ -1,0 +1,1588 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="MySQL存储引擎InnoDB详解, 程序员小乐">
+
+    
+    <meta name="description" content="MySQL存储引擎InnoDB详解InnoDB是MySQL默认的存储引擎，理解其内部机制对于数据库优化和故障排查至关重要。
+一、InnoDB架构概览1.1 内存结构┌─────────────────────────────────────">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>MySQL存储引擎InnoDB详解 | 程序员小乐</title>
+    <link rel="icon" type="image/png" href="https://wp-cdn.4ce.cn/v2/aTeDpXd.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-3.7.1.min.js"></script>
+    <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+
+    <!-- 谷歌广告 -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3969824567415808"
+     crossorigin="anonymous"></script>
+
+     <!-- 谷歌分析 -->
+     <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XNDRSTWEQ8"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-XNDRSTWEQ8');
+    </script>
+
+    
+     
+<meta name="generator" content="Hexo 8.1.2"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="https://wp-cdn.4ce.cn/v2/aTeDpXd.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">程序员小乐</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-list"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-card"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-users"></i>
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/contact" class="waves-effect waves-light">
+            
+            <i class="fa fa-volume-control-phone"></i>
+            
+            <span>留言板</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tools" class="waves-effect waves-light">
+            
+            <i class="fa fa-inbox"></i>
+            
+            <span>Tools</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="https://wp-cdn.4ce.cn/v2/aTeDpXd.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">程序员小乐</div>
+        <div class="logo-desc">
+            
+            计算机科学与技术
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-list"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-card"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-users"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        <li>
+            <a href="/contact" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-volume-control-phone"></i>
+                
+                留言板
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tools" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-inbox"></i>
+                
+                Tools
+            </a>
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/leblog" class="waves-effect waves-light" target="_blank">
+                <i class="fa fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/leblog" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://wp-cdn.4ce.cn/v2/UQOJYth.jpeg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        MySQL存储引擎InnoDB详解
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                        <a href="/tags/MySQL/" target="_blank">
+                            <span class="chip bg-color">MySQL</span>
+                        </a>
+                        
+                        <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" target="_blank">
+                            <span class="chip bg-color">数据库</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                        <a href="/categories/MySQL/" class="post-category" target="_blank">
+                            MySQL
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2024-07-26
+                </div>
+
+                <div class="post-author info-break-policy">
+                    <i class="fa fa-user-o fa-fw"></i>作者:&nbsp;&nbsp;
+                    
+                    小乐
+                    
+                </div>
+
+                
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    1.9k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    7 分
+                </div>
+                
+                
+
+                
+                <div id="busuanzi_container_page_pv" class="info-break-policy">
+                    <i class="fa fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                    <span id="busuanzi_value_page_pv"></span>
+                </div>
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="MySQL存储引擎InnoDB详解"><a href="#MySQL存储引擎InnoDB详解" class="headerlink" title="MySQL存储引擎InnoDB详解"></a>MySQL存储引擎InnoDB详解</h1><p>InnoDB是MySQL默认的存储引擎，理解其内部机制对于数据库优化和故障排查至关重要。</p>
+<h2 id="一、InnoDB架构概览"><a href="#一、InnoDB架构概览" class="headerlink" title="一、InnoDB架构概览"></a>一、InnoDB架构概览</h2><h3 id="1-1-内存结构"><a href="#1-1-内存结构" class="headerlink" title="1.1 内存结构"></a>1.1 内存结构</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">┌─────────────────────────────────────────────────┐</span><br><span class="line">│                  Buffer Pool                     │</span><br><span class="line">│  ┌─────────────┐  ┌─────────────┐              │</span><br><span class="line">│  │ Data Pages  │  │ Index Pages │              │</span><br><span class="line">│  └─────────────┘  └─────────────┘              │</span><br><span class="line">│  ┌─────────────┐  ┌─────────────┐              │</span><br><span class="line">│  │ Insert Buf  │  │ Adaptive Hash│              │</span><br><span class="line">│  │ (Change Buf)│  │   Index      │              │</span><br><span class="line">│  └─────────────┘  └─────────────┘              │</span><br><span class="line">│  ┌─────────────┐  ┌─────────────┐              │</span><br><span class="line">│  │  Lock Info  │  │ Data Dict    │              │</span><br><span class="line">│  └─────────────┘  └─────────────┘              │</span><br><span class="line">└─────────────────────────────────────────────────┘</span><br><span class="line">┌─────────────────────────────────────────────────┐</span><br><span class="line">│               Redo Log Buffer                    │</span><br><span class="line">└─────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-磁盘结构"><a href="#1-2-磁盘结构" class="headerlink" title="1.2 磁盘结构"></a>1.2 磁盘结构</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">┌─────────────────────────────────────────────────┐</span><br><span class="line">│               System Tablespace                  │</span><br><span class="line">│  (ibdata1: 数据字典、Undo Log、双写缓冲)          │</span><br><span class="line">└─────────────────────────────────────────────────┘</span><br><span class="line">┌─────────────────────────────────────────────────┐</span><br><span class="line">│             File-Per-Table Tablespace            │</span><br><span class="line">│  (user.ibd: 表数据、索引)                         │</span><br><span class="line">└─────────────────────────────────────────────────┘</span><br><span class="line">┌─────────────────────────────────────────────────┐</span><br><span class="line">│               Redo Log Files                     │</span><br><span class="line">│  (ib_logfile0, ib_logfile1)                      │</span><br><span class="line">└─────────────────────────────────────────────────┘</span><br><span class="line">┌─────────────────────────────────────────────────┐</span><br><span class="line">│               Undo Tablespace                    │</span><br><span class="line">│  (undo_001, undo_002, MySQL 8.0+)               │</span><br><span class="line">└─────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、Buffer-Pool"><a href="#二、Buffer-Pool" class="headerlink" title="二、Buffer Pool"></a>二、Buffer Pool</h2><h3 id="2-1-什么是Buffer-Pool"><a href="#2-1-什么是Buffer-Pool" class="headerlink" title="2.1 什么是Buffer Pool"></a>2.1 什么是Buffer Pool</h3><p>InnoDB在内存中缓存数据页和索引页的区域。所有数据操作先修改Buffer Pool中的页，再异步刷盘。</p>
+<figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="comment"># Buffer Pool大小（建议物理内存的50%-75%）</span></span><br><span class="line"><span class="attr">innodb_buffer_pool_size</span> = <span class="number">4</span>G</span><br><span class="line"></span><br><span class="line"><span class="comment"># Buffer Pool实例数（每个实例至少1GB）</span></span><br><span class="line"><span class="attr">innodb_buffer_pool_instances</span> = <span class="number">4</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-页管理"><a href="#2-2-页管理" class="headerlink" title="2.2 页管理"></a>2.2 页管理</h3><p><strong>页类型</strong>：</p>
+<ul>
+<li>数据页（Data Page）</li>
+<li>索引页（Index Page）</li>
+<li>Undo页</li>
+<li>Insert Buffer页</li>
+<li>系统页</li>
+</ul>
+<p><strong>页状态</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Free List → LRU List → Flush List</span><br><span class="line">  空闲页    使用中的页    待刷盘页</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-LRU算法"><a href="#2-3-LRU算法" class="headerlink" title="2.3 LRU算法"></a>2.3 LRU算法</h3><p>InnoDB使用改进的LRU（Least Recently Used）算法：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">LRU List（默认划分为5/8和3/8）：</span><br><span class="line"></span><br><span class="line">新生代（young sublist，5/8）     老生代（old sublist，3/8）</span><br><span class="line">┌─────────────────────┐  ┌─────────────────────┐</span><br><span class="line">│ 热数据              │  │ 冷数据              │</span><br><span class="line">│ 经常访问            │  │ 首次访问            │</span><br><span class="line">│ mid point           │  │                     │</span><br><span class="line">└─────────────────────┘  └─────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<p><strong>midpoint insertion strategy</strong>：</p>
+<ul>
+<li>新页不放到LRU头部，而是放到midpoint（默认距尾部37%处）</li>
+<li>避免大扫描（如全表扫描）冲掉热数据</li>
+<li>页在old区停留超过innodb_old_blocks_time（默认1秒）后被访问，才移到young区</li>
+</ul>
+<h3 id="2-4-预读机制"><a href="#2-4-预读机制" class="headerlink" title="2.4 预读机制"></a>2.4 预读机制</h3><p><strong>线性预读</strong>：顺序访问 extent 的56个页，预读下一个extent</p>
+<p><strong>随机预读</strong>：同一个extent的13个页被访问，预读整个extent</p>
+<figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="attr">innodb_read_ahead_threshold</span> = <span class="number">56</span>  <span class="comment"># 线性预读阈值</span></span><br><span class="line"><span class="attr">innodb_random_read_ahead</span> = <span class="literal">OFF</span>    <span class="comment"># 随机预读开关</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-5-Buffer-Pool状态查看"><a href="#2-5-Buffer-Pool状态查看" class="headerlink" title="2.5 Buffer Pool状态查看"></a>2.5 Buffer Pool状态查看</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看Buffer Pool状态</span></span><br><span class="line"><span class="keyword">SHOW</span> ENGINE INNODB STATUS;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看Buffer Pool配置和命中情况</span></span><br><span class="line"><span class="keyword">SHOW</span> STATUS <span class="keyword">LIKE</span> <span class="string">&#x27;Innodb_buffer_pool%&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 关键指标：</span></span><br><span class="line"><span class="comment">-- Innodb_buffer_pool_reads: 从磁盘读取的页数</span></span><br><span class="line"><span class="comment">-- Innodb_buffer_pool_read_requests: 逻辑读取请求数</span></span><br><span class="line"><span class="comment">-- 命中率 = 1 - reads / read_requests</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- MySQL 8.0 查看每个Buffer Pool实例状态</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> performance_schema.innodb_buffer_pool_stats;</span><br></pre></td></tr></table></figure>
+
+<h2 id="三、Change-Buffer"><a href="#三、Change-Buffer" class="headerlink" title="三、Change Buffer"></a>三、Change Buffer</h2><h3 id="3-1-什么是Change-Buffer"><a href="#3-1-什么是Change-Buffer" class="headerlink" title="3.1 什么是Change Buffer"></a>3.1 什么是Change Buffer</h3><p>当更新二级索引页时，如果该页不在Buffer Pool中，不立即读入磁盘页，而是将修改缓存到Change Buffer中。后续读该页时合并（Merge）。</p>
+<p><strong>适用</strong>：</p>
+<ul>
+<li>二级索引的INSERT、UPDATE、DELETE</li>
+<li>非唯一索引（唯一索引需要校验唯一性，必须读页）</li>
+</ul>
+<p><strong>不适用</strong>：</p>
+<ul>
+<li>唯一索引</li>
+<li>主键索引（聚簇索引）</li>
+<li>数据页</li>
+</ul>
+<h3 id="3-2-Change-Buffer的优势"><a href="#3-2-Change-Buffer的优势" class="headerlink" title="3.2 Change Buffer的优势"></a>3.2 Change Buffer的优势</h3><ul>
+<li>减少随机IO：避免频繁读入不常用的索引页</li>
+<li>批量合并：将多个修改合并到一次IO</li>
+<li>提升写性能：写密集型场景效果显著</li>
+</ul>
+<h3 id="3-3-配置"><a href="#3-3-配置" class="headerlink" title="3.3 配置"></a>3.3 配置</h3><figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 开启Change Buffer（默认开启）</span></span><br><span class="line"><span class="attr">innodb_change_buffering</span> = all</span><br><span class="line"><span class="comment"># 可选值：inserts, deletes, changes, purges, all, none</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Change Buffer占Buffer Pool的比例（默认25%）</span></span><br><span class="line"><span class="attr">innodb_change_buffer_max_size</span> = <span class="number">25</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-4-监控"><a href="#3-4-监控" class="headerlink" title="3.4 监控"></a>3.4 监控</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看Change Buffer使用情况</span></span><br><span class="line"><span class="keyword">SHOW</span> ENGINE INNODB STATUS;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 相关输出：</span></span><br><span class="line"><span class="comment">-- INSERT BUFFER AND ADAPTIVE HASH INDEX</span></span><br><span class="line"><span class="comment">-- Ibuf: size 1, free list len 0, seg size 2, 0 merges</span></span><br><span class="line"><span class="comment">-- Ibuf: size = 缓存的页数</span></span><br><span class="line"><span class="comment">-- merges = 合并次数</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="四、Adaptive-Hash-Index"><a href="#四、Adaptive-Hash-Index" class="headerlink" title="四、Adaptive Hash Index"></a>四、Adaptive Hash Index</h2><h3 id="4-1-原理"><a href="#4-1-原理" class="headerlink" title="4.1 原理"></a>4.1 原理</h3><p>InnoDB自动为频繁访问的索引页建立哈希索引，加速等值查询：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">B+树查找：需要遍历树，约3-4次比较</span><br><span class="line">哈希查找：O(1)直接定位</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-自动构建"><a href="#4-2-自动构建" class="headerlink" title="4.2 自动构建"></a>4.2 自动构建</h3><ul>
+<li>自动为Buffer Pool中的热点页建立</li>
+<li>不需要DBA干预</li>
+<li>只适用于等值查询（=、IN）</li>
+</ul>
+<h3 id="4-3-配置"><a href="#4-3-配置" class="headerlink" title="4.3 配置"></a>4.3 配置</h3><figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 开启AHI（默认开启）</span></span><br><span class="line"><span class="attr">innodb_adaptive_hash_index</span> = <span class="literal">ON</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># AHI分区数（减少锁竞争）</span></span><br><span class="line"><span class="attr">innodb_adaptive_hash_index_parts</span> = <span class="number">8</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-4-监控"><a href="#4-4-监控" class="headerlink" title="4.4 监控"></a>4.4 监控</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> ENGINE INNODB STATUS;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- Hash table size: 内存中的AHI大小</span></span><br><span class="line"><span class="comment">-- Hash searches/s: 使用AHI的查询次数</span></span><br><span class="line"><span class="comment">-- Non-hash searches/s: 未使用AHI的查询次数</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- AHI使用率 = hash searches / (hash + non-hash searches)</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：</p>
+<ul>
+<li>大量并发写时，AHI可能成为瓶颈（锁竞争）</li>
+<li>可临时关闭：<code>SET GLOBAL innodb_adaptive_hash_index = OFF</code></li>
+</ul>
+<h2 id="五、Redo-Log"><a href="#五、Redo-Log" class="headerlink" title="五、Redo Log"></a>五、Redo Log</h2><h3 id="5-1-为什么需要Redo-Log"><a href="#5-1-为什么需要Redo-Log" class="headerlink" title="5.1 为什么需要Redo Log"></a>5.1 为什么需要Redo Log</h3><p>保证事务的持久性（Durability）。数据修改先写Redo Log（顺序写），再异步刷数据页（随机写）。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">写入流程：</span><br><span class="line">1. 修改Buffer Pool中的数据页</span><br><span class="line">2. 生成Redo Log记录</span><br><span class="line">3. 写入Redo Log Buffer</span><br><span class="line">4. 事务提交时刷Redo Log到磁盘</span><br><span class="line">5. 后台线程异步刷脏页</span><br><span class="line"></span><br><span class="line">崩溃恢复：</span><br><span class="line">- 重启时根据Redo Log恢复未刷盘的数据</span><br><span class="line">- 保证已提交事务不丢失</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-2-Redo-Log结构"><a href="#5-2-Redo-Log结构" class="headerlink" title="5.2 Redo Log结构"></a>5.2 Redo Log结构</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Redo Log File（循环使用）：</span><br><span class="line">┌─────────────────────────────────────────────────┐</span><br><span class="line">│  LSN 1000    │  LSN 2000    │  LSN 3000        │</span><br><span class="line">│  ┌────────┐  │  ┌────────┐  │  ┌────────┐     │</span><br><span class="line">│  │Record 1│  │  │Record 2│  │  │Record 3│     │</span><br><span class="line">│  └────────┘  │  └────────┘  │  └────────┘     │</span><br><span class="line">└─────────────────────────────────────────────────┘</span><br><span class="line">      ▲                                   │</span><br><span class="line">      └────────── checkpint LSN ──────────┘</span><br><span class="line"></span><br><span class="line">- checkpoint之前的日志：已刷盘，可覆盖</span><br><span class="line">- checkpoint之后的日志：未刷盘，需保留</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-3-配置"><a href="#5-3-配置" class="headerlink" title="5.3 配置"></a>5.3 配置</h3><figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Redo Log文件大小（默认48MB，建议1-2GB）</span></span><br><span class="line"><span class="attr">innodb_log_file_size</span> = <span class="number">1</span>G</span><br><span class="line"></span><br><span class="line"><span class="comment"># Redo Log文件数量</span></span><br><span class="line"><span class="attr">innodb_log_files_in_group</span> = <span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Redo Log缓冲区（默认16MB）</span></span><br><span class="line"><span class="attr">innodb_log_buffer_size</span> = <span class="number">64</span>M</span><br><span class="line"></span><br><span class="line"><span class="comment"># 提交时刷盘策略</span></span><br><span class="line"><span class="comment"># 0: 每秒刷盘</span></span><br><span class="line"><span class="comment"># 1: 每次事务刷盘（最安全）</span></span><br><span class="line"><span class="comment"># 2: 写OS缓存，每秒刷盘</span></span><br><span class="line"><span class="attr">innodb_flush_log_at_trx_commit</span> = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-4-Redo-Log刷盘策略对比"><a href="#5-4-Redo-Log刷盘策略对比" class="headerlink" title="5.4 Redo Log刷盘策略对比"></a>5.4 Redo Log刷盘策略对比</h3><table>
+<thead>
+<tr>
+<th>值</th>
+<th>安全性</th>
+<th>性能</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>低</td>
+<td>最高</td>
+<td>每秒刷盘，崩溃可能丢失1秒数据</td>
+</tr>
+<tr>
+<td>1</td>
+<td>高</td>
+<td>低</td>
+<td>每次事务fsync，最安全</td>
+</tr>
+<tr>
+<td>2</td>
+<td>中</td>
+<td>高</td>
+<td>写OS缓存，MySQL崩溃不丢，OS崩溃可能丢</td>
+</tr>
+</tbody></table>
+<p><strong>建议</strong>：</p>
+<ul>
+<li>金融系统：= 1</li>
+<li>一般系统：= 2（配合UPS和RAID电池）</li>
+</ul>
+<h2 id="六、Undo-Log"><a href="#六、Undo-Log" class="headerlink" title="六、Undo Log"></a>六、Undo Log</h2><h3 id="6-1-作用"><a href="#6-1-作用" class="headerlink" title="6.1 作用"></a>6.1 作用</h3><ul>
+<li><strong>事务回滚</strong>：记录数据修改前的状态</li>
+<li><strong>MVCC</strong>：提供历史版本数据</li>
+<li><strong>崩溃恢复</strong>：协助Redo Log恢复</li>
+</ul>
+<h3 id="6-2-存储位置"><a href="#6-2-存储位置" class="headerlink" title="6.2 存储位置"></a>6.2 存储位置</h3><p>MySQL 5.7：系统表空间（ibdata1）<br>MySQL 8.0：独立的Undo Tablespace</p>
+<figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="comment"># MySQL 8.0 Undo Tablespace配置</span></span><br><span class="line"><span class="attr">innodb_undo_tablespaces</span> = <span class="number">2</span>  <span class="comment"># Undo表空间数量</span></span><br><span class="line"><span class="attr">innodb_max_undo_log_size</span> = <span class="number">1</span>G <span class="comment"># 单个Undo表空间最大大小</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="6-3-Undo-Log类型"><a href="#6-3-Undo-Log类型" class="headerlink" title="6.3 Undo Log类型"></a>6.3 Undo Log类型</h3><p><strong>insert undo log</strong>：</p>
+<ul>
+<li>INSERT操作产生</li>
+<li>事务提交后即可删除（不需要MVCC）</li>
+</ul>
+<p><strong>update undo log</strong>：</p>
+<ul>
+<li>UPDATE/DELETE产生</li>
+<li>需要保留到没有更早的ReadView存在</li>
+</ul>
+<h3 id="6-4-Undo-Log清理"><a href="#6-4-Undo-Log清理" class="headerlink" title="6.4 Undo Log清理"></a>6.4 Undo Log清理</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Purge线程负责清理：</span><br><span class="line">1. 找到所有活跃ReadView中最老的trx_id</span><br><span class="line">2. 删除比该trx_id更早且已提交的Undo Log</span><br><span class="line">3. 清理标记为删除的记录</span><br></pre></td></tr></table></figure>
+
+<h2 id="七、Double-Write-Buffer"><a href="#七、Double-Write-Buffer" class="headerlink" title="七、Double Write Buffer"></a>七、Double Write Buffer</h2><h3 id="7-1-部分写问题"><a href="#7-1-部分写问题" class="headerlink" title="7.1 部分写问题"></a>7.1 部分写问题</h3><p>16KB的页写到磁盘时，如果写到一半服务器宕机，页可能损坏（partial page write）。</p>
+<h3 id="7-2-Double-Write机制"><a href="#7-2-Double-Write机制" class="headerlink" title="7.2 Double Write机制"></a>7.2 Double Write机制</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. 脏页刷盘前，先复制到Double Write Buffer（2MB，顺序写）</span><br><span class="line">2. 再将脏页写到数据文件（随机写）</span><br><span class="line">3. 如果写数据文件时崩溃：</span><br><span class="line">   - 从Double Write Buffer恢复完整页</span><br><span class="line">   - 再根据Redo Log恢复</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-3-配置"><a href="#7-3-配置" class="headerlink" title="7.3 配置"></a>7.3 配置</h3><figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 开启Double Write（默认开启）</span></span><br><span class="line"><span class="attr">innodb_doublewrite</span> = <span class="literal">ON</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 原子写支持（某些SSD支持16KB原子写，可关闭Double Write）</span></span><br><span class="line"><span class="comment"># innodb_doublewrite = OFF  # 仅当存储支持原子写时</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="八、关键参数汇总"><a href="#八、关键参数汇总" class="headerlink" title="八、关键参数汇总"></a>八、关键参数汇总</h2><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>推荐值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>innodb_buffer_pool_size</td>
+<td>物理内存50%-75%</td>
+<td>缓存数据页</td>
+</tr>
+<tr>
+<td>innodb_buffer_pool_instances</td>
+<td>4-8</td>
+<td>Buffer Pool实例数</td>
+</tr>
+<tr>
+<td>innodb_log_file_size</td>
+<td>1-2G</td>
+<td>Redo Log文件大小</td>
+</tr>
+<tr>
+<td>innodb_log_files_in_group</td>
+<td>2-4</td>
+<td>Redo Log文件数</td>
+</tr>
+<tr>
+<td>innodb_flush_log_at_trx_commit</td>
+<td>1或2</td>
+<td>提交刷盘策略</td>
+</tr>
+<tr>
+<td>innodb_flush_method</td>
+<td>O_DIRECT</td>
+<td>直接IO，避免OS缓存</td>
+</tr>
+<tr>
+<td>innodb_io_capacity</td>
+<td>200-2000</td>
+<td>磁盘IO能力</td>
+</tr>
+<tr>
+<td>innodb_read_io_threads</td>
+<td>4-16</td>
+<td>读IO线程数</td>
+</tr>
+<tr>
+<td>innodb_write_io_threads</td>
+<td>4-16</td>
+<td>写IO线程数</td>
+</tr>
+<tr>
+<td>innodb_change_buffer_max_size</td>
+<td>25</td>
+<td>Change Buffer比例</td>
+</tr>
+<tr>
+<td>innodb_adaptive_hash_index</td>
+<td>ON</td>
+<td>自适应哈希索引</td>
+</tr>
+</tbody></table>
+<h2 id="九、InnoDB状态监控"><a href="#九、InnoDB状态监控" class="headerlink" title="九、InnoDB状态监控"></a>九、InnoDB状态监控</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看InnoDB状态（大量信息）</span></span><br><span class="line"><span class="keyword">SHOW</span> ENGINE INNODB STATUS;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- Buffer Pool命中率</span></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    (<span class="number">1</span> <span class="operator">-</span> <span class="built_in">SUM</span>(VARIABLE_VALUE) <span class="operator">/</span> </span><br><span class="line">     (<span class="keyword">SELECT</span> VARIABLE_VALUE </span><br><span class="line">      <span class="keyword">FROM</span> performance_schema.global_status </span><br><span class="line">      <span class="keyword">WHERE</span> VARIABLE_NAME <span class="operator">=</span> <span class="string">&#x27;Innodb_buffer_pool_read_requests&#x27;</span>)</span><br><span class="line">    ) <span class="operator">*</span> <span class="number">100</span> <span class="keyword">AS</span> hit_ratio</span><br><span class="line"><span class="keyword">FROM</span> performance_schema.global_status</span><br><span class="line"><span class="keyword">WHERE</span> VARIABLE_NAME <span class="operator">=</span> <span class="string">&#x27;Innodb_buffer_pool_reads&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看Buffer Pool详情（MySQL 8.0）</span></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    POOL_ID,</span><br><span class="line">    POOL_SIZE,</span><br><span class="line">    FREE_BUFFERS,</span><br><span class="line">    DATABASE_PAGES,</span><br><span class="line">    OLD_DATABASE_PAGES,</span><br><span class="line">    PAGES_MADE_YOUNG,</span><br><span class="line">    PAGES_NOT_MADE_YOUNG</span><br><span class="line"><span class="keyword">FROM</span> information_schema.innodb_buffer_pool_stats;</span><br></pre></td></tr></table></figure>
+
+<h2 id="十、总结"><a href="#十、总结" class="headerlink" title="十、总结"></a>十、总结</h2><table>
+<thead>
+<tr>
+<th>组件</th>
+<th>作用</th>
+<th>关键配置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Buffer Pool</td>
+<td>缓存数据和索引页</td>
+<td>buffer_pool_size</td>
+</tr>
+<tr>
+<td>Change Buffer</td>
+<td>缓存二级索引修改</td>
+<td>change_buffer_max_size</td>
+</tr>
+<tr>
+<td>Adaptive Hash</td>
+<td>加速等值查询</td>
+<td>adaptive_hash_index</td>
+</tr>
+<tr>
+<td>Redo Log</td>
+<td>保证持久性</td>
+<td>log_file_size, flush_log_at_trx_commit</td>
+</tr>
+<tr>
+<td>Undo Log</td>
+<td>回滚和MVCC</td>
+<td>undo_tablespaces</td>
+</tr>
+<tr>
+<td>Double Write</td>
+<td>防止部分写</td>
+<td>doublewrite</td>
+</tr>
+</tbody></table>
+<p>InnoDB的核心设计思想：</p>
+<ol>
+<li><strong>写优先</strong>：顺序写Redo Log，异步随机写数据页</li>
+<li><strong>读优化</strong>：Buffer Pool缓存热点数据，AHI加速查询</li>
+<li><strong>空间换时间</strong>：Change Buffer减少随机IO</li>
+<li><strong>安全机制</strong>：Double Write保证页完整性</li>
+</ol>
+<p>理解这些机制，有助于：</p>
+<ul>
+<li>合理配置InnoDB参数</li>
+<li>诊断性能问题</li>
+<li>优化SQL和表结构</li>
+</ul>
+
+            </div>
+            <hr />
+
+            
+            <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.88rem;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-large waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fa fa-close"></i></a>
+            <h4 class="reward-title">写作不易，客官能否打赏一杯Cooffee？</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="https://wp-cdn.4ce.cn/v2/MJ8peBx.png" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="https://wp-cdn.4ce.cn/v2/yUS7sDT.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        <p class="reprint-tip">
+            <i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;
+            <span>转载规则</span>
+        </p>
+        
+            <div class="center-align">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                    <img alt=""
+                         style="border-width:0"
+                         src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
+                </a>
+            </div>
+            <br/>
+            <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
+                  property="dct:title" rel="dct:type">
+                    《MySQL存储引擎InnoDB详解》
+                </span> 由
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/mysql-innodb-storage-engine/" property="cc:attributionName"
+               rel="cc:attributionURL">
+                小乐
+            </a> 采用
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                知识共享署名 4.0 国际许可协议
+            </a>进行许可。
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+        </div>
+    </div>
+    <!-- 插入谷歌广告post -->
+    <ins class="adsbygoogle"
+    style="display:block"
+    data-ad-client="ca-pub-3969824567415808"
+    data-ad-slot="5525027918"
+    data-ad-format="auto"
+    data-full-width-responsive="true"></ins>
+    
+    
+    <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: 'Ov23liwpvtv7XfsKCkXW',
+        clientSecret: '364dbe0a734b080fb0559e395442e58f15c4dc31',
+        repo: 'leblog.github.io',
+        owner: 'leblog',
+        admin: "leblog",
+        id: '/mysql-innodb-storage-engine/',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/java-zhong-equals-he-hashcode-de-zheng-que-li-jie/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://wp-cdn.4ce.cn/v2/89jYf4t.jpeg" class="responsive-img" alt="实践：Java 中 equals 和 hashCode 的正确理解">
+                        
+                        <span class="card-title">实践：Java 中 equals 和 hashCode 的正确理解</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            这是一篇关于实践：Java 中 equals 和 hashCode 的正确理解的原创技术笔记，侧重原理理解、项目用法和排查经验。
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-26
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Java%E5%9F%BA%E7%A1%80/" class="post-category" target="_blank">
+                                    Java基础
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" target="_blank">
+                        <span class="chip bg-color">学习笔记</span>
+                    </a>
+                    
+                    <a href="/tags/JAVA/" target="_blank">
+                        <span class="chip bg-color">JAVA</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/wen-jian-shang-chuan-fu-wu-ru-he-bao-zheng-wen-ding/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://wp-cdn.4ce.cn/v2/BpQYXq3.jpeg" class="responsive-img" alt="文件上传服务如何保证稳定">
+                        
+                        <span class="card-title">文件上传服务如何保证稳定</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            这是一篇关于文件上传服务如何保证稳定的原创技术笔记，侧重原理理解、项目用法和排查经验。
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-25
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" class="post-category" target="_blank">
+                                    系统设计
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E6%9E%B6%E6%9E%84/" target="_blank">
+                        <span class="chip bg-color">架构</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" target="_blank">
+                        <span class="chip bg-color">系统设计</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 程序员小乐<br />'
+            + '作者: 小乐<br />'
+            + '链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () { bodyElement.removeChild(newdiv); }, 200);
+    });
+</script>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+        <!--广告图片-->
+        <div class="expanded col l3 hide-on-med-and-down">
+            <img src="https://wp-cdn.4ce.cn/v2/CY6RJoX.jpeg" alt="">
+        </div>
+
+    </div>
+
+    <!-- 插入谷歌广告 目录-->
+    <ins class="adsbygoogle"
+    style="display:block"
+    data-ad-client="ca-pub-3969824567415808"
+    data-ad-slot="5525027918"
+    data-ad-format="auto"
+    data-full-width-responsive="true"></ins>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h1, h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h1, h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+    
+
+    
+</main>
+
+
+    <ins class="adsbygoogle"
+style="display:block"
+data-ad-client="ca-pub-3969824567415808"
+data-ad-slot="5525027918"
+data-ad-format="auto"
+data-full-width-responsive="true"></ins>
+<footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            &copy; 2021-2099 程序员小乐. All Rights Reserved.
+            
+            &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+            <span class="white-color">630.2k</span>
+            
+
+            <br>
+            <span id="sitetime"></span>
+
+            
+            
+            <br>
+            
+            <span id="busuanzi_container_site_pv" style='display:none'>
+                <i class="fa fa-heart-o"></i>
+                本站总访问量 <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+
+            
+            
+            <span id="busuanzi_container_site_uv" style='display:none'>
+                人次,&nbsp;访客数 <span id="busuanzi_value_site_uv" class="white-color"></span> 人.
+            </span>
+            
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/leblog" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:lusifer9527@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+    <a href="https://user.qzone.qq.com/1260842695" class="tooltipped" target="_blank" data-tooltip="访问我的QQ空间" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fa fa-rss"></i>
+    </a>
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+<!-- 引入国内Mermaid库 -->
+<script src="https://cdn.staticfile.org/mermaid/10.6.1/mermaid.min.js"></script>
+<script>
+// 等待页面完全加载
+window.addEventListener('load', function() {
+    console.log('页面加载完成，开始处理Mermaid图表');
+    
+    // 更精确的选择器，适配不同Hexo主题可能生成的结构
+    const selectors = [
+        'pre.language-mermaid code'
+    ];
+    
+    let codeBlocks = [];
+    selectors.forEach(selector => {
+        const blocks = document.querySelectorAll(selector);
+        codeBlocks = [...codeBlocks, ...blocks];
+    });
+    
+    console.log(`找到 ${codeBlocks.length} 个可能的Mermaid代码块`);
+    
+    if (codeBlocks.length === 0) {
+        console.warn('未找到任何Mermaid代码块，请检查类名是否正确');
+        return;
+    }
+    
+    codeBlocks.forEach((codeBlock, index) => {
+        try {
+            const preBlock = codeBlock.closest('pre');
+            if (!preBlock) {
+                console.warn(`第${index+1}个代码块没有找到对应的pre父元素`);
+                return;
+            }
+            
+            // 提取并处理代码内容，还原所有HTML实体
+            let mermaidCode = codeBlock.textContent;
+            const entities = {
+                '&gt;': '>',
+                '&lt;': '<',
+                '&amp;': '&',
+                '&#39;': "'",
+                '&quot;': '"'
+            };
+            
+            // 还原所有转义字符
+            Object.keys(entities).forEach(entity => {
+                const regex = new RegExp(entity, 'g');
+                mermaidCode = mermaidCode.replace(regex, entities[entity]);
+            });
+            
+            console.log(`第${index+1}个代码块内容处理完成`);
+            
+            // 创建渲染容器
+            const mermaidContainer = document.createElement('div');
+            mermaidContainer.id = `mermaid-container-${index}`;
+            mermaidContainer.className = 'mermaid';
+            mermaidContainer.style.margin = '1rem 0';
+            mermaidContainer.textContent = mermaidCode;
+            
+            // 插入到页面中
+            preBlock.parentNode.insertBefore(mermaidContainer, preBlock);
+            
+            // 隐藏原始代码块
+            preBlock.style.display = 'none';
+            
+        } catch (error) {
+            console.error(`处理第${index+1}个代码块时出错:`, error);
+        }
+    });
+    
+    // 检查Mermaid是否加载成功
+    if (typeof mermaid === 'undefined') {
+        console.error('Mermaid库未加载成功，请检查CDN地址是否可用');
+        return;
+    }
+    
+    // 初始化Mermaid并添加错误处理
+    try {
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: {
+                curve: 'linear'
+            },
+            logLevel: 3 // 显示警告和错误信息
+        });
+        
+        console.log('Mermaid初始化完成，开始渲染图表');
+        
+        // 手动触发渲染（确保所有图表都被处理）
+        mermaid.run({
+            querySelector: '.mermaid'
+        }).then(() => {
+            console.log('Mermaid图表渲染完成');
+        }).catch(error => {
+            console.error('Mermaid渲染过程出错:', error);
+        });
+        
+    } catch (error) {
+        console.error('Mermaid初始化失败:', error);
+    }
+});
+</script>
+    
+    
+<!-- 谷歌广告 -->
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+<!-- 不蒜子计数初始值纠正 -->
+<script>
+    $(document).ready(function () {
+
+        var int = setInterval(fixCount, 50);// 50ms周期检测函数
+        var pvcountOffset = 80000;// 初始化首次数据
+        var uvcountOffset = 20000;
+
+        function fixCount() {
+            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
+                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
+                clearInterval(int);
+            }
+            if ($("#busuanzi_container_site_pv").css("display") != "none") {
+                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
+                clearInterval(int);// 停止检测
+            }
+        }
+    });
+</script>
+
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+        year - 作为date对象的年份，为4位年份值
+        month - 0-11之间的整数，做为date对象的月份
+        day - 1-31之间的整数，做为date对象的天数
+        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+        minutes - 0-59之间的整数，做为date对象的分钟数
+        seconds - 0-59之间的整数，做为date对象的秒数
+        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+        var t1 = Date.UTC(2017, 09, 11, 00, 00, 00); //北京时间2018-2-13 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "本站已运行 " + diffYears + " 年 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
+    siteTime();
+</script>
+
+    <!--百度统计-->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?952b50978d16e6ae6c408a7ff9097b48";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    <!--360统计-->
+    <script>
+        (function(b,a,e,h,f,c,g,s){b[h]=b[h]||function(){(b[h].c=b[h].c||[]).push(arguments)};
+        b[h].s=!!c;g=a.getElementsByTagName(e)[0];s=a.createElement(e);
+        s.src="//s.union.360.cn/"+f+".js";s.defer=!0;s.async=!0;g.parentNode.insertBefore(s,g)
+        })(window,document,"script","_qha",399925,false);
+    </script>
+
+    <!-- google统计 - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XNDRSTWEQ8"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-XNDRSTWEQ8');
+    </script>
+
+
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <script type="text/javascript"> var OriginTitile = document.title, st; document.addEventListener("visibilitychange", function () { document.hidden ? (document.title = "Σ(っ °Д °;)っ喔哟，崩溃啦！", clearTimeout(st)) : (document.title = "φ(゜▽゜*)♪咦，又好了！", st = setTimeout(function () { document.title = OriginTitile }, 3e3)) })
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XNDRSTWEQ8"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', 'G-XNDRSTWEQ8');
+</script>
+
+
+
+    
+    <script src="/libs/others/clicklove.js"></script>
+    
+
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    <!-- 雪花特效 -->
+    
+
+</body>
+
+</html>

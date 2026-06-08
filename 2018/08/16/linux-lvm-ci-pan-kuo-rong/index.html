@@ -49,7 +49,7 @@
 
     
      
-<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<meta name="generator" content="Hexo 8.1.2"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
 <link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 <body>
@@ -330,7 +330,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://wp-cdn.4ce.cn/v2/qezDlYK.jpeg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://wp-cdn.4ce.cn/v2/2ilj03K.jpeg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -516,29 +516,32 @@
 <h4 id="lvdisplay（显示当前的-logical-volume）"><a href="#lvdisplay（显示当前的-logical-volume）" class="headerlink" title="lvdisplay（显示当前的 logical volume）"></a><code>lvdisplay</code>（显示当前的 logical volume）</h4><p><img src="https://note.youdao.com/yws/public/resource/4446b015d9dc2fb92d362fab8b947642/xmlnote/B46A16706BE84D7785ABDEDB2ABC8447/1850" alt=""></p>
 <p>备注： 注意这里目前有两个，一个是文件系统所在的 volume，另一个是 swap 分区使用的 volume，当然，我们需要扩容的是第一个</p>
 <h4 id="vgdisplay（显示当前的-volume-group）"><a href="#vgdisplay（显示当前的-volume-group）" class="headerlink" title="vgdisplay（显示当前的 volume group）"></a><code>vgdisplay</code>（显示当前的 volume group）</h4><p><img src="https://note.youdao.com/yws/public/resource/4446b015d9dc2fb92d362fab8b947642/xmlnote/28102956E5304EDB9F65AAB4B89F132A/1854" alt=""></p>
-<h1 id="开始-LVM-扩容"><a href="#开始-LVM-扩容" class="headerlink" title="开始 LVM 扩容"></a>开始 LVM 扩容</h1><h3 id="查看-fdisk"><a href="#查看-fdisk" class="headerlink" title="查看 fdisk"></a>查看 fdisk</h3><pre><code>fdisk -l</code></pre><p><img src="https://note.youdao.com/yws/public/resource/4446b015d9dc2fb92d362fab8b947642/xmlnote/8F4B442E5D8347AA80C023E193659953/1856" alt=""></p>
+<h1 id="开始-LVM-扩容"><a href="#开始-LVM-扩容" class="headerlink" title="开始 LVM 扩容"></a>开始 LVM 扩容</h1><h3 id="查看-fdisk"><a href="#查看-fdisk" class="headerlink" title="查看 fdisk"></a>查看 fdisk</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fdisk -l</span><br></pre></td></tr></table></figure>
+<p><img src="https://note.youdao.com/yws/public/resource/4446b015d9dc2fb92d362fab8b947642/xmlnote/8F4B442E5D8347AA80C023E193659953/1856" alt=""></p>
 <p>因为这台机器默认开启了 LVM，所以目前有一个 <code>extended</code>分区和一个<code>LVM</code> 分区，并且他们是完全重叠的。这是因为，LVM 分区作为一个虚拟的分区，完全占用了这个 extended 分区，原理图见下：<br><img src="https://note.youdao.com/yws/public/resource/4446b015d9dc2fb92d362fab8b947642/xmlnote/53A82CC632A94D21A2599C391E79EA61/1858" alt=""></p>
 <p>因此，现在需要做的就是将 extended partition (<code>sda2</code>) 扩展到最大，然后创建一个新的 LVM logical partition (<code>sda6</code>)，用它来填满 sda2</p>
-<h3 id="查看所有连接到电脑上的储存设备"><a href="#查看所有连接到电脑上的储存设备" class="headerlink" title="查看所有连接到电脑上的储存设备"></a>查看所有连接到电脑上的储存设备</h3><pre><code>disk -l |grep &#39;/dev&#39;</code></pre><h4 id="1-块磁盘效果图"><a href="#1-块磁盘效果图" class="headerlink" title="1 块磁盘效果图"></a>1 块磁盘效果图</h4><p><img src="https://note.youdao.com/yws/public/resource/4446b015d9dc2fb92d362fab8b947642/xmlnote/8E0985A5EA2C46C497CFC5DCB2EAD87B/1860" alt=""></p>
+<h3 id="查看所有连接到电脑上的储存设备"><a href="#查看所有连接到电脑上的储存设备" class="headerlink" title="查看所有连接到电脑上的储存设备"></a>查看所有连接到电脑上的储存设备</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">disk -l |grep &#x27;/dev&#x27;</span><br></pre></td></tr></table></figure>
+<h4 id="1-块磁盘效果图"><a href="#1-块磁盘效果图" class="headerlink" title="1 块磁盘效果图"></a>1 块磁盘效果图</h4><p><img src="https://note.youdao.com/yws/public/resource/4446b015d9dc2fb92d362fab8b947642/xmlnote/8E0985A5EA2C46C497CFC5DCB2EAD87B/1860" alt=""></p>
 <p>2 块磁盘效果图（新增磁盘，尚未挂载）<br><img src="https://note.youdao.com/yws/public/resource/4446b015d9dc2fb92d362fab8b947642/xmlnote/8E87CFC5237D4B0A9E1A6A8805976569/1862" alt=""></p>
-<h3 id="创建-sdb-分区"><a href="#创建-sdb-分区" class="headerlink" title="创建 sdb 分区"></a>创建 sdb 分区</h3><pre><code>fdisk /dev/sdb
-n    # 新建分区
-l    # 选择逻辑分区，如果没有，则首先创建扩展分区（p），然后再添加逻辑分区（硬盘：最多四个分区  P-P-P-P 或 P-P-P-E）
-</code></pre><p><img src="https://note.youdao.com/yws/public/resource/4446b015d9dc2fb92d362fab8b947642/xmlnote/93D8E728C55248EE82F285D4F05CA1F6/1864" alt=""></p>
-<pre><code>回车
-回车
-回车
-w    # 写入磁盘分区</code></pre><h3 id="格式化磁盘"><a href="#格式化磁盘" class="headerlink" title="格式化磁盘"></a>格式化磁盘</h3><p><img src="https://note.youdao.com/yws/public/resource/4446b015d9dc2fb92d362fab8b947642/xmlnote/892B518A557C4A0EB276B13C47321F53/1867" alt=""></p>
-<pre><code>mkfs -t ext4 /dev/sdb1</code></pre><p><img src="https://note.youdao.com/yws/public/resource/4446b015d9dc2fb92d362fab8b947642/xmlnote/BA2F4D79A22C44E6BCFA5E65947028D4/1866" alt=""></p>
-<h3 id="创建-PV"><a href="#创建-PV" class="headerlink" title="创建 PV"></a>创建 PV</h3><pre><code>pvcreate /dev/sdb1</code></pre><h3 id="查看卷组"><a href="#查看卷组" class="headerlink" title="查看卷组"></a>查看卷组</h3><pre><code>pvscan</code></pre><p><img src="https://note.youdao.com/yws/public/resource/4446b015d9dc2fb92d362fab8b947642/xmlnote/41E6D108CF2F44198EA424D347F7E837/1869" alt=""></p>
-<h3 id="扩容-VG"><a href="#扩容-VG" class="headerlink" title="扩容 VG"></a>扩容 VG</h3><pre><code>vgdisplay</code></pre><p><img src="https://note.youdao.com/yws/public/resource/4446b015d9dc2fb92d362fab8b947642/xmlnote/706E617A0E414CD98E818626EB74198D/1871" alt=""></p>
-<pre><code>vgextend ubuntu-vg /dev/sdb1</code></pre><h3 id="扩容-LV"><a href="#扩容-LV" class="headerlink" title="扩容 LV"></a>扩容 LV</h3><p><img src="https://note.youdao.com/yws/public/resource/4446b015d9dc2fb92d362fab8b947642/xmlnote/7679140594AB463E83101E4BC2C55CAA/1873" alt=""></p>
+<h3 id="创建-sdb-分区"><a href="#创建-sdb-分区" class="headerlink" title="创建 sdb 分区"></a>创建 sdb 分区</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fdisk /dev/sdb</span><br><span class="line">n	# 新建分区</span><br><span class="line">l	# 选择逻辑分区，如果没有，则首先创建扩展分区（p），然后再添加逻辑分区（硬盘：最多四个分区  P-P-P-P 或 P-P-P-E）</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="https://note.youdao.com/yws/public/resource/4446b015d9dc2fb92d362fab8b947642/xmlnote/93D8E728C55248EE82F285D4F05CA1F6/1864" alt=""></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">回车</span><br><span class="line">回车</span><br><span class="line">回车</span><br><span class="line">w	# 写入磁盘分区</span><br></pre></td></tr></table></figure>
+<h3 id="格式化磁盘"><a href="#格式化磁盘" class="headerlink" title="格式化磁盘"></a>格式化磁盘</h3><p><img src="https://note.youdao.com/yws/public/resource/4446b015d9dc2fb92d362fab8b947642/xmlnote/892B518A557C4A0EB276B13C47321F53/1867" alt=""></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkfs -t ext4 /dev/sdb1</span><br></pre></td></tr></table></figure>
+<p><img src="https://note.youdao.com/yws/public/resource/4446b015d9dc2fb92d362fab8b947642/xmlnote/BA2F4D79A22C44E6BCFA5E65947028D4/1866" alt=""></p>
+<h3 id="创建-PV"><a href="#创建-PV" class="headerlink" title="创建 PV"></a>创建 PV</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pvcreate /dev/sdb1</span><br></pre></td></tr></table></figure>
+<h3 id="查看卷组"><a href="#查看卷组" class="headerlink" title="查看卷组"></a>查看卷组</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pvscan</span><br></pre></td></tr></table></figure>
+<p><img src="https://note.youdao.com/yws/public/resource/4446b015d9dc2fb92d362fab8b947642/xmlnote/41E6D108CF2F44198EA424D347F7E837/1869" alt=""></p>
+<h3 id="扩容-VG"><a href="#扩容-VG" class="headerlink" title="扩容 VG"></a>扩容 VG</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vgdisplay</span><br></pre></td></tr></table></figure>
+<p><img src="https://note.youdao.com/yws/public/resource/4446b015d9dc2fb92d362fab8b947642/xmlnote/706E617A0E414CD98E818626EB74198D/1871" alt=""></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vgextend ubuntu-vg /dev/sdb1</span><br></pre></td></tr></table></figure>
+<h3 id="扩容-LV"><a href="#扩容-LV" class="headerlink" title="扩容 LV"></a>扩容 LV</h3><p><img src="https://note.youdao.com/yws/public/resource/4446b015d9dc2fb92d362fab8b947642/xmlnote/7679140594AB463E83101E4BC2C55CAA/1873" alt=""></p>
 <p><img src="https://note.youdao.com/yws/public/resource/4446b015d9dc2fb92d362fab8b947642/xmlnote/81FCD01AD5F64245BE31AABB7D422071/1875" alt=""></p>
-<pre><code># 增加指定大小
-lvextend -L +30G /dev/ubuntu-vg/root
-# 按百分比扩容
-lvextend -l +100%FREE /dev/ubuntu-vg/root</code></pre><h3 id="刷新分区"><a href="#刷新分区" class="headerlink" title="刷新分区"></a>刷新分区</h3><pre><code>resize2fs /dev/ubuntu-vg/root</code></pre><h3 id="删除-unknown-device"><a href="#删除-unknown-device" class="headerlink" title="删除 unknown device"></a>删除 unknown device</h3><pre><code>pvscan
-vgreduce --removemissing ubuntu-vg</code></pre><p>注意：不要卸载扩容的磁盘，可能出现丢失数据或是系统无法启动</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 增加指定大小</span><br><span class="line">lvextend -L +30G /dev/ubuntu-vg/root</span><br><span class="line"># 按百分比扩容</span><br><span class="line">lvextend -l +100%FREE /dev/ubuntu-vg/root</span><br></pre></td></tr></table></figure>
+<h3 id="刷新分区"><a href="#刷新分区" class="headerlink" title="刷新分区"></a>刷新分区</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">resize2fs /dev/ubuntu-vg/root</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除-unknown-device"><a href="#删除-unknown-device" class="headerlink" title="删除 unknown device"></a>删除 unknown device</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pvscan</span><br><span class="line">vgreduce --removemissing ubuntu-vg</span><br></pre></td></tr></table></figure>
+<p>注意：不要卸载扩容的磁盘，可能出现丢失数据或是系统无法启动</p>
 
             </div>
             <hr />
@@ -688,7 +691,7 @@ vgreduce --removemissing ubuntu-vg</code></pre><p>注意：不要卸载扩容的
         </p>
         
             <div class="center-align">
-                <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
                     <img alt=""
                          style="border-width:0"
                          src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
@@ -703,7 +706,7 @@ vgreduce --removemissing ubuntu-vg</code></pre><p>注意：不要卸载扩容的
                rel="cc:attributionURL">
                 小乐
             </a> 采用
-            <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
                 知识共享署名 4.0 国际许可协议
             </a>进行许可。
         
@@ -776,7 +779,7 @@ vgreduce --removemissing ubuntu-vg</code></pre><p>注意：不要卸载扩容的
                     <div class="card-image">
                         
                         
-                        <img src="https://wp-cdn.4ce.cn/v2/MnPzei7.jpeg" class="responsive-img" alt="Linux 用户和组管理">
+                        <img src="https://wp-cdn.4ce.cn/v2/8xozB8N.jpeg" class="responsive-img" alt="Linux 用户和组管理">
                         
                         <span class="card-title">Linux 用户和组管理</span>
                     </div>
@@ -830,7 +833,7 @@ vgreduce --removemissing ubuntu-vg</code></pre><p>注意：不要卸载扩容的
                     <div class="card-image">
                         
                         
-                        <img src="https://wp-cdn.4ce.cn/v2/MKZGh0l.jpeg" class="responsive-img" alt="Linux 安装 MySQL">
+                        <img src="https://wp-cdn.4ce.cn/v2/sVibUfz.jpeg" class="responsive-img" alt="Linux 安装 MySQL">
                         
                         <span class="card-title">Linux 安装 MySQL</span>
                     </div>
@@ -838,7 +841,9 @@ vgreduce --removemissing ubuntu-vg</code></pre><p>注意：不要卸载扩容的
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Linux 安装 MySQL更新数据源apt-get update安装 MySQLapt-get install mysql-server系统将提示您在安装过程中创建 root 密码。选择一个安全的密码，并确保你记住它，因为你以后需要它。接
+                            Linux 安装 MySQL更新数据源apt-get update
+安装 MySQLapt-get install mysql-server
+系统将提示您在安装过程中创建 root 密码。选择一个安全的密码，并确保你记住它，因为你以后需要它
                         
                     </div>
                     <div class="publish-info">
@@ -1034,13 +1039,12 @@ data-ad-slot="5525027918"
 data-ad-format="auto"
 data-full-width-responsive="true"></ins>
 <footer class="page-footer bg-color">
-    <!-- 引入 Mermaid 支持脚本 -->
     <div class="container row center-align">
         <div class="col s12 m8 l8 copy-right">
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">158k</span>
+            <span class="white-color">630.2k</span>
             
 
             <br>
@@ -1096,6 +1100,112 @@ data-full-width-responsive="true"></ins>
 
 <div class="progress-bar"></div>
 
+
+<!-- 引入国内Mermaid库 -->
+<script src="https://cdn.staticfile.org/mermaid/10.6.1/mermaid.min.js"></script>
+<script>
+// 等待页面完全加载
+window.addEventListener('load', function() {
+    console.log('页面加载完成，开始处理Mermaid图表');
+    
+    // 更精确的选择器，适配不同Hexo主题可能生成的结构
+    const selectors = [
+        'pre.language-mermaid code'
+    ];
+    
+    let codeBlocks = [];
+    selectors.forEach(selector => {
+        const blocks = document.querySelectorAll(selector);
+        codeBlocks = [...codeBlocks, ...blocks];
+    });
+    
+    console.log(`找到 ${codeBlocks.length} 个可能的Mermaid代码块`);
+    
+    if (codeBlocks.length === 0) {
+        console.warn('未找到任何Mermaid代码块，请检查类名是否正确');
+        return;
+    }
+    
+    codeBlocks.forEach((codeBlock, index) => {
+        try {
+            const preBlock = codeBlock.closest('pre');
+            if (!preBlock) {
+                console.warn(`第${index+1}个代码块没有找到对应的pre父元素`);
+                return;
+            }
+            
+            // 提取并处理代码内容，还原所有HTML实体
+            let mermaidCode = codeBlock.textContent;
+            const entities = {
+                '&gt;': '>',
+                '&lt;': '<',
+                '&amp;': '&',
+                '&#39;': "'",
+                '&quot;': '"'
+            };
+            
+            // 还原所有转义字符
+            Object.keys(entities).forEach(entity => {
+                const regex = new RegExp(entity, 'g');
+                mermaidCode = mermaidCode.replace(regex, entities[entity]);
+            });
+            
+            console.log(`第${index+1}个代码块内容处理完成`);
+            
+            // 创建渲染容器
+            const mermaidContainer = document.createElement('div');
+            mermaidContainer.id = `mermaid-container-${index}`;
+            mermaidContainer.className = 'mermaid';
+            mermaidContainer.style.margin = '1rem 0';
+            mermaidContainer.textContent = mermaidCode;
+            
+            // 插入到页面中
+            preBlock.parentNode.insertBefore(mermaidContainer, preBlock);
+            
+            // 隐藏原始代码块
+            preBlock.style.display = 'none';
+            
+        } catch (error) {
+            console.error(`处理第${index+1}个代码块时出错:`, error);
+        }
+    });
+    
+    // 检查Mermaid是否加载成功
+    if (typeof mermaid === 'undefined') {
+        console.error('Mermaid库未加载成功，请检查CDN地址是否可用');
+        return;
+    }
+    
+    // 初始化Mermaid并添加错误处理
+    try {
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: {
+                curve: 'linear'
+            },
+            logLevel: 3 // 显示警告和错误信息
+        });
+        
+        console.log('Mermaid初始化完成，开始渲染图表');
+        
+        // 手动触发渲染（确保所有图表都被处理）
+        mermaid.run({
+            querySelector: '.mermaid'
+        }).then(() => {
+            console.log('Mermaid图表渲染完成');
+        }).catch(error => {
+            console.error('Mermaid渲染过程出错:', error);
+        });
+        
+    } catch (error) {
+        console.error('Mermaid初始化失败:', error);
+    }
+});
+</script>
+    
+    
 <!-- 谷歌广告 -->
 <script>
     (adsbygoogle = window.adsbygoogle || []).push({});

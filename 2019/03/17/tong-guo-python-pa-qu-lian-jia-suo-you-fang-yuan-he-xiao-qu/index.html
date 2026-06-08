@@ -51,7 +51,7 @@
 
     
      
-<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<meta name="generator" content="Hexo 8.1.2"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
 <link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 <body>
@@ -332,7 +332,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://wp-cdn.4ce.cn/v2/iddne6X.jpeg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://wp-cdn.4ce.cn/v2/uxeUu7b.jpeg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -516,148 +516,8 @@
             <div id="articleContent">
                 <h1 id="通过Python爬取链家所有房源和小区信息"><a href="#通过Python爬取链家所有房源和小区信息" class="headerlink" title="通过Python爬取链家所有房源和小区信息"></a>通过Python爬取链家所有房源和小区信息</h1><p>链家房源爬虫，基于scrapy框架，数据存储在MongoDB</p>
 <p>由于链家的限制房源列表最多显示1000页，3000条数据，所以这里通过小区信息爬取所有房源。</p>
-<pre><code># -*- coding: utf-8 -*-
-import scrapy
-from scrapy import Selector
-import json
-import re
-
-from house_spider.items import LianjiaVillageItem, LianjiaHouseItem
-
-class LianjiaSpider(scrapy.Spider):
-    name = &#39;lianjia&#39;
-    allowed_domains = [&#39;cq.lianjia.com&#39;]
-    start_urls = [&#39;cq.lianjia.com&#39;]
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.base_url = &#39;https://cq.lianjia.com&#39;
-
-    def start_requests(self):
-        request_url = &#39;https://cq.lianjia.com/xiaoqu/&#39;
-        yield scrapy.Request(url=request_url, callback=self.parse_district_links)
-
-    def parse_district_links(self, response):
-        &quot;&quot;&quot;提取地区链接&quot;&quot;&quot;
-        sel = Selector(response)
-        links = sel.css(&quot;div[data-role=&#39;ershoufang&#39;] div:first-child a::attr(href)&quot;).extract()
-        for link in links:
-            url = self.base_url + link
-            yield scrapy.Request(url=url, callback=self.parse_bizcircle_links)
-
-    def parse_bizcircle_links(self, response):
-        &quot;&quot;&quot;提取商圈链接&quot;&quot;&quot;
-        sel = Selector(response)
-        links = sel.css(&quot;div[data-role=&#39;ershoufang&#39;] div:nth-child(2) a::attr(href)&quot;).extract()
-        for link in links:
-            url = self.base_url + link
-            yield scrapy.Request(url=url, callback=self.parse_village_list, meta={&quot;ref&quot;: url})
-
-    def parse_village_list(self, response):
-        &quot;&quot;&quot;提取小区链接&quot;&quot;&quot;
-        sel = Selector(response)
-        links = sel.css(&quot;.listContent .xiaoquListItem .img::attr(href)&quot;).extract()
-        for link in links:
-            yield scrapy.Request(url=link, callback=self.parse_village_detail)
-
-        # page
-        page_data = sel.css(&quot;.house-lst-page-box::attr(page-data)&quot;).extract_first()
-        page_data = json.loads(page_data)
-        if page_data[&#39;curPage&#39;] &lt; page_data[&#39;totalPage&#39;]:
-            url = response.meta[&quot;ref&quot;] + &#39;pg&#39; + str(page_data[&#39;curPage&#39;] + 1)
-            yield scrapy.Request(url=url, callback=self.parse_village_list, meta=response.meta)
-
-    def parse_village_detail(self, response):
-        &quot;&quot;&quot;提取小区详情&quot;&quot;&quot;
-        village_url = response.url
-        sel = Selector(response)
-        zone = sel.css(&#39;.xiaoquDetailbreadCrumbs .l-txt a::text&#39;).extract()
-        latitude = 0
-        longitude = 0
-        try:
-            html = response.body.decode().replace(&#39;\r&#39;, &#39;&#39;)
-            local = html[html.find(&#39;resblockPosition:&#39;):html.find(&#39;resblockName&#39;) - 1]
-            m = re.search(&#39;(\d.*\d),(\d.*\d)&#39;, local)
-            longitude = m.group(1)
-            latitude = m.group(2)
-        except Exception:
-            pass
-
-        item = LianjiaVillageItem()
-        item[&#39;id&#39;] = village_url.replace(self.base_url + &#39;/xiaoqu/&#39;, &#39;&#39;).replace(&#39;/&#39;, &#39;&#39;)
-        item[&#39;name&#39;] = sel.css(&#39;.detailHeader .detailTitle::text&#39;).extract_first()
-        item[&#39;address&#39;] = sel.css(&#39;.detailHeader .detailDesc::text&#39;).extract_first()
-        item[&#39;latitude&#39;] = latitude
-        item[&#39;longitude&#39;] = longitude
-        item[&#39;zone&#39;] = &#39;,&#39;.join(zone)
-        item[&#39;year&#39;] = sel.css(&#39;.xiaoquInfo .xiaoquInfoItem:nth-child(1) .xiaoquInfoContent::text&#39;).extract_first()
-        item[&#39;build_type&#39;] = sel.css(&#39;.xiaoquInfo .xiaoquInfoItem:nth-child(2) .xiaoquInfoContent::text&#39;).extract_first()
-        item[&#39;property_costs&#39;] = sel.css(&#39;.xiaoquInfo .xiaoquInfoItem:nth-child(3) .xiaoquInfoContent::text&#39;).extract_first()
-        item[&#39;property_company&#39;] = sel.css(&#39;.xiaoquInfo .xiaoquInfoItem:nth-child(4) .xiaoquInfoContent::text&#39;).extract_first()
-        item[&#39;developers&#39;] = sel.css(&#39;.xiaoquInfo .xiaoquInfoItem:nth-child(5) .xiaoquInfoContent::text&#39;).extract_first()
-        item[&#39;buildings&#39;] = sel.css(&#39;.xiaoquInfo .xiaoquInfoItem:nth-child(6) .xiaoquInfoContent::text&#39;).extract_first()
-        item[&#39;total_house&#39;] = sel.css(&#39;.xiaoquInfo .xiaoquInfoItem:nth-child(7) .xiaoquInfoContent::text&#39;).extract_first()
-
-        print(item[&#39;name&#39;])
-        yield item
-
-        # 小区房源 https://cq.lianjia.com/ershoufang/c3620038190566370/
-        url = self.base_url + &quot;/ershoufang/c&quot; + item[&#39;id&#39;] + &quot;/&quot;
-        yield scrapy.Request(url=url, callback=self.parse_house_list, meta={&quot;ref&quot;: url})
-
-    def parse_house_list(self, response):
-        &quot;&quot;&quot;提取房源链接&quot;&quot;&quot;
-        sel = Selector(response)
-        # 链家有时小区查询不到数据
-        total = sel.css(&#39;.resultDes .total span::text&#39;).extract_first()
-        total = int(total)
-        if total &gt; 0:
-            # 提取房源链接
-            links = sel.css(&quot;.sellListContent li .info .title a::attr(href)&quot;).extract()
-            for link in links:
-                yield scrapy.Request(url=link, callback=self.parse_house_detail)
-            # 链接分页
-            page_data = sel.css(&quot;.house-lst-page-box::attr(page-data)&quot;).extract_first()
-            page_data = json.loads(page_data)
-            if page_data[&#39;curPage&#39;] == 1 and page_data[&#39;totalPage&#39;] &gt; 1:
-                price = response.url.replace(self.base_url + &#39;/ershoufang/&#39;, &#39;&#39;)
-                for x in range(2, page_data[&#39;totalPage&#39;] + 1, 1):
-                    url = self.base_url + &#39;/ershoufang/&#39; + &#39;pg&#39; + str(x) + price
-                    yield scrapy.Request(url=url, callback=self.parse_house_list)
-
-    def parse_house_detail(self, response):
-        &quot;&quot;&quot;提取房源信息&quot;&quot;&quot;
-        sel = Selector(response)
-
-        item = LianjiaHouseItem()
-        item[&#39;房屋Id&#39;] = response.url.replace(self.base_url + &#39;/ershoufang/&#39;, &#39;&#39;).replace(&#39;.html&#39;, &#39;&#39;)
-        item[&#39;标题&#39;] = sel.css(&#39;.title-wrapper .title .main::text&#39;).extract_first()
-        item[&#39;售价&#39;] = sel.css(&#39;.overview .content .price .total::text&#39;).extract_first()
-        item[&#39;小区&#39;] = sel.css(&#39;.overview .content .aroundInfo .communityName a.info::text&#39;).extract_first()
-        item[&#39;小区ID&#39;] = sel.css(&#39;.overview .content .aroundInfo .communityName a.info::attr(href)&#39;).extract_first().replace(&#39;/xiaoqu/&#39;, &#39;&#39;).replace(&#39;/&#39;, &#39;&#39;)
-        item[&#39;房屋户型&#39;] = sel.css(&#39;#introduction .base .content ul li:nth-child(1)::text&#39;).extract_first()
-        item[&#39;所在楼层&#39;] = sel.css(&#39;#introduction .base .content ul li:nth-child(2)::text&#39;).extract_first()
-        item[&#39;建筑面积&#39;] = sel.css(&#39;#introduction .base .content ul li:nth-child(3)::text&#39;).extract_first()
-        item[&#39;户型结构&#39;] = sel.css(&#39;#introduction .base .content ul li:nth-child(4)::text&#39;).extract_first()
-        item[&#39;套内面积&#39;] = sel.css(&#39;#introduction .base .content ul li:nth-child(5)::text&#39;).extract_first()
-        item[&#39;建筑类型&#39;] = sel.css(&#39;#introduction .base .content ul li:nth-child(6)::text&#39;).extract_first()
-        item[&#39;房屋朝向&#39;] = sel.css(&#39;#introduction .base .content ul li:nth-child(7)::text&#39;).extract_first()
-        item[&#39;建筑结构&#39;] = sel.css(&#39;#introduction .base .content ul li:nth-child(8)::text&#39;).extract_first()
-        item[&#39;装修情况&#39;] = sel.css(&#39;#introduction .base .content ul li:nth-child(9)::text&#39;).extract_first()
-        item[&#39;梯户比例&#39;] = sel.css(&#39;#introduction .base .content ul li:nth-child(10)::text&#39;).extract_first()
-        item[&#39;配备电梯&#39;] = sel.css(&#39;#introduction .base .content ul li:nth-child(11)::text&#39;).extract_first()
-        item[&#39;产权年限&#39;] = sel.css(&#39;#introduction .base .content ul li:nth-child(12)::text&#39;).extract_first()
-        item[&#39;挂牌时间&#39;] = sel.css(&#39;#introduction .transaction .content ul li:nth-child(1) span:nth-child(2)::text&#39;).extract_first()
-        item[&#39;交易权属&#39;] = sel.css(&#39;#introduction .transaction .content ul li:nth-child(2) span:nth-child(2)::text&#39;).extract_first()
-        item[&#39;上次交易&#39;] = sel.css(&#39;#introduction .transaction .content ul li:nth-child(3) span:nth-child(2)::text&#39;).extract_first()
-        item[&#39;房屋用途&#39;] = sel.css(&#39;#introduction .transaction .content ul li:nth-child(4) span:nth-child(2)::text&#39;).extract_first()
-        item[&#39;房屋年限&#39;] = sel.css(&#39;#introduction .transaction .content ul li:nth-child(5) span:nth-child(2)::text&#39;).extract_first()
-        item[&#39;产权所属&#39;] = sel.css(&#39;#introduction .transaction .content ul li:nth-child(6) span:nth-child(2)::text&#39;).extract_first()
-        item[&#39;抵押信息&#39;] = sel.css(&#39;#introduction .transaction .content ul li:nth-child(7) span:nth-child(2)::attr(title)&#39;).extract_first()
-        item[&#39;房本备件&#39;] = sel.css(&#39;#introduction .transaction .content ul li:nth-child(8) span:nth-child(2)::text&#39;).extract_first()
-
-        yield item
-</code></pre><p><img src="https://note.youdao.com/yws/public/resource/b668ad7e2986aeae14431f59531ace89/xmlnote/B0C655564F174592844C2DFE897C7265/3118" alt=""><br><img src="https://note.youdao.com/yws/public/resource/b668ad7e2986aeae14431f59531ace89/xmlnote/7E5B19AFBC1A4B658B00A1873BEEBD0A/3120" alt=""></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">import scrapy</span><br><span class="line">from scrapy import Selector</span><br><span class="line">import json</span><br><span class="line">import re</span><br><span class="line"></span><br><span class="line">from house_spider.items import LianjiaVillageItem, LianjiaHouseItem</span><br><span class="line"></span><br><span class="line">class LianjiaSpider(scrapy.Spider):</span><br><span class="line">    name = &#x27;lianjia&#x27;</span><br><span class="line">    allowed_domains = [&#x27;cq.lianjia.com&#x27;]</span><br><span class="line">    start_urls = [&#x27;cq.lianjia.com&#x27;]</span><br><span class="line"></span><br><span class="line">    def __init__(self, **kwargs):</span><br><span class="line">        super().__init__(**kwargs)</span><br><span class="line">        self.base_url = &#x27;https://cq.lianjia.com&#x27;</span><br><span class="line"></span><br><span class="line">    def start_requests(self):</span><br><span class="line">        request_url = &#x27;https://cq.lianjia.com/xiaoqu/&#x27;</span><br><span class="line">        yield scrapy.Request(url=request_url, callback=self.parse_district_links)</span><br><span class="line"></span><br><span class="line">    def parse_district_links(self, response):</span><br><span class="line">        &quot;&quot;&quot;提取地区链接&quot;&quot;&quot;</span><br><span class="line">        sel = Selector(response)</span><br><span class="line">        links = sel.css(&quot;div[data-role=&#x27;ershoufang&#x27;] div:first-child a::attr(href)&quot;).extract()</span><br><span class="line">        for link in links:</span><br><span class="line">            url = self.base_url + link</span><br><span class="line">            yield scrapy.Request(url=url, callback=self.parse_bizcircle_links)</span><br><span class="line"></span><br><span class="line">    def parse_bizcircle_links(self, response):</span><br><span class="line">        &quot;&quot;&quot;提取商圈链接&quot;&quot;&quot;</span><br><span class="line">        sel = Selector(response)</span><br><span class="line">        links = sel.css(&quot;div[data-role=&#x27;ershoufang&#x27;] div:nth-child(2) a::attr(href)&quot;).extract()</span><br><span class="line">        for link in links:</span><br><span class="line">            url = self.base_url + link</span><br><span class="line">            yield scrapy.Request(url=url, callback=self.parse_village_list, meta=&#123;&quot;ref&quot;: url&#125;)</span><br><span class="line"></span><br><span class="line">    def parse_village_list(self, response):</span><br><span class="line">        &quot;&quot;&quot;提取小区链接&quot;&quot;&quot;</span><br><span class="line">        sel = Selector(response)</span><br><span class="line">        links = sel.css(&quot;.listContent .xiaoquListItem .img::attr(href)&quot;).extract()</span><br><span class="line">        for link in links:</span><br><span class="line">            yield scrapy.Request(url=link, callback=self.parse_village_detail)</span><br><span class="line"></span><br><span class="line">        # page</span><br><span class="line">        page_data = sel.css(&quot;.house-lst-page-box::attr(page-data)&quot;).extract_first()</span><br><span class="line">        page_data = json.loads(page_data)</span><br><span class="line">        if page_data[&#x27;curPage&#x27;] &lt; page_data[&#x27;totalPage&#x27;]:</span><br><span class="line">            url = response.meta[&quot;ref&quot;] + &#x27;pg&#x27; + str(page_data[&#x27;curPage&#x27;] + 1)</span><br><span class="line">            yield scrapy.Request(url=url, callback=self.parse_village_list, meta=response.meta)</span><br><span class="line"></span><br><span class="line">    def parse_village_detail(self, response):</span><br><span class="line">        &quot;&quot;&quot;提取小区详情&quot;&quot;&quot;</span><br><span class="line">        village_url = response.url</span><br><span class="line">        sel = Selector(response)</span><br><span class="line">        zone = sel.css(&#x27;.xiaoquDetailbreadCrumbs .l-txt a::text&#x27;).extract()</span><br><span class="line">        latitude = 0</span><br><span class="line">        longitude = 0</span><br><span class="line">        try:</span><br><span class="line">            html = response.body.decode().replace(&#x27;\r&#x27;, &#x27;&#x27;)</span><br><span class="line">            local = html[html.find(&#x27;resblockPosition:&#x27;):html.find(&#x27;resblockName&#x27;) - 1]</span><br><span class="line">            m = re.search(&#x27;(\d.*\d),(\d.*\d)&#x27;, local)</span><br><span class="line">            longitude = m.group(1)</span><br><span class="line">            latitude = m.group(2)</span><br><span class="line">        except Exception:</span><br><span class="line">            pass</span><br><span class="line"></span><br><span class="line">        item = LianjiaVillageItem()</span><br><span class="line">        item[&#x27;id&#x27;] = village_url.replace(self.base_url + &#x27;/xiaoqu/&#x27;, &#x27;&#x27;).replace(&#x27;/&#x27;, &#x27;&#x27;)</span><br><span class="line">        item[&#x27;name&#x27;] = sel.css(&#x27;.detailHeader .detailTitle::text&#x27;).extract_first()</span><br><span class="line">        item[&#x27;address&#x27;] = sel.css(&#x27;.detailHeader .detailDesc::text&#x27;).extract_first()</span><br><span class="line">        item[&#x27;latitude&#x27;] = latitude</span><br><span class="line">        item[&#x27;longitude&#x27;] = longitude</span><br><span class="line">        item[&#x27;zone&#x27;] = &#x27;,&#x27;.join(zone)</span><br><span class="line">        item[&#x27;year&#x27;] = sel.css(&#x27;.xiaoquInfo .xiaoquInfoItem:nth-child(1) .xiaoquInfoContent::text&#x27;).extract_first()</span><br><span class="line">        item[&#x27;build_type&#x27;] = sel.css(&#x27;.xiaoquInfo .xiaoquInfoItem:nth-child(2) .xiaoquInfoContent::text&#x27;).extract_first()</span><br><span class="line">        item[&#x27;property_costs&#x27;] = sel.css(&#x27;.xiaoquInfo .xiaoquInfoItem:nth-child(3) .xiaoquInfoContent::text&#x27;).extract_first()</span><br><span class="line">        item[&#x27;property_company&#x27;] = sel.css(&#x27;.xiaoquInfo .xiaoquInfoItem:nth-child(4) .xiaoquInfoContent::text&#x27;).extract_first()</span><br><span class="line">        item[&#x27;developers&#x27;] = sel.css(&#x27;.xiaoquInfo .xiaoquInfoItem:nth-child(5) .xiaoquInfoContent::text&#x27;).extract_first()</span><br><span class="line">        item[&#x27;buildings&#x27;] = sel.css(&#x27;.xiaoquInfo .xiaoquInfoItem:nth-child(6) .xiaoquInfoContent::text&#x27;).extract_first()</span><br><span class="line">        item[&#x27;total_house&#x27;] = sel.css(&#x27;.xiaoquInfo .xiaoquInfoItem:nth-child(7) .xiaoquInfoContent::text&#x27;).extract_first()</span><br><span class="line"></span><br><span class="line">        print(item[&#x27;name&#x27;])</span><br><span class="line">        yield item</span><br><span class="line"></span><br><span class="line">        # 小区房源 https://cq.lianjia.com/ershoufang/c3620038190566370/</span><br><span class="line">        url = self.base_url + &quot;/ershoufang/c&quot; + item[&#x27;id&#x27;] + &quot;/&quot;</span><br><span class="line">        yield scrapy.Request(url=url, callback=self.parse_house_list, meta=&#123;&quot;ref&quot;: url&#125;)</span><br><span class="line"></span><br><span class="line">    def parse_house_list(self, response):</span><br><span class="line">        &quot;&quot;&quot;提取房源链接&quot;&quot;&quot;</span><br><span class="line">        sel = Selector(response)</span><br><span class="line">        # 链家有时小区查询不到数据</span><br><span class="line">        total = sel.css(&#x27;.resultDes .total span::text&#x27;).extract_first()</span><br><span class="line">        total = int(total)</span><br><span class="line">        if total &gt; 0:</span><br><span class="line">            # 提取房源链接</span><br><span class="line">            links = sel.css(&quot;.sellListContent li .info .title a::attr(href)&quot;).extract()</span><br><span class="line">            for link in links:</span><br><span class="line">                yield scrapy.Request(url=link, callback=self.parse_house_detail)</span><br><span class="line">            # 链接分页</span><br><span class="line">            page_data = sel.css(&quot;.house-lst-page-box::attr(page-data)&quot;).extract_first()</span><br><span class="line">            page_data = json.loads(page_data)</span><br><span class="line">            if page_data[&#x27;curPage&#x27;] == 1 and page_data[&#x27;totalPage&#x27;] &gt; 1:</span><br><span class="line">                price = response.url.replace(self.base_url + &#x27;/ershoufang/&#x27;, &#x27;&#x27;)</span><br><span class="line">                for x in range(2, page_data[&#x27;totalPage&#x27;] + 1, 1):</span><br><span class="line">                    url = self.base_url + &#x27;/ershoufang/&#x27; + &#x27;pg&#x27; + str(x) + price</span><br><span class="line">                    yield scrapy.Request(url=url, callback=self.parse_house_list)</span><br><span class="line"></span><br><span class="line">    def parse_house_detail(self, response):</span><br><span class="line">        &quot;&quot;&quot;提取房源信息&quot;&quot;&quot;</span><br><span class="line">        sel = Selector(response)</span><br><span class="line"></span><br><span class="line">        item = LianjiaHouseItem()</span><br><span class="line">        item[&#x27;房屋Id&#x27;] = response.url.replace(self.base_url + &#x27;/ershoufang/&#x27;, &#x27;&#x27;).replace(&#x27;.html&#x27;, &#x27;&#x27;)</span><br><span class="line">        item[&#x27;标题&#x27;] = sel.css(&#x27;.title-wrapper .title .main::text&#x27;).extract_first()</span><br><span class="line">        item[&#x27;售价&#x27;] = sel.css(&#x27;.overview .content .price .total::text&#x27;).extract_first()</span><br><span class="line">        item[&#x27;小区&#x27;] = sel.css(&#x27;.overview .content .aroundInfo .communityName a.info::text&#x27;).extract_first()</span><br><span class="line">        item[&#x27;小区ID&#x27;] = sel.css(&#x27;.overview .content .aroundInfo .communityName a.info::attr(href)&#x27;).extract_first().replace(&#x27;/xiaoqu/&#x27;, &#x27;&#x27;).replace(&#x27;/&#x27;, &#x27;&#x27;)</span><br><span class="line">        item[&#x27;房屋户型&#x27;] = sel.css(&#x27;#introduction .base .content ul li:nth-child(1)::text&#x27;).extract_first()</span><br><span class="line">        item[&#x27;所在楼层&#x27;] = sel.css(&#x27;#introduction .base .content ul li:nth-child(2)::text&#x27;).extract_first()</span><br><span class="line">        item[&#x27;建筑面积&#x27;] = sel.css(&#x27;#introduction .base .content ul li:nth-child(3)::text&#x27;).extract_first()</span><br><span class="line">        item[&#x27;户型结构&#x27;] = sel.css(&#x27;#introduction .base .content ul li:nth-child(4)::text&#x27;).extract_first()</span><br><span class="line">        item[&#x27;套内面积&#x27;] = sel.css(&#x27;#introduction .base .content ul li:nth-child(5)::text&#x27;).extract_first()</span><br><span class="line">        item[&#x27;建筑类型&#x27;] = sel.css(&#x27;#introduction .base .content ul li:nth-child(6)::text&#x27;).extract_first()</span><br><span class="line">        item[&#x27;房屋朝向&#x27;] = sel.css(&#x27;#introduction .base .content ul li:nth-child(7)::text&#x27;).extract_first()</span><br><span class="line">        item[&#x27;建筑结构&#x27;] = sel.css(&#x27;#introduction .base .content ul li:nth-child(8)::text&#x27;).extract_first()</span><br><span class="line">        item[&#x27;装修情况&#x27;] = sel.css(&#x27;#introduction .base .content ul li:nth-child(9)::text&#x27;).extract_first()</span><br><span class="line">        item[&#x27;梯户比例&#x27;] = sel.css(&#x27;#introduction .base .content ul li:nth-child(10)::text&#x27;).extract_first()</span><br><span class="line">        item[&#x27;配备电梯&#x27;] = sel.css(&#x27;#introduction .base .content ul li:nth-child(11)::text&#x27;).extract_first()</span><br><span class="line">        item[&#x27;产权年限&#x27;] = sel.css(&#x27;#introduction .base .content ul li:nth-child(12)::text&#x27;).extract_first()</span><br><span class="line">        item[&#x27;挂牌时间&#x27;] = sel.css(&#x27;#introduction .transaction .content ul li:nth-child(1) span:nth-child(2)::text&#x27;).extract_first()</span><br><span class="line">        item[&#x27;交易权属&#x27;] = sel.css(&#x27;#introduction .transaction .content ul li:nth-child(2) span:nth-child(2)::text&#x27;).extract_first()</span><br><span class="line">        item[&#x27;上次交易&#x27;] = sel.css(&#x27;#introduction .transaction .content ul li:nth-child(3) span:nth-child(2)::text&#x27;).extract_first()</span><br><span class="line">        item[&#x27;房屋用途&#x27;] = sel.css(&#x27;#introduction .transaction .content ul li:nth-child(4) span:nth-child(2)::text&#x27;).extract_first()</span><br><span class="line">        item[&#x27;房屋年限&#x27;] = sel.css(&#x27;#introduction .transaction .content ul li:nth-child(5) span:nth-child(2)::text&#x27;).extract_first()</span><br><span class="line">        item[&#x27;产权所属&#x27;] = sel.css(&#x27;#introduction .transaction .content ul li:nth-child(6) span:nth-child(2)::text&#x27;).extract_first()</span><br><span class="line">        item[&#x27;抵押信息&#x27;] = sel.css(&#x27;#introduction .transaction .content ul li:nth-child(7) span:nth-child(2)::attr(title)&#x27;).extract_first()</span><br><span class="line">        item[&#x27;房本备件&#x27;] = sel.css(&#x27;#introduction .transaction .content ul li:nth-child(8) span:nth-child(2)::text&#x27;).extract_first()</span><br><span class="line"></span><br><span class="line">        yield item</span><br><span class="line">        </span><br></pre></td></tr></table></figure>
+<p><img src="https://note.youdao.com/yws/public/resource/b668ad7e2986aeae14431f59531ace89/xmlnote/B0C655564F174592844C2DFE897C7265/3118" alt=""><br><img src="https://note.youdao.com/yws/public/resource/b668ad7e2986aeae14431f59531ace89/xmlnote/7E5B19AFBC1A4B658B00A1873BEEBD0A/3120" alt=""></p>
 
             </div>
             <hr />
@@ -807,7 +667,7 @@ class LianjiaSpider(scrapy.Spider):
         </p>
         
             <div class="center-align">
-                <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
                     <img alt=""
                          style="border-width:0"
                          src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
@@ -822,7 +682,7 @@ class LianjiaSpider(scrapy.Spider):
                rel="cc:attributionURL">
                 小乐
             </a> 采用
-            <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
                 知识共享署名 4.0 国际许可协议
             </a>进行许可。
         
@@ -895,7 +755,7 @@ class LianjiaSpider(scrapy.Spider):
                     <div class="card-image">
                         
                         
-                        <img src="https://wp-cdn.4ce.cn/v2/YPsSLd4.jpeg" class="responsive-img" alt="Java分布式的创建">
+                        <img src="https://wp-cdn.4ce.cn/v2/9l4EwtX.jpeg" class="responsive-img" alt="Java分布式的创建">
                         
                         <span class="card-title">Java分布式的创建</span>
                     </div>
@@ -949,7 +809,7 @@ class LianjiaSpider(scrapy.Spider):
                     <div class="card-image">
                         
                         
-                        <img src="https://wp-cdn.4ce.cn/v2/2UFdm3y.jpeg" class="responsive-img" alt="微信小程序与后端SpringBoot通信">
+                        <img src="https://wp-cdn.4ce.cn/v2/rPiJ7og.jpeg" class="responsive-img" alt="微信小程序与后端SpringBoot通信">
                         
                         <span class="card-title">微信小程序与后端SpringBoot通信</span>
                     </div>
@@ -1157,13 +1017,12 @@ data-ad-slot="5525027918"
 data-ad-format="auto"
 data-full-width-responsive="true"></ins>
 <footer class="page-footer bg-color">
-    <!-- 引入 Mermaid 支持脚本 -->
     <div class="container row center-align">
         <div class="col s12 m8 l8 copy-right">
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">158k</span>
+            <span class="white-color">630.2k</span>
             
 
             <br>
@@ -1219,6 +1078,112 @@ data-full-width-responsive="true"></ins>
 
 <div class="progress-bar"></div>
 
+
+<!-- 引入国内Mermaid库 -->
+<script src="https://cdn.staticfile.org/mermaid/10.6.1/mermaid.min.js"></script>
+<script>
+// 等待页面完全加载
+window.addEventListener('load', function() {
+    console.log('页面加载完成，开始处理Mermaid图表');
+    
+    // 更精确的选择器，适配不同Hexo主题可能生成的结构
+    const selectors = [
+        'pre.language-mermaid code'
+    ];
+    
+    let codeBlocks = [];
+    selectors.forEach(selector => {
+        const blocks = document.querySelectorAll(selector);
+        codeBlocks = [...codeBlocks, ...blocks];
+    });
+    
+    console.log(`找到 ${codeBlocks.length} 个可能的Mermaid代码块`);
+    
+    if (codeBlocks.length === 0) {
+        console.warn('未找到任何Mermaid代码块，请检查类名是否正确');
+        return;
+    }
+    
+    codeBlocks.forEach((codeBlock, index) => {
+        try {
+            const preBlock = codeBlock.closest('pre');
+            if (!preBlock) {
+                console.warn(`第${index+1}个代码块没有找到对应的pre父元素`);
+                return;
+            }
+            
+            // 提取并处理代码内容，还原所有HTML实体
+            let mermaidCode = codeBlock.textContent;
+            const entities = {
+                '&gt;': '>',
+                '&lt;': '<',
+                '&amp;': '&',
+                '&#39;': "'",
+                '&quot;': '"'
+            };
+            
+            // 还原所有转义字符
+            Object.keys(entities).forEach(entity => {
+                const regex = new RegExp(entity, 'g');
+                mermaidCode = mermaidCode.replace(regex, entities[entity]);
+            });
+            
+            console.log(`第${index+1}个代码块内容处理完成`);
+            
+            // 创建渲染容器
+            const mermaidContainer = document.createElement('div');
+            mermaidContainer.id = `mermaid-container-${index}`;
+            mermaidContainer.className = 'mermaid';
+            mermaidContainer.style.margin = '1rem 0';
+            mermaidContainer.textContent = mermaidCode;
+            
+            // 插入到页面中
+            preBlock.parentNode.insertBefore(mermaidContainer, preBlock);
+            
+            // 隐藏原始代码块
+            preBlock.style.display = 'none';
+            
+        } catch (error) {
+            console.error(`处理第${index+1}个代码块时出错:`, error);
+        }
+    });
+    
+    // 检查Mermaid是否加载成功
+    if (typeof mermaid === 'undefined') {
+        console.error('Mermaid库未加载成功，请检查CDN地址是否可用');
+        return;
+    }
+    
+    // 初始化Mermaid并添加错误处理
+    try {
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: {
+                curve: 'linear'
+            },
+            logLevel: 3 // 显示警告和错误信息
+        });
+        
+        console.log('Mermaid初始化完成，开始渲染图表');
+        
+        // 手动触发渲染（确保所有图表都被处理）
+        mermaid.run({
+            querySelector: '.mermaid'
+        }).then(() => {
+            console.log('Mermaid图表渲染完成');
+        }).catch(error => {
+            console.error('Mermaid渲染过程出错:', error);
+        });
+        
+    } catch (error) {
+        console.error('Mermaid初始化失败:', error);
+    }
+});
+</script>
+    
+    
 <!-- 谷歌广告 -->
 <script>
     (adsbygoogle = window.adsbygoogle || []).push({});

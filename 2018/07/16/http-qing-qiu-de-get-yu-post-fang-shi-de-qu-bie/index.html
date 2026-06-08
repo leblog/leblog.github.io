@@ -56,7 +56,7 @@ HTTP的底层是TCP/IP。所以">
 
     
      
-<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<meta name="generator" content="Hexo 8.1.2"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
 <link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 <body>
@@ -337,7 +337,7 @@ HTTP的底层是TCP/IP。所以">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://wp-cdn.4ce.cn/v2/ANRlK22.jpeg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://wp-cdn.4ce.cn/v2/Pgmzyb2.jpeg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -707,7 +707,7 @@ HTTP的底层是TCP/IP。所以">
         </p>
         
             <div class="center-align">
-                <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
                     <img alt=""
                          style="border-width:0"
                          src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
@@ -722,7 +722,7 @@ HTTP的底层是TCP/IP。所以">
                rel="cc:attributionURL">
                 小乐
             </a> 采用
-            <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
                 知识共享署名 4.0 国际许可协议
             </a>进行许可。
         
@@ -795,7 +795,7 @@ HTTP的底层是TCP/IP。所以">
                     <div class="card-image">
                         
                         
-                        <img src="https://wp-cdn.4ce.cn/v2/KDwZO8f.jpeg" class="responsive-img" alt="JAVA小知识总结">
+                        <img src="https://wp-cdn.4ce.cn/v2/8xozB8N.jpeg" class="responsive-img" alt="JAVA小知识总结">
                         
                         <span class="card-title">JAVA小知识总结</span>
                     </div>
@@ -846,7 +846,7 @@ HTTP的底层是TCP/IP。所以">
                     <div class="card-image">
                         
                         
-                        <img src="https://wp-cdn.4ce.cn/v2/HAz9p47.jpeg" class="responsive-img" alt="Ajax分页">
+                        <img src="https://wp-cdn.4ce.cn/v2/89jYf4t.jpeg" class="responsive-img" alt="Ajax分页">
                         
                         <span class="card-title">Ajax分页</span>
                     </div>
@@ -1053,13 +1053,12 @@ data-ad-slot="5525027918"
 data-ad-format="auto"
 data-full-width-responsive="true"></ins>
 <footer class="page-footer bg-color">
-    <!-- 引入 Mermaid 支持脚本 -->
     <div class="container row center-align">
         <div class="col s12 m8 l8 copy-right">
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">158k</span>
+            <span class="white-color">630.2k</span>
             
 
             <br>
@@ -1115,6 +1114,112 @@ data-full-width-responsive="true"></ins>
 
 <div class="progress-bar"></div>
 
+
+<!-- 引入国内Mermaid库 -->
+<script src="https://cdn.staticfile.org/mermaid/10.6.1/mermaid.min.js"></script>
+<script>
+// 等待页面完全加载
+window.addEventListener('load', function() {
+    console.log('页面加载完成，开始处理Mermaid图表');
+    
+    // 更精确的选择器，适配不同Hexo主题可能生成的结构
+    const selectors = [
+        'pre.language-mermaid code'
+    ];
+    
+    let codeBlocks = [];
+    selectors.forEach(selector => {
+        const blocks = document.querySelectorAll(selector);
+        codeBlocks = [...codeBlocks, ...blocks];
+    });
+    
+    console.log(`找到 ${codeBlocks.length} 个可能的Mermaid代码块`);
+    
+    if (codeBlocks.length === 0) {
+        console.warn('未找到任何Mermaid代码块，请检查类名是否正确');
+        return;
+    }
+    
+    codeBlocks.forEach((codeBlock, index) => {
+        try {
+            const preBlock = codeBlock.closest('pre');
+            if (!preBlock) {
+                console.warn(`第${index+1}个代码块没有找到对应的pre父元素`);
+                return;
+            }
+            
+            // 提取并处理代码内容，还原所有HTML实体
+            let mermaidCode = codeBlock.textContent;
+            const entities = {
+                '&gt;': '>',
+                '&lt;': '<',
+                '&amp;': '&',
+                '&#39;': "'",
+                '&quot;': '"'
+            };
+            
+            // 还原所有转义字符
+            Object.keys(entities).forEach(entity => {
+                const regex = new RegExp(entity, 'g');
+                mermaidCode = mermaidCode.replace(regex, entities[entity]);
+            });
+            
+            console.log(`第${index+1}个代码块内容处理完成`);
+            
+            // 创建渲染容器
+            const mermaidContainer = document.createElement('div');
+            mermaidContainer.id = `mermaid-container-${index}`;
+            mermaidContainer.className = 'mermaid';
+            mermaidContainer.style.margin = '1rem 0';
+            mermaidContainer.textContent = mermaidCode;
+            
+            // 插入到页面中
+            preBlock.parentNode.insertBefore(mermaidContainer, preBlock);
+            
+            // 隐藏原始代码块
+            preBlock.style.display = 'none';
+            
+        } catch (error) {
+            console.error(`处理第${index+1}个代码块时出错:`, error);
+        }
+    });
+    
+    // 检查Mermaid是否加载成功
+    if (typeof mermaid === 'undefined') {
+        console.error('Mermaid库未加载成功，请检查CDN地址是否可用');
+        return;
+    }
+    
+    // 初始化Mermaid并添加错误处理
+    try {
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: {
+                curve: 'linear'
+            },
+            logLevel: 3 // 显示警告和错误信息
+        });
+        
+        console.log('Mermaid初始化完成，开始渲染图表');
+        
+        // 手动触发渲染（确保所有图表都被处理）
+        mermaid.run({
+            querySelector: '.mermaid'
+        }).then(() => {
+            console.log('Mermaid图表渲染完成');
+        }).catch(error => {
+            console.error('Mermaid渲染过程出错:', error);
+        });
+        
+    } catch (error) {
+        console.error('Mermaid初始化失败:', error);
+    }
+});
+</script>
+    
+    
 <!-- 谷歌广告 -->
 <script>
     (adsbygoogle = window.adsbygoogle || []).push({});

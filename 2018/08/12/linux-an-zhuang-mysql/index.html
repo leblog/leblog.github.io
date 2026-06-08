@@ -7,7 +7,9 @@
     <meta name="keywords" content="Linux 安装 MySQL, 程序员小乐">
 
     
-    <meta name="description" content="Linux 安装 MySQL更新数据源apt-get update安装 MySQLapt-get install mysql-server系统将提示您在安装过程中创建 root 密码。选择一个安全的密码，并确保你记住它，因为你以后需要它。接">
+    <meta name="description" content="Linux 安装 MySQL更新数据源apt-get update
+安装 MySQLapt-get install mysql-server
+系统将提示您在安装过程中创建 root 密码。选择一个安全的密码，并确保你记住它，因为你以后需要它">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -49,7 +51,7 @@
 
     
      
-<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<meta name="generator" content="Hexo 8.1.2"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
 <link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 <body>
@@ -330,7 +332,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://wp-cdn.4ce.cn/v2/MKZGh0l.jpeg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://wp-cdn.4ce.cn/v2/sVibUfz.jpeg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -489,7 +491,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    595
+                    594
                 </div>
                 
 
@@ -512,39 +514,50 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="Linux-安装-MySQL"><a href="#Linux-安装-MySQL" class="headerlink" title="Linux 安装 MySQL"></a>Linux 安装 MySQL</h1><h3 id="更新数据源"><a href="#更新数据源" class="headerlink" title="更新数据源"></a>更新数据源</h3><pre><code>apt-get update</code></pre><h3 id="安装-MySQL"><a href="#安装-MySQL" class="headerlink" title="安装 MySQL"></a>安装 MySQL</h3><pre><code>apt-get install mysql-server</code></pre><p>系统将提示您在安装过程中创建 root 密码。选择一个安全的密码，并确保你记住它，因为你以后需要它。接下来，我们将完成 MySQL 的配置。</p>
+                <h1 id="Linux-安装-MySQL"><a href="#Linux-安装-MySQL" class="headerlink" title="Linux 安装 MySQL"></a>Linux 安装 MySQL</h1><h3 id="更新数据源"><a href="#更新数据源" class="headerlink" title="更新数据源"></a>更新数据源</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt-get update</span><br></pre></td></tr></table></figure>
+<h3 id="安装-MySQL"><a href="#安装-MySQL" class="headerlink" title="安装 MySQL"></a>安装 MySQL</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt-get install mysql-server</span><br></pre></td></tr></table></figure>
+<p>系统将提示您在安装过程中创建 root 密码。选择一个安全的密码，并确保你记住它，因为你以后需要它。接下来，我们将完成 MySQL 的配置。</p>
 <h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>因为是全新安装，您需要运行附带的安全脚本。这会更改一些不太安全的默认选项，例如远程 root 登录和示例用户。在旧版本的 MySQL 上，您需要手动初始化数据目录，但 Mysql 5.7 已经自动完成了。</p>
 <p>运行安全脚本：</p>
-<pre><code>mysql_secure_installation</code></pre><p>这将提示您输入您在之前步骤中创建的 root 密码。您可以按 Y，然后 ENTER 接受所有后续问题的默认值，但是要询问您是否要更改 root 密码。您只需在之前步骤中进行设置即可，因此无需现在更改。</p>
-<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>按上边方式安装完成后，MySQL 应该已经开始自动运行了。要测试它，请检查其状态。</p>
-<pre><code>lusifer@ubuntu:~$ systemctl status mysql.service
-● mysql.service - MySQL Community Server
-   Loaded: loaded (/lib/systemd/system/mysql.service; enabled; vendor preset: enabled)
-   Active: active (running) since Tue 2017-11-21 13:04:34 CST; 3min 24s ago
- Main PID: 2169 (mysqld)
-   CGroup: /system.slice/mysql.service
-           └─2169 /usr/sbin/mysqld
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql_secure_installation</span><br></pre></td></tr></table></figure>
 
-Nov 21 13:04:33 ubuntu systemd[1]: Starting MySQL Community Server...
-Nov 21 13:04:34 ubuntu systemd[1]: Started MySQL Community Server.</code></pre><h3 id="查看-MySQL-版本："><a href="#查看-MySQL-版本：" class="headerlink" title="查看 MySQL 版本："></a>查看 MySQL 版本：</h3><pre><code>mysqladmin -p -u root version</code></pre><h1 id="配置远程访问"><a href="#配置远程访问" class="headerlink" title="配置远程访问"></a>配置远程访问</h1><ul>
-<li>修改配置文件<pre><code>nano /etc/mysql/mysql.conf.d/mysqld.cnf</code></pre></li>
-<li>注释掉(语句前面加上 # 即可)：<pre><code>bind-address = 127.0.0.1</code></pre></li>
-<li>重启 MySQL<pre><code>service mysql restart</code></pre></li>
-<li>登录 MySQL<pre><code>mysql -u root -p</code></pre></li>
-<li>授权 root 用户允许所有人连接<pre><code>grant all privileges on *.* to &#39;root&#39;@&#39;%&#39; identified by &#39;你的 mysql root 账户密码&#39;;</code></pre></li>
+<p>这将提示您输入您在之前步骤中创建的 root 密码。您可以按 Y，然后 ENTER 接受所有后续问题的默认值，但是要询问您是否要更改 root 密码。您只需在之前步骤中进行设置即可，因此无需现在更改。</p>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>按上边方式安装完成后，MySQL 应该已经开始自动运行了。要测试它，请检查其状态。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lusifer@ubuntu:~$ systemctl status mysql.service</span><br><span class="line">● mysql.service - MySQL Community Server</span><br><span class="line">   Loaded: loaded (/lib/systemd/system/mysql.service; enabled; vendor preset: enabled)</span><br><span class="line">   Active: active (running) since Tue 2017-11-21 13:04:34 CST; 3min 24s ago</span><br><span class="line"> Main PID: 2169 (mysqld)</span><br><span class="line">   CGroup: /system.slice/mysql.service</span><br><span class="line">           └─2169 /usr/sbin/mysqld</span><br><span class="line"></span><br><span class="line">Nov 21 13:04:33 ubuntu systemd[1]: Starting MySQL Community Server...</span><br><span class="line">Nov 21 13:04:34 ubuntu systemd[1]: Started MySQL Community Server.</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看-MySQL-版本："><a href="#查看-MySQL-版本：" class="headerlink" title="查看 MySQL 版本："></a>查看 MySQL 版本：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysqladmin -p -u root version</span><br></pre></td></tr></table></figure>
+
+<h1 id="配置远程访问"><a href="#配置远程访问" class="headerlink" title="配置远程访问"></a>配置远程访问</h1><ul>
+<li>修改配置文件<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">nano /etc/mysql/mysql.conf.d/mysqld.cnf</span><br></pre></td></tr></table></figure></li>
+<li>注释掉(语句前面加上 # 即可)：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">bind-address = 127.0.0.1</span><br></pre></td></tr></table></figure></li>
+<li>重启 MySQL<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">service mysql restart</span><br></pre></td></tr></table></figure></li>
+<li>登录 MySQL<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql -u root -p</span><br></pre></td></tr></table></figure></li>
+<li>授权 root 用户允许所有人连接<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">grant all privileges on *.* to &#x27;root&#x27;@&#x27;%&#x27; identified by &#x27;你的 mysql root 账户密码&#x27;;</span><br></pre></td></tr></table></figure>
+
+</li>
 </ul>
 <h1 id="因弱口令无法成功授权解决步骤"><a href="#因弱口令无法成功授权解决步骤" class="headerlink" title="因弱口令无法成功授权解决步骤"></a>因弱口令无法成功授权解决步骤</h1><ul>
-<li>查看和设置密码安全级别<pre><code>select @@validate_password_policy;</code></pre><pre><code>set global validate_password_policy=0;</code></pre></li>
-<li>查看和设置密码长度限制<pre><code>select @@validate_password_length;</code></pre><pre><code>set global validate_password_length=1;</code></pre></li>
+<li>查看和设置密码安全级别<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select @@validate_password_policy;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">set global validate_password_policy=0;</span><br></pre></td></tr></table></figure></li>
+<li>查看和设置密码长度限制<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select @@validate_password_length;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">set global validate_password_length=1;</span><br></pre></td></tr></table></figure>
+
+</li>
 </ul>
-<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><pre><code>service mysql start</code></pre><h3 id="停止"><a href="#停止" class="headerlink" title="停止"></a>停止</h3><pre><code>service mysql stop</code></pre><h3 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h3><pre><code>service mysql restart</code></pre><h1 id="其它配置"><a href="#其它配置" class="headerlink" title="其它配置"></a>其它配置</h1><p>修改配置 <code>mysqld.cnf</code> 配置文件</p>
-<pre><code>vi /etc/mysql/mysql.conf.d/mysqld.cnf</code></pre><h3 id="配置默认字符集"><a href="#配置默认字符集" class="headerlink" title="配置默认字符集"></a>配置默认字符集</h3><p>在 <code>[mysqld]</code> 节点上增加如下配置</p>
-<pre><code>[client]
-default-character-set=utf8</code></pre><p>在 <code>[mysqld]</code>节点底部增加如下配置</p>
-<pre><code>default-storage-engine=INNODB
-character-set-server=utf8
-collation-server=utf8_general_ci</code></pre><h3 id="配置忽略数据库大小写敏感"><a href="#配置忽略数据库大小写敏感" class="headerlink" title="配置忽略数据库大小写敏感"></a>配置忽略数据库大小写敏感</h3><p>在 <code>[mysqld]</code>节点底部增加如下配置</p>
-<pre><code>lower-case-table-names = 1</code></pre>
+<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">service mysql start</span><br></pre></td></tr></table></figure>
+
+<h3 id="停止"><a href="#停止" class="headerlink" title="停止"></a>停止</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">service mysql stop</span><br></pre></td></tr></table></figure>
+<h3 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">service mysql restart</span><br></pre></td></tr></table></figure>
+<h1 id="其它配置"><a href="#其它配置" class="headerlink" title="其它配置"></a>其它配置</h1><p>修改配置 <code>mysqld.cnf</code> 配置文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vi /etc/mysql/mysql.conf.d/mysqld.cnf</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置默认字符集"><a href="#配置默认字符集" class="headerlink" title="配置默认字符集"></a>配置默认字符集</h3><p>在 <code>[mysqld]</code> 节点上增加如下配置</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[client]</span><br><span class="line">default-character-set=utf8</span><br></pre></td></tr></table></figure>
+
+<p>在 <code>[mysqld]</code>节点底部增加如下配置</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">default-storage-engine=INNODB</span><br><span class="line">character-set-server=utf8</span><br><span class="line">collation-server=utf8_general_ci</span><br></pre></td></tr></table></figure>
+<h3 id="配置忽略数据库大小写敏感"><a href="#配置忽略数据库大小写敏感" class="headerlink" title="配置忽略数据库大小写敏感"></a>配置忽略数据库大小写敏感</h3><p>在 <code>[mysqld]</code>节点底部增加如下配置</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lower-case-table-names = 1</span><br></pre></td></tr></table></figure>
             </div>
             <hr />
 
@@ -693,7 +706,7 @@ collation-server=utf8_general_ci</code></pre><h3 id="配置忽略数据库大小
         </p>
         
             <div class="center-align">
-                <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
                     <img alt=""
                          style="border-width:0"
                          src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
@@ -708,7 +721,7 @@ collation-server=utf8_general_ci</code></pre><h3 id="配置忽略数据库大小
                rel="cc:attributionURL">
                 小乐
             </a> 采用
-            <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
                 知识共享署名 4.0 国际许可协议
             </a>进行许可。
         
@@ -781,7 +794,7 @@ collation-server=utf8_general_ci</code></pre><h3 id="配置忽略数据库大小
                     <div class="card-image">
                         
                         
-                        <img src="https://wp-cdn.4ce.cn/v2/qezDlYK.jpeg" class="responsive-img" alt="Linux LVM 磁盘扩容">
+                        <img src="https://wp-cdn.4ce.cn/v2/2ilj03K.jpeg" class="responsive-img" alt="Linux LVM 磁盘扩容">
                         
                         <span class="card-title">Linux LVM 磁盘扩容</span>
                     </div>
@@ -830,7 +843,7 @@ collation-server=utf8_general_ci</code></pre><h3 id="配置忽略数据库大小
                     <div class="card-image">
                         
                         
-                        <img src="https://wp-cdn.4ce.cn/v2/xuRBq8r.jpeg" class="responsive-img" alt="Linux 安装 Tomcat">
+                        <img src="https://wp-cdn.4ce.cn/v2/rl3FlWL.jpeg" class="responsive-img" alt="Linux 安装 Tomcat">
                         
                         <span class="card-title">Linux 安装 Tomcat</span>
                     </div>
@@ -1038,13 +1051,12 @@ data-ad-slot="5525027918"
 data-ad-format="auto"
 data-full-width-responsive="true"></ins>
 <footer class="page-footer bg-color">
-    <!-- 引入 Mermaid 支持脚本 -->
     <div class="container row center-align">
         <div class="col s12 m8 l8 copy-right">
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">158k</span>
+            <span class="white-color">630.2k</span>
             
 
             <br>
@@ -1100,6 +1112,112 @@ data-full-width-responsive="true"></ins>
 
 <div class="progress-bar"></div>
 
+
+<!-- 引入国内Mermaid库 -->
+<script src="https://cdn.staticfile.org/mermaid/10.6.1/mermaid.min.js"></script>
+<script>
+// 等待页面完全加载
+window.addEventListener('load', function() {
+    console.log('页面加载完成，开始处理Mermaid图表');
+    
+    // 更精确的选择器，适配不同Hexo主题可能生成的结构
+    const selectors = [
+        'pre.language-mermaid code'
+    ];
+    
+    let codeBlocks = [];
+    selectors.forEach(selector => {
+        const blocks = document.querySelectorAll(selector);
+        codeBlocks = [...codeBlocks, ...blocks];
+    });
+    
+    console.log(`找到 ${codeBlocks.length} 个可能的Mermaid代码块`);
+    
+    if (codeBlocks.length === 0) {
+        console.warn('未找到任何Mermaid代码块，请检查类名是否正确');
+        return;
+    }
+    
+    codeBlocks.forEach((codeBlock, index) => {
+        try {
+            const preBlock = codeBlock.closest('pre');
+            if (!preBlock) {
+                console.warn(`第${index+1}个代码块没有找到对应的pre父元素`);
+                return;
+            }
+            
+            // 提取并处理代码内容，还原所有HTML实体
+            let mermaidCode = codeBlock.textContent;
+            const entities = {
+                '&gt;': '>',
+                '&lt;': '<',
+                '&amp;': '&',
+                '&#39;': "'",
+                '&quot;': '"'
+            };
+            
+            // 还原所有转义字符
+            Object.keys(entities).forEach(entity => {
+                const regex = new RegExp(entity, 'g');
+                mermaidCode = mermaidCode.replace(regex, entities[entity]);
+            });
+            
+            console.log(`第${index+1}个代码块内容处理完成`);
+            
+            // 创建渲染容器
+            const mermaidContainer = document.createElement('div');
+            mermaidContainer.id = `mermaid-container-${index}`;
+            mermaidContainer.className = 'mermaid';
+            mermaidContainer.style.margin = '1rem 0';
+            mermaidContainer.textContent = mermaidCode;
+            
+            // 插入到页面中
+            preBlock.parentNode.insertBefore(mermaidContainer, preBlock);
+            
+            // 隐藏原始代码块
+            preBlock.style.display = 'none';
+            
+        } catch (error) {
+            console.error(`处理第${index+1}个代码块时出错:`, error);
+        }
+    });
+    
+    // 检查Mermaid是否加载成功
+    if (typeof mermaid === 'undefined') {
+        console.error('Mermaid库未加载成功，请检查CDN地址是否可用');
+        return;
+    }
+    
+    // 初始化Mermaid并添加错误处理
+    try {
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: {
+                curve: 'linear'
+            },
+            logLevel: 3 // 显示警告和错误信息
+        });
+        
+        console.log('Mermaid初始化完成，开始渲染图表');
+        
+        // 手动触发渲染（确保所有图表都被处理）
+        mermaid.run({
+            querySelector: '.mermaid'
+        }).then(() => {
+            console.log('Mermaid图表渲染完成');
+        }).catch(error => {
+            console.error('Mermaid渲染过程出错:', error);
+        });
+        
+    } catch (error) {
+        console.error('Mermaid初始化失败:', error);
+    }
+});
+</script>
+    
+    
 <!-- 谷歌广告 -->
 <script>
     (adsbygoogle = window.adsbygoogle || []).push({});

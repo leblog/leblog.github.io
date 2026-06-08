@@ -49,7 +49,7 @@
 
     
      
-<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<meta name="generator" content="Hexo 8.1.2"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
 <link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 <body>
@@ -330,7 +330,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://wp-cdn.4ce.cn/v2/PkFkFHq.jpeg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://wp-cdn.4ce.cn/v2/I1KsMdt.jpeg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -493,7 +493,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.2k
+                    1.3k
                 </div>
                 
 
@@ -528,40 +528,9 @@
 </li>
 </ul>
 <h3 id="SQL注入的原理"><a href="#SQL注入的原理" class="headerlink" title="SQL注入的原理"></a>SQL注入的原理</h3><p>密码验证的接口根据输入的用户名和密码查询数据表，如果查到用户记录的话，则认证通过。<br>代码如下:</p>
-<pre><code>    public boolean auth(String userName,String password) throws Exception{
-        Connection conn = null;
-        try {
-            conn = DBUtil.getConnection();
-            Statement state = conn.createStatement();
-            //
-            String sql = &quot;SELECT * &quot; +
-                         &quot;FROM t_user &quot;+
-                         &quot;WHERE username=&#39;&quot;+userName+&quot;&#39; &quot; +
-                         &quot;AND pwd=&#39;&quot;+password+&quot;&#39;&quot;;
-            /*
-             * 密码输入:
-             * &#39; OR &#39;1&#39;=&#39;1
-             * sql注入攻击
-             * 
-             */
-            System.out.println(sql);
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public boolean auth(String userName,String password) throws Exception&#123;</span><br><span class="line">    Connection conn = null;</span><br><span class="line">    try &#123;</span><br><span class="line">        conn = DBUtil.getConnection();</span><br><span class="line">        Statement state = conn.createStatement();</span><br><span class="line">        //</span><br><span class="line">        String sql = &quot;SELECT * &quot; +</span><br><span class="line">                     &quot;FROM t_user &quot;+</span><br><span class="line">                     &quot;WHERE username=&#x27;&quot;+userName+&quot;&#x27; &quot; +</span><br><span class="line">                     &quot;AND pwd=&#x27;&quot;+password+&quot;&#x27;&quot;;</span><br><span class="line">        /*</span><br><span class="line">         * 密码输入:</span><br><span class="line">         * &#x27; OR &#x27;1&#x27;=&#x27;1</span><br><span class="line">         * sql注入攻击</span><br><span class="line">         * </span><br><span class="line">         */</span><br><span class="line">        System.out.println(sql);</span><br><span class="line">        </span><br><span class="line">        ResultSet rs </span><br><span class="line">            = state.executeQuery(sql);</span><br><span class="line">        //</span><br><span class="line">        if(rs.next())&#123;</span><br><span class="line">            return true;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125; finally&#123;</span><br><span class="line">        if(conn != null)&#123;</span><br><span class="line">            DBUtil.close(conn);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-            ResultSet rs 
-                = state.executeQuery(sql);
-            //
-            if(rs.next()){
-                return true;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally{
-            if(conn != null){
-                DBUtil.close(conn);
-            }
-        }
-        return false;
-    }
-</code></pre><p>实际执行的sql语句如下：</p>
+<p>实际执行的sql语句如下：</p>
 <blockquote>
 <p>SELECT * FROM t_user WHERE username=’1qwerwterrt’ AND pwd=’’ OR ‘1’=’1’;</p>
 </blockquote>
@@ -569,79 +538,13 @@
 <p><img src="https://note.youdao.com/yws/public/resource/b668ad7e2986aeae14431f59531ace89/xmlnote/CC4DF51160B54463B9B3389E1479D9D5/2817" alt=""></p>
 <h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>修改UserDAO类（使用shiro框架对输入的密码进行加密，然后再对数据库进行操作），具体步骤如下：</p>
 <ul>
-<li>修改用户注册的接口<br>修改后，代码如下：<pre><code>  /**
-   * 增加用户信息(注册时用)
-   * @param u
-   * @throws Exception
-   */
-  public void save(User u)throws Exception{
-      //设置盐巴
-      String salt = new SecureRandomNumberGenerator().nextBytes().toString();
-      //设置撒多少次盐巴
-      int times = 2;
-      //生成密文
-      String encodedPassword = new SimpleHash(&quot;md5&quot;,u.getPwd(),salt,times).toString();
-      Connection con = null;
-      PreparedStatement pst = null;
-      try{
-          con = DBUtil.getConnection();
-          pst = con.prepareStatement(&quot;insert into t_user(username,pwd,realname,gender,salt) values (?,?,?,?,?)&quot;);
-          pst.setString(1,u.getUsername());
-          pst.setString(2,encodedPassword);
-          pst.setString(3,u.getName());
-          pst.setString(4,u.getGender());
-          pst.setString(5,salt);
-          pst.executeUpdate();
-      }catch(Exception e){
-          e.printStackTrace();
-          throw e;
-      }finally{
-          DBUtil.close(con);
-      }       
-  }</code></pre></li>
+<li>修改用户注册的接口<br>修改后，代码如下：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 增加用户信息(注册时用)</span><br><span class="line"> * @param u</span><br><span class="line"> * @throws Exception</span><br><span class="line"> */</span><br><span class="line">public void save(User u)throws Exception&#123;</span><br><span class="line">    //设置盐巴</span><br><span class="line">    String salt = new SecureRandomNumberGenerator().nextBytes().toString();</span><br><span class="line">    //设置撒多少次盐巴</span><br><span class="line">    int times = 2;</span><br><span class="line">    //生成密文</span><br><span class="line">    String encodedPassword = new SimpleHash(&quot;md5&quot;,u.getPwd(),salt,times).toString();</span><br><span class="line">    Connection con = null;</span><br><span class="line">    PreparedStatement pst = null;</span><br><span class="line">    try&#123;</span><br><span class="line">        con = DBUtil.getConnection();</span><br><span class="line">        pst = con.prepareStatement(&quot;insert into t_user(username,pwd,realname,gender,salt) values (?,?,?,?,?)&quot;);</span><br><span class="line">        pst.setString(1,u.getUsername());</span><br><span class="line">        pst.setString(2,encodedPassword);</span><br><span class="line">        pst.setString(3,u.getName());</span><br><span class="line">        pst.setString(4,u.getGender());</span><br><span class="line">        pst.setString(5,salt);</span><br><span class="line">        pst.executeUpdate();</span><br><span class="line">    &#125;catch(Exception e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        throw e;</span><br><span class="line">    &#125;finally&#123;</span><br><span class="line">        DBUtil.close(con);</span><br><span class="line">    &#125;       </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 <li>修改登录认证的接口</li>
 </ul>
 <p>修改后，代码如下：</p>
-<pre><code>    /**
-     * 登录认证
-     * @param userName
-     * @param password
-     * @return
-     * @throws Exception
-     */
-    public boolean auth(String userName,String password) throws Exception{
-        Connection conn = null;
-        User user = findByUserName(userName);
-        if(user==null){
-            return false;
-        }
-        //得到密文
-        String encodePassword = new SimpleHash(&quot;md5&quot;,password,user.getSalt(),2).toString();
-        try {
-            conn = DBUtil.getConnection();
-            Statement state = conn.createStatement();
-            //
-            String sql = &quot;SELECT * &quot; +
-                         &quot;FROM t_user &quot;+
-                         &quot;WHERE username=&#39;&quot;+userName+&quot;&#39; &quot; +
-                         &quot;AND pwd=&#39;&quot;+encodePassword+&quot;&#39;&quot;;
-            //打印被执行的SQL语句
-            System.out.println(sql);
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 登录认证</span><br><span class="line"> * @param userName</span><br><span class="line"> * @param password</span><br><span class="line"> * @return</span><br><span class="line"> * @throws Exception</span><br><span class="line"> */</span><br><span class="line">public boolean auth(String userName,String password) throws Exception&#123;</span><br><span class="line">    Connection conn = null;</span><br><span class="line">    User user = findByUserName(userName);</span><br><span class="line">    if(user==null)&#123;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">    //得到密文</span><br><span class="line">    String encodePassword = new SimpleHash(&quot;md5&quot;,password,user.getSalt(),2).toString();</span><br><span class="line">    try &#123;</span><br><span class="line">        conn = DBUtil.getConnection();</span><br><span class="line">        Statement state = conn.createStatement();</span><br><span class="line">        //</span><br><span class="line">        String sql = &quot;SELECT * &quot; +</span><br><span class="line">                     &quot;FROM t_user &quot;+</span><br><span class="line">                     &quot;WHERE username=&#x27;&quot;+userName+&quot;&#x27; &quot; +</span><br><span class="line">                     &quot;AND pwd=&#x27;&quot;+encodePassword+&quot;&#x27;&quot;;</span><br><span class="line">        //打印被执行的SQL语句</span><br><span class="line">        System.out.println(sql);</span><br><span class="line">        </span><br><span class="line">        ResultSet rs = state.executeQuery(sql);</span><br><span class="line">        //</span><br><span class="line">        if(rs.next())&#123;</span><br><span class="line">            return true;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125; finally&#123;</span><br><span class="line">        if(conn != null)&#123;</span><br><span class="line">            DBUtil.close(conn);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-            ResultSet rs = state.executeQuery(sql);
-            //
-            if(rs.next()){
-                return true;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally{
-            if(conn != null){
-                DBUtil.close(conn);
-            }
-        }
-        return false;
-    }</code></pre><h3 id="重新注册一个管理员账号"><a href="#重新注册一个管理员账号" class="headerlink" title="重新注册一个管理员账号"></a>重新注册一个管理员账号</h3><ul>
+<h3 id="重新注册一个管理员账号"><a href="#重新注册一个管理员账号" class="headerlink" title="重新注册一个管理员账号"></a>重新注册一个管理员账号</h3><ul>
 <li>输入用户名：sys</li>
 <li>输入密码：123456</li>
 </ul>
@@ -652,133 +555,10 @@
 <p>输入密码为：123456<br><img src="https://note.youdao.com/yws/public/resource/b668ad7e2986aeae14431f59531ace89/xmlnote/203D1BF6D8964D4D8B6BCABF8F51CFFC/2823" alt=""></p>
 <h3 id="使用sys账号登录ERP系统（对密码输入框进行SQL注入）"><a href="#使用sys账号登录ERP系统（对密码输入框进行SQL注入）" class="headerlink" title="使用sys账号登录ERP系统（对密码输入框进行SQL注入）"></a>使用sys账号登录ERP系统（对密码输入框进行SQL注入）</h3><p>输入密码为：’ OR ‘1’=’1<br><img src="https://note.youdao.com/yws/public/resource/b668ad7e2986aeae14431f59531ace89/xmlnote/719FDB661CA24416B059AAD8E8852D5B/2825" alt=""></p>
 <h3 id="UserDAO类的完整代码"><a href="#UserDAO类的完整代码" class="headerlink" title="UserDAO类的完整代码"></a>UserDAO类的完整代码</h3><p>代码如下：</p>
-<pre><code>package com.myerp.dao;
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">package com.myerp.dao;</span><br><span class="line"></span><br><span class="line">import java.sql.Connection;</span><br><span class="line">import java.sql.PreparedStatement;</span><br><span class="line">import java.sql.ResultSet;</span><br><span class="line">import java.sql.Statement;</span><br><span class="line"></span><br><span class="line">import org.apache.shiro.crypto.SecureRandomNumberGenerator;</span><br><span class="line">import org.apache.shiro.crypto.hash.SimpleHash;</span><br><span class="line"></span><br><span class="line">import com.myerp.model.User;</span><br><span class="line">import com.myerp.utils.DBUtil;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 针对用户表t_user的数据访问类</span><br><span class="line"> * @author yangzc</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">public class UserDAO &#123;</span><br><span class="line">    /**</span><br><span class="line">     * 按照username查询一个实体信息</span><br><span class="line">     * 注册时用于检测用户名是否重复</span><br><span class="line">     * 登录时用于检测用户名密码是否正确</span><br><span class="line">     * @param userName</span><br><span class="line">     * @return</span><br><span class="line">     * @throws Exception</span><br><span class="line">     */</span><br><span class="line">    public User findByUserName(String userName)throws Exception&#123;</span><br><span class="line">        User user = null;</span><br><span class="line">        Connection conn = null;</span><br><span class="line">        PreparedStatement pst = null;</span><br><span class="line">        ResultSet rs = null;</span><br><span class="line">        try&#123;</span><br><span class="line">            conn = DBUtil.getConnection();</span><br><span class="line">            pst = conn.prepareStatement(&quot;select * from t_user where username=?&quot;);</span><br><span class="line">            pst.setString(1, userName);</span><br><span class="line">            rs = pst.executeQuery();</span><br><span class="line">            while(rs.next())&#123;</span><br><span class="line">                user = new User();</span><br><span class="line">                user.setId(rs.getInt(&quot;id&quot;));</span><br><span class="line">                user.setUsername(rs.getString(&quot;username&quot;));</span><br><span class="line">                user.setPwd(rs.getString(&quot;pwd&quot;));</span><br><span class="line">                user.setName(rs.getString(&quot;realname&quot;));</span><br><span class="line">                user.setGender(rs.getString(&quot;gender&quot;));     </span><br><span class="line">                user.setSalt(rs.getString(&quot;salt&quot;));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;catch(Exception e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            throw e;</span><br><span class="line">        &#125;finally&#123;</span><br><span class="line">            DBUtil.close(conn);</span><br><span class="line">        &#125;</span><br><span class="line">        return user;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    /**</span><br><span class="line">     * 增加用户信息(注册时用)</span><br><span class="line">     * @param u</span><br><span class="line">     * @throws Exception</span><br><span class="line">     */</span><br><span class="line">    public void save(User u)throws Exception&#123;</span><br><span class="line">        //设置盐巴</span><br><span class="line">        String salt = new SecureRandomNumberGenerator().nextBytes().toString();</span><br><span class="line">        //设置撒多少次盐巴</span><br><span class="line">        int times = 2;</span><br><span class="line">        //生成密文</span><br><span class="line">        String encodedPassword = new SimpleHash(&quot;md5&quot;,u.getPwd(),salt,times).toString();</span><br><span class="line">        Connection con = null;</span><br><span class="line">        PreparedStatement pst = null;</span><br><span class="line">        try&#123;</span><br><span class="line">            con = DBUtil.getConnection();</span><br><span class="line">            pst = con.prepareStatement(&quot;insert into t_user(username,pwd,realname,gender,salt) values (?,?,?,?,?)&quot;);</span><br><span class="line">            pst.setString(1,u.getUsername());</span><br><span class="line">            pst.setString(2,encodedPassword);</span><br><span class="line">            pst.setString(3,u.getName());</span><br><span class="line">            pst.setString(4,u.getGender());</span><br><span class="line">            pst.setString(5,salt);</span><br><span class="line">            pst.executeUpdate();</span><br><span class="line">        &#125;catch(Exception e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            throw e;</span><br><span class="line">        &#125;finally&#123;</span><br><span class="line">            DBUtil.close(con);</span><br><span class="line">        &#125;       </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    /**</span><br><span class="line">     * 登录认证</span><br><span class="line">     * @param userName</span><br><span class="line">     * @param password</span><br><span class="line">     * @return</span><br><span class="line">     * @throws Exception</span><br><span class="line">     */</span><br><span class="line">    public boolean auth(String userName,String password) throws Exception&#123;</span><br><span class="line">        Connection conn = null;</span><br><span class="line">        User user = findByUserName(userName);</span><br><span class="line">        if(user==null)&#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        //得到密文</span><br><span class="line">        String encodePassword = new SimpleHash(&quot;md5&quot;,password,user.getSalt(),2).toString();</span><br><span class="line">        try &#123;</span><br><span class="line">            conn = DBUtil.getConnection();</span><br><span class="line">            Statement state = conn.createStatement();</span><br><span class="line">            //</span><br><span class="line">            String sql = &quot;SELECT * &quot; +</span><br><span class="line">                         &quot;FROM t_user &quot;+</span><br><span class="line">                         &quot;WHERE username=&#x27;&quot;+userName+&quot;&#x27; &quot; +</span><br><span class="line">                         &quot;AND pwd=&#x27;&quot;+encodePassword+&quot;&#x27;&quot;;</span><br><span class="line">            //打印被执行的SQL语句</span><br><span class="line">            System.out.println(sql);</span><br><span class="line">            </span><br><span class="line">            ResultSet rs = state.executeQuery(sql);</span><br><span class="line">            //</span><br><span class="line">            if(rs.next())&#123;</span><br><span class="line">                return true;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; finally&#123;</span><br><span class="line">            if(conn != null)&#123;</span><br><span class="line">                DBUtil.close(conn);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
 
-import org.apache.shiro.crypto.SecureRandomNumberGenerator;
-import org.apache.shiro.crypto.hash.SimpleHash;
 
-import com.myerp.model.User;
-import com.myerp.utils.DBUtil;
-
-/**
- * 针对用户表t_user的数据访问类
- * @author yangzc
- *
- */
-public class UserDAO {
-    /**
-     * 按照username查询一个实体信息
-     * 注册时用于检测用户名是否重复
-     * 登录时用于检测用户名密码是否正确
-     * @param userName
-     * @return
-     * @throws Exception
-     */
-    public User findByUserName(String userName)throws Exception{
-        User user = null;
-        Connection conn = null;
-        PreparedStatement pst = null;
-        ResultSet rs = null;
-        try{
-            conn = DBUtil.getConnection();
-            pst = conn.prepareStatement(&quot;select * from t_user where username=?&quot;);
-            pst.setString(1, userName);
-            rs = pst.executeQuery();
-            while(rs.next()){
-                user = new User();
-                user.setId(rs.getInt(&quot;id&quot;));
-                user.setUsername(rs.getString(&quot;username&quot;));
-                user.setPwd(rs.getString(&quot;pwd&quot;));
-                user.setName(rs.getString(&quot;realname&quot;));
-                user.setGender(rs.getString(&quot;gender&quot;));     
-                user.setSalt(rs.getString(&quot;salt&quot;));
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-            throw e;
-        }finally{
-            DBUtil.close(conn);
-        }
-        return user;
-    }
-
-    /**
-     * 增加用户信息(注册时用)
-     * @param u
-     * @throws Exception
-     */
-    public void save(User u)throws Exception{
-        //设置盐巴
-        String salt = new SecureRandomNumberGenerator().nextBytes().toString();
-        //设置撒多少次盐巴
-        int times = 2;
-        //生成密文
-        String encodedPassword = new SimpleHash(&quot;md5&quot;,u.getPwd(),salt,times).toString();
-        Connection con = null;
-        PreparedStatement pst = null;
-        try{
-            con = DBUtil.getConnection();
-            pst = con.prepareStatement(&quot;insert into t_user(username,pwd,realname,gender,salt) values (?,?,?,?,?)&quot;);
-            pst.setString(1,u.getUsername());
-            pst.setString(2,encodedPassword);
-            pst.setString(3,u.getName());
-            pst.setString(4,u.getGender());
-            pst.setString(5,salt);
-            pst.executeUpdate();
-        }catch(Exception e){
-            e.printStackTrace();
-            throw e;
-        }finally{
-            DBUtil.close(con);
-        }       
-    }
-
-    /**
-     * 登录认证
-     * @param userName
-     * @param password
-     * @return
-     * @throws Exception
-     */
-    public boolean auth(String userName,String password) throws Exception{
-        Connection conn = null;
-        User user = findByUserName(userName);
-        if(user==null){
-            return false;
-        }
-        //得到密文
-        String encodePassword = new SimpleHash(&quot;md5&quot;,password,user.getSalt(),2).toString();
-        try {
-            conn = DBUtil.getConnection();
-            Statement state = conn.createStatement();
-            //
-            String sql = &quot;SELECT * &quot; +
-                         &quot;FROM t_user &quot;+
-                         &quot;WHERE username=&#39;&quot;+userName+&quot;&#39; &quot; +
-                         &quot;AND pwd=&#39;&quot;+encodePassword+&quot;&#39;&quot;;
-            //打印被执行的SQL语句
-            System.out.println(sql);
-
-            ResultSet rs = state.executeQuery(sql);
-            //
-            if(rs.next()){
-                return true;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally{
-            if(conn != null){
-                DBUtil.close(conn);
-            }
-        }
-        return false;
-    }
-}</code></pre>
             </div>
             <hr />
 
@@ -927,7 +707,7 @@ public class UserDAO {
         </p>
         
             <div class="center-align">
-                <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
                     <img alt=""
                          style="border-width:0"
                          src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
@@ -942,7 +722,7 @@ public class UserDAO {
                rel="cc:attributionURL">
                 小乐
             </a> 采用
-            <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
                 知识共享署名 4.0 国际许可协议
             </a>进行许可。
         
@@ -1015,7 +795,7 @@ public class UserDAO {
                     <div class="card-image">
                         
                         
-                        <img src="https://wp-cdn.4ce.cn/v2/7Aw0Rgx.jpeg" class="responsive-img" alt="后台常用万能密码">
+                        <img src="https://wp-cdn.4ce.cn/v2/HpbUCi5.jpeg" class="responsive-img" alt="后台常用万能密码">
                         
                         <span class="card-title">后台常用万能密码</span>
                     </div>
@@ -1070,7 +850,7 @@ asp aspx万能密码1：&quot;or &quot;a&q
                     <div class="card-image">
                         
                         
-                        <img src="https://wp-cdn.4ce.cn/v2/MnPzei7.jpeg" class="responsive-img" alt="Linux 用户和组管理">
+                        <img src="https://wp-cdn.4ce.cn/v2/8xozB8N.jpeg" class="responsive-img" alt="Linux 用户和组管理">
                         
                         <span class="card-title">Linux 用户和组管理</span>
                     </div>
@@ -1275,13 +1055,12 @@ data-ad-slot="5525027918"
 data-ad-format="auto"
 data-full-width-responsive="true"></ins>
 <footer class="page-footer bg-color">
-    <!-- 引入 Mermaid 支持脚本 -->
     <div class="container row center-align">
         <div class="col s12 m8 l8 copy-right">
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">158k</span>
+            <span class="white-color">630.2k</span>
             
 
             <br>
@@ -1337,6 +1116,112 @@ data-full-width-responsive="true"></ins>
 
 <div class="progress-bar"></div>
 
+
+<!-- 引入国内Mermaid库 -->
+<script src="https://cdn.staticfile.org/mermaid/10.6.1/mermaid.min.js"></script>
+<script>
+// 等待页面完全加载
+window.addEventListener('load', function() {
+    console.log('页面加载完成，开始处理Mermaid图表');
+    
+    // 更精确的选择器，适配不同Hexo主题可能生成的结构
+    const selectors = [
+        'pre.language-mermaid code'
+    ];
+    
+    let codeBlocks = [];
+    selectors.forEach(selector => {
+        const blocks = document.querySelectorAll(selector);
+        codeBlocks = [...codeBlocks, ...blocks];
+    });
+    
+    console.log(`找到 ${codeBlocks.length} 个可能的Mermaid代码块`);
+    
+    if (codeBlocks.length === 0) {
+        console.warn('未找到任何Mermaid代码块，请检查类名是否正确');
+        return;
+    }
+    
+    codeBlocks.forEach((codeBlock, index) => {
+        try {
+            const preBlock = codeBlock.closest('pre');
+            if (!preBlock) {
+                console.warn(`第${index+1}个代码块没有找到对应的pre父元素`);
+                return;
+            }
+            
+            // 提取并处理代码内容，还原所有HTML实体
+            let mermaidCode = codeBlock.textContent;
+            const entities = {
+                '&gt;': '>',
+                '&lt;': '<',
+                '&amp;': '&',
+                '&#39;': "'",
+                '&quot;': '"'
+            };
+            
+            // 还原所有转义字符
+            Object.keys(entities).forEach(entity => {
+                const regex = new RegExp(entity, 'g');
+                mermaidCode = mermaidCode.replace(regex, entities[entity]);
+            });
+            
+            console.log(`第${index+1}个代码块内容处理完成`);
+            
+            // 创建渲染容器
+            const mermaidContainer = document.createElement('div');
+            mermaidContainer.id = `mermaid-container-${index}`;
+            mermaidContainer.className = 'mermaid';
+            mermaidContainer.style.margin = '1rem 0';
+            mermaidContainer.textContent = mermaidCode;
+            
+            // 插入到页面中
+            preBlock.parentNode.insertBefore(mermaidContainer, preBlock);
+            
+            // 隐藏原始代码块
+            preBlock.style.display = 'none';
+            
+        } catch (error) {
+            console.error(`处理第${index+1}个代码块时出错:`, error);
+        }
+    });
+    
+    // 检查Mermaid是否加载成功
+    if (typeof mermaid === 'undefined') {
+        console.error('Mermaid库未加载成功，请检查CDN地址是否可用');
+        return;
+    }
+    
+    // 初始化Mermaid并添加错误处理
+    try {
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: {
+                curve: 'linear'
+            },
+            logLevel: 3 // 显示警告和错误信息
+        });
+        
+        console.log('Mermaid初始化完成，开始渲染图表');
+        
+        // 手动触发渲染（确保所有图表都被处理）
+        mermaid.run({
+            querySelector: '.mermaid'
+        }).then(() => {
+            console.log('Mermaid图表渲染完成');
+        }).catch(error => {
+            console.error('Mermaid渲染过程出错:', error);
+        });
+        
+    } catch (error) {
+        console.error('Mermaid初始化失败:', error);
+    }
+});
+</script>
+    
+    
 <!-- 谷歌广告 -->
 <script>
     (adsbygoogle = window.adsbygoogle || []).push({});

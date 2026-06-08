@@ -60,7 +60,7 @@
 
     
      
-<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<meta name="generator" content="Hexo 8.1.2"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
 <link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 <body>
@@ -341,7 +341,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://wp-cdn.4ce.cn/v2/azp4OgR.jpeg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://wp-cdn.4ce.cn/v2/fZIuhXf.jpeg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -500,7 +500,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    911
+                    906
                 </div>
                 
 
@@ -537,13 +537,8 @@
 <li><p>出现冲突,按照提示进入产生冲突的文件中,手动判断并解决冲突</p>
 <blockquote>
 <p>当 rebase 发生冲突时，git 会停止 rebase 并让你去解决冲突，<strong>解决完之后不能直接 commit</strong>，<strong>而是应该用 continue 参数继续执行 rebase</strong></p>
-<pre><code># 解决冲突之后
-# 如果是合并代码时产生的冲突，需要把修改的文件放入暂存区
-git add &lt;冲突的文件&gt;
-git rebase --continue
-# or
-# 不解决冲突，还原回 rebase 之前的状态
-git rebase --abort</code></pre></blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 解决冲突之后</span><br><span class="line"># 如果是合并代码时产生的冲突，需要把修改的文件放入暂存区</span><br><span class="line">git add &lt;冲突的文件&gt;</span><br><span class="line">git rebase --continue</span><br><span class="line"># or</span><br><span class="line"># 不解决冲突，还原回 rebase 之前的状态</span><br><span class="line">git rebase --abort</span><br></pre></td></tr></table></figure>
+</blockquote>
 </li>
 </ul>
 </li>
@@ -591,34 +586,9 @@ git rebase --abort</code></pre></blockquote>
 <p><code>git push forkds le</code>中的forkds是仓库的别名,le是仓库的分支,</p>
 </blockquote>
 <p><img src="https://ali.frist-art.cn/wx/tianyan/photo/image-20210723135444133.png" alt="image-20210723135444133"></p>
-<h3 id="简约的操作流程"><a href="#简约的操作流程" class="headerlink" title="简约的操作流程"></a>简约的操作流程</h3><pre><code>0.查看git状态
-    git status
-    如果本地有修改跳到第1步，
-    如果本地没有任何更改跳到第4步做到第6步。
-1.添加暂存区
-    git add -A
-2.提交版本
-    git commit -m &quot;docs:99&quot;
-3.查看log
-    git log --oneline --decorate --graph --all
-    自行判断是否存在多个commit提交,多个需要合并
-    git rebase -i HEAD~&lt;合并的提交数量&gt;
-    详情参考上面的第5条步骤中多个commit的情况
-4.拉取远程
-    git fetch teamds
-5.合并
-    git rebase teamds/main
-    &gt; 出现冲突时当 rebase 发生冲突时，git 会停止 rebase 并让你去解决冲突，解决完之后不能直        接 commit，而是应该用 continue 参数继续执行 rebase
-    &gt; 解决冲突之后
-      如果是合并代码时产生的冲突，需要把修改的文件放入暂存区
-      git add &lt;冲突的文件&gt;
-      git rebase --continue
+<h3 id="简约的操作流程"><a href="#简约的操作流程" class="headerlink" title="简约的操作流程"></a>简约的操作流程</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">0.查看git状态</span><br><span class="line">	git status</span><br><span class="line">    如果本地有修改跳到第1步，</span><br><span class="line">    如果本地没有任何更改跳到第4步做到第6步。</span><br><span class="line">1.添加暂存区</span><br><span class="line">	git add -A</span><br><span class="line">2.提交版本</span><br><span class="line">	git commit -m &quot;docs:99&quot;</span><br><span class="line">3.查看log</span><br><span class="line">	git log --oneline --decorate --graph --all</span><br><span class="line">	自行判断是否存在多个commit提交,多个需要合并</span><br><span class="line">	git rebase -i HEAD~&lt;合并的提交数量&gt;</span><br><span class="line">	详情参考上面的第5条步骤中多个commit的情况</span><br><span class="line">4.拉取远程</span><br><span class="line">	git fetch teamds</span><br><span class="line">5.合并</span><br><span class="line">	git rebase teamds/main</span><br><span class="line">	&gt; 出现冲突时当 rebase 发生冲突时，git 会停止 rebase 并让你去解决冲突，解决完之后不能直		接 commit，而是应该用 continue 参数继续执行 rebase</span><br><span class="line">	&gt; 解决冲突之后</span><br><span class="line">	  如果是合并代码时产生的冲突，需要把修改的文件放入暂存区</span><br><span class="line">      git add &lt;冲突的文件&gt;</span><br><span class="line">      git rebase --continue</span><br><span class="line">      </span><br><span class="line">6.查看状态</span><br><span class="line">	git status</span><br><span class="line">7.推送</span><br><span class="line">	git push forkds/99 -f</span><br><span class="line">8.发起PR--不需要99操作,99推送完在群里讲一下,茂宏和兔兔看到会合并,合并完后按照完整流程步骤走</span><br></pre></td></tr></table></figure>
 
-6.查看状态
-    git status
-7.推送
-    git push forkds/99 -f
-8.发起PR--不需要99操作,99推送完在群里讲一下,茂宏和兔兔看到会合并,合并完后按照完整流程步骤走</code></pre>
+
             </div>
             <hr />
 
@@ -767,7 +737,7 @@ git rebase --abort</code></pre></blockquote>
         </p>
         
             <div class="center-align">
-                <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
                     <img alt=""
                          style="border-width:0"
                          src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
@@ -782,7 +752,7 @@ git rebase --abort</code></pre></blockquote>
                rel="cc:attributionURL">
                 小乐
             </a> 采用
-            <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
                 知识共享署名 4.0 国际许可协议
             </a>进行许可。
         
@@ -855,7 +825,7 @@ git rebase --abort</code></pre></blockquote>
                     <div class="card-image">
                         
                         
-                        <img src="https://wp-cdn.4ce.cn/v2/HAz9p47.jpeg" class="responsive-img" alt="Windows10安装Windows Terminal + oh-my-posh">
+                        <img src="https://wp-cdn.4ce.cn/v2/xLz7i4u.jpeg" class="responsive-img" alt="Windows10安装Windows Terminal + oh-my-posh">
                         
                         <span class="card-title">Windows10安装Windows Terminal + oh-my-posh</span>
                     </div>
@@ -904,7 +874,7 @@ git rebase --abort</code></pre></blockquote>
                     <div class="card-image">
                         
                         
-                        <img src="https://wp-cdn.4ce.cn/v2/l1lDyji.jpeg" class="responsive-img" alt="GitHub PR 合并后自动删除相应的分支">
+                        <img src="https://wp-cdn.4ce.cn/v2/9l4EwtX.jpeg" class="responsive-img" alt="GitHub PR 合并后自动删除相应的分支">
                         
                         <span class="card-title">GitHub PR 合并后自动删除相应的分支</span>
                     </div>
@@ -1104,13 +1074,12 @@ data-ad-slot="5525027918"
 data-ad-format="auto"
 data-full-width-responsive="true"></ins>
 <footer class="page-footer bg-color">
-    <!-- 引入 Mermaid 支持脚本 -->
     <div class="container row center-align">
         <div class="col s12 m8 l8 copy-right">
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">158k</span>
+            <span class="white-color">630.2k</span>
             
 
             <br>
@@ -1166,6 +1135,112 @@ data-full-width-responsive="true"></ins>
 
 <div class="progress-bar"></div>
 
+
+<!-- 引入国内Mermaid库 -->
+<script src="https://cdn.staticfile.org/mermaid/10.6.1/mermaid.min.js"></script>
+<script>
+// 等待页面完全加载
+window.addEventListener('load', function() {
+    console.log('页面加载完成，开始处理Mermaid图表');
+    
+    // 更精确的选择器，适配不同Hexo主题可能生成的结构
+    const selectors = [
+        'pre.language-mermaid code'
+    ];
+    
+    let codeBlocks = [];
+    selectors.forEach(selector => {
+        const blocks = document.querySelectorAll(selector);
+        codeBlocks = [...codeBlocks, ...blocks];
+    });
+    
+    console.log(`找到 ${codeBlocks.length} 个可能的Mermaid代码块`);
+    
+    if (codeBlocks.length === 0) {
+        console.warn('未找到任何Mermaid代码块，请检查类名是否正确');
+        return;
+    }
+    
+    codeBlocks.forEach((codeBlock, index) => {
+        try {
+            const preBlock = codeBlock.closest('pre');
+            if (!preBlock) {
+                console.warn(`第${index+1}个代码块没有找到对应的pre父元素`);
+                return;
+            }
+            
+            // 提取并处理代码内容，还原所有HTML实体
+            let mermaidCode = codeBlock.textContent;
+            const entities = {
+                '&gt;': '>',
+                '&lt;': '<',
+                '&amp;': '&',
+                '&#39;': "'",
+                '&quot;': '"'
+            };
+            
+            // 还原所有转义字符
+            Object.keys(entities).forEach(entity => {
+                const regex = new RegExp(entity, 'g');
+                mermaidCode = mermaidCode.replace(regex, entities[entity]);
+            });
+            
+            console.log(`第${index+1}个代码块内容处理完成`);
+            
+            // 创建渲染容器
+            const mermaidContainer = document.createElement('div');
+            mermaidContainer.id = `mermaid-container-${index}`;
+            mermaidContainer.className = 'mermaid';
+            mermaidContainer.style.margin = '1rem 0';
+            mermaidContainer.textContent = mermaidCode;
+            
+            // 插入到页面中
+            preBlock.parentNode.insertBefore(mermaidContainer, preBlock);
+            
+            // 隐藏原始代码块
+            preBlock.style.display = 'none';
+            
+        } catch (error) {
+            console.error(`处理第${index+1}个代码块时出错:`, error);
+        }
+    });
+    
+    // 检查Mermaid是否加载成功
+    if (typeof mermaid === 'undefined') {
+        console.error('Mermaid库未加载成功，请检查CDN地址是否可用');
+        return;
+    }
+    
+    // 初始化Mermaid并添加错误处理
+    try {
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: {
+                curve: 'linear'
+            },
+            logLevel: 3 // 显示警告和错误信息
+        });
+        
+        console.log('Mermaid初始化完成，开始渲染图表');
+        
+        // 手动触发渲染（确保所有图表都被处理）
+        mermaid.run({
+            querySelector: '.mermaid'
+        }).then(() => {
+            console.log('Mermaid图表渲染完成');
+        }).catch(error => {
+            console.error('Mermaid渲染过程出错:', error);
+        });
+        
+    } catch (error) {
+        console.error('Mermaid初始化失败:', error);
+    }
+});
+</script>
+    
+    
 <!-- 谷歌广告 -->
 <script>
     (adsbygoogle = window.adsbygoogle || []).push({});

@@ -1,0 +1,1601 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="MySQL连接池配置与优化, 程序员小乐">
+
+    
+    <meta name="description" content="MySQL连接池配置与优化连接池是应用访问数据库的必经之路。合理的连接池配置能够显著提升应用性能，避免连接问题。
+一、为什么需要连接池1.1 数据库连接的成本创建数据库连接是高成本操作：
+创建连接的步骤：1. TCP三次握手（1.5 RTT">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>MySQL连接池配置与优化 | 程序员小乐</title>
+    <link rel="icon" type="image/png" href="https://wp-cdn.4ce.cn/v2/aTeDpXd.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-3.7.1.min.js"></script>
+    <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+
+    <!-- 谷歌广告 -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3969824567415808"
+     crossorigin="anonymous"></script>
+
+     <!-- 谷歌分析 -->
+     <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XNDRSTWEQ8"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-XNDRSTWEQ8');
+    </script>
+
+    
+     
+<meta name="generator" content="Hexo 8.1.2"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="https://wp-cdn.4ce.cn/v2/aTeDpXd.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">程序员小乐</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-list"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-card"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-users"></i>
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/contact" class="waves-effect waves-light">
+            
+            <i class="fa fa-volume-control-phone"></i>
+            
+            <span>留言板</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tools" class="waves-effect waves-light">
+            
+            <i class="fa fa-inbox"></i>
+            
+            <span>Tools</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="https://wp-cdn.4ce.cn/v2/aTeDpXd.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">程序员小乐</div>
+        <div class="logo-desc">
+            
+            计算机科学与技术
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-list"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-card"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-users"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        <li>
+            <a href="/contact" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-volume-control-phone"></i>
+                
+                留言板
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tools" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-inbox"></i>
+                
+                Tools
+            </a>
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/leblog" class="waves-effect waves-light" target="_blank">
+                <i class="fa fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/leblog" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://wp-cdn.4ce.cn/v2/Ke7cOFz.jpeg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        MySQL连接池配置与优化
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                        <a href="/tags/MySQL/" target="_blank">
+                            <span class="chip bg-color">MySQL</span>
+                        </a>
+                        
+                        <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" target="_blank">
+                            <span class="chip bg-color">数据库</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                        <a href="/categories/MySQL/" class="post-category" target="_blank">
+                            MySQL
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2024-07-27
+                </div>
+
+                <div class="post-author info-break-policy">
+                    <i class="fa fa-user-o fa-fw"></i>作者:&nbsp;&nbsp;
+                    
+                    小乐
+                    
+                </div>
+
+                
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    2.1k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    9 分
+                </div>
+                
+                
+
+                
+                <div id="busuanzi_container_page_pv" class="info-break-policy">
+                    <i class="fa fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                    <span id="busuanzi_value_page_pv"></span>
+                </div>
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="MySQL连接池配置与优化"><a href="#MySQL连接池配置与优化" class="headerlink" title="MySQL连接池配置与优化"></a>MySQL连接池配置与优化</h1><p>连接池是应用访问数据库的必经之路。合理的连接池配置能够显著提升应用性能，避免连接问题。</p>
+<h2 id="一、为什么需要连接池"><a href="#一、为什么需要连接池" class="headerlink" title="一、为什么需要连接池"></a>一、为什么需要连接池</h2><h3 id="1-1-数据库连接的成本"><a href="#1-1-数据库连接的成本" class="headerlink" title="1.1 数据库连接的成本"></a>1.1 数据库连接的成本</h3><p>创建数据库连接是高成本操作：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">创建连接的步骤：</span><br><span class="line">1. TCP三次握手（1.5 RTT）</span><br><span class="line">2. MySQL握手认证</span><br><span class="line">3. 权限验证</span><br><span class="line">4. 初始化连接资源和缓冲区</span><br><span class="line"></span><br><span class="line">总耗时：约几十到几百毫秒</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-连接池的作用"><a href="#1-2-连接池的作用" class="headerlink" title="1.2 连接池的作用"></a>1.2 连接池的作用</h3><ul>
+<li><strong>复用连接</strong>：避免频繁创建和关闭连接</li>
+<li><strong>控制并发</strong>：限制同时访问数据库的连接数</li>
+<li><strong>快速响应</strong>：从池获取连接是微秒级</li>
+<li><strong>连接管理</strong>：自动检测和恢复无效连接</li>
+</ul>
+<h2 id="二、连接池原理"><a href="#二、连接池原理" class="headerlink" title="二、连接池原理"></a>二、连接池原理</h2><h3 id="2-1-连接池的工作流程"><a href="#2-1-连接池的工作流程" class="headerlink" title="2.1 连接池的工作流程"></a>2.1 连接池的工作流程</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">应用请求连接</span><br><span class="line">    │</span><br><span class="line">    ├── 空闲连接？───是──→ 返回连接</span><br><span class="line">    │       │</span><br><span class="line">    │      否</span><br><span class="line">    │       │</span><br><span class="line">    ├── 连接数 &lt; 最大连接数？───是──→ 创建新连接</span><br><span class="line">    │       │</span><br><span class="line">    │      否</span><br><span class="line">    │       │</span><br><span class="line">    └── 等待（或报错）</span><br><span class="line"></span><br><span class="line">归还连接</span><br><span class="line">    │</span><br><span class="line">    ├── 连接有效？───是──→ 放回空闲池</span><br><span class="line">    │       │</span><br><span class="line">    │      否</span><br><span class="line">    │       │</span><br><span class="line">    └── 关闭连接</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-连接池核心参数"><a href="#2-2-连接池核心参数" class="headerlink" title="2.2 连接池核心参数"></a>2.2 连接池核心参数</h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>最小连接数（minIdle）</td>
+<td>连接池保持的最小空闲连接</td>
+</tr>
+<tr>
+<td>最大连接数（maxActive/maxPoolSize）</td>
+<td>连接池允许的最大连接数</td>
+</tr>
+<tr>
+<td>连接超时（connectionTimeout）</td>
+<td>获取连接的最大等待时间</td>
+</tr>
+<tr>
+<td>空闲检测（idleTimeout）</td>
+<td>空闲连接回收时间</td>
+</tr>
+<tr>
+<td>最大生命周期（maxLifetime）</td>
+<td>连接的最大存活时间</td>
+</tr>
+</tbody></table>
+<h2 id="三、主流连接池对比"><a href="#三、主流连接池对比" class="headerlink" title="三、主流连接池对比"></a>三、主流连接池对比</h2><h3 id="3-1-HikariCP"><a href="#3-1-HikariCP" class="headerlink" title="3.1 HikariCP"></a>3.1 HikariCP</h3><p>性能最好的连接池，SpringBoot 2.0+ 默认。</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.zaxxer<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>HikariCP<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">HikariConfig</span> <span class="variable">config</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">HikariConfig</span>();</span><br><span class="line">config.setJdbcUrl(<span class="string">&quot;jdbc:mysql://localhost:3306/mydb&quot;</span>);</span><br><span class="line">config.setUsername(<span class="string">&quot;root&quot;</span>);</span><br><span class="line">config.setPassword(<span class="string">&quot;password&quot;</span>);</span><br><span class="line">config.setMaximumPoolSize(<span class="number">20</span>);</span><br><span class="line">config.setMinimumIdle(<span class="number">5</span>);</span><br><span class="line">config.setConnectionTimeout(<span class="number">30000</span>);</span><br><span class="line">config.setIdleTimeout(<span class="number">600000</span>);</span><br><span class="line">config.setMaxLifetime(<span class="number">1800000</span>);</span><br><span class="line">config.addDataSourceProperty(<span class="string">&quot;cachePrepStmts&quot;</span>, <span class="string">&quot;true&quot;</span>);</span><br><span class="line">config.addDataSourceProperty(<span class="string">&quot;prepStmtCacheSize&quot;</span>, <span class="string">&quot;250&quot;</span>);</span><br><span class="line">config.addDataSourceProperty(<span class="string">&quot;prepStmtCacheSqlLimit&quot;</span>, <span class="string">&quot;2048&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="type">HikariDataSource</span> <span class="variable">dataSource</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">HikariDataSource</span>(config);</span><br></pre></td></tr></table></figure>
+
+<p><strong>特点</strong>：</p>
+<ul>
+<li>性能极高（比其他连接池快数倍）</li>
+<li>代码精简，功能专注</li>
+<li>无额外监控功能</li>
+</ul>
+<h3 id="3-2-Druid"><a href="#3-2-Druid" class="headerlink" title="3.2 Druid"></a>3.2 Druid</h3><p>阿里巴巴开源，功能全面。</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>druid-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.20<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">datasource:</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">com.alibaba.druid.pool.DruidDataSource</span></span><br><span class="line">    <span class="attr">druid:</span></span><br><span class="line">      <span class="attr">url:</span> <span class="string">jdbc:mysql://localhost:3306/mydb</span></span><br><span class="line">      <span class="attr">username:</span> <span class="string">root</span></span><br><span class="line">      <span class="attr">password:</span> <span class="string">password</span></span><br><span class="line">      <span class="attr">initial-size:</span> <span class="number">5</span></span><br><span class="line">      <span class="attr">min-idle:</span> <span class="number">5</span></span><br><span class="line">      <span class="attr">max-active:</span> <span class="number">20</span></span><br><span class="line">      <span class="attr">max-wait:</span> <span class="number">60000</span></span><br><span class="line">      <span class="attr">time-between-eviction-runs-millis:</span> <span class="number">60000</span></span><br><span class="line">      <span class="attr">min-evictable-idle-time-millis:</span> <span class="number">300000</span></span><br><span class="line">      <span class="attr">max-evictable-idle-time-millis:</span> <span class="number">900000</span></span><br><span class="line">      <span class="attr">validation-query:</span> <span class="string">SELECT</span> <span class="number">1</span></span><br><span class="line">      <span class="attr">test-while-idle:</span> <span class="literal">true</span></span><br><span class="line">      <span class="attr">test-on-borrow:</span> <span class="literal">false</span></span><br><span class="line">      <span class="attr">test-on-return:</span> <span class="literal">false</span></span><br><span class="line">      <span class="attr">pool-prepared-statements:</span> <span class="literal">true</span></span><br><span class="line">      <span class="attr">max-pool-prepared-statement-per-connection-size:</span> <span class="number">20</span></span><br><span class="line">      <span class="attr">filters:</span> <span class="string">stat,wall,slf4j</span></span><br><span class="line">      <span class="attr">connection-properties:</span> <span class="string">druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000</span></span><br><span class="line">      <span class="attr">stat-view-servlet:</span></span><br><span class="line">        <span class="attr">enabled:</span> <span class="literal">true</span></span><br><span class="line">        <span class="attr">login-username:</span> <span class="string">admin</span></span><br><span class="line">        <span class="attr">login-password:</span> <span class="string">admin</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>特点</strong>：</p>
+<ul>
+<li>内置监控页面</li>
+<li>SQL防注入（WallFilter）</li>
+<li>SQL性能监控</li>
+<li>扩展功能丰富</li>
+</ul>
+<h3 id="3-3-连接池性能对比"><a href="#3-3-连接池性能对比" class="headerlink" title="3.3 连接池性能对比"></a>3.3 连接池性能对比</h3><table>
+<thead>
+<tr>
+<th>连接池</th>
+<th>性能</th>
+<th>功能</th>
+<th>监控</th>
+<th>推荐场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HikariCP</td>
+<td>★★★</td>
+<td>基础</td>
+<td>无</td>
+<td>追求极致性能</td>
+</tr>
+<tr>
+<td>Druid</td>
+<td>★★☆</td>
+<td>丰富</td>
+<td>内置</td>
+<td>需要监控和SQL防护</td>
+</tr>
+<tr>
+<td>C3P0</td>
+<td>★☆☆</td>
+<td>一般</td>
+<td>无</td>
+<td>老项目维护</td>
+</tr>
+<tr>
+<td>DBCP2</td>
+<td>★★☆</td>
+<td>基础</td>
+<td>无</td>
+<td>Apache生态</td>
+</tr>
+</tbody></table>
+<h2 id="四、连接池参数配置"><a href="#四、连接池参数配置" class="headerlink" title="四、连接池参数配置"></a>四、连接池参数配置</h2><h3 id="4-1-连接数计算"><a href="#4-1-连接数计算" class="headerlink" title="4.1 连接数计算"></a>4.1 连接数计算</h3><p><strong>最大连接数公式</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">连接数 = ((核心数 × 2) + 有效磁盘数) × 单服务器分片数</span><br><span class="line"></span><br><span class="line">简化估算：</span><br><span class="line">- 4核服务器：8-16连接</span><br><span class="line">- 8核服务器：16-32连接</span><br><span class="line">- 16核服务器：32-64连接</span><br></pre></td></tr></table></figure>
+
+<p><strong>MySQL服务端最大连接数</strong>：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> VARIABLES <span class="keyword">LIKE</span> <span class="string">&#x27;max_connections&#x27;</span>;</span><br><span class="line"><span class="comment">-- 默认151，生产建议500-2000</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-应用连接池配置"><a href="#4-2-应用连接池配置" class="headerlink" title="4.2 应用连接池配置"></a>4.2 应用连接池配置</h3><p>假设应用部署8台机器，MySQL服务端max_connections=500：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">每台应用的最大连接数 = 500 / 8 ≈ 60</span><br><span class="line">考虑冗余：每台配置 maxPoolSize = 50</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-3-HikariCP推荐配置"><a href="#4-3-HikariCP推荐配置" class="headerlink" title="4.3 HikariCP推荐配置"></a>4.3 HikariCP推荐配置</h3><figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 核心参数</span></span><br><span class="line"><span class="attr">spring.datasource.hikari.maximum-pool-size</span>=<span class="string">20</span></span><br><span class="line"><span class="attr">spring.datasource.hikari.minimum-idle</span>=<span class="string">5</span></span><br><span class="line"><span class="attr">spring.datasource.hikari.connection-timeout</span>=<span class="string">30000</span></span><br><span class="line"><span class="attr">spring.datasource.hikari.idle-timeout</span>=<span class="string">600000</span></span><br><span class="line"><span class="attr">spring.datasource.hikari.max-lifetime</span>=<span class="string">1800000</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"># 连接测试</span></span><br><span class="line"><span class="attr">spring.datasource.hikari.connection-test-query</span>=<span class="string">SELECT 1</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"># MySQL优化</span></span><br><span class="line"><span class="attr">spring.datasource.hikari.data-source-properties.cachePrepStmts</span>=<span class="string">true</span></span><br><span class="line"><span class="attr">spring.datasource.hikari.data-source-properties.prepStmtCacheSize</span>=<span class="string">250</span></span><br><span class="line"><span class="attr">spring.datasource.hikari.data-source-properties.prepStmtCacheSqlLimit</span>=<span class="string">2048</span></span><br><span class="line"><span class="attr">spring.datasource.hikari.data-source-properties.useServerPrepStmts</span>=<span class="string">true</span></span><br><span class="line"><span class="attr">spring.datasource.hikari.data-source-properties.useLocalSessionState</span>=<span class="string">true</span></span><br><span class="line"><span class="attr">spring.datasource.hikari.data-source-properties.rewriteBatchedStatements</span>=<span class="string">true</span></span><br><span class="line"><span class="attr">spring.datasource.hikari.data-source-properties.cacheResultSetMetadata</span>=<span class="string">true</span></span><br><span class="line"><span class="attr">spring.datasource.hikari.data-source-properties.cacheServerConfiguration</span>=<span class="string">true</span></span><br><span class="line"><span class="attr">spring.datasource.hikari.data-source-properties.elideSetAutoCommits</span>=<span class="string">true</span></span><br><span class="line"><span class="attr">spring.datasource.hikari.data-source-properties.maintainTimeStats</span>=<span class="string">false</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-4-参数详解"><a href="#4-4-参数详解" class="headerlink" title="4.4 参数详解"></a>4.4 参数详解</h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>推荐值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>maximumPoolSize</td>
+<td>10-30</td>
+<td>最大连接数</td>
+</tr>
+<tr>
+<td>minimumIdle</td>
+<td>5-10</td>
+<td>最小空闲连接</td>
+</tr>
+<tr>
+<td>connectionTimeout</td>
+<td>30000</td>
+<td>获取连接等待30秒</td>
+</tr>
+<tr>
+<td>idleTimeout</td>
+<td>600000</td>
+<td>空闲10分钟回收</td>
+</tr>
+<tr>
+<td>maxLifetime</td>
+<td>1800000</td>
+<td>连接最大存活30分钟</td>
+</tr>
+<tr>
+<td>leakDetectionThreshold</td>
+<td>60000</td>
+<td>连接泄漏检测60秒</td>
+</tr>
+</tbody></table>
+<p><strong>maxLifetime注意</strong>：</p>
+<ul>
+<li>应小于MySQL的wait_timeout</li>
+<li>MySQL默认wait_timeout=28800（8小时）</li>
+<li>连接池maxLifetime应比数据库端短一些</li>
+</ul>
+<h2 id="五、MySQL连接相关参数"><a href="#五、MySQL连接相关参数" class="headerlink" title="五、MySQL连接相关参数"></a>五、MySQL连接相关参数</h2><h3 id="5-1-服务端参数"><a href="#5-1-服务端参数" class="headerlink" title="5.1 服务端参数"></a>5.1 服务端参数</h3><figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="comment"># 最大连接数</span></span><br><span class="line"><span class="attr">max_connections</span> = <span class="number">500</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 每个连接缓冲区</span></span><br><span class="line"><span class="attr">sort_buffer_size</span> = <span class="number">2</span>M</span><br><span class="line"><span class="attr">read_buffer_size</span> = <span class="number">1</span>M</span><br><span class="line"><span class="attr">join_buffer_size</span> = <span class="number">2</span>M</span><br><span class="line"><span class="attr">read_rnd_buffer_size</span> = <span class="number">2</span>M</span><br><span class="line"></span><br><span class="line"><span class="comment"># 连接超时</span></span><br><span class="line"><span class="attr">wait_timeout</span> = <span class="number">28800</span>          <span class="comment"># 非交互连接空闲超时（秒）</span></span><br><span class="line"><span class="attr">interactive_timeout</span> = <span class="number">28800</span>   <span class="comment"># 交互连接空闲超时（秒）</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 连接错误阈值（防暴力破解）</span></span><br><span class="line"><span class="attr">max_connect_errors</span> = <span class="number">100</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-2-连接数监控"><a href="#5-2-连接数监控" class="headerlink" title="5.2 连接数监控"></a>5.2 连接数监控</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看当前连接数</span></span><br><span class="line"><span class="keyword">SHOW</span> STATUS <span class="keyword">LIKE</span> <span class="string">&#x27;Threads_connected&#x27;</span>;</span><br><span class="line"><span class="keyword">SHOW</span> STATUS <span class="keyword">LIKE</span> <span class="string">&#x27;Threads_running&#x27;</span>;</span><br><span class="line"><span class="keyword">SHOW</span> STATUS <span class="keyword">LIKE</span> <span class="string">&#x27;Max_used_connections&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看连接详情</span></span><br><span class="line"><span class="keyword">SHOW</span> PROCESSLIST;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看连接统计</span></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    <span class="keyword">user</span>,</span><br><span class="line">    host,</span><br><span class="line">    db,</span><br><span class="line">    command,</span><br><span class="line">    state,</span><br><span class="line">    <span class="type">TIME</span> <span class="keyword">as</span> time_seconds,</span><br><span class="line">    info</span><br><span class="line"><span class="keyword">FROM</span> information_schema.processlist</span><br><span class="line"><span class="keyword">WHERE</span> command <span class="operator">!=</span> <span class="string">&#x27;Sleep&#x27;</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> time_seconds <span class="keyword">DESC</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="六、常见问题排查"><a href="#六、常见问题排查" class="headerlink" title="六、常见问题排查"></a>六、常见问题排查</h2><h3 id="6-1-连接池耗尽"><a href="#6-1-连接池耗尽" class="headerlink" title="6.1 连接池耗尽"></a>6.1 连接池耗尽</h3><p><strong>现象</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 30000ms</span><br></pre></td></tr></table></figure>
+
+<p><strong>原因排查</strong>：</p>
+<ol>
+<li>连接泄漏（未正确关闭）</li>
+<li>慢SQL占用连接时间过长</li>
+<li>连接数配置过小</li>
+<li>突发流量</li>
+</ol>
+<p><strong>排查方法</strong>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 开启HikariCP泄漏检测</span></span><br><span class="line">config.setLeakDetectionThreshold(<span class="number">60000</span>);  <span class="comment">// 60秒</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 日志输出：</span></span><br><span class="line"><span class="comment">// Apparent connection leak detected, owned by running SQL: SELECT ...</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>解决</strong>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 确保在finally中关闭连接</span></span><br><span class="line"><span class="keyword">try</span> (<span class="type">Connection</span> <span class="variable">conn</span> <span class="operator">=</span> dataSource.getConnection();</span><br><span class="line">     <span class="type">PreparedStatement</span> <span class="variable">ps</span> <span class="operator">=</span> conn.prepareStatement(sql)) &#123;</span><br><span class="line">    <span class="comment">// 执行查询</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">    <span class="comment">// 处理异常</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// try-with-resources 自动关闭</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="6-2-连接超时"><a href="#6-2-连接超时" class="headerlink" title="6.2 连接超时"></a>6.2 连接超时</h3><p><strong>现象</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Communications link failure: The last packet successfully received from the server was X milliseconds ago</span><br></pre></td></tr></table></figure>
+
+<p><strong>原因</strong>：</p>
+<ul>
+<li>网络中断</li>
+<li>MySQL服务端关闭空闲连接</li>
+<li>防火墙切断长连接</li>
+</ul>
+<p><strong>解决</strong>：</p>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 连接池配置</span></span><br><span class="line"><span class="attr">spring.datasource.hikari.max-lifetime</span>=<span class="string">1800000  # 小于MySQL wait_timeout</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"># 测试连接有效性</span></span><br><span class="line"><span class="attr">spring.datasource.hikari.connection-test-query</span>=<span class="string">SELECT 1</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="6-3-Too-many-connections"><a href="#6-3-Too-many-connections" class="headerlink" title="6.3 Too many connections"></a>6.3 Too many connections</h3><p><strong>现象</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ERROR 1040 (08004): Too many connections</span><br></pre></td></tr></table></figure>
+
+<p><strong>解决</strong>：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 临时增加（需权限）</span></span><br><span class="line"><span class="keyword">SET</span> <span class="keyword">GLOBAL</span> max_connections <span class="operator">=</span> <span class="number">1000</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看连接来源</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">user</span>, host, <span class="built_in">COUNT</span>(<span class="operator">*</span>) </span><br><span class="line"><span class="keyword">FROM</span> information_schema.processlist </span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> <span class="keyword">user</span>, host;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 杀掉空闲连接</span></span><br><span class="line"><span class="keyword">SELECT</span> CONCAT(<span class="string">&#x27;KILL &#x27;</span>, id, <span class="string">&#x27;;&#x27;</span>) </span><br><span class="line"><span class="keyword">FROM</span> information_schema.processlist </span><br><span class="line"><span class="keyword">WHERE</span> command <span class="operator">=</span> <span class="string">&#x27;Sleep&#x27;</span> <span class="keyword">AND</span> <span class="type">time</span> <span class="operator">&gt;</span> <span class="number">600</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-4-连接数优化案例"><a href="#6-4-连接数优化案例" class="headerlink" title="6.4 连接数优化案例"></a>6.4 连接数优化案例</h3><p><strong>场景</strong>：应用启动后连接数迅速增长到最大，且响应变慢。</p>
+<p><strong>分析</strong>：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看每个应用的连接数</span></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    SUBSTRING_INDEX(host, <span class="string">&#x27;:&#x27;</span>, <span class="number">1</span>) <span class="keyword">AS</span> app_host,</span><br><span class="line">    <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">AS</span> conn_count</span><br><span class="line"><span class="keyword">FROM</span> information_schema.processlist</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> SUBSTRING_INDEX(host, <span class="string">&#x27;:&#x27;</span>, <span class="number">1</span>)</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> conn_count <span class="keyword">DESC</span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>优化方案</strong>：</p>
+<ol>
+<li>检查是否存在连接泄漏</li>
+<li>优化慢SQL，减少连接占用时间</li>
+<li>调整连接池大小</li>
+<li>考虑增加MySQL从库分散读压力</li>
+</ol>
+<h2 id="七、SpringBoot连接池配置"><a href="#七、SpringBoot连接池配置" class="headerlink" title="七、SpringBoot连接池配置"></a>七、SpringBoot连接池配置</h2><h3 id="7-1-HikariCP（默认）"><a href="#7-1-HikariCP（默认）" class="headerlink" title="7.1 HikariCP（默认）"></a>7.1 HikariCP（默认）</h3><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">datasource:</span></span><br><span class="line">    <span class="attr">url:</span> <span class="string">jdbc:mysql://localhost:3306/mydb?useUnicode=true&amp;characterEncoding=utf8mb4&amp;useSSL=false&amp;serverTimezone=Asia/Shanghai</span></span><br><span class="line">    <span class="attr">username:</span> <span class="string">root</span></span><br><span class="line">    <span class="attr">password:</span> <span class="string">password</span></span><br><span class="line">    <span class="attr">driver-class-name:</span> <span class="string">com.mysql.cj.jdbc.Driver</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">com.zaxxer.hikari.HikariDataSource</span></span><br><span class="line">    <span class="attr">hikari:</span></span><br><span class="line">      <span class="attr">pool-name:</span> <span class="string">MyHikariPool</span></span><br><span class="line">      <span class="attr">minimum-idle:</span> <span class="number">10</span></span><br><span class="line">      <span class="attr">maximum-pool-size:</span> <span class="number">50</span></span><br><span class="line">      <span class="attr">idle-timeout:</span> <span class="number">600000</span></span><br><span class="line">      <span class="attr">max-lifetime:</span> <span class="number">1800000</span></span><br><span class="line">      <span class="attr">connection-timeout:</span> <span class="number">30000</span></span><br><span class="line">      <span class="attr">connection-test-query:</span> <span class="string">SELECT</span> <span class="number">1</span></span><br><span class="line">      <span class="attr">data-source-properties:</span></span><br><span class="line">        <span class="attr">cachePrepStmts:</span> <span class="literal">true</span></span><br><span class="line">        <span class="attr">prepStmtCacheSize:</span> <span class="number">250</span></span><br><span class="line">        <span class="attr">prepStmtCacheSqlLimit:</span> <span class="number">2048</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="7-2-多数据源配置"><a href="#7-2-多数据源配置" class="headerlink" title="7.2 多数据源配置"></a>7.2 多数据源配置</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DataSourceConfig</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Primary</span></span><br><span class="line">    <span class="meta">@Bean(name = &quot;masterDataSource&quot;)</span></span><br><span class="line">    <span class="meta">@ConfigurationProperties(prefix = &quot;spring.datasource.master&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> DataSource <span class="title function_">masterDataSource</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> DataSourceBuilder.create().type(HikariDataSource.class).build();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Bean(name = &quot;slaveDataSource&quot;)</span></span><br><span class="line">    <span class="meta">@ConfigurationProperties(prefix = &quot;spring.datasource.slave&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> DataSource <span class="title function_">slaveDataSource</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> DataSourceBuilder.create().type(HikariDataSource.class).build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="八、连接池监控"><a href="#八、连接池监控" class="headerlink" title="八、连接池监控"></a>八、连接池监控</h2><h3 id="8-1-HikariCP监控"><a href="#8-1-HikariCP监控" class="headerlink" title="8.1 HikariCP监控"></a>8.1 HikariCP监控</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> HikariDataSource dataSource;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">printPoolStats</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">HikariPoolMXBean</span> <span class="variable">poolMXBean</span> <span class="operator">=</span> dataSource.getHikariPoolMXBean();</span><br><span class="line">    </span><br><span class="line">    System.out.println(<span class="string">&quot;活跃连接数: &quot;</span> + poolMXBean.getActiveConnections());</span><br><span class="line">    System.out.println(<span class="string">&quot;空闲连接数: &quot;</span> + poolMXBean.getIdleConnections());</span><br><span class="line">    System.out.println(<span class="string">&quot;等待连接数: &quot;</span> + poolMXBean.getPendingThreads());</span><br><span class="line">    System.out.println(<span class="string">&quot;总连接数: &quot;</span> + poolMXBean.getTotalConnections());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-2-Micrometer集成（Prometheus）"><a href="#8-2-Micrometer集成（Prometheus）" class="headerlink" title="8.2 Micrometer集成（Prometheus）"></a>8.2 Micrometer集成（Prometheus）</h3><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.micrometer<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>micrometer-registry-prometheus<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="keyword">public</span> MeterRegistryCustomizer&lt;MeterRegistry&gt; <span class="title function_">metricsCustomizer</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> registry -&gt; registry.config().commonTags(<span class="string">&quot;application&quot;</span>, <span class="string">&quot;myapp&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-3-告警规则"><a href="#8-3-告警规则" class="headerlink" title="8.3 告警规则"></a>8.3 告警规则</h3><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Prometheus告警规则</span></span><br><span class="line"><span class="attr">groups:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">connection_pool</span></span><br><span class="line">    <span class="attr">rules:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">alert:</span> <span class="string">ConnectionPoolHighUsage</span></span><br><span class="line">        <span class="attr">expr:</span> <span class="string">hikaricp_connections_active</span> <span class="string">/</span> <span class="string">hikaricp_connections_max</span> <span class="string">&gt;</span> <span class="number">0.8</span></span><br><span class="line">        <span class="attr">for:</span> <span class="string">5m</span></span><br><span class="line">        <span class="attr">labels:</span></span><br><span class="line">          <span class="attr">severity:</span> <span class="string">warning</span></span><br><span class="line">        <span class="attr">annotations:</span></span><br><span class="line">          <span class="attr">summary:</span> <span class="string">&quot;连接池使用率超过80%&quot;</span></span><br><span class="line">          </span><br><span class="line">      <span class="bullet">-</span> <span class="attr">alert:</span> <span class="string">ConnectionPoolWaitTimeHigh</span></span><br><span class="line">        <span class="attr">expr:</span> <span class="string">rate(hikaricp_connections_timeout_total[5m])</span> <span class="string">&gt;</span> <span class="number">0</span></span><br><span class="line">        <span class="attr">for:</span> <span class="string">1m</span></span><br><span class="line">        <span class="attr">labels:</span></span><br><span class="line">          <span class="attr">severity:</span> <span class="string">critical</span></span><br><span class="line">        <span class="attr">annotations:</span></span><br><span class="line">          <span class="attr">summary:</span> <span class="string">&quot;连接池出现获取连接超时&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="九、总结"><a href="#九、总结" class="headerlink" title="九、总结"></a>九、总结</h2><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>HikariCP</th>
+<th>Druid</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>最大连接数</td>
+<td>maximumPoolSize</td>
+<td>maxActive</td>
+<td>根据服务器配置估算</td>
+</tr>
+<tr>
+<td>最小空闲</td>
+<td>minimumIdle</td>
+<td>minIdle</td>
+<td>保持一定空闲连接</td>
+</tr>
+<tr>
+<td>连接超时</td>
+<td>connectionTimeout</td>
+<td>maxWait</td>
+<td>获取连接等待时间</td>
+</tr>
+<tr>
+<td>空闲回收</td>
+<td>idleTimeout</td>
+<td>minEvictableIdleTimeMillis</td>
+<td>空闲连接回收时间</td>
+</tr>
+<tr>
+<td>最大生命周期</td>
+<td>maxLifetime</td>
+<td>maxEvictableIdleTimeMillis</td>
+<td>连接最大存活时间</td>
+</tr>
+</tbody></table>
+<p>连接池优化的核心要点：</p>
+<ol>
+<li>选择合适的连接池（推荐HikariCP或Druid）</li>
+<li>合理配置连接数（避免过大或过小）</li>
+<li>配置连接检测和超时参数</li>
+<li>监控连接池使用情况</li>
+<li>及时处理连接泄漏问题</li>
+</ol>
+
+            </div>
+            <hr />
+
+            
+            <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.88rem;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-large waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fa fa-close"></i></a>
+            <h4 class="reward-title">写作不易，客官能否打赏一杯Cooffee？</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="https://wp-cdn.4ce.cn/v2/MJ8peBx.png" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="https://wp-cdn.4ce.cn/v2/yUS7sDT.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        <p class="reprint-tip">
+            <i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;
+            <span>转载规则</span>
+        </p>
+        
+            <div class="center-align">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                    <img alt=""
+                         style="border-width:0"
+                         src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
+                </a>
+            </div>
+            <br/>
+            <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
+                  property="dct:title" rel="dct:type">
+                    《MySQL连接池配置与优化》
+                </span> 由
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/mysql-connection-pool-optimization/" property="cc:attributionName"
+               rel="cc:attributionURL">
+                小乐
+            </a> 采用
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                知识共享署名 4.0 国际许可协议
+            </a>进行许可。
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+        </div>
+    </div>
+    <!-- 插入谷歌广告post -->
+    <ins class="adsbygoogle"
+    style="display:block"
+    data-ad-client="ca-pub-3969824567415808"
+    data-ad-slot="5525027918"
+    data-ad-format="auto"
+    data-full-width-responsive="true"></ins>
+    
+    
+    <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: 'Ov23liwpvtv7XfsKCkXW',
+        clientSecret: '364dbe0a734b080fb0559e395442e58f15c4dc31',
+        repo: 'leblog.github.io',
+        owner: 'leblog',
+        admin: "leblog",
+        id: '/mysql-connection-pool-optimization/',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/java-string-wei-shi-me-she-ji-cheng-bu-ke-bian/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://wp-cdn.4ce.cn/v2/2ilj03K.jpeg" class="responsive-img" alt="实践：Java String 为什么设计成不可变">
+                        
+                        <span class="card-title">实践：Java String 为什么设计成不可变</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            这是一篇关于实践：Java String 为什么设计成不可变的原创技术笔记，侧重原理理解、项目用法和排查经验。
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-27
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Java%E5%9F%BA%E7%A1%80/" class="post-category" target="_blank">
+                                    Java基础
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" target="_blank">
+                        <span class="chip bg-color">学习笔记</span>
+                    </a>
+                    
+                    <a href="/tags/JAVA/" target="_blank">
+                        <span class="chip bg-color">JAVA</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/java-zhong-equals-he-hashcode-de-zheng-que-li-jie/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://wp-cdn.4ce.cn/v2/89jYf4t.jpeg" class="responsive-img" alt="实践：Java 中 equals 和 hashCode 的正确理解">
+                        
+                        <span class="card-title">实践：Java 中 equals 和 hashCode 的正确理解</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            这是一篇关于实践：Java 中 equals 和 hashCode 的正确理解的原创技术笔记，侧重原理理解、项目用法和排查经验。
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-26
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Java%E5%9F%BA%E7%A1%80/" class="post-category" target="_blank">
+                                    Java基础
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" target="_blank">
+                        <span class="chip bg-color">学习笔记</span>
+                    </a>
+                    
+                    <a href="/tags/JAVA/" target="_blank">
+                        <span class="chip bg-color">JAVA</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 程序员小乐<br />'
+            + '作者: 小乐<br />'
+            + '链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () { bodyElement.removeChild(newdiv); }, 200);
+    });
+</script>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+        <!--广告图片-->
+        <div class="expanded col l3 hide-on-med-and-down">
+            <img src="https://wp-cdn.4ce.cn/v2/CY6RJoX.jpeg" alt="">
+        </div>
+
+    </div>
+
+    <!-- 插入谷歌广告 目录-->
+    <ins class="adsbygoogle"
+    style="display:block"
+    data-ad-client="ca-pub-3969824567415808"
+    data-ad-slot="5525027918"
+    data-ad-format="auto"
+    data-full-width-responsive="true"></ins>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h1, h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h1, h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+    
+
+    
+</main>
+
+
+    <ins class="adsbygoogle"
+style="display:block"
+data-ad-client="ca-pub-3969824567415808"
+data-ad-slot="5525027918"
+data-ad-format="auto"
+data-full-width-responsive="true"></ins>
+<footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            &copy; 2021-2099 程序员小乐. All Rights Reserved.
+            
+            &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+            <span class="white-color">630.2k</span>
+            
+
+            <br>
+            <span id="sitetime"></span>
+
+            
+            
+            <br>
+            
+            <span id="busuanzi_container_site_pv" style='display:none'>
+                <i class="fa fa-heart-o"></i>
+                本站总访问量 <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+
+            
+            
+            <span id="busuanzi_container_site_uv" style='display:none'>
+                人次,&nbsp;访客数 <span id="busuanzi_value_site_uv" class="white-color"></span> 人.
+            </span>
+            
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/leblog" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:lusifer9527@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+    <a href="https://user.qzone.qq.com/1260842695" class="tooltipped" target="_blank" data-tooltip="访问我的QQ空间" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fa fa-rss"></i>
+    </a>
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+<!-- 引入国内Mermaid库 -->
+<script src="https://cdn.staticfile.org/mermaid/10.6.1/mermaid.min.js"></script>
+<script>
+// 等待页面完全加载
+window.addEventListener('load', function() {
+    console.log('页面加载完成，开始处理Mermaid图表');
+    
+    // 更精确的选择器，适配不同Hexo主题可能生成的结构
+    const selectors = [
+        'pre.language-mermaid code'
+    ];
+    
+    let codeBlocks = [];
+    selectors.forEach(selector => {
+        const blocks = document.querySelectorAll(selector);
+        codeBlocks = [...codeBlocks, ...blocks];
+    });
+    
+    console.log(`找到 ${codeBlocks.length} 个可能的Mermaid代码块`);
+    
+    if (codeBlocks.length === 0) {
+        console.warn('未找到任何Mermaid代码块，请检查类名是否正确');
+        return;
+    }
+    
+    codeBlocks.forEach((codeBlock, index) => {
+        try {
+            const preBlock = codeBlock.closest('pre');
+            if (!preBlock) {
+                console.warn(`第${index+1}个代码块没有找到对应的pre父元素`);
+                return;
+            }
+            
+            // 提取并处理代码内容，还原所有HTML实体
+            let mermaidCode = codeBlock.textContent;
+            const entities = {
+                '&gt;': '>',
+                '&lt;': '<',
+                '&amp;': '&',
+                '&#39;': "'",
+                '&quot;': '"'
+            };
+            
+            // 还原所有转义字符
+            Object.keys(entities).forEach(entity => {
+                const regex = new RegExp(entity, 'g');
+                mermaidCode = mermaidCode.replace(regex, entities[entity]);
+            });
+            
+            console.log(`第${index+1}个代码块内容处理完成`);
+            
+            // 创建渲染容器
+            const mermaidContainer = document.createElement('div');
+            mermaidContainer.id = `mermaid-container-${index}`;
+            mermaidContainer.className = 'mermaid';
+            mermaidContainer.style.margin = '1rem 0';
+            mermaidContainer.textContent = mermaidCode;
+            
+            // 插入到页面中
+            preBlock.parentNode.insertBefore(mermaidContainer, preBlock);
+            
+            // 隐藏原始代码块
+            preBlock.style.display = 'none';
+            
+        } catch (error) {
+            console.error(`处理第${index+1}个代码块时出错:`, error);
+        }
+    });
+    
+    // 检查Mermaid是否加载成功
+    if (typeof mermaid === 'undefined') {
+        console.error('Mermaid库未加载成功，请检查CDN地址是否可用');
+        return;
+    }
+    
+    // 初始化Mermaid并添加错误处理
+    try {
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: {
+                curve: 'linear'
+            },
+            logLevel: 3 // 显示警告和错误信息
+        });
+        
+        console.log('Mermaid初始化完成，开始渲染图表');
+        
+        // 手动触发渲染（确保所有图表都被处理）
+        mermaid.run({
+            querySelector: '.mermaid'
+        }).then(() => {
+            console.log('Mermaid图表渲染完成');
+        }).catch(error => {
+            console.error('Mermaid渲染过程出错:', error);
+        });
+        
+    } catch (error) {
+        console.error('Mermaid初始化失败:', error);
+    }
+});
+</script>
+    
+    
+<!-- 谷歌广告 -->
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+<!-- 不蒜子计数初始值纠正 -->
+<script>
+    $(document).ready(function () {
+
+        var int = setInterval(fixCount, 50);// 50ms周期检测函数
+        var pvcountOffset = 80000;// 初始化首次数据
+        var uvcountOffset = 20000;
+
+        function fixCount() {
+            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
+                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
+                clearInterval(int);
+            }
+            if ($("#busuanzi_container_site_pv").css("display") != "none") {
+                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
+                clearInterval(int);// 停止检测
+            }
+        }
+    });
+</script>
+
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+        year - 作为date对象的年份，为4位年份值
+        month - 0-11之间的整数，做为date对象的月份
+        day - 1-31之间的整数，做为date对象的天数
+        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+        minutes - 0-59之间的整数，做为date对象的分钟数
+        seconds - 0-59之间的整数，做为date对象的秒数
+        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+        var t1 = Date.UTC(2017, 09, 11, 00, 00, 00); //北京时间2018-2-13 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "本站已运行 " + diffYears + " 年 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
+    siteTime();
+</script>
+
+    <!--百度统计-->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?952b50978d16e6ae6c408a7ff9097b48";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    <!--360统计-->
+    <script>
+        (function(b,a,e,h,f,c,g,s){b[h]=b[h]||function(){(b[h].c=b[h].c||[]).push(arguments)};
+        b[h].s=!!c;g=a.getElementsByTagName(e)[0];s=a.createElement(e);
+        s.src="//s.union.360.cn/"+f+".js";s.defer=!0;s.async=!0;g.parentNode.insertBefore(s,g)
+        })(window,document,"script","_qha",399925,false);
+    </script>
+
+    <!-- google统计 - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XNDRSTWEQ8"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-XNDRSTWEQ8');
+    </script>
+
+
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <script type="text/javascript"> var OriginTitile = document.title, st; document.addEventListener("visibilitychange", function () { document.hidden ? (document.title = "Σ(っ °Д °;)っ喔哟，崩溃啦！", clearTimeout(st)) : (document.title = "φ(゜▽゜*)♪咦，又好了！", st = setTimeout(function () { document.title = OriginTitile }, 3e3)) })
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XNDRSTWEQ8"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', 'G-XNDRSTWEQ8');
+</script>
+
+
+
+    
+    <script src="/libs/others/clicklove.js"></script>
+    
+
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    <!-- 雪花特效 -->
+    
+
+</body>
+
+</html>

@@ -59,7 +59,7 @@ Fun">
 
     
      
-<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<meta name="generator" content="Hexo 8.1.2"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
 <link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 <body>
@@ -340,7 +340,7 @@ Fun">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://wp-cdn.4ce.cn/v2/3BLqmaP.jpeg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://wp-cdn.4ce.cn/v2/FJ5aEy4.jpeg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -499,7 +499,7 @@ Fun">
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    807
+                    847
                 </div>
                 
 
@@ -556,62 +556,7 @@ Fun">
 <li>Optional 被定义为一个简单的容器，其值可能是 null 或者不是 null。</li>
 <li>在 Java8 之前一般某个函数应该返回非空对象但是偶尔却可能返回了 null，而在 Java8 中，不推荐你返回 null 而是返回 Optional。</li>
 <li>这是一个可以为 null 的容器对象。</li>
-<li>如果值存在则 <code>isPresent()</code> 方法会返回 true，调用 <code>get()</code> 方法会返回该对象。<h1 id="小栗子"><a href="#小栗子" class="headerlink" title="小栗子"></a>小栗子</h1><pre><code>package com.lele.jdk8.feature.lambda;
-</code></pre></li>
-</ul>
-</li>
-</ul>
-<p>import java.util.Arrays;<br>import java.util.List;<br>import java.util.stream.Collectors;</p>
-<p>/**</p>
-<ul>
-<li><p>Lambda 基本用法</p>
-</li>
-<li><p>Title: BaseLambda</p></li>
-<li><p>Description: </p></li>
-<li></li>
-<li><p>@author Lusifer</p>
-</li>
-<li><p>@version 1.0.0</p>
-</li>
-<li><p>@date 2019/1/6 10:42</p>
-</li>
-<li><p>/<br>public class BaseLambda {<br>  public static void main(String[] args) {</p>
-<pre><code>  testForeach();
-  testStreamDuplicates();</code></pre><p>  }</p>
-<p>  /**</p>
-<ul>
-<li><p>Lambda 遍历</p>
-</li>
-<li><p>/<br>public static void testForeach() {<br>  // 定义一个数组<br>  String[] array = {</p>
-<pre><code>      &quot;尼尔机械纪元&quot;,
-      &quot;关于我转生成为史莱姆这件事&quot;,
-      &quot;实力至上主义教师&quot;,
-      &quot;地狱少女&quot;</code></pre><p>  };</p>
-<p>  // 转换成集合<br>  List<String> acgs = Arrays.asList(array);</p>
-<p>  // 传统的遍历方式<br>  System.out.println(“传统的遍历方式：”);<br>  for (String acg : acgs) {</p>
-<pre><code>  System.out.println(acg);</code></pre><p>  }<br>  System.out.println();</p>
-<p>  // 使用 Lambda 表达式以及函数操作(functional operation)<br>  System.out.println(“Lambda 表达式以及函数操作：”);<br>  acgs.forEach((acg) -&gt; System.out.println(acg));<br>  System.out.println();</p>
-<p>  // 在 Java 8 中使用双冒号操作符(double colon operator)<br>  System.out.println(“使用双冒号操作符：”);<br>  acgs.forEach(System.out::println);<br>  System.out.println();<br>}</p>
-<p>/**</p>
-</li>
-<li><p>Stream 去重复</p>
-</li>
-<li><p>String 和 Integer 可以使用该方法去重</p>
-</li>
-<li><p>/<br>public static void testStreamDuplicates() {<br>  System.out.println(“Stream 去重复：”);</p>
-<p>  // 定义一个数组<br>  String[] array = {</p>
-<pre><code>      &quot;尼尔机械纪元&quot;,
-      &quot;尼尔机械纪元&quot;,
-      &quot;关于我转生成为史莱姆这件事&quot;,
-      &quot;关于我转生成为史莱姆这件事&quot;,
-      &quot;实力至上主义教师&quot;,
-      &quot;实力至上主义教师&quot;,
-      &quot;地狱少女&quot;,
-      &quot;地狱少女&quot;</code></pre><p>  };</p>
-<p>  // 转换成集合<br>  List<String> acgs = Arrays.asList(array);</p>
-<p>  // Stream 去重复<br>  acgs = acgs.stream().distinct().collect(Collectors.toList());</p>
-<p>  // 打印<br>  acgs.forEach(System.out::println);<br>}<br>}<br>```</p>
-</li>
+<li>如果值存在则 <code>isPresent()</code> 方法会返回 true，调用 <code>get()</code> 方法会返回该对象。<h1 id="小栗子"><a href="#小栗子" class="headerlink" title="小栗子"></a>小栗子</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">package com.lele.jdk8.feature.lambda;</span><br><span class="line"></span><br><span class="line">import java.util.Arrays;</span><br><span class="line">import java.util.List;</span><br><span class="line">import java.util.stream.Collectors;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Lambda 基本用法</span><br><span class="line"> * &lt;p&gt;Title: BaseLambda&lt;/p&gt;</span><br><span class="line"> * &lt;p&gt;Description: &lt;/p&gt;</span><br><span class="line"> *</span><br><span class="line"> * @author Lusifer</span><br><span class="line"> * @version 1.0.0</span><br><span class="line"> * @date 2019/1/6 10:42</span><br><span class="line"> */</span><br><span class="line">public class BaseLambda &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        testForeach();</span><br><span class="line">        testStreamDuplicates();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Lambda 遍历</span><br><span class="line">     */</span><br><span class="line">    public static void testForeach() &#123;</span><br><span class="line">        // 定义一个数组</span><br><span class="line">        String[] array = &#123;</span><br><span class="line">                &quot;尼尔机械纪元&quot;,</span><br><span class="line">                &quot;关于我转生成为史莱姆这件事&quot;,</span><br><span class="line">                &quot;实力至上主义教师&quot;,</span><br><span class="line">                &quot;地狱少女&quot;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        // 转换成集合</span><br><span class="line">        List&lt;String&gt; acgs = Arrays.asList(array);</span><br><span class="line"></span><br><span class="line">        // 传统的遍历方式</span><br><span class="line">        System.out.println(&quot;传统的遍历方式：&quot;);</span><br><span class="line">        for (String acg : acgs) &#123;</span><br><span class="line">            System.out.println(acg);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println();</span><br><span class="line"></span><br><span class="line">        // 使用 Lambda 表达式以及函数操作(functional operation)</span><br><span class="line">        System.out.println(&quot;Lambda 表达式以及函数操作：&quot;);</span><br><span class="line">        acgs.forEach((acg) -&gt; System.out.println(acg));</span><br><span class="line">        System.out.println();</span><br><span class="line"></span><br><span class="line">        // 在 Java 8 中使用双冒号操作符(double colon operator)</span><br><span class="line">        System.out.println(&quot;使用双冒号操作符：&quot;);</span><br><span class="line">        acgs.forEach(System.out::println);</span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Stream 去重复</span><br><span class="line">     * String 和 Integer 可以使用该方法去重</span><br><span class="line">     */</span><br><span class="line">    public static void testStreamDuplicates() &#123;</span><br><span class="line">        System.out.println(&quot;Stream 去重复：&quot;);</span><br><span class="line"></span><br><span class="line">        // 定义一个数组</span><br><span class="line">        String[] array = &#123;</span><br><span class="line">                &quot;尼尔机械纪元&quot;,</span><br><span class="line">                &quot;尼尔机械纪元&quot;,</span><br><span class="line">                &quot;关于我转生成为史莱姆这件事&quot;,</span><br><span class="line">                &quot;关于我转生成为史莱姆这件事&quot;,</span><br><span class="line">                &quot;实力至上主义教师&quot;,</span><br><span class="line">                &quot;实力至上主义教师&quot;,</span><br><span class="line">                &quot;地狱少女&quot;,</span><br><span class="line">                &quot;地狱少女&quot;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        // 转换成集合</span><br><span class="line">        List&lt;String&gt; acgs = Arrays.asList(array);</span><br><span class="line"></span><br><span class="line">        // Stream 去重复</span><br><span class="line">        acgs = acgs.stream().distinct().collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line">        // 打印</span><br><span class="line">        acgs.forEach(System.out::println);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ul>
 </li>
 </ul>
@@ -764,7 +709,7 @@ Fun">
         </p>
         
             <div class="center-align">
-                <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
                     <img alt=""
                          style="border-width:0"
                          src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
@@ -779,7 +724,7 @@ Fun">
                rel="cc:attributionURL">
                 小乐
             </a> 采用
-            <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
                 知识共享署名 4.0 国际许可协议
             </a>进行许可。
         
@@ -852,7 +797,7 @@ Fun">
                     <div class="card-image">
                         
                         
-                        <img src="https://wp-cdn.4ce.cn/v2/HAz9p47.jpeg" class="responsive-img" alt="Ajax分页">
+                        <img src="https://wp-cdn.4ce.cn/v2/89jYf4t.jpeg" class="responsive-img" alt="Ajax分页">
                         
                         <span class="card-title">Ajax分页</span>
                     </div>
@@ -908,7 +853,7 @@ Fun">
                     <div class="card-image">
                         
                         
-                        <img src="https://wp-cdn.4ce.cn/v2/l1lDyji.jpeg" class="responsive-img" alt="Hexo 博客部署到腾讯云教程">
+                        <img src="https://wp-cdn.4ce.cn/v2/2UFdm3y.jpeg" class="responsive-img" alt="Hexo 博客部署到腾讯云教程">
                         
                         <span class="card-title">Hexo 博客部署到腾讯云教程</span>
                     </div>
@@ -1126,13 +1071,12 @@ data-ad-slot="5525027918"
 data-ad-format="auto"
 data-full-width-responsive="true"></ins>
 <footer class="page-footer bg-color">
-    <!-- 引入 Mermaid 支持脚本 -->
     <div class="container row center-align">
         <div class="col s12 m8 l8 copy-right">
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">158k</span>
+            <span class="white-color">630.2k</span>
             
 
             <br>
@@ -1188,6 +1132,112 @@ data-full-width-responsive="true"></ins>
 
 <div class="progress-bar"></div>
 
+
+<!-- 引入国内Mermaid库 -->
+<script src="https://cdn.staticfile.org/mermaid/10.6.1/mermaid.min.js"></script>
+<script>
+// 等待页面完全加载
+window.addEventListener('load', function() {
+    console.log('页面加载完成，开始处理Mermaid图表');
+    
+    // 更精确的选择器，适配不同Hexo主题可能生成的结构
+    const selectors = [
+        'pre.language-mermaid code'
+    ];
+    
+    let codeBlocks = [];
+    selectors.forEach(selector => {
+        const blocks = document.querySelectorAll(selector);
+        codeBlocks = [...codeBlocks, ...blocks];
+    });
+    
+    console.log(`找到 ${codeBlocks.length} 个可能的Mermaid代码块`);
+    
+    if (codeBlocks.length === 0) {
+        console.warn('未找到任何Mermaid代码块，请检查类名是否正确');
+        return;
+    }
+    
+    codeBlocks.forEach((codeBlock, index) => {
+        try {
+            const preBlock = codeBlock.closest('pre');
+            if (!preBlock) {
+                console.warn(`第${index+1}个代码块没有找到对应的pre父元素`);
+                return;
+            }
+            
+            // 提取并处理代码内容，还原所有HTML实体
+            let mermaidCode = codeBlock.textContent;
+            const entities = {
+                '&gt;': '>',
+                '&lt;': '<',
+                '&amp;': '&',
+                '&#39;': "'",
+                '&quot;': '"'
+            };
+            
+            // 还原所有转义字符
+            Object.keys(entities).forEach(entity => {
+                const regex = new RegExp(entity, 'g');
+                mermaidCode = mermaidCode.replace(regex, entities[entity]);
+            });
+            
+            console.log(`第${index+1}个代码块内容处理完成`);
+            
+            // 创建渲染容器
+            const mermaidContainer = document.createElement('div');
+            mermaidContainer.id = `mermaid-container-${index}`;
+            mermaidContainer.className = 'mermaid';
+            mermaidContainer.style.margin = '1rem 0';
+            mermaidContainer.textContent = mermaidCode;
+            
+            // 插入到页面中
+            preBlock.parentNode.insertBefore(mermaidContainer, preBlock);
+            
+            // 隐藏原始代码块
+            preBlock.style.display = 'none';
+            
+        } catch (error) {
+            console.error(`处理第${index+1}个代码块时出错:`, error);
+        }
+    });
+    
+    // 检查Mermaid是否加载成功
+    if (typeof mermaid === 'undefined') {
+        console.error('Mermaid库未加载成功，请检查CDN地址是否可用');
+        return;
+    }
+    
+    // 初始化Mermaid并添加错误处理
+    try {
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: {
+                curve: 'linear'
+            },
+            logLevel: 3 // 显示警告和错误信息
+        });
+        
+        console.log('Mermaid初始化完成，开始渲染图表');
+        
+        // 手动触发渲染（确保所有图表都被处理）
+        mermaid.run({
+            querySelector: '.mermaid'
+        }).then(() => {
+            console.log('Mermaid图表渲染完成');
+        }).catch(error => {
+            console.error('Mermaid渲染过程出错:', error);
+        });
+        
+    } catch (error) {
+        console.error('Mermaid初始化失败:', error);
+    }
+});
+</script>
+    
+    
 <!-- 谷歌广告 -->
 <script>
     (adsbygoogle = window.adsbygoogle || []).push({});

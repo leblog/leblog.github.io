@@ -50,7 +50,7 @@
 
     
      
-<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<meta name="generator" content="Hexo 8.1.2"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
 <link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 <body>
@@ -331,7 +331,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://wp-cdn.4ce.cn/v2/azp4OgR.jpeg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://wp-cdn.4ce.cn/v2/IXZhU0p.jpeg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -534,46 +534,16 @@
 <p>Spring 的依赖注入对调用者与被调用者几乎没有任何要求，完全支持 POJO 之间依赖关系的管理。</p>
 <p><strong>依赖注入是目前最优秀的解耦方式</strong>。依赖注入让 Spring 的 Bean 之间以配置文件的方式组织在一起，而不是以硬编码的方式耦合在一起的。</p>
 <h1 id="POM"><a href="#POM" class="headerlink" title="POM"></a>POM</h1><p>创建一个工程名为 hello-spring 的项目，pom.xml 文件如下：</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;
-         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
-    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;</span><br><span class="line">         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</span><br><span class="line">    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line"></span><br><span class="line">    &lt;groupId&gt;com.lele&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;hello-spring&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.0.0-SNAPSHOT&lt;/version&gt;</span><br><span class="line">    &lt;packaging&gt;jar&lt;/packaging&gt;</span><br><span class="line"></span><br><span class="line">    &lt;dependencies&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-context&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;4.3.17.RELEASE&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">    &lt;/dependencies&gt;</span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
+<p>主要增加了 org.springframework:spring-context 依赖</p>
+<h1 id="创建接口与实现"><a href="#创建接口与实现" class="headerlink" title="创建接口与实现"></a>创建接口与实现</h1><h3 id="创建-UserService-接口"><a href="#创建-UserService-接口" class="headerlink" title="创建 UserService 接口"></a>创建 <code>UserService</code> 接口</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">package com.lele.hello.spring.service;</span><br><span class="line"></span><br><span class="line">public interface UserService &#123;</span><br><span class="line">    public void sayHi();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    &lt;groupId&gt;com.lele&lt;/groupId&gt;
-    &lt;artifactId&gt;hello-spring&lt;/artifactId&gt;
-    &lt;version&gt;1.0.0-SNAPSHOT&lt;/version&gt;
-    &lt;packaging&gt;jar&lt;/packaging&gt;
+<h3 id="创建-UserServiceImpl-实现"><a href="#创建-UserServiceImpl-实现" class="headerlink" title="创建 UserServiceImpl 实现"></a>创建 UserServiceImpl 实现</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">package com.lele.hello.spring.service.impl;</span><br><span class="line"></span><br><span class="line">import com.lele.hello.spring.service.UserService;</span><br><span class="line"></span><br><span class="line">public class UserServiceImpl implements UserService &#123;</span><br><span class="line">    public void sayHi() &#123;</span><br><span class="line">        System.out.println(&quot;Hello Spring&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    &lt;dependencies&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-context&lt;/artifactId&gt;
-            &lt;version&gt;4.3.17.RELEASE&lt;/version&gt;
-        &lt;/dependency&gt;
-    &lt;/dependencies&gt;
-&lt;/project&gt;</code></pre><p>主要增加了 org.springframework:spring-context 依赖</p>
-<h1 id="创建接口与实现"><a href="#创建接口与实现" class="headerlink" title="创建接口与实现"></a>创建接口与实现</h1><h3 id="创建-UserService-接口"><a href="#创建-UserService-接口" class="headerlink" title="创建 UserService 接口"></a>创建 <code>UserService</code> 接口</h3><pre><code>package com.lele.hello.spring.service;
+<h1 id="创建-Spring-配置文件"><a href="#创建-Spring-配置文件" class="headerlink" title="创建 Spring 配置文件"></a>创建 Spring 配置文件</h1><p>在 <code>src/main/resources</code> 目录下创建 <code>spring-context.xml</code> 配置文件，从现在开始类的实例化工作交给 Spring 容器管理（IoC），配置文件如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">       xsi:schemaLocation=&quot;</span><br><span class="line">       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;bean id=&quot;userService&quot; class=&quot;com.lele.hello.spring.service.impl.UserServiceImpl&quot; /&gt;</span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure>
 
-public interface UserService {
-    public void sayHi();
-}</code></pre><h3 id="创建-UserServiceImpl-实现"><a href="#创建-UserServiceImpl-实现" class="headerlink" title="创建 UserServiceImpl 实现"></a>创建 UserServiceImpl 实现</h3><pre><code>package com.lele.hello.spring.service.impl;
-
-import com.lele.hello.spring.service.UserService;
-
-public class UserServiceImpl implements UserService {
-    public void sayHi() {
-        System.out.println(&quot;Hello Spring&quot;);
-    }
-}</code></pre><h1 id="创建-Spring-配置文件"><a href="#创建-Spring-配置文件" class="headerlink" title="创建 Spring 配置文件"></a>创建 Spring 配置文件</h1><p>在 <code>src/main/resources</code> 目录下创建 <code>spring-context.xml</code> 配置文件，从现在开始类的实例化工作交给 Spring 容器管理（IoC），配置文件如下：</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
-       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-       xsi:schemaLocation=&quot;
-       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
-
-    &lt;bean id=&quot;userService&quot; class=&quot;com.lele.hello.spring.service.impl.UserServiceImpl&quot; /&gt;
-&lt;/beans&gt;</code></pre><ul>
+<ul>
 <li><p><bean />：用于定义一个实例对象。一个实例对应一个 bean 元素。</p>
 </li>
 <li><p>id：该属性是 Bean 实例的唯一标识，程序通过 id 属性访问 Bean，Bean 与 Bean 间的依赖关系也是通过 id 属性关联的。</p>
@@ -582,23 +552,8 @@ public class UserServiceImpl implements UserService {
 </li>
 </ul>
 <h1 id="测试-Spring-IoC"><a href="#测试-Spring-IoC" class="headerlink" title="测试 Spring IoC"></a>测试 Spring IoC</h1><p>创建一个 MyTest 测试类，测试对象是否能够通过 Spring 来创建，代码如下：</p>
-<pre><code>package com.lele.hello.spring;
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">package com.lele.hello.spring;</span><br><span class="line"></span><br><span class="line">import com.lele.hello.spring.service.UserService;</span><br><span class="line">import org.springframework.context.ApplicationContext;</span><br><span class="line">import org.springframework.context.support.ClassPathXmlApplicationContext;</span><br><span class="line"></span><br><span class="line">public class MyTest &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        // 获取 Spring 容器</span><br><span class="line">        ApplicationContext applicationContext = new ClassPathXmlApplicationContext(&quot;spring-context.xml&quot;);</span><br><span class="line">        </span><br><span class="line">        // 从 Spring 容器中获取对象</span><br><span class="line">        UserService userService = (UserService) applicationContext.getBean(&quot;userService&quot;);</span><br><span class="line">        userService.sayHi();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-import com.lele.hello.spring.service.UserService;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-public class MyTest {
-
-    public static void main(String[] args) {
-        // 获取 Spring 容器
-        ApplicationContext applicationContext = new ClassPathXmlApplicationContext(&quot;spring-context.xml&quot;);
-
-        // 从 Spring 容器中获取对象
-        UserService userService = (UserService) applicationContext.getBean(&quot;userService&quot;);
-        userService.sayHi();
-    }
-}</code></pre>
             </div>
             <hr />
 
@@ -747,7 +702,7 @@ public class MyTest {
         </p>
         
             <div class="center-align">
-                <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
                     <img alt=""
                          style="border-width:0"
                          src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
@@ -762,7 +717,7 @@ public class MyTest {
                rel="cc:attributionURL">
                 小乐
             </a> 采用
-            <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
                 知识共享署名 4.0 国际许可协议
             </a>进行许可。
         
@@ -835,7 +790,7 @@ public class MyTest {
                     <div class="card-image">
                         
                         
-                        <img src="https://wp-cdn.4ce.cn/v2/12SY8CQ.jpeg" class="responsive-img" alt="什么是三层架构">
+                        <img src="https://wp-cdn.4ce.cn/v2/M4vNRXK.jpeg" class="responsive-img" alt="什么是三层架构">
                         
                         <span class="card-title">什么是三层架构</span>
                     </div>
@@ -889,7 +844,7 @@ public class MyTest {
                     <div class="card-image">
                         
                         
-                        <img src="https://wp-cdn.4ce.cn/v2/MHJC0Sq.jpeg" class="responsive-img" alt="关于intelij IDEA2019.2的使用教程">
+                        <img src="https://wp-cdn.4ce.cn/v2/YPsSLd4.jpeg" class="responsive-img" alt="关于intelij IDEA2019.2的使用教程">
                         
                         <span class="card-title">关于intelij IDEA2019.2的使用教程</span>
                     </div>
@@ -1098,13 +1053,12 @@ data-ad-slot="5525027918"
 data-ad-format="auto"
 data-full-width-responsive="true"></ins>
 <footer class="page-footer bg-color">
-    <!-- 引入 Mermaid 支持脚本 -->
     <div class="container row center-align">
         <div class="col s12 m8 l8 copy-right">
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">158k</span>
+            <span class="white-color">630.2k</span>
             
 
             <br>
@@ -1160,6 +1114,112 @@ data-full-width-responsive="true"></ins>
 
 <div class="progress-bar"></div>
 
+
+<!-- 引入国内Mermaid库 -->
+<script src="https://cdn.staticfile.org/mermaid/10.6.1/mermaid.min.js"></script>
+<script>
+// 等待页面完全加载
+window.addEventListener('load', function() {
+    console.log('页面加载完成，开始处理Mermaid图表');
+    
+    // 更精确的选择器，适配不同Hexo主题可能生成的结构
+    const selectors = [
+        'pre.language-mermaid code'
+    ];
+    
+    let codeBlocks = [];
+    selectors.forEach(selector => {
+        const blocks = document.querySelectorAll(selector);
+        codeBlocks = [...codeBlocks, ...blocks];
+    });
+    
+    console.log(`找到 ${codeBlocks.length} 个可能的Mermaid代码块`);
+    
+    if (codeBlocks.length === 0) {
+        console.warn('未找到任何Mermaid代码块，请检查类名是否正确');
+        return;
+    }
+    
+    codeBlocks.forEach((codeBlock, index) => {
+        try {
+            const preBlock = codeBlock.closest('pre');
+            if (!preBlock) {
+                console.warn(`第${index+1}个代码块没有找到对应的pre父元素`);
+                return;
+            }
+            
+            // 提取并处理代码内容，还原所有HTML实体
+            let mermaidCode = codeBlock.textContent;
+            const entities = {
+                '&gt;': '>',
+                '&lt;': '<',
+                '&amp;': '&',
+                '&#39;': "'",
+                '&quot;': '"'
+            };
+            
+            // 还原所有转义字符
+            Object.keys(entities).forEach(entity => {
+                const regex = new RegExp(entity, 'g');
+                mermaidCode = mermaidCode.replace(regex, entities[entity]);
+            });
+            
+            console.log(`第${index+1}个代码块内容处理完成`);
+            
+            // 创建渲染容器
+            const mermaidContainer = document.createElement('div');
+            mermaidContainer.id = `mermaid-container-${index}`;
+            mermaidContainer.className = 'mermaid';
+            mermaidContainer.style.margin = '1rem 0';
+            mermaidContainer.textContent = mermaidCode;
+            
+            // 插入到页面中
+            preBlock.parentNode.insertBefore(mermaidContainer, preBlock);
+            
+            // 隐藏原始代码块
+            preBlock.style.display = 'none';
+            
+        } catch (error) {
+            console.error(`处理第${index+1}个代码块时出错:`, error);
+        }
+    });
+    
+    // 检查Mermaid是否加载成功
+    if (typeof mermaid === 'undefined') {
+        console.error('Mermaid库未加载成功，请检查CDN地址是否可用');
+        return;
+    }
+    
+    // 初始化Mermaid并添加错误处理
+    try {
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: {
+                curve: 'linear'
+            },
+            logLevel: 3 // 显示警告和错误信息
+        });
+        
+        console.log('Mermaid初始化完成，开始渲染图表');
+        
+        // 手动触发渲染（确保所有图表都被处理）
+        mermaid.run({
+            querySelector: '.mermaid'
+        }).then(() => {
+            console.log('Mermaid图表渲染完成');
+        }).catch(error => {
+            console.error('Mermaid渲染过程出错:', error);
+        });
+        
+    } catch (error) {
+        console.error('Mermaid初始化失败:', error);
+    }
+});
+</script>
+    
+    
 <!-- 谷歌广告 -->
 <script>
     (adsbygoogle = window.adsbygoogle || []).push({});

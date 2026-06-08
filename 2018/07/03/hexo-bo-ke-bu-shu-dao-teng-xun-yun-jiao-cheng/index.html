@@ -63,7 +63,7 @@ Nginx 的配置
 
     
      
-<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<meta name="generator" content="Hexo 8.1.2"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
 <link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 <body>
@@ -344,7 +344,7 @@ Nginx 的配置
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://wp-cdn.4ce.cn/v2/l1lDyji.jpeg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://wp-cdn.4ce.cn/v2/2UFdm3y.jpeg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -548,7 +548,7 @@ Nginx 的配置
 </ul>
 <p>顺便说下我的服务器环境：<br>| 操作系统            | CPU | 内存  | 带宽    |<br>|—————–|—–|—–|——-|<br>| CentOS 7.2 64位 | 1核  | 2GB | 1Mbps |</p>
 <h1 id="1-进入云服务器中"><a href="#1-进入云服务器中" class="headerlink" title="1. 进入云服务器中"></a>1. 进入云服务器中</h1><ul>
-<li>首先点击下边网站，登录你的进入云服务器的控制台<br>腾讯云服务器的控制台：<a href="https://console.cloud.tencent.com/cvm/index" target="_blank" rel="noopener">https://console.cloud.tencent.com/cvm/index</a></li>
+<li>首先点击下边网站，登录你的进入云服务器的控制台<br>腾讯云服务器的控制台：<a href="https://console.cloud.tencent.com/cvm/index">https://console.cloud.tencent.com/cvm/index</a></li>
 </ul>
 <p><img src="https://note.youdao.com/yws/public/resource/4446b015d9dc2fb92d362fab8b947642/xmlnote/864802B7DBE0495F912DBFCD76517FFE/1290" alt=""></p>
 <ul>
@@ -579,7 +579,7 @@ Nginx 的配置
 <li>到官网找一个新版稳定的源码包下载到 <code>/usr/local/src</code> 文件夹里</li>
 </ul>
 <blockquote>
-<p>wget <a href="https://www.kernel.org/pub/software/scm/git/git-2.16.2.tar.gz" target="_blank" rel="noopener">https://www.kernel.org/pub/software/scm/git/git-2.16.2.tar.gz</a></p>
+<p>wget <a href="https://www.kernel.org/pub/software/scm/git/git-2.16.2.tar.gz">https://www.kernel.org/pub/software/scm/git/git-2.16.2.tar.gz</a></p>
 </blockquote>
 <ul>
 <li><p>解压编译 git</p>
@@ -654,15 +654,11 @@ Nginx 的配置
 <p>chmod +x /home/git/hexoBlog.git/hooks/post-receive</p>
 </blockquote>
 <p>到这里，我们的 git 仓库算是完全搭建好了。下面进行 Nginx 的配置。</p>
-<h1 id="3-云服务器端配置-Nginx"><a href="#3-云服务器端配置-Nginx" class="headerlink" title="3.云服务器端配置 Nginx"></a>3.云服务器端配置 Nginx</h1><p>安装 Nginx<br>yum install -y nginx<br>启动 Nginx<br>service nginx start<br>测试 Nginx 服务器<br>wget <a href="http://127.0.0.1" target="_blank" rel="noopener">http://127.0.0.1</a><br>能够正常获取以下欢迎页面说明Nginx安装成功。</p>
-<pre><code>Connecting to 127.0.0.1:80... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 43704 (43K) [text/html]
-Saving to: ‘index.html’
+<h1 id="3-云服务器端配置-Nginx"><a href="#3-云服务器端配置-Nginx" class="headerlink" title="3.云服务器端配置 Nginx"></a>3.云服务器端配置 Nginx</h1><p>安装 Nginx<br>yum install -y nginx<br>启动 Nginx<br>service nginx start<br>测试 Nginx 服务器<br>wget <a href="http://127.0.0.1">http://127.0.0.1</a><br>能够正常获取以下欢迎页面说明Nginx安装成功。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Connecting to 127.0.0.1:80... connected.</span><br><span class="line">HTTP request sent, awaiting response... 200 OK</span><br><span class="line">Length: 43704 (43K) [text/html]</span><br><span class="line">Saving to: ‘index.html’</span><br><span class="line"></span><br><span class="line">100%[=======================================&gt;] 43,704      --.-K/s   in 0s</span><br><span class="line"></span><br><span class="line">2018-03-09 23:04:09 (487 MB/s) - ‘index.html’ saved [43704/43704]</span><br></pre></td></tr></table></figure>
 
-100%[=======================================&gt;] 43,704      --.-K/s   in 0s
 
-2018-03-09 23:04:09 (487 MB/s) - ‘index.html’ saved [43704/43704]</code></pre><ul>
+<ul>
 <li><p>测试网页是否能打开<br>在浏览器中输入服务器 ip 地址，就是服务器的公网 ip。</p>
 </li>
 <li><p>配置 Nginx 托管文件目录</p>
@@ -688,20 +684,9 @@ Saving to: ‘index.html’
 <ul>
 <li>按方向键，找到如下位置</li>
 </ul>
-<pre><code>server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
-    root /home/hexoBlog;    #需要修改
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80 default_server;</span><br><span class="line">    listen [::]:80 default_server;</span><br><span class="line">    root /home/hexoBlog;    #需要修改</span><br><span class="line">    </span><br><span class="line">    server_name www.bujige.net; #需要修改</span><br><span class="line">    </span><br><span class="line">    # Load configuration files for the default server block.</span><br><span class="line">    include /etc/nginx/default.d/*.conf;</span><br><span class="line">    location / &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    error_page 404 /404.html;</span><br><span class="line">        location = /40x.html &#123;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
-    server_name www.bujige.net; #需要修改
-
-    # Load configuration files for the default server block.
-    include /etc/nginx/default.d/*.conf;
-    location / {
-    }
-    error_page 404 /404.html;
-        location = /40x.html {
-    }</code></pre><p>按<code>i</code>键进入插入模式，将其中的 root 值改为<code>/home/hexoBlog</code> （刚才创建的托管仓库目录）。<br>将 server_name 值改成你的域名。</p>
+<p>按<code>i</code>键进入插入模式，将其中的 root 值改为<code>/home/hexoBlog</code> （刚才创建的托管仓库目录）。<br>将 server_name 值改成你的域名。</p>
 <ul>
 <li>重启 Nginx 服务</li>
 </ul>
@@ -876,7 +861,7 @@ Saving to: ‘index.html’
         </p>
         
             <div class="center-align">
-                <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
                     <img alt=""
                          style="border-width:0"
                          src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
@@ -891,7 +876,7 @@ Saving to: ‘index.html’
                rel="cc:attributionURL">
                 小乐
             </a> 采用
-            <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
                 知识共享署名 4.0 国际许可协议
             </a>进行许可。
         
@@ -964,7 +949,7 @@ Saving to: ‘index.html’
                     <div class="card-image">
                         
                         
-                        <img src="https://wp-cdn.4ce.cn/v2/3BLqmaP.jpeg" class="responsive-img" alt="JDK8的新特性">
+                        <img src="https://wp-cdn.4ce.cn/v2/FJ5aEy4.jpeg" class="responsive-img" alt="JDK8的新特性">
                         
                         <span class="card-title">JDK8的新特性</span>
                     </div>
@@ -1027,7 +1012,7 @@ Fun
                     <div class="card-image">
                         
                         
-                        <img src="https://wp-cdn.4ce.cn/v2/ouHaaal.jpeg" class="responsive-img" alt="log4j的使用">
+                        <img src="https://wp-cdn.4ce.cn/v2/3m4WYCP.jpeg" class="responsive-img" alt="log4j的使用">
                         
                         <span class="card-title">log4j的使用</span>
                     </div>
@@ -1232,13 +1217,12 @@ data-ad-slot="5525027918"
 data-ad-format="auto"
 data-full-width-responsive="true"></ins>
 <footer class="page-footer bg-color">
-    <!-- 引入 Mermaid 支持脚本 -->
     <div class="container row center-align">
         <div class="col s12 m8 l8 copy-right">
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">158k</span>
+            <span class="white-color">630.2k</span>
             
 
             <br>
@@ -1294,6 +1278,112 @@ data-full-width-responsive="true"></ins>
 
 <div class="progress-bar"></div>
 
+
+<!-- 引入国内Mermaid库 -->
+<script src="https://cdn.staticfile.org/mermaid/10.6.1/mermaid.min.js"></script>
+<script>
+// 等待页面完全加载
+window.addEventListener('load', function() {
+    console.log('页面加载完成，开始处理Mermaid图表');
+    
+    // 更精确的选择器，适配不同Hexo主题可能生成的结构
+    const selectors = [
+        'pre.language-mermaid code'
+    ];
+    
+    let codeBlocks = [];
+    selectors.forEach(selector => {
+        const blocks = document.querySelectorAll(selector);
+        codeBlocks = [...codeBlocks, ...blocks];
+    });
+    
+    console.log(`找到 ${codeBlocks.length} 个可能的Mermaid代码块`);
+    
+    if (codeBlocks.length === 0) {
+        console.warn('未找到任何Mermaid代码块，请检查类名是否正确');
+        return;
+    }
+    
+    codeBlocks.forEach((codeBlock, index) => {
+        try {
+            const preBlock = codeBlock.closest('pre');
+            if (!preBlock) {
+                console.warn(`第${index+1}个代码块没有找到对应的pre父元素`);
+                return;
+            }
+            
+            // 提取并处理代码内容，还原所有HTML实体
+            let mermaidCode = codeBlock.textContent;
+            const entities = {
+                '&gt;': '>',
+                '&lt;': '<',
+                '&amp;': '&',
+                '&#39;': "'",
+                '&quot;': '"'
+            };
+            
+            // 还原所有转义字符
+            Object.keys(entities).forEach(entity => {
+                const regex = new RegExp(entity, 'g');
+                mermaidCode = mermaidCode.replace(regex, entities[entity]);
+            });
+            
+            console.log(`第${index+1}个代码块内容处理完成`);
+            
+            // 创建渲染容器
+            const mermaidContainer = document.createElement('div');
+            mermaidContainer.id = `mermaid-container-${index}`;
+            mermaidContainer.className = 'mermaid';
+            mermaidContainer.style.margin = '1rem 0';
+            mermaidContainer.textContent = mermaidCode;
+            
+            // 插入到页面中
+            preBlock.parentNode.insertBefore(mermaidContainer, preBlock);
+            
+            // 隐藏原始代码块
+            preBlock.style.display = 'none';
+            
+        } catch (error) {
+            console.error(`处理第${index+1}个代码块时出错:`, error);
+        }
+    });
+    
+    // 检查Mermaid是否加载成功
+    if (typeof mermaid === 'undefined') {
+        console.error('Mermaid库未加载成功，请检查CDN地址是否可用');
+        return;
+    }
+    
+    // 初始化Mermaid并添加错误处理
+    try {
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: {
+                curve: 'linear'
+            },
+            logLevel: 3 // 显示警告和错误信息
+        });
+        
+        console.log('Mermaid初始化完成，开始渲染图表');
+        
+        // 手动触发渲染（确保所有图表都被处理）
+        mermaid.run({
+            querySelector: '.mermaid'
+        }).then(() => {
+            console.log('Mermaid图表渲染完成');
+        }).catch(error => {
+            console.error('Mermaid渲染过程出错:', error);
+        });
+        
+    } catch (error) {
+        console.error('Mermaid初始化失败:', error);
+    }
+});
+</script>
+    
+    
 <!-- 谷歌广告 -->
 <script>
     (adsbygoogle = window.adsbygoogle || []).push({});

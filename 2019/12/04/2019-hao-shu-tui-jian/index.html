@@ -51,7 +51,7 @@
 
     
      
-<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<meta name="generator" content="Hexo 8.1.2"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
 <link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 <body>
@@ -332,7 +332,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://wp-cdn.4ce.cn/v2/Pgmzyb2.jpeg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://wp-cdn.4ce.cn/v2/xuRBq8r.jpeg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -540,7 +540,7 @@
 <ul>
 <li>==作者：Ron Zacharski[1]==</li>
 <li>推荐理由：这是一本开源书籍，用于学习基本的数据挖掘知识，强调实战，采用“边学边做”的方式编写，根据实例使用 python 脚本来学习数据挖掘技术，从而可以对推荐系统，过滤、相似度计算，分类，聚类，贝叶斯分类等知识有一定的了解。</li>
-<li>书籍地址：<a href="https://dataminingguide.books.yourtion.com/" target="_blank" rel="noopener">https://dataminingguide.books.yourtion.com/</a></li>
+<li>书籍地址：<a href="https://dataminingguide.books.yourtion.com/">https://dataminingguide.books.yourtion.com/</a></li>
 </ul>
 </blockquote>
 <h3><font face="仿宋" size="4" color="green">《企业 IT 架构转型之道：阿里巴巴中台战略思想与架构实战》</font></h3>
@@ -684,8 +684,8 @@
 </ul>
 </blockquote>
 <p>参考资料</p>
-<p>[1]<br>Ron Zacharski: <a href="http://zacharski.org/" target="_blank" rel="noopener">http://zacharski.org/</a></p>
-<p>[2]<br>《星际远航中的生物学》: <a href="https://yixi.tv/speech/218" target="_blank" rel="noopener">https://yixi.tv/speech/218</a></p>
+<p>[1]<br>Ron Zacharski: <a href="http://zacharski.org/">http://zacharski.org/</a></p>
+<p>[2]<br>《星际远航中的生物学》: <a href="https://yixi.tv/speech/218">https://yixi.tv/speech/218</a></p>
 
             </div>
             <hr />
@@ -835,7 +835,7 @@
         </p>
         
             <div class="center-align">
-                <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
                     <img alt=""
                          style="border-width:0"
                          src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
@@ -850,7 +850,7 @@
                rel="cc:attributionURL">
                 小乐
             </a> 采用
-            <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
                 知识共享署名 4.0 国际许可协议
             </a>进行许可。
         
@@ -923,7 +923,7 @@
                     <div class="card-image">
                         
                         
-                        <img src="https://wp-cdn.4ce.cn/v2/MHJC0Sq.jpeg" class="responsive-img" alt="2019总结">
+                        <img src="https://wp-cdn.4ce.cn/v2/3BLqmaP.jpeg" class="responsive-img" alt="2019总结">
                         
                         <span class="card-title">2019总结</span>
                     </div>
@@ -973,7 +973,7 @@
                     <div class="card-image">
                         
                         
-                        <img src="https://wp-cdn.4ce.cn/v2/BpQYXq3.jpeg" class="responsive-img" alt="人生三境界">
+                        <img src="https://wp-cdn.4ce.cn/v2/fwziXCb.jpeg" class="responsive-img" alt="人生三境界">
                         
                         <span class="card-title">人生三境界</span>
                     </div>
@@ -1177,13 +1177,12 @@ data-ad-slot="5525027918"
 data-ad-format="auto"
 data-full-width-responsive="true"></ins>
 <footer class="page-footer bg-color">
-    <!-- 引入 Mermaid 支持脚本 -->
     <div class="container row center-align">
         <div class="col s12 m8 l8 copy-right">
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">158k</span>
+            <span class="white-color">630.2k</span>
             
 
             <br>
@@ -1239,6 +1238,112 @@ data-full-width-responsive="true"></ins>
 
 <div class="progress-bar"></div>
 
+
+<!-- 引入国内Mermaid库 -->
+<script src="https://cdn.staticfile.org/mermaid/10.6.1/mermaid.min.js"></script>
+<script>
+// 等待页面完全加载
+window.addEventListener('load', function() {
+    console.log('页面加载完成，开始处理Mermaid图表');
+    
+    // 更精确的选择器，适配不同Hexo主题可能生成的结构
+    const selectors = [
+        'pre.language-mermaid code'
+    ];
+    
+    let codeBlocks = [];
+    selectors.forEach(selector => {
+        const blocks = document.querySelectorAll(selector);
+        codeBlocks = [...codeBlocks, ...blocks];
+    });
+    
+    console.log(`找到 ${codeBlocks.length} 个可能的Mermaid代码块`);
+    
+    if (codeBlocks.length === 0) {
+        console.warn('未找到任何Mermaid代码块，请检查类名是否正确');
+        return;
+    }
+    
+    codeBlocks.forEach((codeBlock, index) => {
+        try {
+            const preBlock = codeBlock.closest('pre');
+            if (!preBlock) {
+                console.warn(`第${index+1}个代码块没有找到对应的pre父元素`);
+                return;
+            }
+            
+            // 提取并处理代码内容，还原所有HTML实体
+            let mermaidCode = codeBlock.textContent;
+            const entities = {
+                '&gt;': '>',
+                '&lt;': '<',
+                '&amp;': '&',
+                '&#39;': "'",
+                '&quot;': '"'
+            };
+            
+            // 还原所有转义字符
+            Object.keys(entities).forEach(entity => {
+                const regex = new RegExp(entity, 'g');
+                mermaidCode = mermaidCode.replace(regex, entities[entity]);
+            });
+            
+            console.log(`第${index+1}个代码块内容处理完成`);
+            
+            // 创建渲染容器
+            const mermaidContainer = document.createElement('div');
+            mermaidContainer.id = `mermaid-container-${index}`;
+            mermaidContainer.className = 'mermaid';
+            mermaidContainer.style.margin = '1rem 0';
+            mermaidContainer.textContent = mermaidCode;
+            
+            // 插入到页面中
+            preBlock.parentNode.insertBefore(mermaidContainer, preBlock);
+            
+            // 隐藏原始代码块
+            preBlock.style.display = 'none';
+            
+        } catch (error) {
+            console.error(`处理第${index+1}个代码块时出错:`, error);
+        }
+    });
+    
+    // 检查Mermaid是否加载成功
+    if (typeof mermaid === 'undefined') {
+        console.error('Mermaid库未加载成功，请检查CDN地址是否可用');
+        return;
+    }
+    
+    // 初始化Mermaid并添加错误处理
+    try {
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: {
+                curve: 'linear'
+            },
+            logLevel: 3 // 显示警告和错误信息
+        });
+        
+        console.log('Mermaid初始化完成，开始渲染图表');
+        
+        // 手动触发渲染（确保所有图表都被处理）
+        mermaid.run({
+            querySelector: '.mermaid'
+        }).then(() => {
+            console.log('Mermaid图表渲染完成');
+        }).catch(error => {
+            console.error('Mermaid渲染过程出错:', error);
+        });
+        
+    } catch (error) {
+        console.error('Mermaid初始化失败:', error);
+    }
+});
+</script>
+    
+    
 <!-- 谷歌广告 -->
 <script>
     (adsbygoogle = window.adsbygoogle || []).push({});

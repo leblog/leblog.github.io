@@ -1,0 +1,1498 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="MySQL索引设计最佳实践, 程序员小乐">
+
+    
+    <meta name="description" content="MySQL索引设计最佳实践索引设计是数据库性能优化的核心环节。本文结合实际案例，系统总结索引设计的最佳实践。
+一、索引设计的基本原则1.1 三星索引法则《高性能MySQL》提出的三星索引标准：
+
+第一星：索引将相关的记录放在一起（减少IO）">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>MySQL索引设计最佳实践 | 程序员小乐</title>
+    <link rel="icon" type="image/png" href="https://wp-cdn.4ce.cn/v2/aTeDpXd.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-3.7.1.min.js"></script>
+    <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+
+    <!-- 谷歌广告 -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3969824567415808"
+     crossorigin="anonymous"></script>
+
+     <!-- 谷歌分析 -->
+     <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XNDRSTWEQ8"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-XNDRSTWEQ8');
+    </script>
+
+    
+     
+<meta name="generator" content="Hexo 8.1.2"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="https://wp-cdn.4ce.cn/v2/aTeDpXd.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">程序员小乐</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-list"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-card"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-users"></i>
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/contact" class="waves-effect waves-light">
+            
+            <i class="fa fa-volume-control-phone"></i>
+            
+            <span>留言板</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tools" class="waves-effect waves-light">
+            
+            <i class="fa fa-inbox"></i>
+            
+            <span>Tools</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="https://wp-cdn.4ce.cn/v2/aTeDpXd.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">程序员小乐</div>
+        <div class="logo-desc">
+            
+            计算机科学与技术
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-list"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-card"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-users"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        <li>
+            <a href="/contact" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-volume-control-phone"></i>
+                
+                留言板
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tools" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-inbox"></i>
+                
+                Tools
+            </a>
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/leblog" class="waves-effect waves-light" target="_blank">
+                <i class="fa fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/leblog" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://wp-cdn.4ce.cn/v2/3GhFAj8.jpeg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        MySQL索引设计最佳实践
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                        <a href="/tags/MySQL/" target="_blank">
+                            <span class="chip bg-color">MySQL</span>
+                        </a>
+                        
+                        <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" target="_blank">
+                            <span class="chip bg-color">数据库</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                        <a href="/categories/MySQL/" class="post-category" target="_blank">
+                            MySQL
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2024-07-16
+                </div>
+
+                <div class="post-author info-break-policy">
+                    <i class="fa fa-user-o fa-fw"></i>作者:&nbsp;&nbsp;
+                    
+                    小乐
+                    
+                </div>
+
+                
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    2k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    8 分
+                </div>
+                
+                
+
+                
+                <div id="busuanzi_container_page_pv" class="info-break-policy">
+                    <i class="fa fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                    <span id="busuanzi_value_page_pv"></span>
+                </div>
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="MySQL索引设计最佳实践"><a href="#MySQL索引设计最佳实践" class="headerlink" title="MySQL索引设计最佳实践"></a>MySQL索引设计最佳实践</h1><p>索引设计是数据库性能优化的核心环节。本文结合实际案例，系统总结索引设计的最佳实践。</p>
+<h2 id="一、索引设计的基本原则"><a href="#一、索引设计的基本原则" class="headerlink" title="一、索引设计的基本原则"></a>一、索引设计的基本原则</h2><h3 id="1-1-三星索引法则"><a href="#1-1-三星索引法则" class="headerlink" title="1.1 三星索引法则"></a>1.1 三星索引法则</h3><p>《高性能MySQL》提出的三星索引标准：</p>
+<ul>
+<li><strong>第一星</strong>：索引将相关的记录放在一起（减少IO）</li>
+<li><strong>第二星</strong>：索引中的列顺序满足排序需求（避免文件排序）</li>
+<li><strong>第三星</strong>：索引包含查询所需的所有列（覆盖索引，避免回表）</li>
+</ul>
+<h3 id="1-2-索引选择性（Cardinality）"><a href="#1-2-索引选择性（Cardinality）" class="headerlink" title="1.2 索引选择性（Cardinality）"></a>1.2 索引选择性（Cardinality）</h3><p>选择性 = 不同值数量 / 总记录数，越接近1越好：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看列的选择性</span></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> column_name) <span class="operator">/</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">AS</span> selectivity</span><br><span class="line"><span class="keyword">FROM</span> table_name;</span><br></pre></td></tr></table></figure>
+
+<p><strong>建议</strong>：选择性低于0.1的列，单独建索引效果不佳。</p>
+<h3 id="1-3-索引长度估算"><a href="#1-3-索引长度估算" class="headerlink" title="1.3 索引长度估算"></a>1.3 索引长度估算</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看索引大小</span></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    database_name,</span><br><span class="line">    table_name,</span><br><span class="line">    index_name,</span><br><span class="line">    ROUND(stat_value <span class="operator">*</span> @<span class="variable">@innodb_page_size</span> <span class="operator">/</span> <span class="number">1024</span> <span class="operator">/</span> <span class="number">1024</span>, <span class="number">2</span>) <span class="keyword">AS</span> index_size_mb</span><br><span class="line"><span class="keyword">FROM</span> mysql.innodb_index_stats</span><br><span class="line"><span class="keyword">WHERE</span> table_name <span class="operator">=</span> <span class="string">&#x27;your_table&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、单列索引设计"><a href="#二、单列索引设计" class="headerlink" title="二、单列索引设计"></a>二、单列索引设计</h2><h3 id="2-1-主键索引"><a href="#2-1-主键索引" class="headerlink" title="2.1 主键索引"></a>2.1 主键索引</h3><p><strong>设计要点</strong>：</p>
+<ol>
+<li><p><strong>使用自增整数</strong></p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE TABLE</span> <span class="keyword">user</span> (</span><br><span class="line">    id <span class="type">BIGINT</span> UNSIGNED AUTO_INCREMENT <span class="keyword">PRIMARY KEY</span>,</span><br><span class="line">    <span class="comment">-- ...</span></span><br><span class="line">) ENGINE<span class="operator">=</span>InnoDB;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>避免使用业务字段作为主键</strong></p>
+<ul>
+<li>手机号可能变更</li>
+<li>身份证号涉及隐私</li>
+<li>UUID随机插入性能差</li>
+</ul>
+</li>
+<li><p><strong>主键不宜过长</strong></p>
+<ul>
+<li>主键会复制到所有二级索引中</li>
+<li>主键越长，二级索引越大</li>
+</ul>
+</li>
+</ol>
+<h3 id="2-2-唯一索引"><a href="#2-2-唯一索引" class="headerlink" title="2.2 唯一索引"></a>2.2 唯一索引</h3><p>确保业务唯一性的同时建立索引：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 方式一：UNIQUE约束</span></span><br><span class="line"><span class="keyword">CREATE TABLE</span> <span class="keyword">user</span> (</span><br><span class="line">    email <span class="type">VARCHAR</span>(<span class="number">100</span>) <span class="keyword">NOT NULL</span>,</span><br><span class="line">    <span class="keyword">UNIQUE</span> KEY uk_email (email)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 方式二：唯一索引</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">UNIQUE</span> INDEX uk_phone <span class="keyword">ON</span> <span class="keyword">user</span>(phone);</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：唯一索引不能包含NULL（NULL不等于NULL）。</p>
+<h3 id="2-3-普通索引"><a href="#2-3-普通索引" class="headerlink" title="2.3 普通索引"></a>2.3 普通索引</h3><p>为高频查询条件列创建：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> INDEX idx_status <span class="keyword">ON</span> orders(status);</span><br><span class="line"><span class="keyword">CREATE</span> INDEX idx_create_time <span class="keyword">ON</span> orders(create_time);</span><br></pre></td></tr></table></figure>
+
+<h2 id="三、联合索引设计"><a href="#三、联合索引设计" class="headerlink" title="三、联合索引设计"></a>三、联合索引设计</h2><h3 id="3-1-最左前缀原则"><a href="#3-1-最左前缀原则" class="headerlink" title="3.1 最左前缀原则"></a>3.1 最左前缀原则</h3><p>联合索引(a, b, c)等效于创建了(a)、(a,b)、(a,b,c)三个索引：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 有效：用到索引</span></span><br><span class="line"><span class="keyword">WHERE</span> a <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">WHERE</span> a <span class="operator">=</span> <span class="number">1</span> <span class="keyword">AND</span> b <span class="operator">=</span> <span class="number">2</span></span><br><span class="line"><span class="keyword">WHERE</span> a <span class="operator">=</span> <span class="number">1</span> <span class="keyword">AND</span> b <span class="operator">=</span> <span class="number">2</span> <span class="keyword">AND</span> c <span class="operator">=</span> <span class="number">3</span></span><br><span class="line"><span class="keyword">WHERE</span> a <span class="operator">=</span> <span class="number">1</span> <span class="keyword">AND</span> c <span class="operator">=</span> <span class="number">3</span>   <span class="comment">-- 只用a</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 无效：跳过最左列</span></span><br><span class="line"><span class="keyword">WHERE</span> b <span class="operator">=</span> <span class="number">2</span></span><br><span class="line"><span class="keyword">WHERE</span> b <span class="operator">=</span> <span class="number">2</span> <span class="keyword">AND</span> c <span class="operator">=</span> <span class="number">3</span></span><br><span class="line"><span class="keyword">WHERE</span> c <span class="operator">=</span> <span class="number">3</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-联合索引列顺序设计"><a href="#3-2-联合索引列顺序设计" class="headerlink" title="3.2 联合索引列顺序设计"></a>3.2 联合索引列顺序设计</h3><p><strong>原则一：等值查询列在前，范围查询列在后</strong></p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查询条件</span></span><br><span class="line"><span class="keyword">WHERE</span> a <span class="operator">=</span> <span class="number">1</span> <span class="keyword">AND</span> b <span class="operator">&gt;</span> <span class="number">10</span> <span class="keyword">AND</span> c <span class="operator">=</span> <span class="number">5</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 推荐索引：(c, a, b) 或 (a, c, b)</span></span><br><span class="line"><span class="comment">-- 不推荐：(a, b, c)，因为b是范围查询，c无法使用索引</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>原则二：区分度高的列在前</strong></p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 假设：status有5种值，user_id有100万种值</span></span><br><span class="line"><span class="comment">-- 查询：WHERE status = 1 AND user_id = 100</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 推荐索引：(user_id, status)</span></span><br><span class="line"><span class="comment">-- 原因：user_id区分度高，先过滤掉大部分数据</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>原则三：排序列放入索引</strong></p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查询</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> orders </span><br><span class="line"><span class="keyword">WHERE</span> user_id <span class="operator">=</span> <span class="number">100</span> </span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> create_time <span class="keyword">DESC</span> </span><br><span class="line">LIMIT <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 推荐索引：idx_user_time(user_id, create_time)</span></span><br><span class="line"><span class="comment">-- 避免文件排序，直接利用索引有序性</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3-实际案例"><a href="#3-3-实际案例" class="headerlink" title="3.3 实际案例"></a>3.3 实际案例</h3><p><strong>电商订单表索引设计</strong>：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE TABLE</span> orders (</span><br><span class="line">    id <span class="type">BIGINT</span> <span class="keyword">PRIMARY KEY</span> AUTO_INCREMENT,</span><br><span class="line">    user_id <span class="type">BIGINT</span> <span class="keyword">NOT NULL</span>,</span><br><span class="line">    status TINYINT <span class="keyword">NOT NULL</span> <span class="keyword">DEFAULT</span> <span class="number">0</span>,</span><br><span class="line">    create_time DATETIME <span class="keyword">NOT NULL</span>,</span><br><span class="line">    pay_time DATETIME,</span><br><span class="line">    amount <span class="type">DECIMAL</span>(<span class="number">10</span>,<span class="number">2</span>) <span class="keyword">NOT NULL</span>,</span><br><span class="line">    <span class="comment">-- 其他字段</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">-- 核心索引</span></span><br><span class="line">    <span class="keyword">PRIMARY KEY</span> (id),</span><br><span class="line">    </span><br><span class="line">    <span class="comment">-- 用户查询自己的订单列表（高频）</span></span><br><span class="line">    KEY idx_user_time (user_id, create_time),</span><br><span class="line">    </span><br><span class="line">    <span class="comment">-- 按状态查询（管理后台）</span></span><br><span class="line">    KEY idx_status_time (status, create_time),</span><br><span class="line">    </span><br><span class="line">    <span class="comment">-- 支付超时查询（定时任务）</span></span><br><span class="line">    KEY idx_status_paytime (status, pay_time)</span><br><span class="line">) ENGINE<span class="operator">=</span>InnoDB;</span><br></pre></td></tr></table></figure>
+
+<h2 id="四、前缀索引"><a href="#四、前缀索引" class="headerlink" title="四、前缀索引"></a>四、前缀索引</h2><h3 id="4-1-适用场景"><a href="#4-1-适用场景" class="headerlink" title="4.1 适用场景"></a>4.1 适用场景</h3><p>长字符串列（如URL、邮箱、描述）的索引：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 完整索引占用空间大</span></span><br><span class="line"><span class="keyword">CREATE</span> INDEX idx_url <span class="keyword">ON</span> pages(url);  <span class="comment">-- url可能很长</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 前缀索引更省空间</span></span><br><span class="line"><span class="keyword">CREATE</span> INDEX idx_url <span class="keyword">ON</span> pages(url(<span class="number">20</span>));</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-前缀长度选择"><a href="#4-2-前缀长度选择" class="headerlink" title="4.2 前缀长度选择"></a>4.2 前缀长度选择</h3><p>目标是选择性接近完整列的选择性：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 测试不同前缀长度的选择性</span></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> <span class="keyword">LEFT</span>(url, <span class="number">10</span>)) <span class="operator">/</span> <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> url) <span class="keyword">AS</span> sel_10,</span><br><span class="line">    <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> <span class="keyword">LEFT</span>(url, <span class="number">20</span>)) <span class="operator">/</span> <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> url) <span class="keyword">AS</span> sel_20,</span><br><span class="line">    <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> <span class="keyword">LEFT</span>(url, <span class="number">30</span>)) <span class="operator">/</span> <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> url) <span class="keyword">AS</span> sel_30,</span><br><span class="line">    <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> <span class="keyword">LEFT</span>(url, <span class="number">40</span>)) <span class="operator">/</span> <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> url) <span class="keyword">AS</span> sel_40</span><br><span class="line"><span class="keyword">FROM</span> pages;</span><br></pre></td></tr></table></figure>
+
+<p><strong>建议</strong>：选择性达到0.9以上即可。</p>
+<h3 id="4-3-前缀索引的限制"><a href="#4-3-前缀索引的限制" class="headerlink" title="4.3 前缀索引的限制"></a>4.3 前缀索引的限制</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 前缀索引无法用于覆盖索引</span></span><br><span class="line"><span class="keyword">SELECT</span> url <span class="keyword">FROM</span> pages <span class="keyword">WHERE</span> url <span class="operator">=</span> <span class="string">&#x27;https://example.com&#x27;</span>;</span><br><span class="line"><span class="comment">-- 即使只查url，也需要回表（因为索引只存了前缀）</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 前缀索引无法用于ORDER BY</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> pages <span class="keyword">ORDER</span> <span class="keyword">BY</span> url;</span><br><span class="line"><span class="comment">-- 可能使用文件排序</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="五、索引优化技术"><a href="#五、索引优化技术" class="headerlink" title="五、索引优化技术"></a>五、索引优化技术</h2><h3 id="5-1-索引条件下推（ICP）"><a href="#5-1-索引条件下推（ICP）" class="headerlink" title="5.1 索引条件下推（ICP）"></a>5.1 索引条件下推（ICP）</h3><p>MySQL 5.6引入的优化：在存储引擎层过滤数据，减少回表次数。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 有联合索引(name, age, address)</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> </span><br><span class="line"><span class="keyword">WHERE</span> name <span class="operator">=</span> <span class="string">&#x27;张&#x27;</span> <span class="keyword">AND</span> age <span class="operator">&gt;</span> <span class="number">20</span> <span class="keyword">AND</span> address <span class="keyword">LIKE</span> <span class="string">&#x27;%北京%&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 无ICP：</span></span><br><span class="line"><span class="comment">-- 1. 用name找到所有记录</span></span><br><span class="line"><span class="comment">-- 2. 回表查完整数据</span></span><br><span class="line"><span class="comment">-- 3. 在Server层过滤age和address</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 有ICP：</span></span><br><span class="line"><span class="comment">-- 1. 用name找到记录</span></span><br><span class="line"><span class="comment">-- 2. 在引擎层用age过滤</span></span><br><span class="line"><span class="comment">-- 3. 只有符合条件的才回表</span></span><br></pre></td></tr></table></figure>
+
+<p>查看是否使用ICP：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">EXPLAIN <span class="keyword">SELECT</span> ...;</span><br><span class="line"><span class="comment">-- Extra列显示&quot;Using index condition&quot;表示使用ICP</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-2-索引合并（Index-Merge）"><a href="#5-2-索引合并（Index-Merge）" class="headerlink" title="5.2 索引合并（Index Merge）"></a>5.2 索引合并（Index Merge）</h3><p>当WHERE条件涉及多个索引时，MySQL可能合并多个索引的结果：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 有idx_name和idx_age两个独立索引</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> name <span class="operator">=</span> <span class="string">&#x27;Alice&#x27;</span> <span class="keyword">OR</span> age <span class="operator">=</span> <span class="number">25</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- Index Merge Union</span></span><br><span class="line"><span class="comment">-- 分别查name和age，然后合并结果</span></span><br></pre></td></tr></table></figure>
+
+<p>EXPLAIN中显示：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">type: index_merge</span><br><span class="line">key: idx_name, idx_age</span><br><span class="line">Extra: Using union(idx_name,idx_age)</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：索引合并不如联合索引高效，优先设计合适的联合索引。</p>
+<h3 id="5-3-覆盖索引"><a href="#5-3-覆盖索引" class="headerlink" title="5.3 覆盖索引"></a>5.3 覆盖索引</h3><p>查询的所有列都在索引中，无需回表：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 联合索引(user_id, status, create_time)</span></span><br><span class="line"><span class="keyword">SELECT</span> user_id, status, create_time </span><br><span class="line"><span class="keyword">FROM</span> orders </span><br><span class="line"><span class="keyword">WHERE</span> user_id <span class="operator">=</span> <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 覆盖索引，Extra显示&quot;Using index&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>优化技巧</strong>：适当添加查询列到联合索引末尾，实现覆盖索引。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 原索引：idx_user_status(user_id, status)</span></span><br><span class="line"><span class="comment">-- 查询：SELECT user_id, status, create_time FROM ...</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 优化为覆盖索引：</span></span><br><span class="line">KEY idx_user_status_time (user_id, status, create_time)</span><br></pre></td></tr></table></figure>
+
+<h2 id="六、索引维护"><a href="#六、索引维护" class="headerlink" title="六、索引维护"></a>六、索引维护</h2><h3 id="6-1-查看索引使用情况"><a href="#6-1-查看索引使用情况" class="headerlink" title="6.1 查看索引使用情况"></a>6.1 查看索引使用情况</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看索引使用统计（MySQL 8.0）</span></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    TABLE_SCHEMA,</span><br><span class="line">    TABLE_NAME,</span><br><span class="line">    INDEX_NAME,</span><br><span class="line">    ROWS_SELECTED,</span><br><span class="line">    ROWS_INSERTED,</span><br><span class="line">    ROWS_DELETED</span><br><span class="line"><span class="keyword">FROM</span> performance_schema.table_io_waits_summary_by_index_usage</span><br><span class="line"><span class="keyword">WHERE</span> INDEX_NAME <span class="keyword">IS</span> <span class="keyword">NOT NULL</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-2-删除冗余索引"><a href="#6-2-删除冗余索引" class="headerlink" title="6.2 删除冗余索引"></a>6.2 删除冗余索引</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查找未使用的索引（MySQL 8.0）</span></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    object_schema,</span><br><span class="line">    object_name,</span><br><span class="line">    index_name</span><br><span class="line"><span class="keyword">FROM</span> performance_schema.table_io_waits_summary_by_index_usage</span><br><span class="line"><span class="keyword">WHERE</span> index_name <span class="keyword">IS</span> <span class="keyword">NOT NULL</span></span><br><span class="line">    <span class="keyword">AND</span> count_star <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">AND</span> object_schema <span class="keyword">NOT</span> <span class="keyword">IN</span> (<span class="string">&#x27;mysql&#x27;</span>, <span class="string">&#x27;performance_schema&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-3-索引重建"><a href="#6-3-索引重建" class="headerlink" title="6.3 索引重建"></a>6.3 索引重建</h3><p>当索引页利用率低时，重建索引：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- MySQL 5.7: ALTER TABLE</span></span><br><span class="line"><span class="keyword">ALTER TABLE</span> <span class="keyword">user</span> ENGINE<span class="operator">=</span>InnoDB;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- MySQL 8.0: OPTIMIZE TABLE</span></span><br><span class="line">OPTIMIZE <span class="keyword">TABLE</span> <span class="keyword">user</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="七、索引设计检查清单"><a href="#七、索引设计检查清单" class="headerlink" title="七、索引设计检查清单"></a>七、索引设计检查清单</h2><h3 id="7-1-创建索引前检查"><a href="#7-1-创建索引前检查" class="headerlink" title="7.1 创建索引前检查"></a>7.1 创建索引前检查</h3><ul>
+<li><input disabled="" type="checkbox"> 该列是否出现在WHERE、JOIN、ORDER BY、GROUP BY中？</li>
+<li><input disabled="" type="checkbox"> 该列的选择性是否足够高（&gt;0.1）？</li>
+<li><input disabled="" type="checkbox"> 是否已存在可以复用的联合索引？</li>
+<li><input disabled="" type="checkbox"> 单表索引数量是否已超过5个？</li>
+<li><input disabled="" type="checkbox"> 索引列的数据类型是否尽可能小？</li>
+</ul>
+<h3 id="7-2-联合索引设计检查"><a href="#7-2-联合索引设计检查" class="headerlink" title="7.2 联合索引设计检查"></a>7.2 联合索引设计检查</h3><ul>
+<li><input disabled="" type="checkbox"> 是否符合最左前缀原则？</li>
+<li><input disabled="" type="checkbox"> 等值查询列是否在前，范围查询列在后？</li>
+<li><input disabled="" type="checkbox"> 是否包含ORDER BY的列？</li>
+<li><input disabled="" type="checkbox"> 是否可以设计为覆盖索引？</li>
+</ul>
+<h3 id="7-3-索引优化检查"><a href="#7-3-索引优化检查" class="headerlink" title="7.3 索引优化检查"></a>7.3 索引优化检查</h3><ul>
+<li><input disabled="" type="checkbox"> 是否使用了前缀索引替代长字符串索引？</li>
+<li><input disabled="" type="checkbox"> 是否有冗余索引可以删除？</li>
+<li><input disabled="" type="checkbox"> 是否有未使用的索引可以删除？</li>
+<li><input disabled="" type="checkbox"> 是否定期检查索引碎片？</li>
+</ul>
+<h2 id="八、常见错误与解决方案"><a href="#八、常见错误与解决方案" class="headerlink" title="八、常见错误与解决方案"></a>八、常见错误与解决方案</h2><h3 id="8-1-索引过多导致写入慢"><a href="#8-1-索引过多导致写入慢" class="headerlink" title="8.1 索引过多导致写入慢"></a>8.1 索引过多导致写入慢</h3><p><strong>现象</strong>：插入、更新、删除操作变慢</p>
+<p><strong>原因</strong>：每次写操作都要维护所有索引</p>
+<p><strong>解决</strong>：</p>
+<ol>
+<li>删除未使用的索引</li>
+<li>合并冗余索引</li>
+<li>将部分查询移到从库</li>
+</ol>
+<h3 id="8-2-索引选择错误"><a href="#8-2-索引选择错误" class="headerlink" title="8.2 索引选择错误"></a>8.2 索引选择错误</h3><p><strong>现象</strong>：EXPLAIN显示使用了错误的索引</p>
+<p><strong>解决</strong>：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 使用FORCE INDEX强制指定索引</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> orders FORCE INDEX (idx_user_time) </span><br><span class="line"><span class="keyword">WHERE</span> user_id <span class="operator">=</span> <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 或使用ANALYZE TABLE更新统计信息</span></span><br><span class="line">ANALYZE <span class="keyword">TABLE</span> orders;</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-3-隐式类型转换导致索引失效"><a href="#8-3-隐式类型转换导致索引失效" class="headerlink" title="8.3 隐式类型转换导致索引失效"></a>8.3 隐式类型转换导致索引失效</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 错误：phone是VARCHAR类型</span></span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="operator">=</span> <span class="number">13800138000</span>   <span class="comment">-- 数字，发生隐式转换</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 正确</span></span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="operator">=</span> <span class="string">&#x27;13800138000&#x27;</span>  <span class="comment">-- 字符串，使用索引</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="九、总结"><a href="#九、总结" class="headerlink" title="九、总结"></a>九、总结</h2><table>
+<thead>
+<tr>
+<th>索引类型</th>
+<th>适用场景</th>
+<th>注意事项</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>主键索引</td>
+<td>每表必须</td>
+<td>用自增整数，避免UUID</td>
+</tr>
+<tr>
+<td>唯一索引</td>
+<td>业务唯一性约束</td>
+<td>不能含NULL</td>
+</tr>
+<tr>
+<td>单列索引</td>
+<td>单条件高频查询</td>
+<td>选择性要高</td>
+</tr>
+<tr>
+<td>联合索引</td>
+<td>多条件组合查询</td>
+<td>注意最左前缀和列顺序</td>
+</tr>
+<tr>
+<td>前缀索引</td>
+<td>长字符串列</td>
+<td>无法覆盖索引</td>
+</tr>
+</tbody></table>
+<p>好的索引设计需要：</p>
+<ol>
+<li>深入理解业务查询模式</li>
+<li>掌握最左前缀等核心原则</li>
+<li>利用EXPLAIN分析执行计划</li>
+<li>持续监控和优化索引使用</li>
+</ol>
+
+            </div>
+            <hr />
+
+            
+            <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.88rem;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-large waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fa fa-close"></i></a>
+            <h4 class="reward-title">写作不易，客官能否打赏一杯Cooffee？</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="https://wp-cdn.4ce.cn/v2/MJ8peBx.png" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="https://wp-cdn.4ce.cn/v2/yUS7sDT.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        <p class="reprint-tip">
+            <i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;
+            <span>转载规则</span>
+        </p>
+        
+            <div class="center-align">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                    <img alt=""
+                         style="border-width:0"
+                         src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
+                </a>
+            </div>
+            <br/>
+            <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
+                  property="dct:title" rel="dct:type">
+                    《MySQL索引设计最佳实践》
+                </span> 由
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/mysql-index-design-best-practice/" property="cc:attributionName"
+               rel="cc:attributionURL">
+                小乐
+            </a> 采用
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                知识共享署名 4.0 国际许可协议
+            </a>进行许可。
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+        </div>
+    </div>
+    <!-- 插入谷歌广告post -->
+    <ins class="adsbygoogle"
+    style="display:block"
+    data-ad-client="ca-pub-3969824567415808"
+    data-ad-slot="5525027918"
+    data-ad-format="auto"
+    data-full-width-responsive="true"></ins>
+    
+    
+    <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: 'Ov23liwpvtv7XfsKCkXW',
+        clientSecret: '364dbe0a734b080fb0559e395442e58f15c4dc31',
+        repo: 'leblog.github.io',
+        owner: 'leblog',
+        admin: "leblog",
+        id: '/mysql-index-design-best-practice/',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/sql-zhu-ru-yuan-li-he-fang-hu-fang-fa/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://wp-cdn.4ce.cn/v2/PkFkFHq.jpeg" class="responsive-img" alt="SQL 注入原理和防护方法">
+                        
+                        <span class="card-title">SQL 注入原理和防护方法</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            这是一篇关于SQL 注入原理和防护方法的原创技术笔记，侧重原理理解、项目用法和排查经验。
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-16
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%AE%89%E5%85%A8/" class="post-category" target="_blank">
+                                    安全
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" target="_blank">
+                        <span class="chip bg-color">学习笔记</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%AE%89%E5%85%A8/" target="_blank">
+                        <span class="chip bg-color">安全</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/git-chong-tu-jie-jue-de-zheng-que-shun-xu/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://wp-cdn.4ce.cn/v2/2UFdm3y.jpeg" class="responsive-img" alt="Git 冲突解决的正确顺序">
+                        
+                        <span class="card-title">Git 冲突解决的正确顺序</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            这是一篇关于Git 冲突解决的正确顺序的原创技术笔记，侧重原理理解、项目用法和排查经验。
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-15
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Git/" class="post-category" target="_blank">
+                                    Git
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" target="_blank">
+                        <span class="chip bg-color">学习笔记</span>
+                    </a>
+                    
+                    <a href="/tags/Git/" target="_blank">
+                        <span class="chip bg-color">Git</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 程序员小乐<br />'
+            + '作者: 小乐<br />'
+            + '链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () { bodyElement.removeChild(newdiv); }, 200);
+    });
+</script>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+        <!--广告图片-->
+        <div class="expanded col l3 hide-on-med-and-down">
+            <img src="https://wp-cdn.4ce.cn/v2/CY6RJoX.jpeg" alt="">
+        </div>
+
+    </div>
+
+    <!-- 插入谷歌广告 目录-->
+    <ins class="adsbygoogle"
+    style="display:block"
+    data-ad-client="ca-pub-3969824567415808"
+    data-ad-slot="5525027918"
+    data-ad-format="auto"
+    data-full-width-responsive="true"></ins>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h1, h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h1, h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+    
+
+    
+</main>
+
+
+    <ins class="adsbygoogle"
+style="display:block"
+data-ad-client="ca-pub-3969824567415808"
+data-ad-slot="5525027918"
+data-ad-format="auto"
+data-full-width-responsive="true"></ins>
+<footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            &copy; 2021-2099 程序员小乐. All Rights Reserved.
+            
+            &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+            <span class="white-color">630.2k</span>
+            
+
+            <br>
+            <span id="sitetime"></span>
+
+            
+            
+            <br>
+            
+            <span id="busuanzi_container_site_pv" style='display:none'>
+                <i class="fa fa-heart-o"></i>
+                本站总访问量 <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+
+            
+            
+            <span id="busuanzi_container_site_uv" style='display:none'>
+                人次,&nbsp;访客数 <span id="busuanzi_value_site_uv" class="white-color"></span> 人.
+            </span>
+            
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/leblog" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:lusifer9527@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+    <a href="https://user.qzone.qq.com/1260842695" class="tooltipped" target="_blank" data-tooltip="访问我的QQ空间" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fa fa-rss"></i>
+    </a>
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+<!-- 引入国内Mermaid库 -->
+<script src="https://cdn.staticfile.org/mermaid/10.6.1/mermaid.min.js"></script>
+<script>
+// 等待页面完全加载
+window.addEventListener('load', function() {
+    console.log('页面加载完成，开始处理Mermaid图表');
+    
+    // 更精确的选择器，适配不同Hexo主题可能生成的结构
+    const selectors = [
+        'pre.language-mermaid code'
+    ];
+    
+    let codeBlocks = [];
+    selectors.forEach(selector => {
+        const blocks = document.querySelectorAll(selector);
+        codeBlocks = [...codeBlocks, ...blocks];
+    });
+    
+    console.log(`找到 ${codeBlocks.length} 个可能的Mermaid代码块`);
+    
+    if (codeBlocks.length === 0) {
+        console.warn('未找到任何Mermaid代码块，请检查类名是否正确');
+        return;
+    }
+    
+    codeBlocks.forEach((codeBlock, index) => {
+        try {
+            const preBlock = codeBlock.closest('pre');
+            if (!preBlock) {
+                console.warn(`第${index+1}个代码块没有找到对应的pre父元素`);
+                return;
+            }
+            
+            // 提取并处理代码内容，还原所有HTML实体
+            let mermaidCode = codeBlock.textContent;
+            const entities = {
+                '&gt;': '>',
+                '&lt;': '<',
+                '&amp;': '&',
+                '&#39;': "'",
+                '&quot;': '"'
+            };
+            
+            // 还原所有转义字符
+            Object.keys(entities).forEach(entity => {
+                const regex = new RegExp(entity, 'g');
+                mermaidCode = mermaidCode.replace(regex, entities[entity]);
+            });
+            
+            console.log(`第${index+1}个代码块内容处理完成`);
+            
+            // 创建渲染容器
+            const mermaidContainer = document.createElement('div');
+            mermaidContainer.id = `mermaid-container-${index}`;
+            mermaidContainer.className = 'mermaid';
+            mermaidContainer.style.margin = '1rem 0';
+            mermaidContainer.textContent = mermaidCode;
+            
+            // 插入到页面中
+            preBlock.parentNode.insertBefore(mermaidContainer, preBlock);
+            
+            // 隐藏原始代码块
+            preBlock.style.display = 'none';
+            
+        } catch (error) {
+            console.error(`处理第${index+1}个代码块时出错:`, error);
+        }
+    });
+    
+    // 检查Mermaid是否加载成功
+    if (typeof mermaid === 'undefined') {
+        console.error('Mermaid库未加载成功，请检查CDN地址是否可用');
+        return;
+    }
+    
+    // 初始化Mermaid并添加错误处理
+    try {
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: {
+                curve: 'linear'
+            },
+            logLevel: 3 // 显示警告和错误信息
+        });
+        
+        console.log('Mermaid初始化完成，开始渲染图表');
+        
+        // 手动触发渲染（确保所有图表都被处理）
+        mermaid.run({
+            querySelector: '.mermaid'
+        }).then(() => {
+            console.log('Mermaid图表渲染完成');
+        }).catch(error => {
+            console.error('Mermaid渲染过程出错:', error);
+        });
+        
+    } catch (error) {
+        console.error('Mermaid初始化失败:', error);
+    }
+});
+</script>
+    
+    
+<!-- 谷歌广告 -->
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+<!-- 不蒜子计数初始值纠正 -->
+<script>
+    $(document).ready(function () {
+
+        var int = setInterval(fixCount, 50);// 50ms周期检测函数
+        var pvcountOffset = 80000;// 初始化首次数据
+        var uvcountOffset = 20000;
+
+        function fixCount() {
+            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
+                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
+                clearInterval(int);
+            }
+            if ($("#busuanzi_container_site_pv").css("display") != "none") {
+                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
+                clearInterval(int);// 停止检测
+            }
+        }
+    });
+</script>
+
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+        year - 作为date对象的年份，为4位年份值
+        month - 0-11之间的整数，做为date对象的月份
+        day - 1-31之间的整数，做为date对象的天数
+        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+        minutes - 0-59之间的整数，做为date对象的分钟数
+        seconds - 0-59之间的整数，做为date对象的秒数
+        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+        var t1 = Date.UTC(2017, 09, 11, 00, 00, 00); //北京时间2018-2-13 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "本站已运行 " + diffYears + " 年 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
+    siteTime();
+</script>
+
+    <!--百度统计-->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?952b50978d16e6ae6c408a7ff9097b48";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    <!--360统计-->
+    <script>
+        (function(b,a,e,h,f,c,g,s){b[h]=b[h]||function(){(b[h].c=b[h].c||[]).push(arguments)};
+        b[h].s=!!c;g=a.getElementsByTagName(e)[0];s=a.createElement(e);
+        s.src="//s.union.360.cn/"+f+".js";s.defer=!0;s.async=!0;g.parentNode.insertBefore(s,g)
+        })(window,document,"script","_qha",399925,false);
+    </script>
+
+    <!-- google统计 - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XNDRSTWEQ8"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-XNDRSTWEQ8');
+    </script>
+
+
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <script type="text/javascript"> var OriginTitile = document.title, st; document.addEventListener("visibilitychange", function () { document.hidden ? (document.title = "Σ(っ °Д °;)っ喔哟，崩溃啦！", clearTimeout(st)) : (document.title = "φ(゜▽゜*)♪咦，又好了！", st = setTimeout(function () { document.title = OriginTitile }, 3e3)) })
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XNDRSTWEQ8"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', 'G-XNDRSTWEQ8');
+</script>
+
+
+
+    
+    <script src="/libs/others/clicklove.js"></script>
+    
+
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    <!-- 雪花特效 -->
+    
+
+</body>
+
+</html>
