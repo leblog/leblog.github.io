@@ -7,8 +7,8 @@
     <meta name="keywords" content="JVM内存区域划分与作用, 程序员小乐">
 
     
-    <meta name="description" content="JVM内存区域划分与作用JVM 在执行 Java 程序时，会将其管理的内存划分为不同的运行时数据区域。理解这些区域的结构和作用，是 JVM 调优和问题排查的基础。
-运行时数据区概览┌─────────────────────────────">
+    <meta name="description" content="JVM内存区域划分与作用JVM 内存布局是排查线上问题的基础。很多开发者遇到 OutOfMemoryError 时不知道从哪里入手。本文结合实际案例，讲清楚各区域的作用和常见异常，帮你建立排查思路。
+运行时数据区概览┌───────────">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -490,7 +490,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.1k
+                    1.3k
                 </div>
                 
 
@@ -513,7 +513,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="JVM内存区域划分与作用"><a href="#JVM内存区域划分与作用" class="headerlink" title="JVM内存区域划分与作用"></a>JVM内存区域划分与作用</h1><p>JVM 在执行 Java 程序时，会将其管理的内存划分为不同的运行时数据区域。理解这些区域的结构和作用，是 JVM 调优和问题排查的基础。</p>
+                <h1 id="JVM内存区域划分与作用"><a href="#JVM内存区域划分与作用" class="headerlink" title="JVM内存区域划分与作用"></a>JVM内存区域划分与作用</h1><p>JVM 内存布局是排查线上问题的基础。很多开发者遇到 OutOfMemoryError 时不知道从哪里入手。本文结合实际案例，讲清楚各区域的作用和常见异常，帮你建立排查思路。</p>
 <h2 id="运行时数据区概览"><a href="#运行时数据区概览" class="headerlink" title="运行时数据区概览"></a>运行时数据区概览</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">┌─────────────────────────────────────────┐</span><br><span class="line">│              线程私有区域                 │</span><br><span class="line">│  ┌──────────┐ ┌──────────┐ ┌─────────┐ │</span><br><span class="line">│  │程序计数器 │ │虚拟机栈  │ │本地方法栈│ │</span><br><span class="line">│  └──────────┘ └──────────┘ └─────────┘ │</span><br><span class="line">├─────────────────────────────────────────┤</span><br><span class="line">│              线程共享区域                 │</span><br><span class="line">│  ┌───────────────────────────────────┐  │</span><br><span class="line">│  │              堆                    │  │</span><br><span class="line">│  │  ┌─────────────┐ ┌─────────────┐  │  │</span><br><span class="line">│  │  │    年轻代    │ │    老年代    │  │  │</span><br><span class="line">│  │  │  Eden       │ │             │  │  │</span><br><span class="line">│  │  │  Survivor0  │ │             │  │  │</span><br><span class="line">│  │  │  Survivor1  │ │             │  │  │</span><br><span class="line">│  │  └─────────────┘ └─────────────┘  │  │</span><br><span class="line">│  └───────────────────────────────────┘  │</span><br><span class="line">│  ┌───────────────────────────────────┐  │</span><br><span class="line">│  │           方法区（元空间）          │  │</span><br><span class="line">│  │  类信息、常量、静态变量、JIT代码    │  │</span><br><span class="line">│  └───────────────────────────────────┘  │</span><br><span class="line">│  ┌───────────────────────────────────┐  │</span><br><span class="line">│  │          直接内存（堆外）           │  │</span><br><span class="line">│  └───────────────────────────────────┘  │</span><br><span class="line">└─────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
 
 <h2 id="1-程序计数器（Program-Counter-Register）"><a href="#1-程序计数器（Program-Counter-Register）" class="headerlink" title="1. 程序计数器（Program Counter Register）"></a>1. 程序计数器（Program Counter Register）</h2><p><strong>作用</strong>：当前线程执行的字节码行号指示器。</p>
@@ -526,11 +526,14 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">线程A的程序计数器: 0x0001 (执行到第1行)</span><br><span class="line">线程B的程序计数器: 0x0010 (执行到第16行)</span><br></pre></td></tr></table></figure>
 
 <h2 id="2-虚拟机栈（VM-Stack）"><a href="#2-虚拟机栈（VM-Stack）" class="headerlink" title="2. 虚拟机栈（VM Stack）"></a>2. 虚拟机栈（VM Stack）</h2><p><strong>作用</strong>：描述 Java 方法执行的内存模型，每个方法执行时创建栈帧。</p>
-<h3 id="栈帧结构"><a href="#栈帧结构" class="headerlink" title="栈帧结构"></a>栈帧结构</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">┌─────────────────┐</span><br><span class="line">│  局部变量表      │  存放基本类型和对象引用</span><br><span class="line">├─────────────────┤</span><br><span class="line">│  操作数栈        │  方法执行的工作区</span><br><span class="line">├─────────────────┤</span><br><span class="line">│  动态链接        │  指向运行时常量池的方法引用</span><br><span class="line">├─────────────────┤</span><br><span class="line">│  方法返回地址    │  方法执行完毕后的返回位置</span><br><span class="line">├─────────────────┤</span><br><span class="line">│  附加信息        │  调试信息等</span><br><span class="line">└─────────────────┘</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="栈帧结构"><a href="#栈帧结构" class="headerlink" title="栈帧结构"></a>栈帧结构</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">┌─────────────────┐</span><br><span class="line">│  局部变量表      │  存放基本类型和对象引用</span><br><span class="line">├─────────────────┤</span><br><span class="line">│  操作数栈        │  方法执行的工作区</span><br><span class="line">├─────────────────┤</span><br><span class="line">│  动态链接        │  指向运行时常量池的方法引用</span><br><span class="line">├─────────────────┤</span><br><span class="line">│  方法返回地址    │  方法执行完毕后的返回位置</span><br><span class="line">├─────────────────┤</span><br><span class="line">│  附加信息        │  调试信息等</span><br><span class="line">└─────────────────┘</span><br></pre></td></tr></table></figure>
 
-<h3 id="局部变量表"><a href="#局部变量表" class="headerlink" title="局部变量表"></a>局部变量表</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">c</span> <span class="operator">=</span> a + b;  <span class="comment">// 局部变量表: [a, b, c]</span></span><br><span class="line">    <span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Object</span>();  <span class="comment">// 引用类型占1个slot</span></span><br><span class="line">    <span class="type">long</span> <span class="variable">d</span> <span class="operator">=</span> <span class="number">100L</span>;  <span class="comment">// long/double占2个slot</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="局部变量表"><a href="#局部变量表" class="headerlink" title="局部变量表"></a>局部变量表</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">c</span> <span class="operator">=</span> a + b;  <span class="comment">// 局部变量表: [a, b, c]</span></span><br><span class="line">    <span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Object</span>();  <span class="comment">// 引用类型占1个slot</span></span><br><span class="line">    <span class="type">long</span> <span class="variable">d</span> <span class="operator">=</span> <span class="number">100L</span>;  <span class="comment">// long/double占2个slot</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="常见问题：StackOverflowError"><a href="#常见问题：StackOverflowError" class="headerlink" title="常见问题：StackOverflowError"></a>常见问题：StackOverflowError</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">recursive</span><span class="params">()</span> &#123;</span><br><span class="line">    recursive();  <span class="comment">// 无限递归，栈溢出</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="常见问题：StackOverflowError"><a href="#常见问题：StackOverflowError" class="headerlink" title="常见问题：StackOverflowError"></a>常见问题：StackOverflowError</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">recursive</span><span class="params">()</span> &#123;</span><br><span class="line">    recursive();  <span class="comment">// 无限递归，栈溢出</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong>解决</strong>：</p>
 <ul>
@@ -545,16 +548,21 @@
 <li>也会抛出 StackOverflowError 和 OOM</li>
 </ul>
 <h2 id="4-堆（Heap）"><a href="#4-堆（Heap）" class="headerlink" title="4. 堆（Heap）"></a>4. 堆（Heap）</h2><p><strong>作用</strong>：存放对象实例和数组，是 JVM 管理的最大内存区域。</p>
-<h3 id="堆内存划分"><a href="#堆内存划分" class="headerlink" title="堆内存划分"></a>堆内存划分</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">┌──────────────────────────────────────┐</span><br><span class="line">│                堆                     │</span><br><span class="line">│  ┌────────────────────────────────┐  │</span><br><span class="line">│  │           年轻代 (Young)        │  │  -Xmn</span><br><span class="line">│  │  ┌──────────────────────────┐  │  │</span><br><span class="line">│  │  │        Eden (8/10)        │  │  │</span><br><span class="line">│  │  ├──────────────────────────┤  │  │</span><br><span class="line">│  │  │  Survivor0 (1/10)        │  │  │</span><br><span class="line">│  │  ├──────────────────────────┤  │  │</span><br><span class="line">│  │  │  Survivor1 (1/10)        │  │  │</span><br><span class="line">│  │  └──────────────────────────┘  │  │</span><br><span class="line">│  └────────────────────────────────┘  │</span><br><span class="line">│  ┌────────────────────────────────┐  │</span><br><span class="line">│  │         老年代 (Old)            │  │  -Xms - Xmn</span><br><span class="line">│  └────────────────────────────────┘  │</span><br><span class="line">└──────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="堆内存划分"><a href="#堆内存划分" class="headerlink" title="堆内存划分"></a>堆内存划分</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">┌──────────────────────────────────────┐</span><br><span class="line">│                堆                     │</span><br><span class="line">│  ┌────────────────────────────────┐  │</span><br><span class="line">│  │           年轻代 (Young)        │  │  -Xmn</span><br><span class="line">│  │  ┌──────────────────────────┐  │  │</span><br><span class="line">│  │  │        Eden (8/10)        │  │  │</span><br><span class="line">│  │  ├──────────────────────────┤  │  │</span><br><span class="line">│  │  │  Survivor0 (1/10)        │  │  │</span><br><span class="line">│  │  ├──────────────────────────┤  │  │</span><br><span class="line">│  │  │  Survivor1 (1/10)        │  │  │</span><br><span class="line">│  │  └──────────────────────────┘  │  │</span><br><span class="line">│  └────────────────────────────────┘  │</span><br><span class="line">│  ┌────────────────────────────────┐  │</span><br><span class="line">│  │         老年代 (Old)            │  │  -Xms - Xmn</span><br><span class="line">│  └────────────────────────────────┘  │</span><br><span class="line">└──────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
 
-<h3 id="对象分配与晋升"><a href="#对象分配与晋升" class="headerlink" title="对象分配与晋升"></a>对象分配与晋升</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">对象创建 -&gt; Eden区</span><br><span class="line">    |</span><br><span class="line">    |-&gt; Minor GC后存活 -&gt; Survivor0</span><br><span class="line">    |</span><br><span class="line">    |-&gt; 再次Minor GC -&gt; Survivor1（复制算法，S0和S1交换）</span><br><span class="line">    |</span><br><span class="line">    |-&gt; 年龄达到阈值（默认15）-&gt; 老年代</span><br><span class="line">    |</span><br><span class="line">    |-&gt; 大对象直接进入老年代</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="对象分配与晋升"><a href="#对象分配与晋升" class="headerlink" title="对象分配与晋升"></a>对象分配与晋升</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">对象创建 -&gt; Eden区</span><br><span class="line">    |</span><br><span class="line">    |-&gt; Minor GC后存活 -&gt; Survivor0</span><br><span class="line">    |</span><br><span class="line">    |-&gt; 再次Minor GC -&gt; Survivor1（复制算法，S0和S1交换）</span><br><span class="line">    |</span><br><span class="line">    |-&gt; 年龄达到阈值（默认15）-&gt; 老年代</span><br><span class="line">    |</span><br><span class="line">    |-&gt; 大对象直接进入老年代</span><br></pre></td></tr></table></figure>
 
-<h3 id="参数配置"><a href="#参数配置" class="headerlink" title="参数配置"></a>参数配置</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-Xms512m        <span class="comment"># 堆初始大小</span></span><br><span class="line">-Xmx512m        <span class="comment"># 堆最大大小（建议与初始值相同，避免扩容开销）</span></span><br><span class="line">-Xmn128m        <span class="comment"># 年轻代大小</span></span><br><span class="line">-XX:NewRatio=2  <span class="comment"># 老年代:年轻代 = 2:1</span></span><br><span class="line">-XX:SurvivorRatio=8  <span class="comment"># Eden:S0:S1 = 8:1:1</span></span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="参数配置"><a href="#参数配置" class="headerlink" title="参数配置"></a>参数配置</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-Xms512m        <span class="comment"># 堆初始大小</span></span><br><span class="line">-Xmx512m        <span class="comment"># 堆最大大小（建议与初始值相同，避免扩容开销）</span></span><br><span class="line">-Xmn128m        <span class="comment"># 年轻代大小</span></span><br><span class="line">-XX:NewRatio=2  <span class="comment"># 老年代:年轻代 = 2:1</span></span><br><span class="line">-XX:SurvivorRatio=8  <span class="comment"># Eden:S0:S1 = 8:1:1</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="5-方法区（Method-Area）"><a href="#5-方法区（Method-Area）" class="headerlink" title="5. 方法区（Method Area）"></a>5. 方法区（Method Area）</h2><p><strong>作用</strong>：存储类信息、常量、静态变量、即时编译器编译后的代码。</p>
-<h3 id="JDK-8-之前：永久代（PermGen）"><a href="#JDK-8-之前：永久代（PermGen）" class="headerlink" title="JDK 8 之前：永久代（PermGen）"></a>JDK 8 之前：永久代（PermGen）</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-XX:PermSize=64m      <span class="comment"># 永久代初始大小</span></span><br><span class="line">-XX:MaxPermSize=128m  <span class="comment"># 永久代最大大小</span></span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="JDK-8-之前：永久代（PermGen）"><a href="#JDK-8-之前：永久代（PermGen）" class="headerlink" title="JDK 8 之前：永久代（PermGen）"></a>JDK 8 之前：永久代（PermGen）</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-XX:PermSize=64m      <span class="comment"># 永久代初始大小</span></span><br><span class="line">-XX:MaxPermSize=128m  <span class="comment"># 永久代最大大小</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="JDK-8-及之后：元空间（Metaspace）"><a href="#JDK-8-及之后：元空间（Metaspace）" class="headerlink" title="JDK 8 及之后：元空间（Metaspace）"></a>JDK 8 及之后：元空间（Metaspace）</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-XX:MetaspaceSize=128m      <span class="comment"># 元空间初始大小</span></span><br><span class="line">-XX:MaxMetaspaceSize=256m   <span class="comment"># 元空间最大大小（默认无限制）</span></span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="JDK-8-及之后：元空间（Metaspace）"><a href="#JDK-8-及之后：元空间（Metaspace）" class="headerlink" title="JDK 8 及之后：元空间（Metaspace）"></a>JDK 8 及之后：元空间（Metaspace）</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-XX:MetaspaceSize=128m      <span class="comment"># 元空间初始大小</span></span><br><span class="line">-XX:MaxMetaspaceSize=256m   <span class="comment"># 元空间最大大小（默认无限制）</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>元空间与永久代的区别</strong>：</p>
 <ul>
@@ -562,9 +570,11 @@
 <li>元空间大小只受限于物理内存</li>
 <li>减少 Full GC 频率</li>
 </ul>
-<h3 id="方法区存储内容"><a href="#方法区存储内容" class="headerlink" title="方法区存储内容"></a>方法区存储内容</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">方法区</span><br><span class="line">├── 类型信息</span><br><span class="line">│   ├── 类名、修饰符</span><br><span class="line">│   ├── 父类、接口</span><br><span class="line">│   └── 方法信息</span><br><span class="line">├── 常量池</span><br><span class="line">│   ├── 字面量（字符串、数字）</span><br><span class="line">│   └── 符号引用</span><br><span class="line">├── 字段信息</span><br><span class="line">├── 方法信息</span><br><span class="line">├── 静态变量</span><br><span class="line">└── JIT编译后的代码</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="方法区存储内容"><a href="#方法区存储内容" class="headerlink" title="方法区存储内容"></a>方法区存储内容</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">方法区</span><br><span class="line">├── 类型信息</span><br><span class="line">│   ├── 类名、修饰符</span><br><span class="line">│   ├── 父类、接口</span><br><span class="line">│   └── 方法信息</span><br><span class="line">├── 常量池</span><br><span class="line">│   ├── 字面量（字符串、数字）</span><br><span class="line">│   └── 符号引用</span><br><span class="line">├── 字段信息</span><br><span class="line">├── 方法信息</span><br><span class="line">├── 静态变量</span><br><span class="line">└── JIT编译后的代码</span><br></pre></td></tr></table></figure>
 
-<h3 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">s1</span> <span class="operator">=</span> <span class="string">&quot;hello&quot;</span>;  <span class="comment">// 放入字符串常量池</span></span><br><span class="line"><span class="type">String</span> <span class="variable">s2</span> <span class="operator">=</span> <span class="string">&quot;hello&quot;</span>;  <span class="comment">// 从常量池复用</span></span><br><span class="line"><span class="type">String</span> <span class="variable">s3</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(<span class="string">&quot;hello&quot;</span>);  <span class="comment">// 堆中新建对象</span></span><br><span class="line"></span><br><span class="line">System.out.println(s1 == s2);  <span class="comment">// true</span></span><br><span class="line">System.out.println(s1 == s3);  <span class="comment">// false</span></span><br><span class="line">System.out.println(s1 == s3.intern());  <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">s1</span> <span class="operator">=</span> <span class="string">&quot;hello&quot;</span>;  <span class="comment">// 放入字符串常量池</span></span><br><span class="line"><span class="type">String</span> <span class="variable">s2</span> <span class="operator">=</span> <span class="string">&quot;hello&quot;</span>;  <span class="comment">// 从常量池复用</span></span><br><span class="line"><span class="type">String</span> <span class="variable">s3</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(<span class="string">&quot;hello&quot;</span>);  <span class="comment">// 堆中新建对象</span></span><br><span class="line"></span><br><span class="line">System.out.println(s1 == s2);  <span class="comment">// true</span></span><br><span class="line">System.out.println(s1 == s3);  <span class="comment">// false</span></span><br><span class="line">System.out.println(s1 == s3.intern());  <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="6-直接内存（Direct-Memory）"><a href="#6-直接内存（Direct-Memory）" class="headerlink" title="6. 直接内存（Direct Memory）"></a>6. 直接内存（Direct Memory）</h2><p><strong>作用</strong>：NIO 使用的堆外内存，避免 Java 堆与 Native 堆之间的数据复制。</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 分配直接内存</span></span><br><span class="line"><span class="type">ByteBuffer</span> <span class="variable">buffer</span> <span class="operator">=</span> ByteBuffer.allocateDirect(<span class="number">1024</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Cleaner 管理内存释放</span></span><br></pre></td></tr></table></figure>
@@ -649,6 +659,17 @@
 </tr>
 </tbody></table>
 <p>理解 JVM 内存区域，是进行内存调优和 OOM 问题排查的基础。</p>
+<h2 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a>核心要点</h2><ol>
+<li><p>堆内存分为年轻代和老年代，年轻代又分为 Eden、Survivor 等区域</p>
+</li>
+<li><p>栈内存是线程私有的，每个线程都有自己的栈空间</p>
+</li>
+<li><p>方法区（元空间）存储类信息、常量池等</p>
+</li>
+<li><p>常见的 OOM 类型：HeapSpace、OutOfMemoryError、StackOverflowError</p>
+</li>
+</ol>
+<h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2><p>理解 JVM 内存模型是成为高级 Java 工程师的必备技能。在实际项目中，配置合适的堆内存大小、选择合适的垃圾收集器，都需要对内存布局有清晰的认识。</p>
 
             </div>
             <hr />
@@ -1148,7 +1169,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">564.6k</span>
+            <span class="white-color">604.3k</span>
             
 
             <br>

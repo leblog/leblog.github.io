@@ -7,9 +7,7 @@
     <meta name="keywords" content="Spring AOP 的原理和常见应用, 程序员小乐">
 
     
-    <meta name="description" content="Spring AOP 的原理和常见应用AOP 是 Spring 的核心功能之一，但真正用起来容易踩坑。本文从配置到常见问题，把实际项目中的处理思路整理出来。
-先搭一个最小接口以 Spring Boot 为例，一个接口最好保持分层清楚：
-@R">
+    <meta name="description" content="Spring AOP 的原理和常见应用AOP 是 Spring 的核心功能之一，但真正用起来容易踩坑。很多人知道 @Aspect 注解，却不清楚代理模式的区别、切面的执行顺序、以及自调用失效的问题。本文从配置到常见问题，把实际项目中的处理思">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -491,7 +489,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    297
+                    472
                 </div>
                 
 
@@ -514,7 +512,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="Spring-AOP-的原理和常见应用"><a href="#Spring-AOP-的原理和常见应用" class="headerlink" title="Spring AOP 的原理和常见应用"></a>Spring AOP 的原理和常见应用</h1><p>AOP 是 Spring 的核心功能之一，但真正用起来容易踩坑。本文从配置到常见问题，把实际项目中的处理思路整理出来。</p>
+                <h1 id="Spring-AOP-的原理和常见应用"><a href="#Spring-AOP-的原理和常见应用" class="headerlink" title="Spring AOP 的原理和常见应用"></a>Spring AOP 的原理和常见应用</h1><p>AOP 是 Spring 的核心功能之一，但真正用起来容易踩坑。很多人知道 @Aspect 注解，却不清楚代理模式的区别、切面的执行顺序、以及自调用失效的问题。本文从配置到常见问题，把实际项目中的处理思路整理出来。</p>
 <h2 id="先搭一个最小接口"><a href="#先搭一个最小接口" class="headerlink" title="先搭一个最小接口"></a>先搭一个最小接口</h2><p>以 Spring Boot 为例，一个接口最好保持分层清楚：</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/users&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserController</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> UserService userService;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">UserController</span><span class="params">(UserService userService)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.userService = userService;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> UserDTO <span class="title function_">detail</span><span class="params">(<span class="meta">@PathVariable</span> Long id)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> userService.detail(id);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -533,6 +531,17 @@
 <li>Controller 不要返回 Entity，避免数据库字段直接暴露。</li>
 <li>参数校验和异常处理最好统一做，不要散落在每个接口里。</li>
 </ul>
+<h2 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a>核心要点</h2><ol>
+<li><p>JDK 动态代理和 CGLIB 代理的区别：前者基于接口，后者基于类</p>
+</li>
+<li><p>切面的优先级由 @Order 注解控制，数字越小优先级越高</p>
+</li>
+<li><p>自调用问题的原因是内部方法调用不会经过代理对象</p>
+</li>
+<li><p>使用 ProxyUtils 或暴露 AopContext 可以解决自调用问题</p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>AOP 是实现横切关注点的利器，但需要理解其底层机制才能用好。在实际项目中，日志、事务、权限校验都是 AOP 的典型应用场景。</p>
 
             </div>
             <hr />
@@ -778,7 +787,7 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            系统讲解BlockingQueue的7种实现类，包括ArrayBlockingQueue、LinkedBlockingQueue、SynchronousQueue等的特点和适用场景。
+                            详解阻塞队列BlockingQueue详解的核心概念与实践方法，结合真实开发场景说明使用注意事项。
                         
                     </div>
                     <div class="publish-info">
@@ -831,7 +840,7 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            深入对比HashMap、Hashtable、Collections.synchronizedMap，重点解析ConcurrentHashMap在JDK7分段锁和JDK8 CAS+synchronized的演进。
+                            详解ConcurrentHashMap为什么适合并发的核心概念与实践方法，结合真实开发场景说明使用注意事项。
                         
                     </div>
                     <div class="publish-info">
@@ -1032,7 +1041,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">564.6k</span>
+            <span class="white-color">604.3k</span>
             
 
             <br>

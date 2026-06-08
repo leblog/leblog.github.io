@@ -7,8 +7,8 @@
     <meta name="keywords" content="消息队列为什么能削峰填谷, 程序员小乐">
 
     
-    <meta name="description" content="消息队列为什么能削峰填谷消息队列在削峰填谷、异步解耦中发挥关键作用。本文讲为什么它能解决这些问题，以及项目中如何选型。
-先从业务问题出发架构设计不要先问“用什么中间件”，而要先问业务目标：是要提升吞吐、解耦系统、保证最终一致，还是降低峰值压">
+    <meta name="description" content="消息队列为什么能削峰填谷消息队列在削峰填谷、异步解耦中发挥关键作用。很多项目引入消息队列后遇到了消息丢失、重复消费等问题。本文讲为什么它能解决这些问题，以及项目中如何选型和避坑。
+先从业务问题出发架构设计不要先问“用什么中间件”，而要先问业">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -490,7 +490,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    267
+                    429
                 </div>
                 
 
@@ -513,7 +513,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="消息队列为什么能削峰填谷"><a href="#消息队列为什么能削峰填谷" class="headerlink" title="消息队列为什么能削峰填谷"></a>消息队列为什么能削峰填谷</h1><p>消息队列在削峰填谷、异步解耦中发挥关键作用。本文讲为什么它能解决这些问题，以及项目中如何选型。</p>
+                <h1 id="消息队列为什么能削峰填谷"><a href="#消息队列为什么能削峰填谷" class="headerlink" title="消息队列为什么能削峰填谷"></a>消息队列为什么能削峰填谷</h1><p>消息队列在削峰填谷、异步解耦中发挥关键作用。很多项目引入消息队列后遇到了消息丢失、重复消费等问题。本文讲为什么它能解决这些问题，以及项目中如何选型和避坑。</p>
 <h2 id="先从业务问题出发"><a href="#先从业务问题出发" class="headerlink" title="先从业务问题出发"></a>先从业务问题出发</h2><p>架构设计不要先问“用什么中间件”，而要先问业务目标：是要提升吞吐、解耦系统、保证最终一致，还是降低峰值压力？不同目标对应的方案完全不同。</p>
 <h2 id="一个典型流程"><a href="#一个典型流程" class="headerlink" title="一个典型流程"></a>一个典型流程</h2><p>以订单创建后发送通知为例：</p>
 <ol>
@@ -534,6 +534,17 @@
 <li>重复消费如何保证幂等？</li>
 <li>下游长时间不可用时如何降级？</li>
 </ul>
+<h2 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a>核心要点</h2><ol>
+<li><p>消息队列的核心价值：异步处理、解耦、削峰填谷</p>
+</li>
+<li><p>常见的消息队列：RabbitMQ、Kafka、RocketMQ 的区别</p>
+</li>
+<li><p>消息丢失的原因和解决方案：生产者确认、消息持久化、消费者确认</p>
+</li>
+<li><p>消息重复消费的处理：幂等性设计</p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>消息队列是构建高可用系统的重要组件，但需要正确使用。在实际项目中，根据业务需求选择合适的消息队列，并做好消息可靠性保障。</p>
 
             </div>
             <hr />
@@ -779,7 +790,7 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            全面介绍阿里巴巴开源的Java诊断工具Arthas，包括dashboard、thread、trace、watch、jad等核心命令的使用方法。
+                            详解JVM可视化监控工具Arthas的核心概念与实践方法，结合真实开发场景说明使用注意事项。
                         
                     </div>
                     <div class="publish-info">
@@ -1033,7 +1044,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">564.6k</span>
+            <span class="white-color">604.3k</span>
             
 
             <br>

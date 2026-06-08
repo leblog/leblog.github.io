@@ -7,8 +7,8 @@
     <meta name="keywords" content="synchronized底层原理与锁升级, 程序员小乐">
 
     
-    <meta name="description" content="synchronized底层原理与锁升级synchronized 是 Java 最基础的同步机制。本文从 JVM 底层分析其实现原理和锁优化过程。
-synchronized 的三种用法// 1. 同步实例方法（锁当前对象）public sy">
+    <meta name="description" content="synchronized底层原理与锁升级synchronized 是 Java 并发中最常用也最容易被误解的关键字。从早期的重量级锁到现在的锁升级机制，JVM 对它做了很多优化。本文从底层原理到实际使用，把关键细节讲清楚。
+synchron">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -490,14 +490,14 @@ synchronized 的三种用法// 1. 同步实例方法（锁当前对象）public 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.2k
+                    1.3k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    4 分
+                    5 分
                 </div>
                 
                 
@@ -513,7 +513,7 @@ synchronized 的三种用法// 1. 同步实例方法（锁当前对象）public 
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="synchronized底层原理与锁升级"><a href="#synchronized底层原理与锁升级" class="headerlink" title="synchronized底层原理与锁升级"></a>synchronized底层原理与锁升级</h1><p><code>synchronized</code> 是 Java 最基础的同步机制。本文从 JVM 底层分析其实现原理和锁优化过程。</p>
+                <h1 id="synchronized底层原理与锁升级"><a href="#synchronized底层原理与锁升级" class="headerlink" title="synchronized底层原理与锁升级"></a>synchronized底层原理与锁升级</h1><p>synchronized 是 Java 并发中最常用也最容易被误解的关键字。从早期的重量级锁到现在的锁升级机制，JVM 对它做了很多优化。本文从底层原理到实际使用，把关键细节讲清楚。</p>
 <h2 id="synchronized-的三种用法"><a href="#synchronized-的三种用法" class="headerlink" title="synchronized 的三种用法"></a>synchronized 的三种用法</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 1. 同步实例方法（锁当前对象）</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title function_">method</span><span class="params">()</span> &#123; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 同步静态方法（锁Class对象）</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title function_">staticMethod</span><span class="params">()</span> &#123; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 同步代码块（锁指定对象）</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">block</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">synchronized</span> (<span class="built_in">this</span>) &#123; &#125;</span><br><span class="line">    <span class="keyword">synchronized</span> (Object.class) &#123; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="对象头与-Mark-Word"><a href="#对象头与-Mark-Word" class="headerlink" title="对象头与 Mark Word"></a>对象头与 Mark Word</h2><p>在 HotSpot 虚拟机中，对象在内存中的布局分为三部分：</p>
@@ -522,7 +522,8 @@ synchronized 的三种用法// 1. 同步实例方法（锁当前对象）public 
 <li><strong>实例数据（Instance Data）</strong></li>
 <li><strong>对齐填充（Padding）</strong></li>
 </ol>
-<h3 id="Mark-Word-结构（64位-JVM）"><a href="#Mark-Word-结构（64位-JVM）" class="headerlink" title="Mark Word 结构（64位 JVM）"></a>Mark Word 结构（64位 JVM）</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">| 锁状态   | 61bit                        | 2bit | 1bit（偏向锁位）|</span><br><span class="line">|----------|------------------------------|------|----------------|</span><br><span class="line">| 无锁     | hashcode(31) + 分代年龄(4) + 0 | 01   | 0              |</span><br><span class="line">| 偏向锁   | 线程ID(54) + 分代年龄(4) + 1   | 01   | 1              |</span><br><span class="line">| 轻量级锁 | 指向栈中锁记录的指针            | 00   | -              |</span><br><span class="line">| 重量级锁 | 指向互斥量（Monitor）的指针     | 10   | -              |</span><br><span class="line">| GC标记   | 空                            | 11   | -              |</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="Mark-Word-结构（64位-JVM）"><a href="#Mark-Word-结构（64位-JVM）" class="headerlink" title="Mark Word 结构（64位 JVM）"></a>Mark Word 结构（64位 JVM）</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">| 锁状态   | 61bit                        | 2bit | 1bit（偏向锁位）|</span><br><span class="line">|----------|------------------------------|------|----------------|</span><br><span class="line">| 无锁     | hashcode(31) + 分代年龄(4) + 0 | 01   | 0              |</span><br><span class="line">| 偏向锁   | 线程ID(54) + 分代年龄(4) + 1   | 01   | 1              |</span><br><span class="line">| 轻量级锁 | 指向栈中锁记录的指针            | 00   | -              |</span><br><span class="line">| 重量级锁 | 指向互斥量（Monitor）的指针     | 10   | -              |</span><br><span class="line">| GC标记   | 空                            | 11   | -              |</span><br></pre></td></tr></table></figure>
 
 <h2 id="synchronized-的字节码"><a href="#synchronized-的字节码" class="headerlink" title="synchronized 的字节码"></a>synchronized 的字节码</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title function_">method</span><span class="params">()</span>;</span><br><span class="line"><span class="comment">// 字节码：flags: ACC_PUBLIC, ACC_SYNCHRONIZED</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">block</span><span class="params">()</span>;</span><br><span class="line"><span class="comment">// 字节码：monitorenter + monitorexit</span></span><br></pre></td></tr></table></figure>
 
@@ -534,18 +535,22 @@ synchronized 的三种用法// 1. 同步实例方法（锁当前对象）public 
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">ObjectMonitor</span>() &#123;</span><br><span class="line">    _header       = <span class="literal">NULL</span>;</span><br><span class="line">    _count        = <span class="number">0</span>;    <span class="comment">// 重入次数</span></span><br><span class="line">    _waiters      = <span class="number">0</span>;</span><br><span class="line">    _recursions   = <span class="number">0</span>;    <span class="comment">// 锁重入次数</span></span><br><span class="line">    _object       = <span class="literal">NULL</span>;</span><br><span class="line">    _owner        = <span class="literal">NULL</span>; <span class="comment">// 持有锁的线程</span></span><br><span class="line">    _WaitSet      = <span class="literal">NULL</span>; <span class="comment">// 调用wait的线程队列</span></span><br><span class="line">    _EntryList    = <span class="literal">NULL</span>; <span class="comment">// 等待获取锁的线程队列</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="锁升级过程"><a href="#锁升级过程" class="headerlink" title="锁升级过程"></a>锁升级过程</h2><p>JDK 6 引入锁升级优化，减少重量级锁的开销：</p>
-<h3 id="1-无锁（New）"><a href="#1-无锁（New）" class="headerlink" title="1. 无锁（New）"></a>1. 无锁（New）</h3><p>对象刚创建，没有线程访问。</p>
-<h3 id="2-偏向锁（Biased-Locking）"><a href="#2-偏向锁（Biased-Locking）" class="headerlink" title="2. 偏向锁（Biased Locking）"></a>2. 偏向锁（Biased Locking）</h3><p><strong>场景</strong>：只有一个线程访问同步块。</p>
+<p>#</p>
+<h2 id="1-无锁（New）"><a href="#1-无锁（New）" class="headerlink" title="1. 无锁（New）"></a>1. 无锁（New）</h2><p>对象刚创建，没有线程访问。</p>
+<p>#</p>
+<h2 id="2-偏向锁（Biased-Locking）"><a href="#2-偏向锁（Biased-Locking）" class="headerlink" title="2. 偏向锁（Biased Locking）"></a>2. 偏向锁（Biased Locking）</h2><p><strong>场景</strong>：只有一个线程访问同步块。</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 开启偏向锁（默认开启）</span></span><br><span class="line">-XX:+UseBiasedLocking</span><br><span class="line"><span class="comment">// 延迟开启（默认4秒）</span></span><br><span class="line">-XX:BiasedLockingStartupDelay=<span class="number">0</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>原理</strong>：第一次获取锁时，将线程 ID 写入 Mark Word。后续该线程进入同步块，只需检查线程 ID 是否一致，无需 CAS 操作。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">无锁（001） -&gt; 偏向锁（101，记录线程ID）</span><br></pre></td></tr></table></figure>
 
-<h3 id="3-轻量级锁（Lightweight-Locking）"><a href="#3-轻量级锁（Lightweight-Locking）" class="headerlink" title="3. 轻量级锁（Lightweight Locking）"></a>3. 轻量级锁（Lightweight Locking）</h3><p><strong>场景</strong>：多个线程交替访问（无竞争）。</p>
+<p>#</p>
+<h2 id="3-轻量级锁（Lightweight-Locking）"><a href="#3-轻量级锁（Lightweight-Locking）" class="headerlink" title="3. 轻量级锁（Lightweight Locking）"></a>3. 轻量级锁（Lightweight Locking）</h2><p><strong>场景</strong>：多个线程交替访问（无竞争）。</p>
 <p><strong>原理</strong>：线程在栈帧中创建 Lock Record，用 CAS 将对象头的 Mark Word 替换为指向 Lock Record 的指针。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">偏向锁 -&gt; 撤销偏向 -&gt; 轻量级锁（00）</span><br></pre></td></tr></table></figure>
 
-<h3 id="4-重量级锁（Heavyweight-Locking）"><a href="#4-重量级锁（Heavyweight-Locking）" class="headerlink" title="4. 重量级锁（Heavyweight Locking）"></a>4. 重量级锁（Heavyweight Locking）</h3><p><strong>场景</strong>：多个线程同时竞争。</p>
+<p>#</p>
+<h2 id="4-重量级锁（Heavyweight-Locking）"><a href="#4-重量级锁（Heavyweight-Locking）" class="headerlink" title="4. 重量级锁（Heavyweight Locking）"></a>4. 重量级锁（Heavyweight Locking）</h2><p><strong>场景</strong>：多个线程同时竞争。</p>
 <p><strong>原理</strong>：线程阻塞，进入 EntryList 等待，由操作系统调度。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">轻量级锁 -&gt; CAS失败 -&gt; 自旋 -&gt; 失败 -&gt; 重量级锁（10）</span><br></pre></td></tr></table></figure>
 
@@ -553,13 +558,15 @@ synchronized 的三种用法// 1. 同步实例方法（锁当前对象）public 
 
 <h2 id="锁优化参数"><a href="#锁优化参数" class="headerlink" title="锁优化参数"></a>锁优化参数</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 关闭偏向锁</span></span><br><span class="line">-XX:-UseBiasedLocking</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置自旋次数</span></span><br><span class="line">-XX:PreBlockSpin=10</span><br><span class="line"></span><br><span class="line"><span class="comment"># 自适应自旋（JDK 6+ 默认开启）</span></span><br><span class="line">-XX:+UseSpinning</span><br></pre></td></tr></table></figure>
 
-<h2 id="锁消除与锁粗化"><a href="#锁消除与锁粗化" class="headerlink" title="锁消除与锁粗化"></a>锁消除与锁粗化</h2><h3 id="锁消除（Lock-Elimination）"><a href="#锁消除（Lock-Elimination）" class="headerlink" title="锁消除（Lock Elimination）"></a>锁消除（Lock Elimination）</h3><p>JIT 编译器发现不可能存在竞争时，消除锁：</p>
+<h2 id="锁消除与锁粗化"><a href="#锁消除与锁粗化" class="headerlink" title="锁消除与锁粗化"></a>锁消除与锁粗化</h2><p>#</p>
+<h2 id="锁消除（Lock-Elimination）"><a href="#锁消除（Lock-Elimination）" class="headerlink" title="锁消除（Lock Elimination）"></a>锁消除（Lock Elimination）</h2><p>JIT 编译器发现不可能存在竞争时，消除锁：</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">Object</span> <span class="variable">lock</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Object</span>();</span><br><span class="line">    <span class="keyword">synchronized</span> (lock) &#123;  <span class="comment">// 局部变量，不可能共享，锁被消除</span></span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>开启逃逸分析后自动优化：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-XX:+DoEscapeAnalysis  // 默认开启</span><br></pre></td></tr></table></figure>
 
-<h3 id="锁粗化（Lock-Coarsening）"><a href="#锁粗化（Lock-Coarsening）" class="headerlink" title="锁粗化（Lock Coarsening）"></a>锁粗化（Lock Coarsening）</h3><p>将相邻的同步代码块合并：</p>
+<p>#</p>
+<h2 id="锁粗化（Lock-Coarsening）"><a href="#锁粗化（Lock-Coarsening）" class="headerlink" title="锁粗化（Lock Coarsening）"></a>锁粗化（Lock Coarsening）</h2><p>将相邻的同步代码块合并：</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 优化前</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">synchronized</span> (lock) &#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 优化后</span></span><br><span class="line"><span class="keyword">synchronized</span> (lock) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="实际建议"><a href="#实际建议" class="headerlink" title="实际建议"></a>实际建议</h2><ol>
@@ -599,6 +606,17 @@ synchronized 的三种用法// 1. 同步实例方法（锁当前对象）public 
 </tr>
 </tbody></table>
 <p>理解锁升级机制，有助于分析并发性能问题和调优 JVM 参数。</p>
+<h2 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a>核心要点</h2><ol>
+<li><p>synchronized 可以修饰方法或代码块，前者锁对象实例，后者锁指定对象</p>
+</li>
+<li><p>锁升级过程：无锁 → 偏向锁 → 轻量级锁 → 重量级锁</p>
+</li>
+<li><p>锁消除和锁粗化是 JVM 的优化手段</p>
+</li>
+<li><p>synchronized 保证原子性、可见性和有序性</p>
+</li>
+</ol>
+<h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2><p>synchronized 是 Java 并发的基础，理解它的工作机制很重要。在实际项目中，合理使用 synchronized 可以保证线程安全，但也要注意锁的粒度。</p>
 
             </div>
             <hr />
@@ -1098,7 +1116,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">564.6k</span>
+            <span class="white-color">604.3k</span>
             
 
             <br>

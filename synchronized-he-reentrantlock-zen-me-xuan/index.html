@@ -7,8 +7,7 @@
     <meta name="keywords" content="synchronized 和 ReentrantLock 怎么选, 程序员小乐">
 
     
-    <meta name="description" content="synchronized 和 ReentrantLock 怎么选synchronized 是 Java 并发中最常用也最容易被误解的关键字。本文从底层原理到实际使用，把关键细节讲清楚。
-先建立一个最小案例并发问题不要一开始就上复杂业务。可以">
+    <meta name="description" content="synchronized 和 ReentrantLock 怎么选synchronized 是 Java 并发中最常用也最容易被误解的关键字。从早期的重量级锁到现在的锁升级机制，JVM 对它做了很多优化。本文从底层原理到实际使用，把关键细节讲">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -490,7 +489,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    294
+                    443
                 </div>
                 
 
@@ -513,7 +512,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="synchronized-和-ReentrantLock-怎么选"><a href="#synchronized-和-ReentrantLock-怎么选" class="headerlink" title="synchronized 和 ReentrantLock 怎么选"></a>synchronized 和 ReentrantLock 怎么选</h1><p>synchronized 是 Java 并发中最常用也最容易被误解的关键字。本文从底层原理到实际使用，把关键细节讲清楚。</p>
+                <h1 id="synchronized-和-ReentrantLock-怎么选"><a href="#synchronized-和-ReentrantLock-怎么选" class="headerlink" title="synchronized 和 ReentrantLock 怎么选"></a>synchronized 和 ReentrantLock 怎么选</h1><p>synchronized 是 Java 并发中最常用也最容易被误解的关键字。从早期的重量级锁到现在的锁升级机制，JVM 对它做了很多优化。本文从底层原理到实际使用，把关键细节讲清楚。</p>
 <h2 id="先建立一个最小案例"><a href="#先建立一个最小案例" class="headerlink" title="先建立一个最小案例"></a>先建立一个最小案例</h2><p>并发问题不要一开始就上复杂业务。可以先准备一个计数器场景：</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Counter</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">add</span><span class="params">()</span> &#123;</span><br><span class="line">        count++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">get</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -523,6 +522,17 @@
 
 <p>如果临界区里有多步业务逻辑，可以考虑 <code>synchronized</code> 或 <code>ReentrantLock</code>。选择时不要只看性能，先看代码是否清晰、锁范围是否足够小、异常时是否能释放锁。</p>
 <h2 id="排查建议"><a href="#排查建议" class="headerlink" title="排查建议"></a>排查建议</h2><p>线上并发问题通常不稳定复现。可以先看日志里是否有重复请求、状态覆盖、库存扣减异常，再用压测或单元测试构造并发场景。</p>
+<h2 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a>核心要点</h2><ol>
+<li><p>synchronized 可以修饰方法或代码块，前者锁对象实例，后者锁指定对象</p>
+</li>
+<li><p>锁升级过程：无锁 → 偏向锁 → 轻量级锁 → 重量级锁</p>
+</li>
+<li><p>锁消除和锁粗化是 JVM 的优化手段</p>
+</li>
+<li><p>synchronized 保证原子性、可见性和有序性</p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>synchronized 是 Java 并发的基础，理解它的工作机制很重要。在实际项目中，合理使用 synchronized 可以保证线程安全，但也要注意锁的粒度。</p>
 
             </div>
             <hr />
@@ -768,7 +778,7 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            介绍Java 9引入的模块化系统JPMS，包括module-info.java的编写、模块依赖、服务提供与消费，以及迁移策略。
+                            详解Java模块化系统JPMS入门的核心概念与实践方法，结合真实开发场景说明使用注意事项。
                         
                     </div>
                     <div class="publish-info">
@@ -821,7 +831,7 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            全面讲解Java 8新的时间日期API，包括LocalDate、LocalTime、LocalDateTime、ZonedDateTime、Duration、Period以及DateTimeFormatter的使用。
+                            详解Java 8时间日期API完全指南的核心概念与实践方法，结合真实开发场景说明使用注意事项。
                         
                     </div>
                     <div class="publish-info">
@@ -1022,7 +1032,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">564.6k</span>
+            <span class="white-color">604.3k</span>
             
 
             <br>

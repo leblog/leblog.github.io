@@ -7,8 +7,8 @@
     <meta name="keywords" content="限流熔断降级的区别和落地, 程序员小乐">
 
     
-    <meta name="description" content="限流熔断降级的区别和落地限流、熔断、降级是高可用系统的三大利器。本文讲三者的区别和落地实现。
-先从业务问题出发架构设计不要先问“用什么中间件”，而要先问业务目标：是要提升吞吐、解耦系统、保证最终一致，还是降低峰值压力？不同目标对应的方案完全">
+    <meta name="description" content="限流熔断降级的区别和落地限流、熔断、降级是高可用系统的三大利器。很多人分不清它们的区别和适用场景。本文讲三者的区别和落地实现，帮你在项目中正确使用。
+先从业务问题出发架构设计不要先问“用什么中间件”，而要先问业务目标：是要提升吞吐、解耦系统">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -490,7 +490,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    254
+                    394
                 </div>
                 
 
@@ -513,7 +513,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="限流熔断降级的区别和落地"><a href="#限流熔断降级的区别和落地" class="headerlink" title="限流熔断降级的区别和落地"></a>限流熔断降级的区别和落地</h1><p>限流、熔断、降级是高可用系统的三大利器。本文讲三者的区别和落地实现。</p>
+                <h1 id="限流熔断降级的区别和落地"><a href="#限流熔断降级的区别和落地" class="headerlink" title="限流熔断降级的区别和落地"></a>限流熔断降级的区别和落地</h1><p>限流、熔断、降级是高可用系统的三大利器。很多人分不清它们的区别和适用场景。本文讲三者的区别和落地实现，帮你在项目中正确使用。</p>
 <h2 id="先从业务问题出发"><a href="#先从业务问题出发" class="headerlink" title="先从业务问题出发"></a>先从业务问题出发</h2><p>架构设计不要先问“用什么中间件”，而要先问业务目标：是要提升吞吐、解耦系统、保证最终一致，还是降低峰值压力？不同目标对应的方案完全不同。</p>
 <h2 id="一个典型流程"><a href="#一个典型流程" class="headerlink" title="一个典型流程"></a>一个典型流程</h2><p>以订单创建后发送通知为例：</p>
 <ol>
@@ -534,6 +534,17 @@
 <li>重复消费如何保证幂等？</li>
 <li>下游长时间不可用时如何降级？</li>
 </ul>
+<h2 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a>核心要点</h2><ol>
+<li><p>限流：控制入口流量，保护系统不被压垮</p>
+</li>
+<li><p>熔断：快速失败，防止级联故障</p>
+</li>
+<li><p>降级：牺牲非核心功能，保障核心服务</p>
+</li>
+<li><p>常用的限流算法：令牌桶、漏桶、滑动窗口</p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>限流、熔断、降级常常组合使用，共同构建高可用的分布式系统。在实际项目中，根据系统特点和业务需求选择合适的策略。</p>
 
             </div>
             <hr />
@@ -779,7 +790,7 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            深入讲解Spring Boot自动配置的原理，包括@EnableAutoConfiguration、spring.factories、条件注解和AutoConfigurationImportSelector的工作机制。
+                            详解Spring自动配置的实现原理的核心概念与实践方法，结合真实开发场景说明使用注意事项。
                         
                     </div>
                     <div class="publish-info">
@@ -832,7 +843,7 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            详细讲解Spring MVC从请求接收到响应的完整处理流程，包括DispatcherServlet、HandlerMapping、HandlerAdapter、ViewResolver等核心组件。
+                            详解Spring MVC请求处理流程的核心概念与实践方法，结合真实开发场景说明使用注意事项。
                         
                     </div>
                     <div class="publish-info">
@@ -1033,7 +1044,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">564.6k</span>
+            <span class="white-color">604.3k</span>
             
 
             <br>

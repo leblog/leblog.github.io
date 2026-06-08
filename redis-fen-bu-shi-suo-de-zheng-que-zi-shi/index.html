@@ -7,8 +7,8 @@
     <meta name="keywords" content="Redis 分布式锁的正确姿势, 程序员小乐">
 
     
-    <meta name="description" content="Redis 分布式锁的正确姿势Redis 的五种数据结构各有特色，用对了才能发挥它的优势。本文从应用场景出发，讲什么时候用什么类型。
-先明确 Redis 在系统里的角色Redis 常见用途不是“替代数据库”，而是缓存热点数据、保存会话、做简">
+    <meta name="description" content="Redis 分布式锁的正确姿势Redis 的五种数据结构各有特色，用对了才能发挥它的优势。很多人只用到了 String 和 Hash，却不知道 List、Set、ZSet 在特定场景下更合适。本文从应用场景出发，讲什么时候用什么类型。
+先明">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -490,7 +490,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    321
+                    470
                 </div>
                 
 
@@ -513,7 +513,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="Redis-分布式锁的正确姿势"><a href="#Redis-分布式锁的正确姿势" class="headerlink" title="Redis 分布式锁的正确姿势"></a>Redis 分布式锁的正确姿势</h1><p>Redis 的五种数据结构各有特色，用对了才能发挥它的优势。本文从应用场景出发，讲什么时候用什么类型。</p>
+                <h1 id="Redis-分布式锁的正确姿势"><a href="#Redis-分布式锁的正确姿势" class="headerlink" title="Redis 分布式锁的正确姿势"></a>Redis 分布式锁的正确姿势</h1><p>Redis 的五种数据结构各有特色，用对了才能发挥它的优势。很多人只用到了 String 和 Hash，却不知道 List、Set、ZSet 在特定场景下更合适。本文从应用场景出发，讲什么时候用什么类型。</p>
 <h2 id="先明确-Redis-在系统里的角色"><a href="#先明确-Redis-在系统里的角色" class="headerlink" title="先明确 Redis 在系统里的角色"></a>先明确 Redis 在系统里的角色</h2><p>Redis 常见用途不是“替代数据库”，而是缓存热点数据、保存会话、做简单计数、排行榜、分布式锁等。设计时要先问：这份数据丢了能不能恢复？是否允许短暂不一致？</p>
 <h2 id="一个缓存查询的基本写法"><a href="#一个缓存查询的基本写法" class="headerlink" title="一个缓存查询的基本写法"></a>一个缓存查询的基本写法</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="string">&quot;user:&quot;</span> + userId;</span><br><span class="line"><span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> redisTemplate.opsForValue().get(key);</span><br><span class="line"><span class="keyword">if</span> (user != <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> user;</span><br><span class="line">&#125;</span><br><span class="line">user = userMapper.selectById(userId);</span><br><span class="line"><span class="keyword">if</span> (user != <span class="literal">null</span>) &#123;</span><br><span class="line">    redisTemplate.opsForValue().set(key, user, Duration.ofMinutes(<span class="number">30</span>));</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> user;</span><br></pre></td></tr></table></figure>
 
@@ -527,6 +527,19 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">redis-cli</span><br><span class="line">GET user:1001</span><br><span class="line">TTL user:1001</span><br></pre></td></tr></table></figure>
 
 <p>确认缓存写入、过期时间和删除策略都符合预期。</p>
+<h2 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a>核心要点</h2><ol>
+<li><p>String：简单的键值对，适合缓存、计数器</p>
+</li>
+<li><p>Hash：存储对象属性，适合用户信息、配置</p>
+</li>
+<li><p>List：有序列表，适合消息队列、最新列表</p>
+</li>
+<li><p>Set：无序去重，适合共同好友、抽奖</p>
+</li>
+<li><p>ZSet：有序集合，适合排行榜、积分系统</p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>选择合适的数据结构是使用 Redis 的关键。在实际项目中，根据业务需求选择合适的类型，可以提升性能和开发效率。</p>
 
             </div>
             <hr />
@@ -772,7 +785,7 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            系统总结OOM异常的排查流程，包括堆内存溢出、元空间溢出、栈溢出、直接内存溢出的定位和解决方法。
+                            详解内存溢出和内存泄漏排查流程的核心概念与实践方法，结合真实开发场景说明使用注意事项。
                         
                     </div>
                     <div class="publish-info">
@@ -1026,7 +1039,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">564.6k</span>
+            <span class="white-color">604.3k</span>
             
 
             <br>

@@ -7,8 +7,9 @@
     <meta name="keywords" content="MySQL MVCC多版本并发控制, 程序员小乐">
 
     
-    <meta name="description" content="MySQL MVCC多版本并发控制MVCC（Multi-Version Concurrency Control）是InnoDB实现高并发读写的核心机制。通过保存数据的历史版本，实现读写互不阻塞。
-一、为什么需要MVCC1.1 并发读写的矛盾">
+    <meta name="description" content="MySQL MVCC多版本并发控制MySQL 是业务系统中最常见的数据库，但用好它并不容易。索引设计、SQL 优化、事务处理都是日常开发中需要关注的点。本文从实际场景出发，讲常见问题和解决思路。
+一、为什么需要MVCC#
+1.1 并发读写的">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -490,14 +491,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.9k
+                    2.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    7 分
+                    8 分
                 </div>
                 
                 
@@ -513,18 +514,21 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="MySQL-MVCC多版本并发控制"><a href="#MySQL-MVCC多版本并发控制" class="headerlink" title="MySQL MVCC多版本并发控制"></a>MySQL MVCC多版本并发控制</h1><p>MVCC（Multi-Version Concurrency Control）是InnoDB实现高并发读写的核心机制。通过保存数据的历史版本，实现读写互不阻塞。</p>
-<h2 id="一、为什么需要MVCC"><a href="#一、为什么需要MVCC" class="headerlink" title="一、为什么需要MVCC"></a>一、为什么需要MVCC</h2><h3 id="1-1-并发读写的矛盾"><a href="#1-1-并发读写的矛盾" class="headerlink" title="1.1 并发读写的矛盾"></a>1.1 并发读写的矛盾</h3><p>传统锁机制下：</p>
+                <h1 id="MySQL-MVCC多版本并发控制"><a href="#MySQL-MVCC多版本并发控制" class="headerlink" title="MySQL MVCC多版本并发控制"></a>MySQL MVCC多版本并发控制</h1><p>MySQL 是业务系统中最常见的数据库，但用好它并不容易。索引设计、SQL 优化、事务处理都是日常开发中需要关注的点。本文从实际场景出发，讲常见问题和解决思路。</p>
+<h2 id="一、为什么需要MVCC"><a href="#一、为什么需要MVCC" class="headerlink" title="一、为什么需要MVCC"></a>一、为什么需要MVCC</h2><p>#</p>
+<h2 id="1-1-并发读写的矛盾"><a href="#1-1-并发读写的矛盾" class="headerlink" title="1.1 并发读写的矛盾"></a>1.1 并发读写的矛盾</h2><p>传统锁机制下：</p>
 <ul>
 <li>读操作加共享锁</li>
 <li>写操作加排他锁</li>
 <li>读写互相阻塞</li>
 </ul>
 <p>在高并发场景下，大量读请求被写请求阻塞，性能急剧下降。</p>
-<h3 id="1-2-MVCC的解决思路"><a href="#1-2-MVCC的解决思路" class="headerlink" title="1.2 MVCC的解决思路"></a>1.2 MVCC的解决思路</h3><p><strong>核心思想</strong>：写操作不覆盖旧数据，而是生成新版本；读操作根据可见性规则选择合适版本读取。</p>
+<p>#</p>
+<h2 id="1-2-MVCC的解决思路"><a href="#1-2-MVCC的解决思路" class="headerlink" title="1.2 MVCC的解决思路"></a>1.2 MVCC的解决思路</h2><p><strong>核心思想</strong>：写操作不覆盖旧数据，而是生成新版本；读操作根据可见性规则选择合适版本读取。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">时间线：</span><br><span class="line">T1: 读取数据（看到版本V1）</span><br><span class="line">T2: 修改数据（生成版本V2）</span><br><span class="line">T3: 读取数据（仍看到版本V1，不被T2阻塞）</span><br></pre></td></tr></table></figure>
 
-<h2 id="二、MVCC的实现基础"><a href="#二、MVCC的实现基础" class="headerlink" title="二、MVCC的实现基础"></a>二、MVCC的实现基础</h2><h3 id="2-1-隐藏字段"><a href="#2-1-隐藏字段" class="headerlink" title="2.1 隐藏字段"></a>2.1 隐藏字段</h3><p>InnoDB每行记录包含三个隐藏字段：</p>
+<h2 id="二、MVCC的实现基础"><a href="#二、MVCC的实现基础" class="headerlink" title="二、MVCC的实现基础"></a>二、MVCC的实现基础</h2><p>#</p>
+<h2 id="2-1-隐藏字段"><a href="#2-1-隐藏字段" class="headerlink" title="2.1 隐藏字段"></a>2.1 隐藏字段</h2><p>InnoDB每行记录包含三个隐藏字段：</p>
 <table>
 <thead>
 <tr>
@@ -551,11 +555,13 @@
 </tbody></table>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">+------+------+---------+------------+-------------+------------+</span><br><span class="line">| id   | name | balance | DB_TRX_ID  | DB_ROLL_PTR | DB_ROW_ID  |</span><br><span class="line">+------+------+---------+------------+-------------+------------+</span><br><span class="line">| 1    | Alice| 1000    | 100        | 0x7f...     | 1          |</span><br><span class="line">+------+------+---------+------------+-------------+------------+</span><br></pre></td></tr></table></figure>
 
-<h3 id="2-2-Undo-Log版本链"><a href="#2-2-Undo-Log版本链" class="headerlink" title="2.2 Undo Log版本链"></a>2.2 Undo Log版本链</h3><p>每次UPDATE或DELETE操作，都会生成Undo Log：</p>
+<p>#</p>
+<h2 id="2-2-Undo-Log版本链"><a href="#2-2-Undo-Log版本链" class="headerlink" title="2.2 Undo Log版本链"></a>2.2 Undo Log版本链</h2><p>每次UPDATE或DELETE操作，都会生成Undo Log：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">当前记录（最新版本，DB_TRX_ID=100）</span><br><span class="line">    │ name=&#x27;Alice&#x27;, balance=1200</span><br><span class="line">    │ DB_ROLL_PTR</span><br><span class="line">    ▼</span><br><span class="line">Undo Log（上个版本，由事务80修改）</span><br><span class="line">    │ name=&#x27;Alice&#x27;, balance=1000</span><br><span class="line">    │ DB_ROLL_PTR</span><br><span class="line">    ▼</span><br><span class="line">Undo Log（更早版本，由事务50插入）</span><br><span class="line">    │ name=&#x27;Alice&#x27;, balance=0（初始值）</span><br><span class="line">    │ DB_ROLL_PTR = NULL</span><br><span class="line">    ▼</span><br><span class="line">   NULL</span><br></pre></td></tr></table></figure>
 
 <p><strong>关键</strong>：通过DB_ROLL_PTR形成版本链，可以回溯到任意历史版本。</p>
-<h3 id="2-3-Undo-Log的类型"><a href="#2-3-Undo-Log的类型" class="headerlink" title="2.3 Undo Log的类型"></a>2.3 Undo Log的类型</h3><p><strong>insert undo log</strong>：</p>
+<p>#</p>
+<h2 id="2-3-Undo-Log的类型"><a href="#2-3-Undo-Log的类型" class="headerlink" title="2.3 Undo Log的类型"></a>2.3 Undo Log的类型</h2><p><strong>insert undo log</strong>：</p>
 <ul>
 <li>事务插入记录时产生</li>
 <li>事务提交后即可删除（不需要用于MVCC）</li>
@@ -566,14 +572,18 @@
 <li>事务提交后不能立即删除</li>
 <li>需要保留到没有比它更早的ReadView存在时</li>
 </ul>
-<h2 id="三、ReadView机制"><a href="#三、ReadView机制" class="headerlink" title="三、ReadView机制"></a>三、ReadView机制</h2><h3 id="3-1-什么是ReadView"><a href="#3-1-什么是ReadView" class="headerlink" title="3.1 什么是ReadView"></a>3.1 什么是ReadView</h3><p>ReadView是事务进行快照读时生成的”一致性视图”，决定事务能看到哪些版本的数据。</p>
-<h3 id="3-2-ReadView的组成"><a href="#3-2-ReadView的组成" class="headerlink" title="3.2 ReadView的组成"></a>3.2 ReadView的组成</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ReadView</span> &#123;</span><br><span class="line">    trx_id_t m_creator_trx_id;    <span class="comment">// 创建该ReadView的事务ID</span></span><br><span class="line">    ids_t m_ids;                   <span class="comment">// 生成ReadView时活跃的事务ID列表</span></span><br><span class="line">    trx_id_t m_up_limit_id;       <span class="comment">// m_ids中的最小值（低水位）</span></span><br><span class="line">    trx_id_t m_low_limit_id;      <span class="comment">// 下一个要分配的事务ID（高水位）</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="三、ReadView机制"><a href="#三、ReadView机制" class="headerlink" title="三、ReadView机制"></a>三、ReadView机制</h2><p>#</p>
+<h2 id="3-1-什么是ReadView"><a href="#3-1-什么是ReadView" class="headerlink" title="3.1 什么是ReadView"></a>3.1 什么是ReadView</h2><p>ReadView是事务进行快照读时生成的”一致性视图”，决定事务能看到哪些版本的数据。</p>
+<p>#</p>
+<h2 id="3-2-ReadView的组成"><a href="#3-2-ReadView的组成" class="headerlink" title="3.2 ReadView的组成"></a>3.2 ReadView的组成</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ReadView</span> &#123;</span><br><span class="line">    trx_id_t m_creator_trx_id;    <span class="comment">// 创建该ReadView的事务ID</span></span><br><span class="line">    ids_t m_ids;                   <span class="comment">// 生成ReadView时活跃的事务ID列表</span></span><br><span class="line">    trx_id_t m_up_limit_id;       <span class="comment">// m_ids中的最小值（低水位）</span></span><br><span class="line">    trx_id_t m_low_limit_id;      <span class="comment">// 下一个要分配的事务ID（高水位）</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="3-3-可见性判断算法"><a href="#3-3-可见性判断算法" class="headerlink" title="3.3 可见性判断算法"></a>3.3 可见性判断算法</h3><p>对于某条记录，其DB_TRX_ID与ReadView的比较：</p>
+<p>#</p>
+<h2 id="3-3-可见性判断算法"><a href="#3-3-可见性判断算法" class="headerlink" title="3.3 可见性判断算法"></a>3.3 可见性判断算法</h2><p>对于某条记录，其DB_TRX_ID与ReadView的比较：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">if (DB_TRX_ID == m_creator_trx_id) &#123;</span><br><span class="line">    // 自己修改的，可见</span><br><span class="line">    return VISIBLE;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if (DB_TRX_ID &lt; m_up_limit_id) &#123;</span><br><span class="line">    // 在ReadView创建前已提交，可见</span><br><span class="line">    return VISIBLE;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if (DB_TRX_ID &gt;= m_low_limit_id) &#123;</span><br><span class="line">    // 在ReadView创建后启动，不可见</span><br><span class="line">    return INVISIBLE;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if (m_ids.contains(DB_TRX_ID)) &#123;</span><br><span class="line">    // 在ReadView创建时活跃（未提交），不可见</span><br><span class="line">    return INVISIBLE;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    // 在ReadView创建前已提交，可见</span><br><span class="line">    return VISIBLE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong>不可见时的处理</strong>：<br>通过DB_ROLL_PTR找到上一个版本，继续判断。</p>
-<h3 id="3-4-不同隔离级别的ReadView差异"><a href="#3-4-不同隔离级别的ReadView差异" class="headerlink" title="3.4 不同隔离级别的ReadView差异"></a>3.4 不同隔离级别的ReadView差异</h3><p><strong>READ COMMITTED</strong>：</p>
+<p>#</p>
+<h2 id="3-4-不同隔离级别的ReadView差异"><a href="#3-4-不同隔离级别的ReadView差异" class="headerlink" title="3.4 不同隔离级别的ReadView差异"></a>3.4 不同隔离级别的ReadView差异</h2><p><strong>READ COMMITTED</strong>：</p>
 <ul>
 <li>每次SELECT生成新的ReadView</li>
 <li>能看到其他事务最新已提交的数据</li>
@@ -587,12 +597,14 @@
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">T1（RR）：</span><br><span class="line">  SELECT * FROM user WHERE id = 1;  -- ReadView1，看到V1</span><br><span class="line">  </span><br><span class="line">  -- T2修改并提交</span><br><span class="line">  </span><br><span class="line">  SELECT * FROM user WHERE id = 1;  -- 仍用ReadView1，看到V1（不可重复读解决）</span><br></pre></td></tr></table></figure>
 
-<h2 id="四、MVCC工作流程"><a href="#四、MVCC工作流程" class="headerlink" title="四、MVCC工作流程"></a>四、MVCC工作流程</h2><h3 id="4-1-插入操作"><a href="#4-1-插入操作" class="headerlink" title="4.1 插入操作"></a>4.1 插入操作</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">BEGIN</span>;  <span class="comment">-- 事务ID = 100</span></span><br><span class="line"><span class="keyword">INSERT INTO</span> <span class="keyword">user</span> (id, name) <span class="keyword">VALUES</span> (<span class="number">1</span>, <span class="string">&#x27;Alice&#x27;</span>);</span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="四、MVCC工作流程"><a href="#四、MVCC工作流程" class="headerlink" title="四、MVCC工作流程"></a>四、MVCC工作流程</h2><p>#</p>
+<h2 id="4-1-插入操作"><a href="#4-1-插入操作" class="headerlink" title="4.1 插入操作"></a>4.1 插入操作</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">BEGIN</span>;  <span class="comment">-- 事务ID = 100</span></span><br><span class="line"><span class="keyword">INSERT INTO</span> <span class="keyword">user</span> (id, name) <span class="keyword">VALUES</span> (<span class="number">1</span>, <span class="string">&#x27;Alice&#x27;</span>);</span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
 
 <p>生成的记录：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">id=1, name=&#x27;Alice&#x27;, DB_TRX_ID=100, DB_ROLL_PTR=NULL</span><br></pre></td></tr></table></figure>
 
-<h3 id="4-2-更新操作"><a href="#4-2-更新操作" class="headerlink" title="4.2 更新操作"></a>4.2 更新操作</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">BEGIN</span>;  <span class="comment">-- 事务ID = 200</span></span><br><span class="line"><span class="keyword">UPDATE</span> <span class="keyword">user</span> <span class="keyword">SET</span> name <span class="operator">=</span> <span class="string">&#x27;Bob&#x27;</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="4-2-更新操作"><a href="#4-2-更新操作" class="headerlink" title="4.2 更新操作"></a>4.2 更新操作</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">BEGIN</span>;  <span class="comment">-- 事务ID = 200</span></span><br><span class="line"><span class="keyword">UPDATE</span> <span class="keyword">user</span> <span class="keyword">SET</span> name <span class="operator">=</span> <span class="string">&#x27;Bob&#x27;</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
 
 <p>执行过程：</p>
 <ol>
@@ -606,7 +618,8 @@
 </ol>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">当前记录:</span><br><span class="line">id=1, name=&#x27;Bob&#x27;, DB_TRX_ID=200, DB_ROLL_PTR→Undo Log</span><br><span class="line"></span><br><span class="line">Undo Log（事务100的版本）:</span><br><span class="line">name=&#x27;Alice&#x27;, DB_TRX_ID=100, DB_ROLL_PTR=NULL</span><br></pre></td></tr></table></figure>
 
-<h3 id="4-3-删除操作"><a href="#4-3-删除操作" class="headerlink" title="4.3 删除操作"></a>4.3 删除操作</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">BEGIN</span>;  <span class="comment">-- 事务ID = 300</span></span><br><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="4-3-删除操作"><a href="#4-3-删除操作" class="headerlink" title="4.3 删除操作"></a>4.3 删除操作</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">BEGIN</span>;  <span class="comment">-- 事务ID = 300</span></span><br><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
 
 <p>执行过程：</p>
 <ol>
@@ -616,7 +629,8 @@
 </ol>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">当前记录:</span><br><span class="line">id=1, name=&#x27;Bob&#x27;, DB_TRX_ID=300, DB_ROLL_PTR→Undo Log, delete_flag=true</span><br><span class="line"></span><br><span class="line">Undo Log（事务200的版本）:</span><br><span class="line">name=&#x27;Bob&#x27;, DB_TRX_ID=200, DB_ROLL_PTR→更早的Undo Log</span><br></pre></td></tr></table></figure>
 
-<h3 id="4-4-查询操作（快照读）"><a href="#4-4-查询操作（快照读）" class="headerlink" title="4.4 查询操作（快照读）"></a>4.4 查询操作（快照读）</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span>;  <span class="comment">-- 快照读</span></span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="4-4-查询操作（快照读）"><a href="#4-4-查询操作（快照读）" class="headerlink" title="4.4 查询操作（快照读）"></a>4.4 查询操作（快照读）</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span>;  <span class="comment">-- 快照读</span></span><br></pre></td></tr></table></figure>
 
 <p>执行过程：</p>
 <ol>
@@ -625,7 +639,8 @@
 <li>如果当前版本不可见，沿Undo Log链找到可见版本</li>
 <li>返回可见版本的数据</li>
 </ol>
-<h3 id="4-5-当前读（Current-Read）"><a href="#4-5-当前读（Current-Read）" class="headerlink" title="4.5 当前读（Current Read）"></a>4.5 当前读（Current Read）</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span> <span class="keyword">FOR</span> <span class="keyword">UPDATE</span>;  <span class="comment">-- 当前读</span></span><br><span class="line"><span class="keyword">UPDATE</span> <span class="keyword">user</span> <span class="keyword">SET</span> name <span class="operator">=</span> <span class="string">&#x27;Charlie&#x27;</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span>;  <span class="comment">-- 当前读</span></span><br><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span>;  <span class="comment">-- 当前读</span></span><br><span class="line"><span class="keyword">INSERT INTO</span> <span class="keyword">user</span> ...  <span class="comment">-- 当前读</span></span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="4-5-当前读（Current-Read）"><a href="#4-5-当前读（Current-Read）" class="headerlink" title="4.5 当前读（Current Read）"></a>4.5 当前读（Current Read）</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span> <span class="keyword">FOR</span> <span class="keyword">UPDATE</span>;  <span class="comment">-- 当前读</span></span><br><span class="line"><span class="keyword">UPDATE</span> <span class="keyword">user</span> <span class="keyword">SET</span> name <span class="operator">=</span> <span class="string">&#x27;Charlie&#x27;</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span>;  <span class="comment">-- 当前读</span></span><br><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span>;  <span class="comment">-- 当前读</span></span><br><span class="line"><span class="keyword">INSERT INTO</span> <span class="keyword">user</span> ...  <span class="comment">-- 当前读</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>当前读特点</strong>：</p>
 <ul>
@@ -633,28 +648,33 @@
 <li>需要加锁</li>
 <li>不受MVCC影响</li>
 </ul>
-<h2 id="五、MVCC与幻读"><a href="#五、MVCC与幻读" class="headerlink" title="五、MVCC与幻读"></a>五、MVCC与幻读</h2><h3 id="5-1-快照读与幻读"><a href="#5-1-快照读与幻读" class="headerlink" title="5.1 快照读与幻读"></a>5.1 快照读与幻读</h3><p>在REPEATABLE READ下：</p>
+<h2 id="五、MVCC与幻读"><a href="#五、MVCC与幻读" class="headerlink" title="五、MVCC与幻读"></a>五、MVCC与幻读</h2><p>#</p>
+<h2 id="5-1-快照读与幻读"><a href="#5-1-快照读与幻读" class="headerlink" title="5.1 快照读与幻读"></a>5.1 快照读与幻读</h2><p>在REPEATABLE READ下：</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 事务T1</span></span><br><span class="line"><span class="keyword">BEGIN</span>;</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> id <span class="operator">&gt;</span> <span class="number">5</span>;  <span class="comment">-- 读到3条（快照读，ReadView生成）</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 事务T2插入id=10并提交</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> id <span class="operator">&gt;</span> <span class="number">5</span>;  <span class="comment">-- 仍读到3条（RR保证）</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>原因</strong>：第二次查询仍使用第一次的ReadView，id=10的记录DB_TRX_ID是T2的，对T1不可见。</p>
-<h3 id="5-2-当前读与幻读"><a href="#5-2-当前读与幻读" class="headerlink" title="5.2 当前读与幻读"></a>5.2 当前读与幻读</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 事务T1</span></span><br><span class="line"><span class="keyword">BEGIN</span>;</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> id <span class="operator">&gt;</span> <span class="number">5</span> <span class="keyword">FOR</span> <span class="keyword">UPDATE</span>;  <span class="comment">-- 当前读，加临键锁</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 事务T2插入id=10 → 被阻塞（间隙锁）</span></span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="5-2-当前读与幻读"><a href="#5-2-当前读与幻读" class="headerlink" title="5.2 当前读与幻读"></a>5.2 当前读与幻读</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 事务T1</span></span><br><span class="line"><span class="keyword">BEGIN</span>;</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> id <span class="operator">&gt;</span> <span class="number">5</span> <span class="keyword">FOR</span> <span class="keyword">UPDATE</span>;  <span class="comment">-- 当前读，加临键锁</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 事务T2插入id=10 → 被阻塞（间隙锁）</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>InnoDB解决幻读</strong>：</p>
 <ul>
 <li>快照读：通过MVCC的ReadView机制</li>
 <li>当前读：通过间隙锁（Gap Lock）</li>
 </ul>
-<h3 id="5-3-幻读的特例"><a href="#5-3-幻读的特例" class="headerlink" title="5.3 幻读的特例"></a>5.3 幻读的特例</h3><p>MVCC不能完全解决所有幻读场景：</p>
+<p>#</p>
+<h2 id="5-3-幻读的特例"><a href="#5-3-幻读的特例" class="headerlink" title="5.3 幻读的特例"></a>5.3 幻读的特例</h2><p>MVCC不能完全解决所有幻读场景：</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 事务T1（RR）</span></span><br><span class="line"><span class="keyword">BEGIN</span>;</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">10</span>;  <span class="comment">-- 不存在，返回空</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 事务T2插入id=10并提交</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 事务T1</span></span><br><span class="line"><span class="keyword">UPDATE</span> <span class="keyword">user</span> <span class="keyword">SET</span> name <span class="operator">=</span> <span class="string">&#x27;XXX&#x27;</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">10</span>;  <span class="comment">-- 成功！（当前读）</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">10</span>;  <span class="comment">-- 查到了！（幻读）</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>原因</strong>：UPDATE是当前读，能看到T2提交的数据并修改。修改后该记录的DB_TRX_ID变为T1，对自己可见。</p>
-<h2 id="六、MVCC的清理机制"><a href="#六、MVCC的清理机制" class="headerlink" title="六、MVCC的清理机制"></a>六、MVCC的清理机制</h2><h3 id="6-1-Purge线程"><a href="#6-1-Purge线程" class="headerlink" title="6.1 Purge线程"></a>6.1 Purge线程</h3><p>Undo Log不能无限增长，需要清理：</p>
+<h2 id="六、MVCC的清理机制"><a href="#六、MVCC的清理机制" class="headerlink" title="六、MVCC的清理机制"></a>六、MVCC的清理机制</h2><p>#</p>
+<h2 id="6-1-Purge线程"><a href="#6-1-Purge线程" class="headerlink" title="6.1 Purge线程"></a>6.1 Purge线程</h2><p>Undo Log不能无限增长，需要清理：</p>
 <ol>
 <li><strong>确定清理范围</strong>：找到所有ReadView中最老的m_up_limit_id</li>
 <li><strong>清理Undo Log</strong>：删除比该ID更早且已提交的Undo Log</li>
 <li><strong>清理标记删除的记录</strong>：真正删除delete_flag=true且不可见的记录</li>
 </ol>
-<h3 id="6-2-历史列表长度"><a href="#6-2-历史列表长度" class="headerlink" title="6.2 历史列表长度"></a>6.2 历史列表长度</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看Undo Log历史列表长度</span></span><br><span class="line"><span class="keyword">SHOW</span> ENGINE INNODB STATUS;</span><br><span class="line"><span class="comment">-- History list length 1000</span></span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="6-2-历史列表长度"><a href="#6-2-历史列表长度" class="headerlink" title="6.2 历史列表长度"></a>6.2 历史列表长度</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看Undo Log历史列表长度</span></span><br><span class="line"><span class="keyword">SHOW</span> ENGINE INNODB STATUS;</span><br><span class="line"><span class="comment">-- History list length 1000</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>History list length过大</strong>：</p>
 <ul>
@@ -662,7 +682,8 @@
 <li>可能原因：长事务、大量写操作</li>
 <li>影响：查询需要遍历更多版本，性能下降</li>
 </ul>
-<h2 id="七、MVCC实践要点"><a href="#七、MVCC实践要点" class="headerlink" title="七、MVCC实践要点"></a>七、MVCC实践要点</h2><h3 id="7-1-避免长事务"><a href="#7-1-避免长事务" class="headerlink" title="7.1 避免长事务"></a>7.1 避免长事务</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看长事务</span></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    trx_id,</span><br><span class="line">    trx_mysql_thread_id,</span><br><span class="line">    trx_state,</span><br><span class="line">    TIMESTAMPDIFF(<span class="keyword">SECOND</span>, trx_started, NOW()) <span class="keyword">AS</span> trx_seconds</span><br><span class="line"><span class="keyword">FROM</span> information_schema.innodb_trx</span><br><span class="line"><span class="keyword">WHERE</span> TIMESTAMPDIFF(<span class="keyword">SECOND</span>, trx_started, NOW()) <span class="operator">&gt;</span> <span class="number">60</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="七、MVCC实践要点"><a href="#七、MVCC实践要点" class="headerlink" title="七、MVCC实践要点"></a>七、MVCC实践要点</h2><p>#</p>
+<h2 id="7-1-避免长事务"><a href="#7-1-避免长事务" class="headerlink" title="7.1 避免长事务"></a>7.1 避免长事务</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看长事务</span></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    trx_id,</span><br><span class="line">    trx_mysql_thread_id,</span><br><span class="line">    trx_state,</span><br><span class="line">    TIMESTAMPDIFF(<span class="keyword">SECOND</span>, trx_started, NOW()) <span class="keyword">AS</span> trx_seconds</span><br><span class="line"><span class="keyword">FROM</span> information_schema.innodb_trx</span><br><span class="line"><span class="keyword">WHERE</span> TIMESTAMPDIFF(<span class="keyword">SECOND</span>, trx_started, NOW()) <span class="operator">&gt;</span> <span class="number">60</span>;</span><br></pre></td></tr></table></figure>
 
 <p>长事务的危害：</p>
 <ul>
@@ -671,7 +692,8 @@
 <li>影响查询性能</li>
 <li>可能导致锁等待</li>
 </ul>
-<h3 id="7-2-选择合适的事务隔离级别"><a href="#7-2-选择合适的事务隔离级别" class="headerlink" title="7.2 选择合适的事务隔离级别"></a>7.2 选择合适的事务隔离级别</h3><table>
+<p>#</p>
+<h2 id="7-2-选择合适的事务隔离级别"><a href="#7-2-选择合适的事务隔离级别" class="headerlink" title="7.2 选择合适的事务隔离级别"></a>7.2 选择合适的事务隔离级别</h2><table>
 <thead>
 <tr>
 <th>场景</th>
@@ -695,7 +717,8 @@
 <td>REPEATABLE READ</td>
 </tr>
 </tbody></table>
-<h3 id="7-3-理解快照读和当前读"><a href="#7-3-理解快照读和当前读" class="headerlink" title="7.3 理解快照读和当前读"></a>7.3 理解快照读和当前读</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 快照读（不加锁，读历史版本）</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 当前读（加锁，读最新版本）</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span> <span class="keyword">FOR</span> <span class="keyword">UPDATE</span>;</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span> LOCK <span class="keyword">IN</span> SHARE MODE;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- DML都是当前读</span></span><br><span class="line"><span class="keyword">UPDATE</span> <span class="keyword">user</span> <span class="keyword">SET</span> ...;</span><br><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> ...;</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="7-3-理解快照读和当前读"><a href="#7-3-理解快照读和当前读" class="headerlink" title="7.3 理解快照读和当前读"></a>7.3 理解快照读和当前读</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 快照读（不加锁，读历史版本）</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 当前读（加锁，读最新版本）</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span> <span class="keyword">FOR</span> <span class="keyword">UPDATE</span>;</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span> LOCK <span class="keyword">IN</span> SHARE MODE;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- DML都是当前读</span></span><br><span class="line"><span class="keyword">UPDATE</span> <span class="keyword">user</span> <span class="keyword">SET</span> ...;</span><br><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> ...;</span><br></pre></td></tr></table></figure>
 
 <h2 id="八、总结"><a href="#八、总结" class="headerlink" title="八、总结"></a>八、总结</h2><table>
 <thead>
@@ -753,6 +776,17 @@
 <li>排查并发异常问题</li>
 <li>优化长事务和Undo Log管理</li>
 </ul>
+<h2 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a>核心要点</h2><ol>
+<li><p>索引设计的原则：最左前缀原则、避免索引列参与计算、选择合适的索引类型</p>
+</li>
+<li><p>SQL 优化的方法：使用 EXPLAIN 分析执行计划、避免 SELECT *、优化 JOIN</p>
+</li>
+<li><p>事务隔离级别的选择：根据业务需求选择合适的级别</p>
+</li>
+<li><p>常见的锁问题：行锁、表锁、死锁的处理</p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>MySQL 优化是一个持续的过程，需要结合业务特点和数据量来调整。在实际项目中，定期分析慢查询日志、优化索引、调整配置参数，都能提升数据库性能。</p>
 
             </div>
             <hr />
@@ -1252,7 +1286,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">564.6k</span>
+            <span class="white-color">604.3k</span>
             
 
             <br>

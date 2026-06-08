@@ -7,8 +7,8 @@
     <meta name="keywords" content="JVM字节码与执行引擎, 程序员小乐">
 
     
-    <meta name="description" content="JVM字节码与执行引擎Java 的”一次编写，到处运行”依赖于字节码和 JVM 执行引擎。理解字节码和执行机制，有助于深入掌握 Java 的运行原理。
-字节码概览Java 字节码是 JVM 的指令集，每条指令由一个字节的操作码（Opcode">
+    <meta name="description" content="JVM字节码与执行引擎JVM 内存布局是排查线上问题的基础。很多开发者遇到 OutOfMemoryError 时不知道从哪里入手。本文结合实际案例，讲清楚各区域的作用和常见异常，帮你建立排查思路。
+字节码概览Java 字节码是 JVM 的指">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -490,14 +490,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.1k
+                    1.3k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    4 分
+                    5 分
                 </div>
                 
                 
@@ -513,15 +513,18 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="JVM字节码与执行引擎"><a href="#JVM字节码与执行引擎" class="headerlink" title="JVM字节码与执行引擎"></a>JVM字节码与执行引擎</h1><p>Java 的”一次编写，到处运行”依赖于字节码和 JVM 执行引擎。理解字节码和执行机制，有助于深入掌握 Java 的运行原理。</p>
+                <h1 id="JVM字节码与执行引擎"><a href="#JVM字节码与执行引擎" class="headerlink" title="JVM字节码与执行引擎"></a>JVM字节码与执行引擎</h1><p>JVM 内存布局是排查线上问题的基础。很多开发者遇到 OutOfMemoryError 时不知道从哪里入手。本文结合实际案例，讲清楚各区域的作用和常见异常，帮你建立排查思路。</p>
 <h2 id="字节码概览"><a href="#字节码概览" class="headerlink" title="字节码概览"></a>字节码概览</h2><p>Java 字节码是 JVM 的指令集，每条指令由一个字节的操作码（Opcode）和零到多个操作数组成。</p>
-<h3 id="查看字节码"><a href="#查看字节码" class="headerlink" title="查看字节码"></a>查看字节码</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># javap 反编译</span></span><br><span class="line">javap -c -p HelloWorld.class</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更详细的输出</span></span><br><span class="line">javap -v HelloWorld.class</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="查看字节码"><a href="#查看字节码" class="headerlink" title="查看字节码"></a>查看字节码</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># javap 反编译</span></span><br><span class="line">javap -c -p HelloWorld.class</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更详细的输出</span></span><br><span class="line">javap -v HelloWorld.class</span><br></pre></td></tr></table></figure>
 
-<h3 id="HelloWorld-字节码示例"><a href="#HelloWorld-字节码示例" class="headerlink" title="HelloWorld 字节码示例"></a>HelloWorld 字节码示例</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HelloWorld</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Hello, World!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="HelloWorld-字节码示例"><a href="#HelloWorld-字节码示例" class="headerlink" title="HelloWorld 字节码示例"></a>HelloWorld 字节码示例</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HelloWorld</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Hello, World!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public static void main(java.lang.String[]);</span><br><span class="line">    Code:</span><br><span class="line">       0: getstatic     #2   // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">       3: ldc           #3   // String Hello, World!</span><br><span class="line">       5: invokevirtual #4   // Method java/io/PrintStream.println:(Ljava/lang/String;)V</span><br><span class="line">       8: return</span><br></pre></td></tr></table></figure>
 
-<h2 id="常见字节码指令"><a href="#常见字节码指令" class="headerlink" title="常见字节码指令"></a>常见字节码指令</h2><h3 id="加载和存储"><a href="#加载和存储" class="headerlink" title="加载和存储"></a>加载和存储</h3><table>
+<h2 id="常见字节码指令"><a href="#常见字节码指令" class="headerlink" title="常见字节码指令"></a>常见字节码指令</h2><p>#</p>
+<h2 id="加载和存储"><a href="#加载和存储" class="headerlink" title="加载和存储"></a>加载和存储</h2><table>
 <thead>
 <tr>
 <th>指令</th>
@@ -549,7 +552,8 @@
 <td>设置对象字段</td>
 </tr>
 </tbody></table>
-<h3 id="算术运算"><a href="#算术运算" class="headerlink" title="算术运算"></a>算术运算</h3><table>
+<p>#</p>
+<h2 id="算术运算"><a href="#算术运算" class="headerlink" title="算术运算"></a>算术运算</h2><table>
 <thead>
 <tr>
 <th>指令</th>
@@ -577,7 +581,8 @@
 <td>局部变量自增</td>
 </tr>
 </tbody></table>
-<h3 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h3><table>
+<p>#</p>
+<h2 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h2><table>
 <thead>
 <tr>
 <th>指令</th>
@@ -601,7 +606,8 @@
 <td>类型检查转换</td>
 </tr>
 </tbody></table>
-<h3 id="对象操作"><a href="#对象操作" class="headerlink" title="对象操作"></a>对象操作</h3><table>
+<p>#</p>
+<h2 id="对象操作"><a href="#对象操作" class="headerlink" title="对象操作"></a>对象操作</h2><table>
 <thead>
 <tr>
 <th>指令</th>
@@ -633,7 +639,8 @@
 <td>动态调用（Java 7+ Lambda）</td>
 </tr>
 </tbody></table>
-<h3 id="控制转移"><a href="#控制转移" class="headerlink" title="控制转移"></a>控制转移</h3><table>
+<p>#</p>
+<h2 id="控制转移"><a href="#控制转移" class="headerlink" title="控制转移"></a>控制转移</h2><table>
 <thead>
 <tr>
 <th>指令</th>
@@ -661,15 +668,18 @@
 <td>查找开关</td>
 </tr>
 </tbody></table>
-<h2 id="执行引擎"><a href="#执行引擎" class="headerlink" title="执行引擎"></a>执行引擎</h2><h3 id="1-解释执行（Interpreter）"><a href="#1-解释执行（Interpreter）" class="headerlink" title="1. 解释执行（Interpreter）"></a>1. 解释执行（Interpreter）</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">字节码</span><br><span class="line">  |</span><br><span class="line">  v</span><br><span class="line">解释器逐条读取指令</span><br><span class="line">  |</span><br><span class="line">  v</span><br><span class="line">调用对应的C++函数执行</span><br><span class="line">  |</span><br><span class="line">  v</span><br><span class="line">结果</span><br></pre></td></tr></table></figure>
+<h2 id="执行引擎"><a href="#执行引擎" class="headerlink" title="执行引擎"></a>执行引擎</h2><p>#</p>
+<h2 id="1-解释执行（Interpreter）"><a href="#1-解释执行（Interpreter）" class="headerlink" title="1. 解释执行（Interpreter）"></a>1. 解释执行（Interpreter）</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">字节码</span><br><span class="line">  |</span><br><span class="line">  v</span><br><span class="line">解释器逐条读取指令</span><br><span class="line">  |</span><br><span class="line">  v</span><br><span class="line">调用对应的C++函数执行</span><br><span class="line">  |</span><br><span class="line">  v</span><br><span class="line">结果</span><br></pre></td></tr></table></figure>
 
 <p><strong>特点</strong>：启动快，执行慢。</p>
-<h3 id="2-JIT-编译（Just-In-Time）"><a href="#2-JIT-编译（Just-In-Time）" class="headerlink" title="2. JIT 编译（Just-In-Time）"></a>2. JIT 编译（Just-In-Time）</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">字节码</span><br><span class="line">  |</span><br><span class="line">  v</span><br><span class="line">热点代码检测（方法调用次数 &gt; 阈值）</span><br><span class="line">  |</span><br><span class="line">  v</span><br><span class="line">编译为本地机器码</span><br><span class="line">  |</span><br><span class="line">  v</span><br><span class="line">直接执行机器码</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="2-JIT-编译（Just-In-Time）"><a href="#2-JIT-编译（Just-In-Time）" class="headerlink" title="2. JIT 编译（Just-In-Time）"></a>2. JIT 编译（Just-In-Time）</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">字节码</span><br><span class="line">  |</span><br><span class="line">  v</span><br><span class="line">热点代码检测（方法调用次数 &gt; 阈值）</span><br><span class="line">  |</span><br><span class="line">  v</span><br><span class="line">编译为本地机器码</span><br><span class="line">  |</span><br><span class="line">  v</span><br><span class="line">直接执行机器码</span><br></pre></td></tr></table></figure>
 
 <p><strong>热点检测</strong>：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-XX:CompileThreshold=10000  <span class="comment"># 方法调用次数阈值（Client: 1500, Server: 10000）</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="3-分层编译（Tiered-Compilation）"><a href="#3-分层编译（Tiered-Compilation）" class="headerlink" title="3. 分层编译（Tiered Compilation）"></a>3. 分层编译（Tiered Compilation）</h3><p>JDK 7+ 默认开启：</p>
+<p>#</p>
+<h2 id="3-分层编译（Tiered-Compilation）"><a href="#3-分层编译（Tiered-Compilation）" class="headerlink" title="3. 分层编译（Tiered Compilation）"></a>3. 分层编译（Tiered Compilation）</h2><p>JDK 7+ 默认开启：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Level 0: 解释执行</span><br><span class="line">    ↓ 方法调用次数 &gt; 阈值</span><br><span class="line">Level 1: C1 简单编译（带性能监控）</span><br><span class="line">    ↓ 代码成为热点</span><br><span class="line">Level 2: C1 复杂编译</span><br><span class="line">    ↓ 更热点</span><br><span class="line">Level 3: C1 完全编译（带所有性能监控）</span><br><span class="line">    ↓ 最热点</span><br><span class="line">Level 4: C2 激进优化编译</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-XX:+TieredCompilation  <span class="comment"># 开启分层编译（默认开启）</span></span><br></pre></td></tr></table></figure>
@@ -708,17 +718,21 @@
 <td>服务端/长运行</td>
 </tr>
 </tbody></table>
-<h2 id="JIT-优化技术"><a href="#JIT-优化技术" class="headerlink" title="JIT 优化技术"></a>JIT 优化技术</h2><h3 id="1-方法内联"><a href="#1-方法内联" class="headerlink" title="1. 方法内联"></a>1. 方法内联</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">add</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">calculate</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> add(<span class="number">1</span>, <span class="number">2</span>);  <span class="comment">// 内联后：直接变成 int x = 1 + 2;</span></span><br><span class="line">    <span class="keyword">return</span> x * <span class="number">3</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="JIT-优化技术"><a href="#JIT-优化技术" class="headerlink" title="JIT 优化技术"></a>JIT 优化技术</h2><p>#</p>
+<h2 id="1-方法内联"><a href="#1-方法内联" class="headerlink" title="1. 方法内联"></a>1. 方法内联</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">add</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">calculate</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> add(<span class="number">1</span>, <span class="number">2</span>);  <span class="comment">// 内联后：直接变成 int x = 1 + 2;</span></span><br><span class="line">    <span class="keyword">return</span> x * <span class="number">3</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-XX:MaxInlineSize=35       <span class="comment"># 方法体小于35字节内联</span></span><br><span class="line">-XX:FreqInlineSize=325     <span class="comment"># 热点方法小于325字节内联</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="2-逃逸分析"><a href="#2-逃逸分析" class="headerlink" title="2. 逃逸分析"></a>2. 逃逸分析</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">User</span>();  <span class="comment">// 未逃逸出方法</span></span><br><span class="line">    user.setName(<span class="string">&quot;test&quot;</span>);</span><br><span class="line">    <span class="comment">// JIT优化：栈上分配或标量替换</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="2-逃逸分析"><a href="#2-逃逸分析" class="headerlink" title="2. 逃逸分析"></a>2. 逃逸分析</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">User</span>();  <span class="comment">// 未逃逸出方法</span></span><br><span class="line">    user.setName(<span class="string">&quot;test&quot;</span>);</span><br><span class="line">    <span class="comment">// JIT优化：栈上分配或标量替换</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-XX:+DoEscapeAnalysis       <span class="comment"># 开启逃逸分析</span></span><br><span class="line">-XX:+EliminateAllocations   <span class="comment"># 标量替换</span></span><br><span class="line">-XX:+EliminateLocks         <span class="comment"># 同步消除</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="3-锁消除"><a href="#3-锁消除" class="headerlink" title="3. 锁消除"></a>3. 锁消除</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">Object</span> <span class="variable">lock</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Object</span>();</span><br><span class="line">    <span class="keyword">synchronized</span> (lock) &#123;    <span class="comment">// 锁对象未逃逸，消除锁</span></span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="3-锁消除"><a href="#3-锁消除" class="headerlink" title="3. 锁消除"></a>3. 锁消除</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">Object</span> <span class="variable">lock</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Object</span>();</span><br><span class="line">    <span class="keyword">synchronized</span> (lock) &#123;    <span class="comment">// 锁对象未逃逸，消除锁</span></span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="4-循环展开"><a href="#4-循环展开" class="headerlink" title="4. 循环展开"></a>4. 循环展开</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 原始代码</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">    sum += array[i];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 优化后</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">100</span>; i += <span class="number">4</span>) &#123;</span><br><span class="line">    sum += array[i];</span><br><span class="line">    sum += array[i + <span class="number">1</span>];</span><br><span class="line">    sum += array[i + <span class="number">2</span>];</span><br><span class="line">    sum += array[i + <span class="number">3</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="4-循环展开"><a href="#4-循环展开" class="headerlink" title="4. 循环展开"></a>4. 循环展开</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 原始代码</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">    sum += array[i];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 优化后</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">100</span>; i += <span class="number">4</span>) &#123;</span><br><span class="line">    sum += array[i];</span><br><span class="line">    sum += array[i + <span class="number">1</span>];</span><br><span class="line">    sum += array[i + <span class="number">2</span>];</span><br><span class="line">    sum += array[i + <span class="number">3</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="查看-JIT-编译"><a href="#查看-JIT-编译" class="headerlink" title="查看 JIT 编译"></a>查看 JIT 编译</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 打印 JIT 编译日志</span></span><br><span class="line">-XX:+PrintCompilation</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出示例</span></span><br><span class="line">    123   45       4       java.lang.String::charAt (29 bytes)</span><br><span class="line">    │     │        │       └── 编译级别4（C2）</span><br><span class="line">    │     │       └── 方法编号</span><br><span class="line">    │     └── 编译ID</span><br><span class="line">    └── JVM启动后的毫秒数</span><br></pre></td></tr></table></figure>
 
@@ -774,6 +788,17 @@
 </tr>
 </tbody></table>
 <p>JVM 的执行引擎设计精妙：解释执行快速启动，JIT 编译提升峰值性能，分层编译兼顾两者，AOT 为云原生场景提供新选择。</p>
+<h2 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a>核心要点</h2><ol>
+<li><p>堆内存分为年轻代和老年代，年轻代又分为 Eden、Survivor 等区域</p>
+</li>
+<li><p>栈内存是线程私有的，每个线程都有自己的栈空间</p>
+</li>
+<li><p>方法区（元空间）存储类信息、常量池等</p>
+</li>
+<li><p>常见的 OOM 类型：HeapSpace、OutOfMemoryError、StackOverflowError</p>
+</li>
+</ol>
+<h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2><p>理解 JVM 内存模型是成为高级 Java 工程师的必备技能。在实际项目中，配置合适的堆内存大小、选择合适的垃圾收集器，都需要对内存布局有清晰的认识。</p>
 
             </div>
             <hr />
@@ -1273,7 +1298,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">564.6k</span>
+            <span class="white-color">604.3k</span>
             
 
             <br>

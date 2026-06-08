@@ -7,10 +7,9 @@
     <meta name="keywords" content="MySQL索引设计最佳实践, 程序员小乐">
 
     
-    <meta name="description" content="MySQL索引设计最佳实践索引设计是数据库性能优化的核心环节。本文结合实际案例，系统总结索引设计的最佳实践。
-一、索引设计的基本原则1.1 三星索引法则《高性能MySQL》提出的三星索引标准：
-
-第一星：索引将相关的记录放在一起（减少IO）">
+    <meta name="description" content="MySQL索引设计最佳实践MySQL 是业务系统中最常见的数据库，但用好它并不容易。索引设计、SQL 优化、事务处理都是日常开发中需要关注的点。本文从实际场景出发，讲常见问题和解决思路。
+一、索引设计的基本原则#
+1.1 三星索引法则《高性">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -492,7 +491,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2k
+                    2.2k
                 </div>
                 
 
@@ -515,20 +514,24 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="MySQL索引设计最佳实践"><a href="#MySQL索引设计最佳实践" class="headerlink" title="MySQL索引设计最佳实践"></a>MySQL索引设计最佳实践</h1><p>索引设计是数据库性能优化的核心环节。本文结合实际案例，系统总结索引设计的最佳实践。</p>
-<h2 id="一、索引设计的基本原则"><a href="#一、索引设计的基本原则" class="headerlink" title="一、索引设计的基本原则"></a>一、索引设计的基本原则</h2><h3 id="1-1-三星索引法则"><a href="#1-1-三星索引法则" class="headerlink" title="1.1 三星索引法则"></a>1.1 三星索引法则</h3><p>《高性能MySQL》提出的三星索引标准：</p>
+                <h1 id="MySQL索引设计最佳实践"><a href="#MySQL索引设计最佳实践" class="headerlink" title="MySQL索引设计最佳实践"></a>MySQL索引设计最佳实践</h1><p>MySQL 是业务系统中最常见的数据库，但用好它并不容易。索引设计、SQL 优化、事务处理都是日常开发中需要关注的点。本文从实际场景出发，讲常见问题和解决思路。</p>
+<h2 id="一、索引设计的基本原则"><a href="#一、索引设计的基本原则" class="headerlink" title="一、索引设计的基本原则"></a>一、索引设计的基本原则</h2><p>#</p>
+<h2 id="1-1-三星索引法则"><a href="#1-1-三星索引法则" class="headerlink" title="1.1 三星索引法则"></a>1.1 三星索引法则</h2><p>《高性能MySQL》提出的三星索引标准：</p>
 <ul>
 <li><strong>第一星</strong>：索引将相关的记录放在一起（减少IO）</li>
 <li><strong>第二星</strong>：索引中的列顺序满足排序需求（避免文件排序）</li>
 <li><strong>第三星</strong>：索引包含查询所需的所有列（覆盖索引，避免回表）</li>
 </ul>
-<h3 id="1-2-索引选择性（Cardinality）"><a href="#1-2-索引选择性（Cardinality）" class="headerlink" title="1.2 索引选择性（Cardinality）"></a>1.2 索引选择性（Cardinality）</h3><p>选择性 = 不同值数量 / 总记录数，越接近1越好：</p>
+<p>#</p>
+<h2 id="1-2-索引选择性（Cardinality）"><a href="#1-2-索引选择性（Cardinality）" class="headerlink" title="1.2 索引选择性（Cardinality）"></a>1.2 索引选择性（Cardinality）</h2><p>选择性 = 不同值数量 / 总记录数，越接近1越好：</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看列的选择性</span></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> column_name) <span class="operator">/</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">AS</span> selectivity</span><br><span class="line"><span class="keyword">FROM</span> table_name;</span><br></pre></td></tr></table></figure>
 
 <p><strong>建议</strong>：选择性低于0.1的列，单独建索引效果不佳。</p>
-<h3 id="1-3-索引长度估算"><a href="#1-3-索引长度估算" class="headerlink" title="1.3 索引长度估算"></a>1.3 索引长度估算</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看索引大小</span></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    database_name,</span><br><span class="line">    table_name,</span><br><span class="line">    index_name,</span><br><span class="line">    ROUND(stat_value <span class="operator">*</span> @<span class="variable">@innodb_page_size</span> <span class="operator">/</span> <span class="number">1024</span> <span class="operator">/</span> <span class="number">1024</span>, <span class="number">2</span>) <span class="keyword">AS</span> index_size_mb</span><br><span class="line"><span class="keyword">FROM</span> mysql.innodb_index_stats</span><br><span class="line"><span class="keyword">WHERE</span> table_name <span class="operator">=</span> <span class="string">&#x27;your_table&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="1-3-索引长度估算"><a href="#1-3-索引长度估算" class="headerlink" title="1.3 索引长度估算"></a>1.3 索引长度估算</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看索引大小</span></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    database_name,</span><br><span class="line">    table_name,</span><br><span class="line">    index_name,</span><br><span class="line">    ROUND(stat_value <span class="operator">*</span> @<span class="variable">@innodb_page_size</span> <span class="operator">/</span> <span class="number">1024</span> <span class="operator">/</span> <span class="number">1024</span>, <span class="number">2</span>) <span class="keyword">AS</span> index_size_mb</span><br><span class="line"><span class="keyword">FROM</span> mysql.innodb_index_stats</span><br><span class="line"><span class="keyword">WHERE</span> table_name <span class="operator">=</span> <span class="string">&#x27;your_table&#x27;</span>;</span><br></pre></td></tr></table></figure>
 
-<h2 id="二、单列索引设计"><a href="#二、单列索引设计" class="headerlink" title="二、单列索引设计"></a>二、单列索引设计</h2><h3 id="2-1-主键索引"><a href="#2-1-主键索引" class="headerlink" title="2.1 主键索引"></a>2.1 主键索引</h3><p><strong>设计要点</strong>：</p>
+<h2 id="二、单列索引设计"><a href="#二、单列索引设计" class="headerlink" title="二、单列索引设计"></a>二、单列索引设计</h2><p>#</p>
+<h2 id="2-1-主键索引"><a href="#2-1-主键索引" class="headerlink" title="2.1 主键索引"></a>2.1 主键索引</h2><p><strong>设计要点</strong>：</p>
 <ol>
 <li><p><strong>使用自增整数</strong></p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE TABLE</span> <span class="keyword">user</span> (</span><br><span class="line">    id <span class="type">BIGINT</span> UNSIGNED AUTO_INCREMENT <span class="keyword">PRIMARY KEY</span>,</span><br><span class="line">    <span class="comment">-- ...</span></span><br><span class="line">) ENGINE<span class="operator">=</span>InnoDB;</span><br></pre></td></tr></table></figure>
@@ -547,17 +550,21 @@
 </ul>
 </li>
 </ol>
-<h3 id="2-2-唯一索引"><a href="#2-2-唯一索引" class="headerlink" title="2.2 唯一索引"></a>2.2 唯一索引</h3><p>确保业务唯一性的同时建立索引：</p>
+<p>#</p>
+<h2 id="2-2-唯一索引"><a href="#2-2-唯一索引" class="headerlink" title="2.2 唯一索引"></a>2.2 唯一索引</h2><p>确保业务唯一性的同时建立索引：</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 方式一：UNIQUE约束</span></span><br><span class="line"><span class="keyword">CREATE TABLE</span> <span class="keyword">user</span> (</span><br><span class="line">    email <span class="type">VARCHAR</span>(<span class="number">100</span>) <span class="keyword">NOT NULL</span>,</span><br><span class="line">    <span class="keyword">UNIQUE</span> KEY uk_email (email)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 方式二：唯一索引</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">UNIQUE</span> INDEX uk_phone <span class="keyword">ON</span> <span class="keyword">user</span>(phone);</span><br></pre></td></tr></table></figure>
 
 <p><strong>注意</strong>：唯一索引不能包含NULL（NULL不等于NULL）。</p>
-<h3 id="2-3-普通索引"><a href="#2-3-普通索引" class="headerlink" title="2.3 普通索引"></a>2.3 普通索引</h3><p>为高频查询条件列创建：</p>
+<p>#</p>
+<h2 id="2-3-普通索引"><a href="#2-3-普通索引" class="headerlink" title="2.3 普通索引"></a>2.3 普通索引</h2><p>为高频查询条件列创建：</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> INDEX idx_status <span class="keyword">ON</span> orders(status);</span><br><span class="line"><span class="keyword">CREATE</span> INDEX idx_create_time <span class="keyword">ON</span> orders(create_time);</span><br></pre></td></tr></table></figure>
 
-<h2 id="三、联合索引设计"><a href="#三、联合索引设计" class="headerlink" title="三、联合索引设计"></a>三、联合索引设计</h2><h3 id="3-1-最左前缀原则"><a href="#3-1-最左前缀原则" class="headerlink" title="3.1 最左前缀原则"></a>3.1 最左前缀原则</h3><p>联合索引(a, b, c)等效于创建了(a)、(a,b)、(a,b,c)三个索引：</p>
+<h2 id="三、联合索引设计"><a href="#三、联合索引设计" class="headerlink" title="三、联合索引设计"></a>三、联合索引设计</h2><p>#</p>
+<h2 id="3-1-最左前缀原则"><a href="#3-1-最左前缀原则" class="headerlink" title="3.1 最左前缀原则"></a>3.1 最左前缀原则</h2><p>联合索引(a, b, c)等效于创建了(a)、(a,b)、(a,b,c)三个索引：</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 有效：用到索引</span></span><br><span class="line"><span class="keyword">WHERE</span> a <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">WHERE</span> a <span class="operator">=</span> <span class="number">1</span> <span class="keyword">AND</span> b <span class="operator">=</span> <span class="number">2</span></span><br><span class="line"><span class="keyword">WHERE</span> a <span class="operator">=</span> <span class="number">1</span> <span class="keyword">AND</span> b <span class="operator">=</span> <span class="number">2</span> <span class="keyword">AND</span> c <span class="operator">=</span> <span class="number">3</span></span><br><span class="line"><span class="keyword">WHERE</span> a <span class="operator">=</span> <span class="number">1</span> <span class="keyword">AND</span> c <span class="operator">=</span> <span class="number">3</span>   <span class="comment">-- 只用a</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 无效：跳过最左列</span></span><br><span class="line"><span class="keyword">WHERE</span> b <span class="operator">=</span> <span class="number">2</span></span><br><span class="line"><span class="keyword">WHERE</span> b <span class="operator">=</span> <span class="number">2</span> <span class="keyword">AND</span> c <span class="operator">=</span> <span class="number">3</span></span><br><span class="line"><span class="keyword">WHERE</span> c <span class="operator">=</span> <span class="number">3</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="3-2-联合索引列顺序设计"><a href="#3-2-联合索引列顺序设计" class="headerlink" title="3.2 联合索引列顺序设计"></a>3.2 联合索引列顺序设计</h3><p><strong>原则一：等值查询列在前，范围查询列在后</strong></p>
+<p>#</p>
+<h2 id="3-2-联合索引列顺序设计"><a href="#3-2-联合索引列顺序设计" class="headerlink" title="3.2 联合索引列顺序设计"></a>3.2 联合索引列顺序设计</h2><p><strong>原则一：等值查询列在前，范围查询列在后</strong></p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查询条件</span></span><br><span class="line"><span class="keyword">WHERE</span> a <span class="operator">=</span> <span class="number">1</span> <span class="keyword">AND</span> b <span class="operator">&gt;</span> <span class="number">10</span> <span class="keyword">AND</span> c <span class="operator">=</span> <span class="number">5</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 推荐索引：(c, a, b) 或 (a, c, b)</span></span><br><span class="line"><span class="comment">-- 不推荐：(a, b, c)，因为b是范围查询，c无法使用索引</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>原则二：区分度高的列在前</strong></p>
@@ -566,64 +573,78 @@
 <p><strong>原则三：排序列放入索引</strong></p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查询</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> orders </span><br><span class="line"><span class="keyword">WHERE</span> user_id <span class="operator">=</span> <span class="number">100</span> </span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> create_time <span class="keyword">DESC</span> </span><br><span class="line">LIMIT <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 推荐索引：idx_user_time(user_id, create_time)</span></span><br><span class="line"><span class="comment">-- 避免文件排序，直接利用索引有序性</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="3-3-实际案例"><a href="#3-3-实际案例" class="headerlink" title="3.3 实际案例"></a>3.3 实际案例</h3><p><strong>电商订单表索引设计</strong>：</p>
+<p>#</p>
+<h2 id="3-3-实际案例"><a href="#3-3-实际案例" class="headerlink" title="3.3 实际案例"></a>3.3 实际案例</h2><p><strong>电商订单表索引设计</strong>：</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE TABLE</span> orders (</span><br><span class="line">    id <span class="type">BIGINT</span> <span class="keyword">PRIMARY KEY</span> AUTO_INCREMENT,</span><br><span class="line">    user_id <span class="type">BIGINT</span> <span class="keyword">NOT NULL</span>,</span><br><span class="line">    status TINYINT <span class="keyword">NOT NULL</span> <span class="keyword">DEFAULT</span> <span class="number">0</span>,</span><br><span class="line">    create_time DATETIME <span class="keyword">NOT NULL</span>,</span><br><span class="line">    pay_time DATETIME,</span><br><span class="line">    amount <span class="type">DECIMAL</span>(<span class="number">10</span>,<span class="number">2</span>) <span class="keyword">NOT NULL</span>,</span><br><span class="line">    <span class="comment">-- 其他字段</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">-- 核心索引</span></span><br><span class="line">    <span class="keyword">PRIMARY KEY</span> (id),</span><br><span class="line">    </span><br><span class="line">    <span class="comment">-- 用户查询自己的订单列表（高频）</span></span><br><span class="line">    KEY idx_user_time (user_id, create_time),</span><br><span class="line">    </span><br><span class="line">    <span class="comment">-- 按状态查询（管理后台）</span></span><br><span class="line">    KEY idx_status_time (status, create_time),</span><br><span class="line">    </span><br><span class="line">    <span class="comment">-- 支付超时查询（定时任务）</span></span><br><span class="line">    KEY idx_status_paytime (status, pay_time)</span><br><span class="line">) ENGINE<span class="operator">=</span>InnoDB;</span><br></pre></td></tr></table></figure>
 
-<h2 id="四、前缀索引"><a href="#四、前缀索引" class="headerlink" title="四、前缀索引"></a>四、前缀索引</h2><h3 id="4-1-适用场景"><a href="#4-1-适用场景" class="headerlink" title="4.1 适用场景"></a>4.1 适用场景</h3><p>长字符串列（如URL、邮箱、描述）的索引：</p>
+<h2 id="四、前缀索引"><a href="#四、前缀索引" class="headerlink" title="四、前缀索引"></a>四、前缀索引</h2><p>#</p>
+<h2 id="4-1-适用场景"><a href="#4-1-适用场景" class="headerlink" title="4.1 适用场景"></a>4.1 适用场景</h2><p>长字符串列（如URL、邮箱、描述）的索引：</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 完整索引占用空间大</span></span><br><span class="line"><span class="keyword">CREATE</span> INDEX idx_url <span class="keyword">ON</span> pages(url);  <span class="comment">-- url可能很长</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 前缀索引更省空间</span></span><br><span class="line"><span class="keyword">CREATE</span> INDEX idx_url <span class="keyword">ON</span> pages(url(<span class="number">20</span>));</span><br></pre></td></tr></table></figure>
 
-<h3 id="4-2-前缀长度选择"><a href="#4-2-前缀长度选择" class="headerlink" title="4.2 前缀长度选择"></a>4.2 前缀长度选择</h3><p>目标是选择性接近完整列的选择性：</p>
+<p>#</p>
+<h2 id="4-2-前缀长度选择"><a href="#4-2-前缀长度选择" class="headerlink" title="4.2 前缀长度选择"></a>4.2 前缀长度选择</h2><p>目标是选择性接近完整列的选择性：</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 测试不同前缀长度的选择性</span></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> <span class="keyword">LEFT</span>(url, <span class="number">10</span>)) <span class="operator">/</span> <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> url) <span class="keyword">AS</span> sel_10,</span><br><span class="line">    <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> <span class="keyword">LEFT</span>(url, <span class="number">20</span>)) <span class="operator">/</span> <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> url) <span class="keyword">AS</span> sel_20,</span><br><span class="line">    <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> <span class="keyword">LEFT</span>(url, <span class="number">30</span>)) <span class="operator">/</span> <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> url) <span class="keyword">AS</span> sel_30,</span><br><span class="line">    <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> <span class="keyword">LEFT</span>(url, <span class="number">40</span>)) <span class="operator">/</span> <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> url) <span class="keyword">AS</span> sel_40</span><br><span class="line"><span class="keyword">FROM</span> pages;</span><br></pre></td></tr></table></figure>
 
 <p><strong>建议</strong>：选择性达到0.9以上即可。</p>
-<h3 id="4-3-前缀索引的限制"><a href="#4-3-前缀索引的限制" class="headerlink" title="4.3 前缀索引的限制"></a>4.3 前缀索引的限制</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 前缀索引无法用于覆盖索引</span></span><br><span class="line"><span class="keyword">SELECT</span> url <span class="keyword">FROM</span> pages <span class="keyword">WHERE</span> url <span class="operator">=</span> <span class="string">&#x27;https://example.com&#x27;</span>;</span><br><span class="line"><span class="comment">-- 即使只查url，也需要回表（因为索引只存了前缀）</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 前缀索引无法用于ORDER BY</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> pages <span class="keyword">ORDER</span> <span class="keyword">BY</span> url;</span><br><span class="line"><span class="comment">-- 可能使用文件排序</span></span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="4-3-前缀索引的限制"><a href="#4-3-前缀索引的限制" class="headerlink" title="4.3 前缀索引的限制"></a>4.3 前缀索引的限制</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 前缀索引无法用于覆盖索引</span></span><br><span class="line"><span class="keyword">SELECT</span> url <span class="keyword">FROM</span> pages <span class="keyword">WHERE</span> url <span class="operator">=</span> <span class="string">&#x27;https://example.com&#x27;</span>;</span><br><span class="line"><span class="comment">-- 即使只查url，也需要回表（因为索引只存了前缀）</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 前缀索引无法用于ORDER BY</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> pages <span class="keyword">ORDER</span> <span class="keyword">BY</span> url;</span><br><span class="line"><span class="comment">-- 可能使用文件排序</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="五、索引优化技术"><a href="#五、索引优化技术" class="headerlink" title="五、索引优化技术"></a>五、索引优化技术</h2><h3 id="5-1-索引条件下推（ICP）"><a href="#5-1-索引条件下推（ICP）" class="headerlink" title="5.1 索引条件下推（ICP）"></a>5.1 索引条件下推（ICP）</h3><p>MySQL 5.6引入的优化：在存储引擎层过滤数据，减少回表次数。</p>
+<h2 id="五、索引优化技术"><a href="#五、索引优化技术" class="headerlink" title="五、索引优化技术"></a>五、索引优化技术</h2><p>#</p>
+<h2 id="5-1-索引条件下推（ICP）"><a href="#5-1-索引条件下推（ICP）" class="headerlink" title="5.1 索引条件下推（ICP）"></a>5.1 索引条件下推（ICP）</h2><p>MySQL 5.6引入的优化：在存储引擎层过滤数据，减少回表次数。</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 有联合索引(name, age, address)</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> </span><br><span class="line"><span class="keyword">WHERE</span> name <span class="operator">=</span> <span class="string">&#x27;张&#x27;</span> <span class="keyword">AND</span> age <span class="operator">&gt;</span> <span class="number">20</span> <span class="keyword">AND</span> address <span class="keyword">LIKE</span> <span class="string">&#x27;%北京%&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 无ICP：</span></span><br><span class="line"><span class="comment">-- 1. 用name找到所有记录</span></span><br><span class="line"><span class="comment">-- 2. 回表查完整数据</span></span><br><span class="line"><span class="comment">-- 3. 在Server层过滤age和address</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 有ICP：</span></span><br><span class="line"><span class="comment">-- 1. 用name找到记录</span></span><br><span class="line"><span class="comment">-- 2. 在引擎层用age过滤</span></span><br><span class="line"><span class="comment">-- 3. 只有符合条件的才回表</span></span><br></pre></td></tr></table></figure>
 
 <p>查看是否使用ICP：</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">EXPLAIN <span class="keyword">SELECT</span> ...;</span><br><span class="line"><span class="comment">-- Extra列显示&quot;Using index condition&quot;表示使用ICP</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="5-2-索引合并（Index-Merge）"><a href="#5-2-索引合并（Index-Merge）" class="headerlink" title="5.2 索引合并（Index Merge）"></a>5.2 索引合并（Index Merge）</h3><p>当WHERE条件涉及多个索引时，MySQL可能合并多个索引的结果：</p>
+<p>#</p>
+<h2 id="5-2-索引合并（Index-Merge）"><a href="#5-2-索引合并（Index-Merge）" class="headerlink" title="5.2 索引合并（Index Merge）"></a>5.2 索引合并（Index Merge）</h2><p>当WHERE条件涉及多个索引时，MySQL可能合并多个索引的结果：</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 有idx_name和idx_age两个独立索引</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> name <span class="operator">=</span> <span class="string">&#x27;Alice&#x27;</span> <span class="keyword">OR</span> age <span class="operator">=</span> <span class="number">25</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- Index Merge Union</span></span><br><span class="line"><span class="comment">-- 分别查name和age，然后合并结果</span></span><br></pre></td></tr></table></figure>
 
 <p>EXPLAIN中显示：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">type: index_merge</span><br><span class="line">key: idx_name, idx_age</span><br><span class="line">Extra: Using union(idx_name,idx_age)</span><br></pre></td></tr></table></figure>
 
 <p><strong>注意</strong>：索引合并不如联合索引高效，优先设计合适的联合索引。</p>
-<h3 id="5-3-覆盖索引"><a href="#5-3-覆盖索引" class="headerlink" title="5.3 覆盖索引"></a>5.3 覆盖索引</h3><p>查询的所有列都在索引中，无需回表：</p>
+<p>#</p>
+<h2 id="5-3-覆盖索引"><a href="#5-3-覆盖索引" class="headerlink" title="5.3 覆盖索引"></a>5.3 覆盖索引</h2><p>查询的所有列都在索引中，无需回表：</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 联合索引(user_id, status, create_time)</span></span><br><span class="line"><span class="keyword">SELECT</span> user_id, status, create_time </span><br><span class="line"><span class="keyword">FROM</span> orders </span><br><span class="line"><span class="keyword">WHERE</span> user_id <span class="operator">=</span> <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 覆盖索引，Extra显示&quot;Using index&quot;</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>优化技巧</strong>：适当添加查询列到联合索引末尾，实现覆盖索引。</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 原索引：idx_user_status(user_id, status)</span></span><br><span class="line"><span class="comment">-- 查询：SELECT user_id, status, create_time FROM ...</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 优化为覆盖索引：</span></span><br><span class="line">KEY idx_user_status_time (user_id, status, create_time)</span><br></pre></td></tr></table></figure>
 
-<h2 id="六、索引维护"><a href="#六、索引维护" class="headerlink" title="六、索引维护"></a>六、索引维护</h2><h3 id="6-1-查看索引使用情况"><a href="#6-1-查看索引使用情况" class="headerlink" title="6.1 查看索引使用情况"></a>6.1 查看索引使用情况</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看索引使用统计（MySQL 8.0）</span></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    TABLE_SCHEMA,</span><br><span class="line">    TABLE_NAME,</span><br><span class="line">    INDEX_NAME,</span><br><span class="line">    ROWS_SELECTED,</span><br><span class="line">    ROWS_INSERTED,</span><br><span class="line">    ROWS_DELETED</span><br><span class="line"><span class="keyword">FROM</span> performance_schema.table_io_waits_summary_by_index_usage</span><br><span class="line"><span class="keyword">WHERE</span> INDEX_NAME <span class="keyword">IS</span> <span class="keyword">NOT NULL</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="六、索引维护"><a href="#六、索引维护" class="headerlink" title="六、索引维护"></a>六、索引维护</h2><p>#</p>
+<h2 id="6-1-查看索引使用情况"><a href="#6-1-查看索引使用情况" class="headerlink" title="6.1 查看索引使用情况"></a>6.1 查看索引使用情况</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看索引使用统计（MySQL 8.0）</span></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    TABLE_SCHEMA,</span><br><span class="line">    TABLE_NAME,</span><br><span class="line">    INDEX_NAME,</span><br><span class="line">    ROWS_SELECTED,</span><br><span class="line">    ROWS_INSERTED,</span><br><span class="line">    ROWS_DELETED</span><br><span class="line"><span class="keyword">FROM</span> performance_schema.table_io_waits_summary_by_index_usage</span><br><span class="line"><span class="keyword">WHERE</span> INDEX_NAME <span class="keyword">IS</span> <span class="keyword">NOT NULL</span>;</span><br></pre></td></tr></table></figure>
 
-<h3 id="6-2-删除冗余索引"><a href="#6-2-删除冗余索引" class="headerlink" title="6.2 删除冗余索引"></a>6.2 删除冗余索引</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查找未使用的索引（MySQL 8.0）</span></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    object_schema,</span><br><span class="line">    object_name,</span><br><span class="line">    index_name</span><br><span class="line"><span class="keyword">FROM</span> performance_schema.table_io_waits_summary_by_index_usage</span><br><span class="line"><span class="keyword">WHERE</span> index_name <span class="keyword">IS</span> <span class="keyword">NOT NULL</span></span><br><span class="line">    <span class="keyword">AND</span> count_star <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">AND</span> object_schema <span class="keyword">NOT</span> <span class="keyword">IN</span> (<span class="string">&#x27;mysql&#x27;</span>, <span class="string">&#x27;performance_schema&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="6-2-删除冗余索引"><a href="#6-2-删除冗余索引" class="headerlink" title="6.2 删除冗余索引"></a>6.2 删除冗余索引</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查找未使用的索引（MySQL 8.0）</span></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    object_schema,</span><br><span class="line">    object_name,</span><br><span class="line">    index_name</span><br><span class="line"><span class="keyword">FROM</span> performance_schema.table_io_waits_summary_by_index_usage</span><br><span class="line"><span class="keyword">WHERE</span> index_name <span class="keyword">IS</span> <span class="keyword">NOT NULL</span></span><br><span class="line">    <span class="keyword">AND</span> count_star <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">AND</span> object_schema <span class="keyword">NOT</span> <span class="keyword">IN</span> (<span class="string">&#x27;mysql&#x27;</span>, <span class="string">&#x27;performance_schema&#x27;</span>);</span><br></pre></td></tr></table></figure>
 
-<h3 id="6-3-索引重建"><a href="#6-3-索引重建" class="headerlink" title="6.3 索引重建"></a>6.3 索引重建</h3><p>当索引页利用率低时，重建索引：</p>
+<p>#</p>
+<h2 id="6-3-索引重建"><a href="#6-3-索引重建" class="headerlink" title="6.3 索引重建"></a>6.3 索引重建</h2><p>当索引页利用率低时，重建索引：</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- MySQL 5.7: ALTER TABLE</span></span><br><span class="line"><span class="keyword">ALTER TABLE</span> <span class="keyword">user</span> ENGINE<span class="operator">=</span>InnoDB;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- MySQL 8.0: OPTIMIZE TABLE</span></span><br><span class="line">OPTIMIZE <span class="keyword">TABLE</span> <span class="keyword">user</span>;</span><br></pre></td></tr></table></figure>
 
-<h2 id="七、索引设计检查清单"><a href="#七、索引设计检查清单" class="headerlink" title="七、索引设计检查清单"></a>七、索引设计检查清单</h2><h3 id="7-1-创建索引前检查"><a href="#7-1-创建索引前检查" class="headerlink" title="7.1 创建索引前检查"></a>7.1 创建索引前检查</h3><ul>
+<h2 id="七、索引设计检查清单"><a href="#七、索引设计检查清单" class="headerlink" title="七、索引设计检查清单"></a>七、索引设计检查清单</h2><p>#</p>
+<h2 id="7-1-创建索引前检查"><a href="#7-1-创建索引前检查" class="headerlink" title="7.1 创建索引前检查"></a>7.1 创建索引前检查</h2><ul>
 <li><input disabled="" type="checkbox"> 该列是否出现在WHERE、JOIN、ORDER BY、GROUP BY中？</li>
 <li><input disabled="" type="checkbox"> 该列的选择性是否足够高（&gt;0.1）？</li>
 <li><input disabled="" type="checkbox"> 是否已存在可以复用的联合索引？</li>
 <li><input disabled="" type="checkbox"> 单表索引数量是否已超过5个？</li>
 <li><input disabled="" type="checkbox"> 索引列的数据类型是否尽可能小？</li>
 </ul>
-<h3 id="7-2-联合索引设计检查"><a href="#7-2-联合索引设计检查" class="headerlink" title="7.2 联合索引设计检查"></a>7.2 联合索引设计检查</h3><ul>
+<p>#</p>
+<h2 id="7-2-联合索引设计检查"><a href="#7-2-联合索引设计检查" class="headerlink" title="7.2 联合索引设计检查"></a>7.2 联合索引设计检查</h2><ul>
 <li><input disabled="" type="checkbox"> 是否符合最左前缀原则？</li>
 <li><input disabled="" type="checkbox"> 等值查询列是否在前，范围查询列在后？</li>
 <li><input disabled="" type="checkbox"> 是否包含ORDER BY的列？</li>
 <li><input disabled="" type="checkbox"> 是否可以设计为覆盖索引？</li>
 </ul>
-<h3 id="7-3-索引优化检查"><a href="#7-3-索引优化检查" class="headerlink" title="7.3 索引优化检查"></a>7.3 索引优化检查</h3><ul>
+<p>#</p>
+<h2 id="7-3-索引优化检查"><a href="#7-3-索引优化检查" class="headerlink" title="7.3 索引优化检查"></a>7.3 索引优化检查</h2><ul>
 <li><input disabled="" type="checkbox"> 是否使用了前缀索引替代长字符串索引？</li>
 <li><input disabled="" type="checkbox"> 是否有冗余索引可以删除？</li>
 <li><input disabled="" type="checkbox"> 是否有未使用的索引可以删除？</li>
 <li><input disabled="" type="checkbox"> 是否定期检查索引碎片？</li>
 </ul>
-<h2 id="八、常见错误与解决方案"><a href="#八、常见错误与解决方案" class="headerlink" title="八、常见错误与解决方案"></a>八、常见错误与解决方案</h2><h3 id="8-1-索引过多导致写入慢"><a href="#8-1-索引过多导致写入慢" class="headerlink" title="8.1 索引过多导致写入慢"></a>8.1 索引过多导致写入慢</h3><p><strong>现象</strong>：插入、更新、删除操作变慢</p>
+<h2 id="八、常见错误与解决方案"><a href="#八、常见错误与解决方案" class="headerlink" title="八、常见错误与解决方案"></a>八、常见错误与解决方案</h2><p>#</p>
+<h2 id="8-1-索引过多导致写入慢"><a href="#8-1-索引过多导致写入慢" class="headerlink" title="8.1 索引过多导致写入慢"></a>8.1 索引过多导致写入慢</h2><p><strong>现象</strong>：插入、更新、删除操作变慢</p>
 <p><strong>原因</strong>：每次写操作都要维护所有索引</p>
 <p><strong>解决</strong>：</p>
 <ol>
@@ -631,11 +652,13 @@
 <li>合并冗余索引</li>
 <li>将部分查询移到从库</li>
 </ol>
-<h3 id="8-2-索引选择错误"><a href="#8-2-索引选择错误" class="headerlink" title="8.2 索引选择错误"></a>8.2 索引选择错误</h3><p><strong>现象</strong>：EXPLAIN显示使用了错误的索引</p>
+<p>#</p>
+<h2 id="8-2-索引选择错误"><a href="#8-2-索引选择错误" class="headerlink" title="8.2 索引选择错误"></a>8.2 索引选择错误</h2><p><strong>现象</strong>：EXPLAIN显示使用了错误的索引</p>
 <p><strong>解决</strong>：</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 使用FORCE INDEX强制指定索引</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> orders FORCE INDEX (idx_user_time) </span><br><span class="line"><span class="keyword">WHERE</span> user_id <span class="operator">=</span> <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 或使用ANALYZE TABLE更新统计信息</span></span><br><span class="line">ANALYZE <span class="keyword">TABLE</span> orders;</span><br></pre></td></tr></table></figure>
 
-<h3 id="8-3-隐式类型转换导致索引失效"><a href="#8-3-隐式类型转换导致索引失效" class="headerlink" title="8.3 隐式类型转换导致索引失效"></a>8.3 隐式类型转换导致索引失效</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 错误：phone是VARCHAR类型</span></span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="operator">=</span> <span class="number">13800138000</span>   <span class="comment">-- 数字，发生隐式转换</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 正确</span></span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="operator">=</span> <span class="string">&#x27;13800138000&#x27;</span>  <span class="comment">-- 字符串，使用索引</span></span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="8-3-隐式类型转换导致索引失效"><a href="#8-3-隐式类型转换导致索引失效" class="headerlink" title="8.3 隐式类型转换导致索引失效"></a>8.3 隐式类型转换导致索引失效</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 错误：phone是VARCHAR类型</span></span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="operator">=</span> <span class="number">13800138000</span>   <span class="comment">-- 数字，发生隐式转换</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 正确</span></span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="operator">=</span> <span class="string">&#x27;13800138000&#x27;</span>  <span class="comment">-- 字符串，使用索引</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="九、总结"><a href="#九、总结" class="headerlink" title="九、总结"></a>九、总结</h2><table>
 <thead>
@@ -678,6 +701,17 @@
 <li>利用EXPLAIN分析执行计划</li>
 <li>持续监控和优化索引使用</li>
 </ol>
+<h2 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a>核心要点</h2><ol>
+<li><p>索引设计的原则：最左前缀原则、避免索引列参与计算、选择合适的索引类型</p>
+</li>
+<li><p>SQL 优化的方法：使用 EXPLAIN 分析执行计划、避免 SELECT *、优化 JOIN</p>
+</li>
+<li><p>事务隔离级别的选择：根据业务需求选择合适的级别</p>
+</li>
+<li><p>常见的锁问题：行锁、表锁、死锁的处理</p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>MySQL 优化是一个持续的过程，需要结合业务特点和数据量来调整。在实际项目中，定期分析慢查询日志、优化索引、调整配置参数，都能提升数据库性能。</p>
 
             </div>
             <hr />
@@ -1177,7 +1211,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">564.6k</span>
+            <span class="white-color">604.3k</span>
             
 
             <br>

@@ -7,9 +7,9 @@
     <meta name="keywords" content="MySQL 索引设计的几个核心原则, 程序员小乐">
 
     
-    <meta name="description" content="MySQL 索引设计的几个核心原则MySQL 是业务系统中最常见的数据库，但用好它并不容易。本文从实际场景出发，讲索引设计、SQL 优化和常见坑。
+    <meta name="description" content="MySQL 索引设计的几个核心原则MySQL 是业务系统中最常见的数据库，但用好它并不容易。索引设计、SQL 优化、事务处理都是日常开发中需要关注的点。本文从实际场景出发，讲常见问题和解决思路。
 准备一张示例表以订单表为例：
-CREATE TABLE orders (  id BIGIN">
+CREATE ">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -491,7 +491,7 @@ CREATE TABLE orders (  id BIGIN">
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    292
+                    469
                 </div>
                 
 
@@ -514,7 +514,7 @@ CREATE TABLE orders (  id BIGIN">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="MySQL-索引设计的几个核心原则"><a href="#MySQL-索引设计的几个核心原则" class="headerlink" title="MySQL 索引设计的几个核心原则"></a>MySQL 索引设计的几个核心原则</h1><p>MySQL 是业务系统中最常见的数据库，但用好它并不容易。本文从实际场景出发，讲索引设计、SQL 优化和常见坑。</p>
+                <h1 id="MySQL-索引设计的几个核心原则"><a href="#MySQL-索引设计的几个核心原则" class="headerlink" title="MySQL 索引设计的几个核心原则"></a>MySQL 索引设计的几个核心原则</h1><p>MySQL 是业务系统中最常见的数据库，但用好它并不容易。索引设计、SQL 优化、事务处理都是日常开发中需要关注的点。本文从实际场景出发，讲常见问题和解决思路。</p>
 <h2 id="准备一张示例表"><a href="#准备一张示例表" class="headerlink" title="准备一张示例表"></a>准备一张示例表</h2><p>以订单表为例：</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE TABLE</span> orders (</span><br><span class="line">  id <span class="type">BIGINT</span> <span class="keyword">PRIMARY KEY</span> AUTO_INCREMENT,</span><br><span class="line">  user_id <span class="type">BIGINT</span> <span class="keyword">NOT NULL</span>,</span><br><span class="line">  status <span class="type">VARCHAR</span>(<span class="number">20</span>) <span class="keyword">NOT NULL</span>,</span><br><span class="line">  amount <span class="type">DECIMAL</span>(<span class="number">10</span>,<span class="number">2</span>) <span class="keyword">NOT NULL</span>,</span><br><span class="line">  created_at DATETIME <span class="keyword">NOT NULL</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
 
@@ -533,6 +533,17 @@ CREATE TABLE orders (  id BIGIN">
 <li>字段类型不一致，例如字符串和数字混用，会影响优化器选择。</li>
 <li>大 offset 分页会越来越慢，可以改成基于 id 的游标分页。</li>
 </ul>
+<h2 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a>核心要点</h2><ol>
+<li><p>索引设计的原则：最左前缀原则、避免索引列参与计算、选择合适的索引类型</p>
+</li>
+<li><p>SQL 优化的方法：使用 EXPLAIN 分析执行计划、避免 SELECT *、优化 JOIN</p>
+</li>
+<li><p>事务隔离级别的选择：根据业务需求选择合适的级别</p>
+</li>
+<li><p>常见的锁问题：行锁、表锁、死锁的处理</p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>MySQL 优化是一个持续的过程，需要结合业务特点和数据量来调整。在实际项目中，定期分析慢查询日志、优化索引、调整配置参数，都能提升数据库性能。</p>
 
             </div>
             <hr />
@@ -778,7 +789,7 @@ CREATE TABLE orders (  id BIGIN">
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            系统讲解标记-清除、复制、标记-整理三种GC算法，以及Serial、ParNew、Parallel Scavenge、CMS、G1等收集器的特点和适用场景。
+                            详解垃圾回收算法与收集器对比的核心概念与实践方法，结合真实开发场景说明使用注意事项。
                         
                     </div>
                     <div class="publish-info">
@@ -831,7 +842,7 @@ CREATE TABLE orders (  id BIGIN">
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            深入讲解Java对象创建的完整流程，包括类加载检查、内存分配方式、对象头结构和指针压缩技术。
+                            详解对象创建与内存分配策略的核心概念与实践方法，结合真实开发场景说明使用注意事项。
                         
                     </div>
                     <div class="publish-info">
@@ -1032,7 +1043,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">564.6k</span>
+            <span class="white-color">604.3k</span>
             
 
             <br>

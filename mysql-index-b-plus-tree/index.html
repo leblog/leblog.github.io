@@ -7,9 +7,9 @@
     <meta name="keywords" content="MySQL索引原理与B+树结构, 程序员小乐">
 
     
-    <meta name="description" content="MySQL索引原理与B+树结构索引是MySQL性能优化的核心。理解索引的底层实现原理，是写出高效SQL的基础。
-一、为什么需要索引1.1 无索引的查询代价假设有一张用户表，包含100万条记录：
-SELECT * FROM user WHER">
+    <meta name="description" content="MySQL索引原理与B+树结构MySQL 是业务系统中最常见的数据库，但用好它并不容易。索引设计、SQL 优化、事务处理都是日常开发中需要关注的点。本文从实际场景出发，讲常见问题和解决思路。
+一、为什么需要索引#
+1.1 无索引的查询代价假">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -491,7 +491,7 @@ SELECT * FROM user WHER">
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.1k
+                    2.3k
                 </div>
                 
 
@@ -514,14 +514,18 @@ SELECT * FROM user WHER">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="MySQL索引原理与B-树结构"><a href="#MySQL索引原理与B-树结构" class="headerlink" title="MySQL索引原理与B+树结构"></a>MySQL索引原理与B+树结构</h1><p>索引是MySQL性能优化的核心。理解索引的底层实现原理，是写出高效SQL的基础。</p>
-<h2 id="一、为什么需要索引"><a href="#一、为什么需要索引" class="headerlink" title="一、为什么需要索引"></a>一、为什么需要索引</h2><h3 id="1-1-无索引的查询代价"><a href="#1-1-无索引的查询代价" class="headerlink" title="1.1 无索引的查询代价"></a>1.1 无索引的查询代价</h3><p>假设有一张用户表，包含100万条记录：</p>
+                <h1 id="MySQL索引原理与B-树结构"><a href="#MySQL索引原理与B-树结构" class="headerlink" title="MySQL索引原理与B+树结构"></a>MySQL索引原理与B+树结构</h1><p>MySQL 是业务系统中最常见的数据库，但用好它并不容易。索引设计、SQL 优化、事务处理都是日常开发中需要关注的点。本文从实际场景出发，讲常见问题和解决思路。</p>
+<h2 id="一、为什么需要索引"><a href="#一、为什么需要索引" class="headerlink" title="一、为什么需要索引"></a>一、为什么需要索引</h2><p>#</p>
+<h2 id="1-1-无索引的查询代价"><a href="#1-1-无索引的查询代价" class="headerlink" title="1.1 无索引的查询代价"></a>1.1 无索引的查询代价</h2><p>假设有一张用户表，包含100万条记录：</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">500000</span>;</span><br></pre></td></tr></table></figure>
 
 <p>如果没有索引，MySQL需要逐行扫描（全表扫描），直到找到匹配记录。时间复杂度为O(n)。</p>
-<h3 id="1-2-索引的本质"><a href="#1-2-索引的本质" class="headerlink" title="1.2 索引的本质"></a>1.2 索引的本质</h3><p>索引是一种数据结构，用于快速定位数据。MySQL的InnoDB引擎使用B+树作为默认索引结构。</p>
-<h2 id="二、B树与B-树"><a href="#二、B树与B-树" class="headerlink" title="二、B树与B+树"></a>二、B树与B+树</h2><h3 id="2-1-二叉搜索树的局限"><a href="#2-1-二叉搜索树的局限" class="headerlink" title="2.1 二叉搜索树的局限"></a>2.1 二叉搜索树的局限</h3><p>普通二叉搜索树在极端情况下会退化为链表，查找效率变为O(n)。即使使用AVL树或红黑树保持平衡，由于每个节点只存储一个关键字，当数据量巨大时，树的高度仍然很高，导致磁盘I/O次数过多。</p>
-<h3 id="2-2-B树（Balanced-Tree）"><a href="#2-2-B树（Balanced-Tree）" class="headerlink" title="2.2 B树（Balanced Tree）"></a>2.2 B树（Balanced Tree）</h3><p>B树是一种多路平衡搜索树，每个节点可以存储多个关键字：</p>
+<p>#</p>
+<h2 id="1-2-索引的本质"><a href="#1-2-索引的本质" class="headerlink" title="1.2 索引的本质"></a>1.2 索引的本质</h2><p>索引是一种数据结构，用于快速定位数据。MySQL的InnoDB引擎使用B+树作为默认索引结构。</p>
+<h2 id="二、B树与B-树"><a href="#二、B树与B-树" class="headerlink" title="二、B树与B+树"></a>二、B树与B+树</h2><p>#</p>
+<h2 id="2-1-二叉搜索树的局限"><a href="#2-1-二叉搜索树的局限" class="headerlink" title="2.1 二叉搜索树的局限"></a>2.1 二叉搜索树的局限</h2><p>普通二叉搜索树在极端情况下会退化为链表，查找效率变为O(n)。即使使用AVL树或红黑树保持平衡，由于每个节点只存储一个关键字，当数据量巨大时，树的高度仍然很高，导致磁盘I/O次数过多。</p>
+<p>#</p>
+<h2 id="2-2-B树（Balanced-Tree）"><a href="#2-2-B树（Balanced-Tree）" class="headerlink" title="2.2 B树（Balanced Tree）"></a>2.2 B树（Balanced Tree）</h2><p>B树是一种多路平衡搜索树，每个节点可以存储多个关键字：</p>
 <ul>
 <li>每个节点最多有m个子节点（m阶B树）</li>
 <li>除根节点外，每个节点至少有m/2个子节点</li>
@@ -535,7 +539,8 @@ SELECT * FROM user WHER">
 <li>树的高度相对较高</li>
 <li>范围查询需要中序遍历，效率低</li>
 </ul>
-<h3 id="2-3-B-树的优势"><a href="#2-3-B-树的优势" class="headerlink" title="2.3 B+树的优势"></a>2.3 B+树的优势</h3><p>B+树是B树的改进版，也是MySQL索引的实际实现：</p>
+<p>#</p>
+<h2 id="2-3-B-树的优势"><a href="#2-3-B-树的优势" class="headerlink" title="2.3 B+树的优势"></a>2.3 B+树的优势</h2><p>B+树是B树的改进版，也是MySQL索引的实际实现：</p>
 <p><strong>结构特点</strong>：</p>
 <ul>
 <li>非叶子节点只存储键值，不存储数据</li>
@@ -550,10 +555,12 @@ SELECT * FROM user WHER">
 <li><strong>顺序访问</strong>：叶子节点链表连接，范围查询只需遍历链表</li>
 <li><strong>稳定性能</strong>：所有查询都到达叶子节点，IO次数一致</li>
 </ol>
-<h2 id="三、InnoDB的B-树实现"><a href="#三、InnoDB的B-树实现" class="headerlink" title="三、InnoDB的B+树实现"></a>三、InnoDB的B+树实现</h2><h3 id="3-1-页（Page）结构"><a href="#3-1-页（Page）结构" class="headerlink" title="3.1 页（Page）结构"></a>3.1 页（Page）结构</h3><p>InnoDB以页为单位管理数据，默认每页16KB：</p>
+<h2 id="三、InnoDB的B-树实现"><a href="#三、InnoDB的B-树实现" class="headerlink" title="三、InnoDB的B+树实现"></a>三、InnoDB的B+树实现</h2><p>#</p>
+<h2 id="3-1-页（Page）结构"><a href="#3-1-页（Page）结构" class="headerlink" title="3.1 页（Page）结构"></a>3.1 页（Page）结构</h2><p>InnoDB以页为单位管理数据，默认每页16KB：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">+-----------------+</span><br><span class="line">|  File Header    |  ← 38字节，页号、上一页、下一页</span><br><span class="line">+-----------------+</span><br><span class="line">|  Page Header    |  ← 56字节，页状态、记录数量</span><br><span class="line">+-----------------+</span><br><span class="line">|  Infimum        |  ← 最小虚拟记录</span><br><span class="line">+-----------------+</span><br><span class="line">|  Supremum       |  ← 最大虚拟记录</span><br><span class="line">+-----------------+</span><br><span class="line">|  User Records   |  ← 实际数据记录（按主键排序）</span><br><span class="line">+-----------------+</span><br><span class="line">|  Free Space     |  ← 空闲空间</span><br><span class="line">+-----------------+</span><br><span class="line">|  Page Directory |  ← 页目录，加速页内查找</span><br><span class="line">+-----------------+</span><br><span class="line">|  File Trailer   |  ← 校验和</span><br><span class="line">+-----------------+</span><br></pre></td></tr></table></figure>
 
-<h3 id="3-2-聚簇索引（Clustered-Index）"><a href="#3-2-聚簇索引（Clustered-Index）" class="headerlink" title="3.2 聚簇索引（Clustered Index）"></a>3.2 聚簇索引（Clustered Index）</h3><p>InnoDB表数据本身就是按B+树组织的索引结构，称为聚簇索引：</p>
+<p>#</p>
+<h2 id="3-2-聚簇索引（Clustered-Index）"><a href="#3-2-聚簇索引（Clustered-Index）" class="headerlink" title="3.2 聚簇索引（Clustered Index）"></a>3.2 聚簇索引（Clustered Index）</h2><p>InnoDB表数据本身就是按B+树组织的索引结构，称为聚簇索引：</p>
 <ul>
 <li>叶子节点存储完整的行数据</li>
 <li>数据按主键顺序物理存储</li>
@@ -566,17 +573,20 @@ SELECT * FROM user WHER">
 <li>查询主键效率最高</li>
 <li>插入按主键顺序最快（避免页分裂）</li>
 </ul>
-<h3 id="3-3-二级索引（Secondary-Index）"><a href="#3-3-二级索引（Secondary-Index）" class="headerlink" title="3.3 二级索引（Secondary Index）"></a>3.3 二级索引（Secondary Index）</h3><p>非主键索引都是二级索引：</p>
+<p>#</p>
+<h2 id="3-3-二级索引（Secondary-Index）"><a href="#3-3-二级索引（Secondary-Index）" class="headerlink" title="3.3 二级索引（Secondary Index）"></a>3.3 二级索引（Secondary Index）</h2><p>非主键索引都是二级索引：</p>
 <ul>
 <li>叶子节点存储：索引列 + 主键值</li>
 <li>查询时需要”回表”：先查二级索引获取主键，再查聚簇索引获取完整数据</li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> name列的二级索引</span><br><span class="line">     [Bob]</span><br><span class="line">    /     \</span><br><span class="line">[Alice]  [David]</span><br><span class="line">   ↓        ↓</span><br><span class="line"> id=3     id=15   ← 叶子存主键值</span><br><span class="line"> </span><br><span class="line"> 回表查询：根据id=3再去聚簇索引查完整数据</span><br></pre></td></tr></table></figure>
 
-<h3 id="3-4-覆盖索引"><a href="#3-4-覆盖索引" class="headerlink" title="3.4 覆盖索引"></a>3.4 覆盖索引</h3><p>如果查询的所有列都在二级索引中，无需回表：</p>
+<p>#</p>
+<h2 id="3-4-覆盖索引"><a href="#3-4-覆盖索引" class="headerlink" title="3.4 覆盖索引"></a>3.4 覆盖索引</h2><p>如果查询的所有列都在二级索引中，无需回表：</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 假设有联合索引(name, age)</span></span><br><span class="line"><span class="keyword">SELECT</span> id, name, age <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> name <span class="operator">=</span> <span class="string">&#x27;Alice&#x27;</span>;</span><br><span class="line"><span class="comment">-- 覆盖索引，不回表</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> name <span class="operator">=</span> <span class="string">&#x27;Alice&#x27;</span>;</span><br><span class="line"><span class="comment">-- 需要回表查其他列</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="四、索引页分裂与合并"><a href="#四、索引页分裂与合并" class="headerlink" title="四、索引页分裂与合并"></a>四、索引页分裂与合并</h2><h3 id="4-1-页分裂（Page-Split）"><a href="#4-1-页分裂（Page-Split）" class="headerlink" title="4.1 页分裂（Page Split）"></a>4.1 页分裂（Page Split）</h3><p>当插入数据导致页满时，触发页分裂：</p>
+<h2 id="四、索引页分裂与合并"><a href="#四、索引页分裂与合并" class="headerlink" title="四、索引页分裂与合并"></a>四、索引页分裂与合并</h2><p>#</p>
+<h2 id="4-1-页分裂（Page-Split）"><a href="#4-1-页分裂（Page-Split）" class="headerlink" title="4.1 页分裂（Page Split）"></a>4.1 页分裂（Page Split）</h2><p>当插入数据导致页满时，触发页分裂：</p>
 <ol>
 <li>申请一个新页</li>
 <li>将原页约一半数据移动到新页</li>
@@ -590,10 +600,12 @@ SELECT * FROM user WHER">
 <li>频繁页分裂导致页空间利用率降低（通常50%左右）</li>
 <li>数据物理顺序变得不连续，影响顺序读性能</li>
 </ul>
-<h3 id="4-2-页合并（Page-Merge）"><a href="#4-2-页合并（Page-Merge）" class="headerlink" title="4.2 页合并（Page Merge）"></a>4.2 页合并（Page Merge）</h3><p>删除数据导致页利用率过低时（默认低于50%），可能触发页合并：</p>
+<p>#</p>
+<h2 id="4-2-页合并（Page-Merge）"><a href="#4-2-页合并（Page-Merge）" class="headerlink" title="4.2 页合并（Page Merge）"></a>4.2 页合并（Page Merge）</h2><p>删除数据导致页利用率过低时（默认低于50%），可能触发页合并：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">删除前：</span><br><span class="line">Page A: [1, 2, 3]      ← 3条记录</span><br><span class="line">Page B: [4, 5]         ← 2条记录，利用率低</span><br><span class="line"></span><br><span class="line">删除后合并：</span><br><span class="line">Page A: [1, 2, 3, 5]   ← 合并后</span><br><span class="line">Page B: 空闲           ← 归还到空闲列表</span><br></pre></td></tr></table></figure>
 
-<h3 id="4-3-顺序主键的优势"><a href="#4-3-顺序主键的优势" class="headerlink" title="4.3 顺序主键的优势"></a>4.3 顺序主键的优势</h3><p>使用自增ID作为主键：</p>
+<p>#</p>
+<h2 id="4-3-顺序主键的优势"><a href="#4-3-顺序主键的优势" class="headerlink" title="4.3 顺序主键的优势"></a>4.3 顺序主键的优势</h2><p>使用自增ID作为主键：</p>
 <ul>
 <li>新数据总是追加到最后一页</li>
 <li>几乎不会发生页分裂</li>
@@ -605,15 +617,18 @@ SELECT * FROM user WHER">
 <li>频繁触发页分裂</li>
 <li>数据物理分散，随机IO多</li>
 </ul>
-<h2 id="五、索引的物理存储"><a href="#五、索引的物理存储" class="headerlink" title="五、索引的物理存储"></a>五、索引的物理存储</h2><h3 id="5-1-表空间文件"><a href="#5-1-表空间文件" class="headerlink" title="5.1 表空间文件"></a>5.1 表空间文件</h3><p>InnoDB数据存储在表空间文件中：</p>
+<h2 id="五、索引的物理存储"><a href="#五、索引的物理存储" class="headerlink" title="五、索引的物理存储"></a>五、索引的物理存储</h2><p>#</p>
+<h2 id="5-1-表空间文件"><a href="#5-1-表空间文件" class="headerlink" title="5.1 表空间文件"></a>5.1 表空间文件</h2><p>InnoDB数据存储在表空间文件中：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ibdata1          # 系统表空间（共享）</span><br><span class="line">user.ibd         # 独立表空间（每张表一个文件，推荐）</span><br></pre></td></tr></table></figure>
 
 <p>配置独立表空间：</p>
 <figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="attr">innodb_file_per_table</span> = <span class="literal">ON</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="5-2-索引与数据的关系"><a href="#5-2-索引与数据的关系" class="headerlink" title="5.2 索引与数据的关系"></a>5.2 索引与数据的关系</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看表空间信息</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> information_schema.innodb_sys_tablespaces </span><br><span class="line"><span class="keyword">WHERE</span> name <span class="operator">=</span> <span class="string">&#x27;database/user&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="5-2-索引与数据的关系"><a href="#5-2-索引与数据的关系" class="headerlink" title="5.2 索引与数据的关系"></a>5.2 索引与数据的关系</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看表空间信息</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> information_schema.innodb_sys_tablespaces </span><br><span class="line"><span class="keyword">WHERE</span> name <span class="operator">=</span> <span class="string">&#x27;database/user&#x27;</span>;</span><br></pre></td></tr></table></figure>
 
-<h3 id="5-3-索引高度估算"><a href="#5-3-索引高度估算" class="headerlink" title="5.3 索引高度估算"></a>5.3 索引高度估算</h3><p>假设：</p>
+<p>#</p>
+<h2 id="5-3-索引高度估算"><a href="#5-3-索引高度估算" class="headerlink" title="5.3 索引高度估算"></a>5.3 索引高度估算</h2><p>假设：</p>
 <ul>
 <li>页大小：16KB</li>
 <li>主键类型：BIGINT（8字节）</li>
@@ -636,7 +651,8 @@ SELECT * FROM user WHER">
 <li>高度3：1170 × 1170 × 16 ≈ 2190万条记录</li>
 </ul>
 <p>结论：2000万数据的表，树高通常只有3层，最多3次IO即可定位数据。</p>
-<h2 id="六、索引使用最佳实践"><a href="#六、索引使用最佳实践" class="headerlink" title="六、索引使用最佳实践"></a>六、索引使用最佳实践</h2><h3 id="6-1-选择合适的列建索引"><a href="#6-1-选择合适的列建索引" class="headerlink" title="6.1 选择合适的列建索引"></a>6.1 选择合适的列建索引</h3><p><strong>适合建索引的列</strong>：</p>
+<h2 id="六、索引使用最佳实践"><a href="#六、索引使用最佳实践" class="headerlink" title="六、索引使用最佳实践"></a>六、索引使用最佳实践</h2><p>#</p>
+<h2 id="6-1-选择合适的列建索引"><a href="#6-1-选择合适的列建索引" class="headerlink" title="6.1 选择合适的列建索引"></a>6.1 选择合适的列建索引</h2><p><strong>适合建索引的列</strong>：</p>
 <ul>
 <li>WHERE条件中频繁使用的列</li>
 <li>JOIN关联条件中的列</li>
@@ -650,19 +666,24 @@ SELECT * FROM user WHER">
 <li>小表（全表扫描更快）</li>
 <li>很长的字符串列</li>
 </ul>
-<h3 id="6-2-索引设计原则"><a href="#6-2-索引设计原则" class="headerlink" title="6.2 索引设计原则"></a>6.2 索引设计原则</h3><ol>
+<p>#</p>
+<h2 id="6-2-索引设计原则"><a href="#6-2-索引设计原则" class="headerlink" title="6.2 索引设计原则"></a>6.2 索引设计原则</h2><ol>
 <li><strong>最左前缀原则</strong>：联合索引(a,b,c)，查询条件必须包含最左边的列</li>
 <li><strong>避免冗余索引</strong>：已有(a,b)，不需要单独的(a)</li>
 <li><strong>控制索引数量</strong>：单表不超过5个索引，索引过多影响写入性能</li>
 <li><strong>优先使用覆盖索引</strong>：减少回表次数</li>
 </ol>
-<h3 id="6-3-索引失效场景"><a href="#6-3-索引失效场景" class="headerlink" title="6.3 索引失效场景"></a>6.3 索引失效场景</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 1. 使用函数</span></span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">YEAR</span>(create_time) <span class="operator">=</span> <span class="number">2024</span>   <span class="comment">-- 失效</span></span><br><span class="line"><span class="keyword">WHERE</span> create_time <span class="operator">&gt;=</span> <span class="string">&#x27;2024-01-01&#x27;</span> <span class="keyword">AND</span> create_time <span class="operator">&lt;</span> <span class="string">&#x27;2025-01-01&#x27;</span>  <span class="comment">-- 有效</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 2. 类型转换</span></span><br><span class="line"><span class="keyword">WHERE</span> user_id <span class="operator">=</span> <span class="string">&#x27;123&#x27;</span>   <span class="comment">-- user_id是int，发生隐式转换，失效</span></span><br><span class="line"><span class="keyword">WHERE</span> user_id <span class="operator">=</span> <span class="number">123</span>     <span class="comment">-- 有效</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 3. 使用NOT、&lt;&gt;、!=</span></span><br><span class="line"><span class="keyword">WHERE</span> status <span class="operator">&lt;&gt;</span> <span class="number">1</span>   <span class="comment">-- 可能失效（取决于数据分布）</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 4. LIKE以%开头</span></span><br><span class="line"><span class="keyword">WHERE</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;%张%&#x27;</span>   <span class="comment">-- 失效</span></span><br><span class="line"><span class="keyword">WHERE</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;张%&#x27;</span>    <span class="comment">-- 有效（用到索引）</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 5. OR条件</span></span><br><span class="line"><span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span> <span class="keyword">OR</span> name <span class="operator">=</span> <span class="string">&#x27;a&#x27;</span>   <span class="comment">-- name无索引时，id索引也失效</span></span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="6-3-索引失效场景"><a href="#6-3-索引失效场景" class="headerlink" title="6.3 索引失效场景"></a>6.3 索引失效场景</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 1. 使用函数</span></span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">YEAR</span>(create_time) <span class="operator">=</span> <span class="number">2024</span>   <span class="comment">-- 失效</span></span><br><span class="line"><span class="keyword">WHERE</span> create_time <span class="operator">&gt;=</span> <span class="string">&#x27;2024-01-01&#x27;</span> <span class="keyword">AND</span> create_time <span class="operator">&lt;</span> <span class="string">&#x27;2025-01-01&#x27;</span>  <span class="comment">-- 有效</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 2. 类型转换</span></span><br><span class="line"><span class="keyword">WHERE</span> user_id <span class="operator">=</span> <span class="string">&#x27;123&#x27;</span>   <span class="comment">-- user_id是int，发生隐式转换，失效</span></span><br><span class="line"><span class="keyword">WHERE</span> user_id <span class="operator">=</span> <span class="number">123</span>     <span class="comment">-- 有效</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 3. 使用NOT、&lt;&gt;、!=</span></span><br><span class="line"><span class="keyword">WHERE</span> status <span class="operator">&lt;&gt;</span> <span class="number">1</span>   <span class="comment">-- 可能失效（取决于数据分布）</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 4. LIKE以%开头</span></span><br><span class="line"><span class="keyword">WHERE</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;%张%&#x27;</span>   <span class="comment">-- 失效</span></span><br><span class="line"><span class="keyword">WHERE</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;张%&#x27;</span>    <span class="comment">-- 有效（用到索引）</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 5. OR条件</span></span><br><span class="line"><span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span> <span class="keyword">OR</span> name <span class="operator">=</span> <span class="string">&#x27;a&#x27;</span>   <span class="comment">-- name无索引时，id索引也失效</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="七、查看索引信息"><a href="#七、查看索引信息" class="headerlink" title="七、查看索引信息"></a>七、查看索引信息</h2><h3 id="7-1-查看表索引"><a href="#7-1-查看表索引" class="headerlink" title="7.1 查看表索引"></a>7.1 查看表索引</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> INDEX <span class="keyword">FROM</span> <span class="keyword">user</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="七、查看索引信息"><a href="#七、查看索引信息" class="headerlink" title="七、查看索引信息"></a>七、查看索引信息</h2><p>#</p>
+<h2 id="7-1-查看表索引"><a href="#7-1-查看表索引" class="headerlink" title="7.1 查看表索引"></a>7.1 查看表索引</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> INDEX <span class="keyword">FROM</span> <span class="keyword">user</span>;</span><br></pre></td></tr></table></figure>
 
-<h3 id="7-2-查看索引统计"><a href="#7-2-查看索引统计" class="headerlink" title="7.2 查看索引统计"></a>7.2 查看索引统计</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看索引 cardinality（区分度）</span></span><br><span class="line"><span class="keyword">SHOW</span> INDEX <span class="keyword">FROM</span> <span class="keyword">user</span> \G;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- Cardinality越高，索引区分度越好</span></span><br><span class="line"><span class="comment">-- Cardinality / 总行数 接近1表示区分度好</span></span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="7-2-查看索引统计"><a href="#7-2-查看索引统计" class="headerlink" title="7.2 查看索引统计"></a>7.2 查看索引统计</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看索引 cardinality（区分度）</span></span><br><span class="line"><span class="keyword">SHOW</span> INDEX <span class="keyword">FROM</span> <span class="keyword">user</span> \G;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- Cardinality越高，索引区分度越好</span></span><br><span class="line"><span class="comment">-- Cardinality / 总行数 接近1表示区分度好</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="7-3-分析索引使用情况"><a href="#7-3-分析索引使用情况" class="headerlink" title="7.3 分析索引使用情况"></a>7.3 分析索引使用情况</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看查询是否使用索引</span></span><br><span class="line">EXPLAIN <span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> name <span class="operator">=</span> <span class="string">&#x27;Alice&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看索引大小</span></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    index_name,</span><br><span class="line">    ROUND(stat_value <span class="operator">*</span> @<span class="variable">@innodb_page_size</span> <span class="operator">/</span> <span class="number">1024</span> <span class="operator">/</span> <span class="number">1024</span>, <span class="number">2</span>) <span class="keyword">AS</span> size_mb</span><br><span class="line"><span class="keyword">FROM</span> mysql.innodb_index_stats</span><br><span class="line"><span class="keyword">WHERE</span> table_name <span class="operator">=</span> <span class="string">&#x27;user&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="7-3-分析索引使用情况"><a href="#7-3-分析索引使用情况" class="headerlink" title="7.3 分析索引使用情况"></a>7.3 分析索引使用情况</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看查询是否使用索引</span></span><br><span class="line">EXPLAIN <span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> name <span class="operator">=</span> <span class="string">&#x27;Alice&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看索引大小</span></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    index_name,</span><br><span class="line">    ROUND(stat_value <span class="operator">*</span> @<span class="variable">@innodb_page_size</span> <span class="operator">/</span> <span class="number">1024</span> <span class="operator">/</span> <span class="number">1024</span>, <span class="number">2</span>) <span class="keyword">AS</span> size_mb</span><br><span class="line"><span class="keyword">FROM</span> mysql.innodb_index_stats</span><br><span class="line"><span class="keyword">WHERE</span> table_name <span class="operator">=</span> <span class="string">&#x27;user&#x27;</span>;</span><br></pre></td></tr></table></figure>
 
 <h2 id="八、总结"><a href="#八、总结" class="headerlink" title="八、总结"></a>八、总结</h2><table>
 <thead>
@@ -703,6 +724,17 @@ SELECT * FROM user WHER">
 <li>写出高效SQL</li>
 <li>诊断性能问题</li>
 </ul>
+<h2 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a>核心要点</h2><ol>
+<li><p>索引设计的原则：最左前缀原则、避免索引列参与计算、选择合适的索引类型</p>
+</li>
+<li><p>SQL 优化的方法：使用 EXPLAIN 分析执行计划、避免 SELECT *、优化 JOIN</p>
+</li>
+<li><p>事务隔离级别的选择：根据业务需求选择合适的级别</p>
+</li>
+<li><p>常见的锁问题：行锁、表锁、死锁的处理</p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>MySQL 优化是一个持续的过程，需要结合业务特点和数据量来调整。在实际项目中，定期分析慢查询日志、优化索引、调整配置参数，都能提升数据库性能。</p>
 
             </div>
             <hr />
@@ -1202,7 +1234,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">564.6k</span>
+            <span class="white-color">604.3k</span>
             
 
             <br>

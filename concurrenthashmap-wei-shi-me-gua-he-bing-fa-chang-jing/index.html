@@ -7,7 +7,7 @@
     <meta name="keywords" content="ConcurrentHashMap 为什么适合并发场景, 程序员小乐">
 
     
-    <meta name="description" content="ConcurrentHashMap 为什么适合并发场景HashMap 是 Java 后端最常用的数据结构之一。它适合通过 key 快速找到 value，平均情况下查询、插入接近 O(1)。真正理解 HashMap，要抓住三个点：数组、链表/">
+    <meta name="description" content="ConcurrentHashMap 为什么适合并发场景ConcurrentHashMap 为什么在并发场景下更合适，背后涉及哪些实现细节。从 Java 7 到 Java 8，它的实现发生了很大变化。本文结合实际代码讲清楚这些变化和设计思想。">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -489,7 +489,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    298
+                    409
                 </div>
                 
 
@@ -512,7 +512,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="ConcurrentHashMap-为什么适合并发场景"><a href="#ConcurrentHashMap-为什么适合并发场景" class="headerlink" title="ConcurrentHashMap 为什么适合并发场景"></a>ConcurrentHashMap 为什么适合并发场景</h1><p>HashMap 是 Java 后端最常用的数据结构之一。它适合通过 key 快速找到 value，平均情况下查询、插入接近 O(1)。真正理解 HashMap，要抓住三个点：数组、链表/红黑树、扩容。</p>
+                <h1 id="ConcurrentHashMap-为什么适合并发场景"><a href="#ConcurrentHashMap-为什么适合并发场景" class="headerlink" title="ConcurrentHashMap 为什么适合并发场景"></a>ConcurrentHashMap 为什么适合并发场景</h1><p>ConcurrentHashMap 为什么在并发场景下更合适，背后涉及哪些实现细节。从 Java 7 到 Java 8，它的实现发生了很大变化。本文结合实际代码讲清楚这些变化和设计思想。</p>
 <h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Map&lt;Long, String&gt; userMap = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">userMap.put(<span class="number">1L</span>, <span class="string">&quot;小乐&quot;</span>);</span><br><span class="line">userMap.put(<span class="number">2L</span>, <span class="string">&quot;张三&quot;</span>);</span><br><span class="line">System.out.println(userMap.get(<span class="number">1L</span>));</span><br></pre></td></tr></table></figure>
 
 <p>HashMap 会先根据 key 的 hash 值定位数组下标。如果多个 key 落在同一个位置，就会形成冲突，Java 8 以后冲突链较长时会转成红黑树。</p>
@@ -524,6 +524,17 @@
 <li>自定义对象作为 key 时，要正确重写 equals 和 hashCode。</li>
 <li>不要在遍历 Map 时直接修改结构，必要时用迭代器或收集后再处理。</li>
 </ul>
+<h2 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a>核心要点</h2><ol>
+<li><p>Java 7 使用分段锁，Java 8 使用 CAS + synchronized</p>
+</li>
+<li><p>锁粒度从段级别降到了节点级别</p>
+</li>
+<li><p>使用红黑树优化链表的查询性能</p>
+</li>
+<li><p>支持原子操作，如 putIfAbsent、computeIfAbsent</p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>ConcurrentHashMap 是并发编程中常用的数据结构，理解它的实现细节有助于更好地使用它。在实际项目中，选择合适的并发集合可以显著提升性能。</p>
 
             </div>
             <hr />
@@ -769,7 +780,7 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            全面讲解Java 8 Lambda表达式的语法、函数式接口、方法引用，以及在实际开发中的常见用法和最佳实践。
+                            详解Lambda表达式与函数式接口的核心概念与实践方法，结合真实开发场景说明使用注意事项。
                         
                     </div>
                     <div class="publish-info">
@@ -822,7 +833,7 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            深入解析Java注解的定义、元注解、保留策略，以及通过反射读取注解的底层实现原理。
+                            详解Java注解与元注解的实现原理的核心概念与实践方法，结合真实开发场景说明使用注意事项。
                         
                     </div>
                     <div class="publish-info">
@@ -1023,7 +1034,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">564.6k</span>
+            <span class="white-color">604.3k</span>
             
 
             <br>

@@ -7,8 +7,8 @@
     <meta name="keywords" content="Redis内存淘汰策略, 程序员小乐">
 
     
-    <meta name="description" content="Redis内存淘汰策略Redis是内存数据库，当内存达到上限时，需要通过淘汰策略来释放空间。理解各种淘汰策略，对于Redis的稳定运行至关重要。
-一、内存管理基础1.1 查看内存使用# 查看内存信息redis-cli INFO memory">
+    <meta name="description" content="Redis内存淘汰策略Redis 的五种数据结构各有特色，用对了才能发挥它的优势。很多人只用到了 String 和 Hash，却不知道 List、Set、ZSet 在特定场景下更合适。本文从应用场景出发，讲什么时候用什么类型。
+一、内存管理">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -490,7 +490,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.8k
+                    1.9k
                 </div>
                 
 
@@ -513,14 +513,18 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="Redis内存淘汰策略"><a href="#Redis内存淘汰策略" class="headerlink" title="Redis内存淘汰策略"></a>Redis内存淘汰策略</h1><p>Redis是内存数据库，当内存达到上限时，需要通过淘汰策略来释放空间。理解各种淘汰策略，对于Redis的稳定运行至关重要。</p>
-<h2 id="一、内存管理基础"><a href="#一、内存管理基础" class="headerlink" title="一、内存管理基础"></a>一、内存管理基础</h2><h3 id="1-1-查看内存使用"><a href="#1-1-查看内存使用" class="headerlink" title="1.1 查看内存使用"></a>1.1 查看内存使用</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看内存信息</span></span><br><span class="line">redis-cli INFO memory</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关键指标：</span></span><br><span class="line"><span class="comment"># used_memory: 总内存使用（字节）</span></span><br><span class="line"><span class="comment"># used_memory_rss: 操作系统视角的内存使用</span></span><br><span class="line"><span class="comment"># used_memory_peak: 内存使用峰值</span></span><br><span class="line"><span class="comment"># maxmemory: 最大内存限制</span></span><br><span class="line"><span class="comment"># maxmemory_policy: 淘汰策略</span></span><br></pre></td></tr></table></figure>
+                <h1 id="Redis内存淘汰策略"><a href="#Redis内存淘汰策略" class="headerlink" title="Redis内存淘汰策略"></a>Redis内存淘汰策略</h1><p>Redis 的五种数据结构各有特色，用对了才能发挥它的优势。很多人只用到了 String 和 Hash，却不知道 List、Set、ZSet 在特定场景下更合适。本文从应用场景出发，讲什么时候用什么类型。</p>
+<h2 id="一、内存管理基础"><a href="#一、内存管理基础" class="headerlink" title="一、内存管理基础"></a>一、内存管理基础</h2><p>#</p>
+<h2 id="1-1-查看内存使用"><a href="#1-1-查看内存使用" class="headerlink" title="1.1 查看内存使用"></a>1.1 查看内存使用</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看内存信息</span></span><br><span class="line">redis-cli INFO memory</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关键指标：</span></span><br><span class="line"><span class="comment"># used_memory: 总内存使用（字节）</span></span><br><span class="line"><span class="comment"># used_memory_rss: 操作系统视角的内存使用</span></span><br><span class="line"><span class="comment"># used_memory_peak: 内存使用峰值</span></span><br><span class="line"><span class="comment"># maxmemory: 最大内存限制</span></span><br><span class="line"><span class="comment"># maxmemory_policy: 淘汰策略</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="1-2-配置最大内存"><a href="#1-2-配置最大内存" class="headerlink" title="1.2 配置最大内存"></a>1.2 配置最大内存</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># redis.conf</span><br><span class="line">maxmemory 4gb           # 最大内存限制</span><br><span class="line">maxmemory-policy allkeys-lru  # 淘汰策略</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="1-2-配置最大内存"><a href="#1-2-配置最大内存" class="headerlink" title="1.2 配置最大内存"></a>1.2 配置最大内存</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># redis.conf</span><br><span class="line">maxmemory 4gb           # 最大内存限制</span><br><span class="line">maxmemory-policy allkeys-lru  # 淘汰策略</span><br></pre></td></tr></table></figure>
 
-<h3 id="1-3-内存达到上限的行为"><a href="#1-3-内存达到上限的行为" class="headerlink" title="1.3 内存达到上限的行为"></a>1.3 内存达到上限的行为</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">当 used_memory &gt; maxmemory 时：</span><br><span class="line"></span><br><span class="line">1. 如果配置了淘汰策略：按策略淘汰key</span><br><span class="line">2. 如果没有配置淘汰策略（noeviction）：</span><br><span class="line">   - 读操作正常执行</span><br><span class="line">   - 写操作返回错误：OOM command not allowed</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="1-3-内存达到上限的行为"><a href="#1-3-内存达到上限的行为" class="headerlink" title="1.3 内存达到上限的行为"></a>1.3 内存达到上限的行为</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">当 used_memory &gt; maxmemory 时：</span><br><span class="line"></span><br><span class="line">1. 如果配置了淘汰策略：按策略淘汰key</span><br><span class="line">2. 如果没有配置淘汰策略（noeviction）：</span><br><span class="line">   - 读操作正常执行</span><br><span class="line">   - 写操作返回错误：OOM command not allowed</span><br></pre></td></tr></table></figure>
 
-<h2 id="二、淘汰策略详解"><a href="#二、淘汰策略详解" class="headerlink" title="二、淘汰策略详解"></a>二、淘汰策略详解</h2><h3 id="2-1-策略分类"><a href="#2-1-策略分类" class="headerlink" title="2.1 策略分类"></a>2.1 策略分类</h3><table>
+<h2 id="二、淘汰策略详解"><a href="#二、淘汰策略详解" class="headerlink" title="二、淘汰策略详解"></a>二、淘汰策略详解</h2><p>#</p>
+<h2 id="2-1-策略分类"><a href="#2-1-策略分类" class="headerlink" title="2.1 策略分类"></a>2.1 策略分类</h2><table>
 <thead>
 <tr>
 <th>策略</th>
@@ -569,13 +573,15 @@
 <td>有过期时间的</td>
 </tr>
 </tbody></table>
-<h3 id="2-2-LRU策略"><a href="#2-2-LRU策略" class="headerlink" title="2.2 LRU策略"></a>2.2 LRU策略</h3><p><strong>LRU（Least Recently Used）</strong>：最近最少使用</p>
+<p>#</p>
+<h2 id="2-2-LRU策略"><a href="#2-2-LRU策略" class="headerlink" title="2.2 LRU策略"></a>2.2 LRU策略</h2><p><strong>LRU（Least Recently Used）</strong>：最近最少使用</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Redis的近似LRU实现：</span><br><span class="line"></span><br><span class="line">传统LRU：需要维护一个链表，每次访问移动节点，O(1)</span><br><span class="line">Redis近似LRU：</span><br><span class="line">  - 每个对象记录最后访问时间（24bit，精度到分钟级别）</span><br><span class="line">  - 随机采样N个key，淘汰其中最久未访问的</span><br><span class="line">  - 采样数量由 maxmemory-samples 控制（默认5）</span><br><span class="line"></span><br><span class="line">近似LRU vs 精确LRU：</span><br><span class="line">- 内存占用更少（不需要维护链表）</span><br><span class="line">- 性能更好（不需要移动节点）</span><br><span class="line">- 精度接近（采样数越大越精确）</span><br></pre></td></tr></table></figure>
 
 <p><strong>配置</strong>：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">maxmemory-policy allkeys-lru</span><br><span class="line">maxmemory-samples 5   # 采样数量（1-10，越大越精确但越慢）</span><br></pre></td></tr></table></figure>
 
-<h3 id="2-3-LFU策略"><a href="#2-3-LFU策略" class="headerlink" title="2.3 LFU策略"></a>2.3 LFU策略</h3><p><strong>LFU（Least Frequently Used）</strong>：最少使用频率</p>
+<p>#</p>
+<h2 id="2-3-LFU策略"><a href="#2-3-LFU策略" class="headerlink" title="2.3 LFU策略"></a>2.3 LFU策略</h2><p><strong>LFU（Least Frequently Used）</strong>：最少使用频率</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Redis 4.0+ 引入的LFU实现：</span><br><span class="line"></span><br><span class="line">每个对象的LFU计数：</span><br><span class="line">┌──────────────────┬──────────────────┐</span><br><span class="line">│   16位计数器      │   8位衰减时间     │</span><br><span class="line">│   (访问频率)      │   (分钟精度)      │</span><br><span class="line">└──────────────────┴──────────────────┘</span><br><span class="line"></span><br><span class="line">计数器增长逻辑：</span><br><span class="line">- 每次访问时，计数器增加</span><br><span class="line">- 增长概率随当前计数器值递减（值越大越难增长）</span><br><span class="line">- 最大值为255</span><br><span class="line"></span><br><span class="line">衰减逻辑：</span><br><span class="line">- 每隔一定时间（衰减周期），计数器衰减</span><br><span class="line">- 衰减周期 = lfu-decay-time（默认1分钟）</span><br><span class="line">- 衰减量 = 当前计数器值 / 2</span><br></pre></td></tr></table></figure>
 
 <p><strong>配置</strong>：</p>
@@ -611,15 +617,19 @@
 <td>更稳定</td>
 </tr>
 </tbody></table>
-<h3 id="2-4-TTL策略"><a href="#2-4-TTL策略" class="headerlink" title="2.4 TTL策略"></a>2.4 TTL策略</h3><p><strong>volatile-ttl</strong>：优先淘汰即将过期的key</p>
+<p>#</p>
+<h2 id="2-4-TTL策略"><a href="#2-4-TTL策略" class="headerlink" title="2.4 TTL策略"></a>2.4 TTL策略</h2><p><strong>volatile-ttl</strong>：优先淘汰即将过期的key</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">适用场景：</span><br><span class="line">- 缓存数据都有过期时间</span><br><span class="line">- 希望优先保留长久有效的数据</span><br><span class="line">- 让快要过期的数据自然淘汰</span><br><span class="line"></span><br><span class="line">注意：</span><br><span class="line">- 只淘汰有过期时间的key</span><br><span class="line">- 如果所有key都没有过期时间， behaves like noeviction</span><br></pre></td></tr></table></figure>
 
-<h3 id="2-5-Random策略"><a href="#2-5-Random策略" class="headerlink" title="2.5 Random策略"></a>2.5 Random策略</h3><p><strong>allkeys-random / volatile-random</strong>：随机淘汰</p>
+<p>#</p>
+<h2 id="2-5-Random策略"><a href="#2-5-Random策略" class="headerlink" title="2.5 Random策略"></a>2.5 Random策略</h2><p><strong>allkeys-random / volatile-random</strong>：随机淘汰</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">适用场景：</span><br><span class="line">- 所有key访问概率相同</span><br><span class="line">- 对淘汰精度要求不高</span><br><span class="line">- 追求极致性能（不需要计算LRU/LFU）</span><br><span class="line"></span><br><span class="line">特点：</span><br><span class="line">- 性能最好（不需要比较）</span><br><span class="line">- 但可能淘汰热点数据</span><br></pre></td></tr></table></figure>
 
-<h2 id="三、策略选择指南"><a href="#三、策略选择指南" class="headerlink" title="三、策略选择指南"></a>三、策略选择指南</h2><h3 id="3-1-选择决策树"><a href="#3-1-选择决策树" class="headerlink" title="3.1 选择决策树"></a>3.1 选择决策树</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">是否需要淘汰数据？</span><br><span class="line">    │</span><br><span class="line">    ├── 否 → noeviction</span><br><span class="line">    │</span><br><span class="line">    └── 是</span><br><span class="line">            │</span><br><span class="line">            ├── 所有key都需要淘汰？</span><br><span class="line">            │       │</span><br><span class="line">            │       ├── 是 → allkeys-xxx</span><br><span class="line">            │       └── 否 → volatile-xxx</span><br><span class="line">            │</span><br><span class="line">            ├── 数据有明显冷热差异？</span><br><span class="line">            │       │</span><br><span class="line">            │       ├── 是 → lru/lfu</span><br><span class="line">            │       └── 否 → random/ttl</span><br><span class="line">            │</span><br><span class="line">            └── 热点变化快？</span><br><span class="line">                    │</span><br><span class="line">                    ├── 是 → lru</span><br><span class="line">                    └── 否 → lfu</span><br></pre></td></tr></table></figure>
+<h2 id="三、策略选择指南"><a href="#三、策略选择指南" class="headerlink" title="三、策略选择指南"></a>三、策略选择指南</h2><p>#</p>
+<h2 id="3-1-选择决策树"><a href="#3-1-选择决策树" class="headerlink" title="3.1 选择决策树"></a>3.1 选择决策树</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">是否需要淘汰数据？</span><br><span class="line">    │</span><br><span class="line">    ├── 否 → noeviction</span><br><span class="line">    │</span><br><span class="line">    └── 是</span><br><span class="line">            │</span><br><span class="line">            ├── 所有key都需要淘汰？</span><br><span class="line">            │       │</span><br><span class="line">            │       ├── 是 → allkeys-xxx</span><br><span class="line">            │       └── 否 → volatile-xxx</span><br><span class="line">            │</span><br><span class="line">            ├── 数据有明显冷热差异？</span><br><span class="line">            │       │</span><br><span class="line">            │       ├── 是 → lru/lfu</span><br><span class="line">            │       └── 否 → random/ttl</span><br><span class="line">            │</span><br><span class="line">            └── 热点变化快？</span><br><span class="line">                    │</span><br><span class="line">                    ├── 是 → lru</span><br><span class="line">                    └── 否 → lfu</span><br></pre></td></tr></table></figure>
 
-<h3 id="3-2-场景推荐"><a href="#3-2-场景推荐" class="headerlink" title="3.2 场景推荐"></a>3.2 场景推荐</h3><table>
+<p>#</p>
+<h2 id="3-2-场景推荐"><a href="#3-2-场景推荐" class="headerlink" title="3.2 场景推荐"></a>3.2 场景推荐</h2><table>
 <thead>
 <tr>
 <th>场景</th>
@@ -658,21 +668,29 @@
 <td>内存满时返回错误</td>
 </tr>
 </tbody></table>
-<h3 id="3-3-生产配置示例"><a href="#3-3-生产配置示例" class="headerlink" title="3.3 生产配置示例"></a>3.3 生产配置示例</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 场景1：纯缓存（电商商品）</span><br><span class="line">maxmemory 16gb</span><br><span class="line">maxmemory-policy allkeys-lru</span><br><span class="line">maxmemory-samples 5</span><br><span class="line"></span><br><span class="line"># 场景2：会话缓存（有明确过期时间）</span><br><span class="line">maxmemory 4gb</span><br><span class="line">maxmemory-policy volatile-lru</span><br><span class="line"></span><br><span class="line"># 场景3：热点数据（排行榜、计数器）</span><br><span class="line">maxmemory 8gb</span><br><span class="line">maxmemory-policy allkeys-lfu</span><br><span class="line">lfu-log-factor 10</span><br><span class="line">lfu-decay-time 1</span><br><span class="line"></span><br><span class="line"># 场景4：不允许淘汰（关键配置）</span><br><span class="line">maxmemory 2gb</span><br><span class="line">maxmemory-policy noeviction</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="3-3-生产配置示例"><a href="#3-3-生产配置示例" class="headerlink" title="3.3 生产配置示例"></a>3.3 生产配置示例</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 场景1：纯缓存（电商商品）</span><br><span class="line">maxmemory 16gb</span><br><span class="line">maxmemory-policy allkeys-lru</span><br><span class="line">maxmemory-samples 5</span><br><span class="line"></span><br><span class="line"># 场景2：会话缓存（有明确过期时间）</span><br><span class="line">maxmemory 4gb</span><br><span class="line">maxmemory-policy volatile-lru</span><br><span class="line"></span><br><span class="line"># 场景3：热点数据（排行榜、计数器）</span><br><span class="line">maxmemory 8gb</span><br><span class="line">maxmemory-policy allkeys-lfu</span><br><span class="line">lfu-log-factor 10</span><br><span class="line">lfu-decay-time 1</span><br><span class="line"></span><br><span class="line"># 场景4：不允许淘汰（关键配置）</span><br><span class="line">maxmemory 2gb</span><br><span class="line">maxmemory-policy noeviction</span><br></pre></td></tr></table></figure>
 
-<h2 id="四、内存优化"><a href="#四、内存优化" class="headerlink" title="四、内存优化"></a>四、内存优化</h2><h3 id="4-1-数据结构优化"><a href="#4-1-数据结构优化" class="headerlink" title="4.1 数据结构优化"></a>4.1 数据结构优化</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 使用Hash存储对象（比String序列化省空间）</span></span><br><span class="line"><span class="comment"># String: &#123;&quot;name&quot;:&quot;Alice&quot;,&quot;age&quot;:25&#125;</span></span><br><span class="line"><span class="comment"># Hash: HSET user:1001 name Alice age 25</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 控制Hash使用ziplist编码</span></span><br><span class="line">hash-max-ziplist-entries 512</span><br><span class="line">hash-max-ziplist-value 64</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 控制Set使用intset编码</span></span><br><span class="line">set-max-intset-entries 512</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 控制ZSet使用ziplist编码</span></span><br><span class="line">zset-max-ziplist-entries 128</span><br><span class="line">zset-max-ziplist-value 64</span><br></pre></td></tr></table></figure>
+<h2 id="四、内存优化"><a href="#四、内存优化" class="headerlink" title="四、内存优化"></a>四、内存优化</h2><p>#</p>
+<h2 id="4-1-数据结构优化"><a href="#4-1-数据结构优化" class="headerlink" title="4.1 数据结构优化"></a>4.1 数据结构优化</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 使用Hash存储对象（比String序列化省空间）</span></span><br><span class="line"><span class="comment"># String: &#123;&quot;name&quot;:&quot;Alice&quot;,&quot;age&quot;:25&#125;</span></span><br><span class="line"><span class="comment"># Hash: HSET user:1001 name Alice age 25</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 控制Hash使用ziplist编码</span></span><br><span class="line">hash-max-ziplist-entries 512</span><br><span class="line">hash-max-ziplist-value 64</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 控制Set使用intset编码</span></span><br><span class="line">set-max-intset-entries 512</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 控制ZSet使用ziplist编码</span></span><br><span class="line">zset-max-ziplist-entries 128</span><br><span class="line">zset-max-ziplist-value 64</span><br></pre></td></tr></table></figure>
 
-<h3 id="4-2-数据压缩"><a href="#4-2-数据压缩" class="headerlink" title="4.2 数据压缩"></a>4.2 数据压缩</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 开启RDB压缩</span><br><span class="line">rdbcompression yes</span><br><span class="line"></span><br><span class="line"># 开启AOF的RDB前缀（Redis 4.0+）</span><br><span class="line">aof-use-rdb-preamble yes</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="4-2-数据压缩"><a href="#4-2-数据压缩" class="headerlink" title="4.2 数据压缩"></a>4.2 数据压缩</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 开启RDB压缩</span><br><span class="line">rdbcompression yes</span><br><span class="line"></span><br><span class="line"># 开启AOF的RDB前缀（Redis 4.0+）</span><br><span class="line">aof-use-rdb-preamble yes</span><br></pre></td></tr></table></figure>
 
-<h3 id="4-3-监控内存使用"><a href="#4-3-监控内存使用" class="headerlink" title="4.3 监控内存使用"></a>4.3 监控内存使用</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看内存使用详情</span></span><br><span class="line">redis-cli --bigkeys</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看内存碎片</span></span><br><span class="line">redis-cli INFO memory | grep mem_fragmentation_ratio</span><br><span class="line"></span><br><span class="line"><span class="comment"># 内存碎片率 &gt; 1.5 说明碎片严重，可以考虑重启</span></span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="4-3-监控内存使用"><a href="#4-3-监控内存使用" class="headerlink" title="4.3 监控内存使用"></a>4.3 监控内存使用</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看内存使用详情</span></span><br><span class="line">redis-cli --bigkeys</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看内存碎片</span></span><br><span class="line">redis-cli INFO memory | grep mem_fragmentation_ratio</span><br><span class="line"></span><br><span class="line"><span class="comment"># 内存碎片率 &gt; 1.5 说明碎片严重，可以考虑重启</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="4-4-内存分析工具"><a href="#4-4-内存分析工具" class="headerlink" title="4.4 内存分析工具"></a>4.4 内存分析工具</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># redis-rdb-tools: 分析RDB文件内存使用</span></span><br><span class="line">rdb -c memory dump.rdb &gt; memory.csv</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看哪些key占用最多内存</span></span><br><span class="line"><span class="built_in">sort</span> -t, -k4 -nr memory.csv | <span class="built_in">head</span> -20</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="4-4-内存分析工具"><a href="#4-4-内存分析工具" class="headerlink" title="4.4 内存分析工具"></a>4.4 内存分析工具</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># redis-rdb-tools: 分析RDB文件内存使用</span></span><br><span class="line">rdb -c memory dump.rdb &gt; memory.csv</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看哪些key占用最多内存</span></span><br><span class="line"><span class="built_in">sort</span> -t, -k4 -nr memory.csv | <span class="built_in">head</span> -20</span><br></pre></td></tr></table></figure>
 
-<h2 id="五、常见问题"><a href="#五、常见问题" class="headerlink" title="五、常见问题"></a>五、常见问题</h2><h3 id="5-1-内存突增导致OOM"><a href="#5-1-内存突增导致OOM" class="headerlink" title="5.1 内存突增导致OOM"></a>5.1 内存突增导致OOM</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 现象：used_memory突然达到maxmemory，写操作失败</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 排查：</span></span><br><span class="line">redis-cli INFO memory</span><br><span class="line"><span class="comment"># 查看 used_memory 和 maxmemory</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 解决：</span></span><br><span class="line"><span class="comment"># 1. 临时增加maxmemory</span></span><br><span class="line">redis-cli CONFIG SET maxmemory 8gb</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 检查是否有大key</span></span><br><span class="line">redis-cli --bigkeys</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 检查是否有内存泄漏</span></span><br><span class="line">redis-cli INFO stats | grep evicted_keys</span><br></pre></td></tr></table></figure>
+<h2 id="五、常见问题"><a href="#五、常见问题" class="headerlink" title="五、常见问题"></a>五、常见问题</h2><p>#</p>
+<h2 id="5-1-内存突增导致OOM"><a href="#5-1-内存突增导致OOM" class="headerlink" title="5.1 内存突增导致OOM"></a>5.1 内存突增导致OOM</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 现象：used_memory突然达到maxmemory，写操作失败</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 排查：</span></span><br><span class="line">redis-cli INFO memory</span><br><span class="line"><span class="comment"># 查看 used_memory 和 maxmemory</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 解决：</span></span><br><span class="line"><span class="comment"># 1. 临时增加maxmemory</span></span><br><span class="line">redis-cli CONFIG SET maxmemory 8gb</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 检查是否有大key</span></span><br><span class="line">redis-cli --bigkeys</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 检查是否有内存泄漏</span></span><br><span class="line">redis-cli INFO stats | grep evicted_keys</span><br></pre></td></tr></table></figure>
 
-<h3 id="5-2-淘汰策略不生效"><a href="#5-2-淘汰策略不生效" class="headerlink" title="5.2 淘汰策略不生效"></a>5.2 淘汰策略不生效</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 检查配置</span></span><br><span class="line">redis-cli CONFIG GET maxmemory*</span><br><span class="line"></span><br><span class="line"><span class="comment"># 常见原因：</span></span><br><span class="line"><span class="comment"># 1. 没有设置maxmemory</span></span><br><span class="line"><span class="comment"># 2. 设置了noeviction策略</span></span><br><span class="line"><span class="comment"># 3. volatile策略但key没有过期时间</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看淘汰统计</span></span><br><span class="line">redis-cli INFO stats | grep evicted</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="5-2-淘汰策略不生效"><a href="#5-2-淘汰策略不生效" class="headerlink" title="5.2 淘汰策略不生效"></a>5.2 淘汰策略不生效</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 检查配置</span></span><br><span class="line">redis-cli CONFIG GET maxmemory*</span><br><span class="line"></span><br><span class="line"><span class="comment"># 常见原因：</span></span><br><span class="line"><span class="comment"># 1. 没有设置maxmemory</span></span><br><span class="line"><span class="comment"># 2. 设置了noeviction策略</span></span><br><span class="line"><span class="comment"># 3. volatile策略但key没有过期时间</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看淘汰统计</span></span><br><span class="line">redis-cli INFO stats | grep evicted</span><br></pre></td></tr></table></figure>
 
-<h3 id="5-3-内存碎片率高"><a href="#5-3-内存碎片率高" class="headerlink" title="5.3 内存碎片率高"></a>5.3 内存碎片率高</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看碎片率</span></span><br><span class="line">redis-cli INFO memory | grep mem_fragmentation_ratio</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果 &gt; 1.5，说明碎片严重</span></span><br><span class="line"><span class="comment"># 解决：</span></span><br><span class="line"><span class="comment"># 1. 重启Redis（最彻底）</span></span><br><span class="line"><span class="comment"># 2. 使用jemalloc（默认）比glibc malloc碎片少</span></span><br><span class="line"><span class="comment"># 3. Redis 4.0+ 可以使用内存整理</span></span><br><span class="line">redis-cli MEMORY PURGE</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="5-3-内存碎片率高"><a href="#5-3-内存碎片率高" class="headerlink" title="5.3 内存碎片率高"></a>5.3 内存碎片率高</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看碎片率</span></span><br><span class="line">redis-cli INFO memory | grep mem_fragmentation_ratio</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果 &gt; 1.5，说明碎片严重</span></span><br><span class="line"><span class="comment"># 解决：</span></span><br><span class="line"><span class="comment"># 1. 重启Redis（最彻底）</span></span><br><span class="line"><span class="comment"># 2. 使用jemalloc（默认）比glibc malloc碎片少</span></span><br><span class="line"><span class="comment"># 3. Redis 4.0+ 可以使用内存整理</span></span><br><span class="line">redis-cli MEMORY PURGE</span><br></pre></td></tr></table></figure>
 
 <h2 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h2><table>
 <thead>
@@ -740,6 +758,19 @@
 <li><strong>优化数据结构</strong>：使用ziplist等紧凑编码</li>
 <li><strong>定期分析大key</strong>：避免单个key占用过多内存</li>
 </ol>
+<h2 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a>核心要点</h2><ol>
+<li><p>String：简单的键值对，适合缓存、计数器</p>
+</li>
+<li><p>Hash：存储对象属性，适合用户信息、配置</p>
+</li>
+<li><p>List：有序列表，适合消息队列、最新列表</p>
+</li>
+<li><p>Set：无序去重，适合共同好友、抽奖</p>
+</li>
+<li><p>ZSet：有序集合，适合排行榜、积分系统</p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>选择合适的数据结构是使用 Redis 的关键。在实际项目中，根据业务需求选择合适的类型，可以提升性能和开发效率。</p>
 
             </div>
             <hr />
@@ -1239,7 +1270,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">564.6k</span>
+            <span class="white-color">604.3k</span>
             
 
             <br>

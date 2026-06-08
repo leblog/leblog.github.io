@@ -7,8 +7,8 @@
     <meta name="keywords" content="ReentrantLock与公平锁非公平锁, 程序员小乐">
 
     
-    <meta name="description" content="ReentrantLock与公平锁非公平锁ReentrantLock 是 java.util.concurrent.locks 包提供的可重入互斥锁，相比 synchronized 具有更灵活的控制能力。本文深入讲解其实现原理和使用方法。
-">
+    <meta name="description" content="ReentrantLock与公平锁非公平锁ReentrantLock 相比 synchronized 更灵活，但也更容易用错。很多人知道它支持公平锁和非公平锁，却不知道如何选择。本文重点讲使用场景、注意事项以及两者如何选择。
+Reentra">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -490,14 +490,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.3k
+                    1.4k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    5 分
+                    6 分
                 </div>
                 
                 
@@ -513,7 +513,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="ReentrantLock与公平锁非公平锁"><a href="#ReentrantLock与公平锁非公平锁" class="headerlink" title="ReentrantLock与公平锁非公平锁"></a>ReentrantLock与公平锁非公平锁</h1><p><code>ReentrantLock</code> 是 <code>java.util.concurrent.locks</code> 包提供的可重入互斥锁，相比 <code>synchronized</code> 具有更灵活的控制能力。本文深入讲解其实现原理和使用方法。</p>
+                <h1 id="ReentrantLock与公平锁非公平锁"><a href="#ReentrantLock与公平锁非公平锁" class="headerlink" title="ReentrantLock与公平锁非公平锁"></a>ReentrantLock与公平锁非公平锁</h1><p>ReentrantLock 相比 synchronized 更灵活，但也更容易用错。很多人知道它支持公平锁和非公平锁，却不知道如何选择。本文重点讲使用场景、注意事项以及两者如何选择。</p>
 <h2 id="ReentrantLock-vs-synchronized"><a href="#ReentrantLock-vs-synchronized" class="headerlink" title="ReentrantLock vs synchronized"></a>ReentrantLock vs synchronized</h2><table>
 <thead>
 <tr>
@@ -561,9 +561,11 @@
 <h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Counter</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">ReentrantLock</span> <span class="variable">lock</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ReentrantLock</span>();</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> count;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">increment</span><span class="params">()</span> &#123;</span><br><span class="line">        lock.lock();  <span class="comment">// 获取锁</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            count++;</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            lock.unlock();  <span class="comment">// 必须在finally中释放</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong>注意</strong>：<code>unlock()</code> 必须在 <code>finally</code> 块中调用，否则异常时锁不会释放。</p>
-<h2 id="公平锁与非公平锁"><a href="#公平锁与非公平锁" class="headerlink" title="公平锁与非公平锁"></a>公平锁与非公平锁</h2><h3 id="创建方式"><a href="#创建方式" class="headerlink" title="创建方式"></a>创建方式</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 默认：非公平锁（性能更高）</span></span><br><span class="line"><span class="type">ReentrantLock</span> <span class="variable">lock</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ReentrantLock</span>();</span><br><span class="line"><span class="type">ReentrantLock</span> <span class="variable">lock</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ReentrantLock</span>(<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 公平锁</span></span><br><span class="line"><span class="type">ReentrantLock</span> <span class="variable">fairLock</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ReentrantLock</span>(<span class="literal">true</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="公平锁与非公平锁"><a href="#公平锁与非公平锁" class="headerlink" title="公平锁与非公平锁"></a>公平锁与非公平锁</h2><p>#</p>
+<h2 id="创建方式"><a href="#创建方式" class="headerlink" title="创建方式"></a>创建方式</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 默认：非公平锁（性能更高）</span></span><br><span class="line"><span class="type">ReentrantLock</span> <span class="variable">lock</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ReentrantLock</span>();</span><br><span class="line"><span class="type">ReentrantLock</span> <span class="variable">lock</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ReentrantLock</span>(<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 公平锁</span></span><br><span class="line"><span class="type">ReentrantLock</span> <span class="variable">fairLock</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ReentrantLock</span>(<span class="literal">true</span>);</span><br></pre></td></tr></table></figure>
 
-<h3 id="非公平锁"><a href="#非公平锁" class="headerlink" title="非公平锁"></a>非公平锁</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 线程A持有锁</span></span><br><span class="line">lock.lock();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 线程B、C在队列中等待</span></span><br><span class="line"><span class="comment">// 线程D到来：</span></span><br><span class="line"><span class="keyword">if</span> (lock.tryLock()) &#123;  <span class="comment">// 直接尝试获取，不排队</span></span><br><span class="line">    <span class="comment">// 获取成功！插队成功</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="非公平锁"><a href="#非公平锁" class="headerlink" title="非公平锁"></a>非公平锁</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 线程A持有锁</span></span><br><span class="line">lock.lock();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 线程B、C在队列中等待</span></span><br><span class="line"><span class="comment">// 线程D到来：</span></span><br><span class="line"><span class="keyword">if</span> (lock.tryLock()) &#123;  <span class="comment">// 直接尝试获取，不排队</span></span><br><span class="line">    <span class="comment">// 获取成功！插队成功</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong>特点</strong>：</p>
 <ul>
@@ -571,7 +573,8 @@
 <li>吞吐量大，性能更好</li>
 <li>可能导致线程饥饿</li>
 </ul>
-<h3 id="公平锁"><a href="#公平锁" class="headerlink" title="公平锁"></a>公平锁</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 线程A持有锁</span></span><br><span class="line">lock.lock();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 线程B在队列中等待</span></span><br><span class="line"><span class="comment">// 线程C到来：</span></span><br><span class="line">lock.lock();  <span class="comment">// 检查队列，有前驱则排队</span></span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="公平锁"><a href="#公平锁" class="headerlink" title="公平锁"></a>公平锁</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 线程A持有锁</span></span><br><span class="line">lock.lock();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 线程B在队列中等待</span></span><br><span class="line"><span class="comment">// 线程C到来：</span></span><br><span class="line">lock.lock();  <span class="comment">// 检查队列，有前驱则排队</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>特点</strong>：</p>
 <ul>
@@ -579,7 +582,8 @@
 <li>吞吐量较低</li>
 <li>避免线程饥饿</li>
 </ul>
-<h3 id="性能对比"><a href="#性能对比" class="headerlink" title="性能对比"></a>性能对比</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FairnessTest</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">THREAD_COUNT</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">ITERATIONS</span> <span class="operator">=</span> <span class="number">100000</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        testLock(<span class="keyword">new</span> <span class="title class_">ReentrantLock</span>(<span class="literal">false</span>), <span class="string">&quot;非公平锁&quot;</span>);</span><br><span class="line">        testLock(<span class="keyword">new</span> <span class="title class_">ReentrantLock</span>(<span class="literal">true</span>), <span class="string">&quot;公平锁&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="性能对比"><a href="#性能对比" class="headerlink" title="性能对比"></a>性能对比</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FairnessTest</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">THREAD_COUNT</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">ITERATIONS</span> <span class="operator">=</span> <span class="number">100000</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        testLock(<span class="keyword">new</span> <span class="title class_">ReentrantLock</span>(<span class="literal">false</span>), <span class="string">&quot;非公平锁&quot;</span>);</span><br><span class="line">        testLock(<span class="keyword">new</span> <span class="title class_">ReentrantLock</span>(<span class="literal">true</span>), <span class="string">&quot;公平锁&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong>结果</strong>：非公平锁吞吐量通常比公平锁高 5~10 倍。</p>
 <p><strong>建议</strong>：除非有明确的公平性需求，否则使用非公平锁。</p>
@@ -644,6 +648,17 @@
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 好的模式</span></span><br><span class="line">lock.lock();</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">// 临界区</span></span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    lock.unlock();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>ReentrantLock</code> 提供了比 <code>synchronized</code> 更灵活的锁机制，但使用复杂度也更高。在大多数场景下，<code>synchronized</code> 已经足够；只有在需要可中断、超时、公平性或多条件等待时，才考虑使用 <code>ReentrantLock</code>。</p>
+<h2 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a>核心要点</h2><ol>
+<li><p>ReentrantLock 支持公平锁和非公平锁，默认是非公平锁</p>
+</li>
+<li><p>提供了 tryLock()、lockInterruptibly() 等高级功能</p>
+</li>
+<li><p>必须在 finally 块中释放锁，否则可能造成死锁</p>
+</li>
+<li><p>公平锁性能较低，但保证线程获取锁的顺序</p>
+</li>
+</ol>
+<h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2><p>ReentrantLock 在需要高级功能时比 synchronized 更合适。在实际项目中，大多数场景使用 synchronized 就足够了，只有在需要定时锁、可中断锁等功能时才考虑 ReentrantLock。</p>
 
             </div>
             <hr />
@@ -1143,7 +1158,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">564.6k</span>
+            <span class="white-color">604.3k</span>
             
 
             <br>

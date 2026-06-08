@@ -7,9 +7,8 @@
     <meta name="keywords" content="ThreadLocal 的使用和内存泄漏问题, 程序员小乐">
 
     
-    <meta name="description" content="ThreadLocal 的使用和内存泄漏问题ThreadLocal 解决了什么问题、会引发什么问题，这是一个经典话题。本文从原理到内存泄漏的处理方式都覆盖到。
-先建立一个最小案例并发问题不要一开始就上复杂业务。可以先准备一个计数器场景：
-c">
+    <meta name="description" content="ThreadLocal 的使用和内存泄漏问题ThreadLocal 解决了什么问题、会引发什么问题，这是一个经典话题。很多人用 ThreadLocal 存储用户上下文，却忽略了内存泄漏的风险。本文从原理到内存泄漏的处理方式都覆盖到。
+先建立">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -491,7 +490,7 @@ c">
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    301
+                    438
                 </div>
                 
 
@@ -514,7 +513,7 @@ c">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="ThreadLocal-的使用和内存泄漏问题"><a href="#ThreadLocal-的使用和内存泄漏问题" class="headerlink" title="ThreadLocal 的使用和内存泄漏问题"></a>ThreadLocal 的使用和内存泄漏问题</h1><p>ThreadLocal 解决了什么问题、会引发什么问题，这是一个经典话题。本文从原理到内存泄漏的处理方式都覆盖到。</p>
+                <h1 id="ThreadLocal-的使用和内存泄漏问题"><a href="#ThreadLocal-的使用和内存泄漏问题" class="headerlink" title="ThreadLocal 的使用和内存泄漏问题"></a>ThreadLocal 的使用和内存泄漏问题</h1><p>ThreadLocal 解决了什么问题、会引发什么问题，这是一个经典话题。很多人用 ThreadLocal 存储用户上下文，却忽略了内存泄漏的风险。本文从原理到内存泄漏的处理方式都覆盖到。</p>
 <h2 id="先建立一个最小案例"><a href="#先建立一个最小案例" class="headerlink" title="先建立一个最小案例"></a>先建立一个最小案例</h2><p>并发问题不要一开始就上复杂业务。可以先准备一个计数器场景：</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Counter</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">add</span><span class="params">()</span> &#123;</span><br><span class="line">        count++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">get</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -524,6 +523,17 @@ c">
 
 <p>如果临界区里有多步业务逻辑，可以考虑 <code>synchronized</code> 或 <code>ReentrantLock</code>。选择时不要只看性能，先看代码是否清晰、锁范围是否足够小、异常时是否能释放锁。</p>
 <h2 id="排查建议"><a href="#排查建议" class="headerlink" title="排查建议"></a>排查建议</h2><p>线上并发问题通常不稳定复现。可以先看日志里是否有重复请求、状态覆盖、库存扣减异常，再用压测或单元测试构造并发场景。</p>
+<h2 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a>核心要点</h2><ol>
+<li><p>ThreadLocal 为每个线程提供独立的变量副本</p>
+</li>
+<li><p>底层使用 ThreadLocalMap 存储，key 是弱引用</p>
+</li>
+<li><p>内存泄漏的原因：ThreadLocal 被回收，但 Entry 仍然引用着 value</p>
+</li>
+<li><p>解决方案：使用完毕后调用 remove() 方法</p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>ThreadLocal 是一个强大的工具，但需要谨慎使用。在实际项目中，结合 try-finally 块确保资源被正确清理，可以有效避免内存泄漏问题。</p>
 
             </div>
             <hr />
@@ -769,7 +779,7 @@ c">
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            系统讲解Java线程的三种创建方式、六种状态及转换关系，以及线程优先级、守护线程等核心概念。
+                            详解线程的创建方式与生命周期的核心概念与实践方法，结合真实开发场景说明使用注意事项。
                         
                     </div>
                     <div class="publish-info">
@@ -822,7 +832,7 @@ c">
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            深入讲解Java枚举类型的本质、单例模式实现、策略枚举、状态机设计，以及在实际业务中的高级用法。
+                            详解枚举类型的设计哲学与用法的核心概念与实践方法，结合真实开发场景说明使用注意事项。
                         
                     </div>
                     <div class="publish-info">
@@ -1023,7 +1033,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">564.6k</span>
+            <span class="white-color">604.3k</span>
             
 
             <br>

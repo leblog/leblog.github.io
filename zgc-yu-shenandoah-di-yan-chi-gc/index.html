@@ -7,17 +7,13 @@
     <meta name="keywords" content="ZGC与Shenandoah低延迟GC, 程序员小乐">
 
     
-    <meta name="description" content="ZGC与Shenandoah低延迟GC随着服务器内存越来越大（数百 GB），传统 GC 的停顿时间成为瓶颈。ZGC 和 Shenandoah 是两款专为超低停顿设计的收集器。
+    <meta name="description" content="ZGC与Shenandoah低延迟GCGC 日志看起来乱，关键是找准几个核心指标。很多开发者面对 GC 日志不知道该关注什么。本文从实际调优经验出发，讲需要关注什么、忽略什么，帮你快速定位问题。
 设计目标
 
 
 收集器
 目标停顿时间
-最大堆内存
-JDK版本
-
-
-">
+最大堆内">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -499,14 +495,14 @@ JDK版本
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    974
+                    1.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    3 分
+                    4 分
                 </div>
                 
                 
@@ -522,7 +518,7 @@ JDK版本
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="ZGC与Shenandoah低延迟GC"><a href="#ZGC与Shenandoah低延迟GC" class="headerlink" title="ZGC与Shenandoah低延迟GC"></a>ZGC与Shenandoah低延迟GC</h1><p>随着服务器内存越来越大（数百 GB），传统 GC 的停顿时间成为瓶颈。ZGC 和 Shenandoah 是两款专为超低停顿设计的收集器。</p>
+                <h1 id="ZGC与Shenandoah低延迟GC"><a href="#ZGC与Shenandoah低延迟GC" class="headerlink" title="ZGC与Shenandoah低延迟GC"></a>ZGC与Shenandoah低延迟GC</h1><p>GC 日志看起来乱，关键是找准几个核心指标。很多开发者面对 GC 日志不知道该关注什么。本文从实际调优经验出发，讲需要关注什么、忽略什么，帮你快速定位问题。</p>
 <h2 id="设计目标"><a href="#设计目标" class="headerlink" title="设计目标"></a>设计目标</h2><table>
 <thead>
 <tr>
@@ -551,22 +547,29 @@ JDK版本
 <td>12+ (OpenJDK)</td>
 </tr>
 </tbody></table>
-<h2 id="ZGC-核心原理"><a href="#ZGC-核心原理" class="headerlink" title="ZGC 核心原理"></a>ZGC 核心原理</h2><h3 id="着色指针（Colored-Pointers）"><a href="#着色指针（Colored-Pointers）" class="headerlink" title="着色指针（Colored Pointers）"></a>着色指针（Colored Pointers）</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">64位指针结构（使用42~45位）：</span><br><span class="line">├─ 41位：对象地址（4TB堆）</span><br><span class="line">├─ 4位：元数据</span><br><span class="line">│  ├── Finalizable</span><br><span class="line">│  ├── Remapped</span><br><span class="line">│  ├── Marked1</span><br><span class="line">│  └── Marked0</span><br><span class="line">└─ 17位：保留</span><br><span class="line"></span><br><span class="line">指针值：0x0001_2345_6789_ABCD</span><br><span class="line">              ││││</span><br><span class="line">              │││└─ Marked0</span><br><span class="line">              ││└── Marked1</span><br><span class="line">              │└─── Remapped</span><br><span class="line">              └──── Finalizable</span><br></pre></td></tr></table></figure>
+<h2 id="ZGC-核心原理"><a href="#ZGC-核心原理" class="headerlink" title="ZGC 核心原理"></a>ZGC 核心原理</h2><p>#</p>
+<h2 id="着色指针（Colored-Pointers）"><a href="#着色指针（Colored-Pointers）" class="headerlink" title="着色指针（Colored Pointers）"></a>着色指针（Colored Pointers）</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">64位指针结构（使用42~45位）：</span><br><span class="line">├─ 41位：对象地址（4TB堆）</span><br><span class="line">├─ 4位：元数据</span><br><span class="line">│  ├── Finalizable</span><br><span class="line">│  ├── Remapped</span><br><span class="line">│  ├── Marked1</span><br><span class="line">│  └── Marked0</span><br><span class="line">└─ 17位：保留</span><br><span class="line"></span><br><span class="line">指针值：0x0001_2345_6789_ABCD</span><br><span class="line">              ││││</span><br><span class="line">              │││└─ Marked0</span><br><span class="line">              ││└── Marked1</span><br><span class="line">              │└─── Remapped</span><br><span class="line">              └──── Finalizable</span><br></pre></td></tr></table></figure>
 
 <p><strong>作用</strong>：直接在指针中存储状态信息，避免访问对象头。</p>
-<h3 id="读屏障（Load-Barrier）"><a href="#读屏障（Load-Barrier）" class="headerlink" title="读屏障（Load Barrier）"></a>读屏障（Load Barrier）</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 访问对象时触发</span></span><br><span class="line"><span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> field.x;  <span class="comment">// 读操作</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 读屏障检查指针状态</span></span><br><span class="line"><span class="keyword">if</span> (指针需要重映射) &#123;</span><br><span class="line">    修正指针;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="读屏障（Load-Barrier）"><a href="#读屏障（Load-Barrier）" class="headerlink" title="读屏障（Load Barrier）"></a>读屏障（Load Barrier）</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 访问对象时触发</span></span><br><span class="line"><span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> field.x;  <span class="comment">// 读操作</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 读屏障检查指针状态</span></span><br><span class="line"><span class="keyword">if</span> (指针需要重映射) &#123;</span><br><span class="line">    修正指针;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="并发整理"><a href="#并发整理" class="headerlink" title="并发整理"></a>并发整理</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">阶段1：并发标记</span><br><span class="line">   - 标记存活对象（通过着色指针）</span><br><span class="line">   - 与用户线程并发</span><br><span class="line"></span><br><span class="line">阶段2：并发重定位准备</span><br><span class="line">   - 选择需要整理的Region</span><br><span class="line">   - 计算新地址</span><br><span class="line"></span><br><span class="line">阶段3：并发重定位</span><br><span class="line">   - 复制对象到新地址</span><br><span class="line">   - 更新指针（Remapped标志）</span><br><span class="line">   - 通过读屏障修正旧引用</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="并发整理"><a href="#并发整理" class="headerlink" title="并发整理"></a>并发整理</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">阶段1：并发标记</span><br><span class="line">   - 标记存活对象（通过着色指针）</span><br><span class="line">   - 与用户线程并发</span><br><span class="line"></span><br><span class="line">阶段2：并发重定位准备</span><br><span class="line">   - 选择需要整理的Region</span><br><span class="line">   - 计算新地址</span><br><span class="line"></span><br><span class="line">阶段3：并发重定位</span><br><span class="line">   - 复制对象到新地址</span><br><span class="line">   - 更新指针（Remapped标志）</span><br><span class="line">   - 通过读屏障修正旧引用</span><br></pre></td></tr></table></figure>
 
 <p><strong>关键</strong>：ZGC 在重定位期间，旧对象和新对象同时存在，读屏障确保访问正确的对象。</p>
-<h3 id="ZGC-参数"><a href="#ZGC-参数" class="headerlink" title="ZGC 参数"></a>ZGC 参数</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-XX:+UseZGC                    <span class="comment"># 启用ZGC</span></span><br><span class="line">-XX:+ZGenerational              <span class="comment"># 启用分代ZGC（JDK 21+）</span></span><br><span class="line">-XX:MaxGCPauseMillis=10        <span class="comment"># 目标停顿时间</span></span><br><span class="line">-XX:ZCollectionInterval=5      <span class="comment"># 强制GC间隔（秒）</span></span><br><span class="line">-XX:ZAllocationSpikeTolerance=2 <span class="comment"># 分配速率容忍度</span></span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="ZGC-参数"><a href="#ZGC-参数" class="headerlink" title="ZGC 参数"></a>ZGC 参数</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-XX:+UseZGC                    <span class="comment"># 启用ZGC</span></span><br><span class="line">-XX:+ZGenerational              <span class="comment"># 启用分代ZGC（JDK 21+）</span></span><br><span class="line">-XX:MaxGCPauseMillis=10        <span class="comment"># 目标停顿时间</span></span><br><span class="line">-XX:ZCollectionInterval=5      <span class="comment"># 强制GC间隔（秒）</span></span><br><span class="line">-XX:ZAllocationSpikeTolerance=2 <span class="comment"># 分配速率容忍度</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="Shenandoah-核心原理"><a href="#Shenandoah-核心原理" class="headerlink" title="Shenandoah 核心原理"></a>Shenandoah 核心原理</h2><h3 id="Brooks-Pointer"><a href="#Brooks-Pointer" class="headerlink" title="Brooks Pointer"></a>Brooks Pointer</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">对象头结构：</span><br><span class="line">┌─────────────────┐</span><br><span class="line">│ Brooks Pointer  │  指向对象自身或新副本</span><br><span class="line">├─────────────────┤</span><br><span class="line">│ Mark Word       │</span><br><span class="line">├─────────────────┤</span><br><span class="line">│ Class Pointer   │</span><br><span class="line">├─────────────────┤</span><br><span class="line">│ 实例数据         │</span><br><span class="line">└─────────────────┘</span><br></pre></td></tr></table></figure>
+<h2 id="Shenandoah-核心原理"><a href="#Shenandoah-核心原理" class="headerlink" title="Shenandoah 核心原理"></a>Shenandoah 核心原理</h2><p>#</p>
+<h2 id="Brooks-Pointer"><a href="#Brooks-Pointer" class="headerlink" title="Brooks Pointer"></a>Brooks Pointer</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">对象头结构：</span><br><span class="line">┌─────────────────┐</span><br><span class="line">│ Brooks Pointer  │  指向对象自身或新副本</span><br><span class="line">├─────────────────┤</span><br><span class="line">│ Mark Word       │</span><br><span class="line">├─────────────────┤</span><br><span class="line">│ Class Pointer   │</span><br><span class="line">├─────────────────┤</span><br><span class="line">│ 实例数据         │</span><br><span class="line">└─────────────────┘</span><br></pre></td></tr></table></figure>
 
 <p><strong>作用</strong>：通过对象头中的 Brooks Pointer 实现并发复制。</p>
-<h3 id="回收阶段"><a href="#回收阶段" class="headerlink" title="回收阶段"></a>回收阶段</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. Init Mark（初始标记）    - STW，标记GC Roots</span><br><span class="line">2. Concurrent Mark（并发标记）- 遍历标记存活对象</span><br><span class="line">3. Final Mark（最终标记）    - STW，处理SATB队列</span><br><span class="line">4. Concurrent Cleanup（并发清理）- 回收垃圾Region</span><br><span class="line">5. Concurrent Evacuation（并发复制）- 复制存活对象</span><br><span class="line">6. Init Update Refs（初始更新引用）- STW，更新GC Roots</span><br><span class="line">7. Concurrent Update Refs（并发更新引用）- 更新堆内引用</span><br><span class="line">8. Final Update Refs（最终更新引用）- STW，完成引用更新</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="回收阶段"><a href="#回收阶段" class="headerlink" title="回收阶段"></a>回收阶段</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. Init Mark（初始标记）    - STW，标记GC Roots</span><br><span class="line">2. Concurrent Mark（并发标记）- 遍历标记存活对象</span><br><span class="line">3. Final Mark（最终标记）    - STW，处理SATB队列</span><br><span class="line">4. Concurrent Cleanup（并发清理）- 回收垃圾Region</span><br><span class="line">5. Concurrent Evacuation（并发复制）- 复制存活对象</span><br><span class="line">6. Init Update Refs（初始更新引用）- STW，更新GC Roots</span><br><span class="line">7. Concurrent Update Refs（并发更新引用）- 更新堆内引用</span><br><span class="line">8. Final Update Refs（最终更新引用）- STW，完成引用更新</span><br></pre></td></tr></table></figure>
 
-<h3 id="Shenandoah-参数"><a href="#Shenandoah-参数" class="headerlink" title="Shenandoah 参数"></a>Shenandoah 参数</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-XX:+UseShenandoahGC           <span class="comment"># 启用Shenandoah</span></span><br><span class="line">-XX:ShenandoahGCHeuristics=adaptive  <span class="comment"># 自适应策略</span></span><br><span class="line">-XX:+ShenandoahPacing          <span class="comment"># 分配 pacing（防止分配过快）</span></span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="Shenandoah-参数"><a href="#Shenandoah-参数" class="headerlink" title="Shenandoah 参数"></a>Shenandoah 参数</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-XX:+UseShenandoahGC           <span class="comment"># 启用Shenandoah</span></span><br><span class="line">-XX:ShenandoahGCHeuristics=adaptive  <span class="comment"># 自适应策略</span></span><br><span class="line">-XX:+ShenandoahPacing          <span class="comment"># 分配 pacing（防止分配过快）</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="ZGC-vs-Shenandoah"><a href="#ZGC-vs-Shenandoah" class="headerlink" title="ZGC vs Shenandoah"></a>ZGC vs Shenandoah</h2><table>
 <thead>
@@ -612,12 +615,15 @@ JDK版本
 <td>不支持</td>
 </tr>
 </tbody></table>
-<h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><h3 id="1-超大堆内存"><a href="#1-超大堆内存" class="headerlink" title="1. 超大堆内存"></a>1. 超大堆内存</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 100GB 堆内存</span></span><br><span class="line">-Xms100g -Xmx100g -XX:+UseZGC</span><br></pre></td></tr></table></figure>
+<h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><p>#</p>
+<h2 id="1-超大堆内存"><a href="#1-超大堆内存" class="headerlink" title="1. 超大堆内存"></a>1. 超大堆内存</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 100GB 堆内存</span></span><br><span class="line">-Xms100g -Xmx100g -XX:+UseZGC</span><br></pre></td></tr></table></figure>
 
 <p>传统 GC 在大堆下停顿时间会达到秒级，ZGC/Shenandoah 保持毫秒级。</p>
-<h3 id="2-低延迟交易系统"><a href="#2-低延迟交易系统" class="headerlink" title="2. 低延迟交易系统"></a>2. 低延迟交易系统</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 金融交易，要求99.9%请求&lt;10ms</span></span><br><span class="line">-XX:+UseZGC -XX:MaxGCPauseMillis=5</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="2-低延迟交易系统"><a href="#2-低延迟交易系统" class="headerlink" title="2. 低延迟交易系统"></a>2. 低延迟交易系统</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 金融交易，要求99.9%请求&lt;10ms</span></span><br><span class="line">-XX:+UseZGC -XX:MaxGCPauseMillis=5</span><br></pre></td></tr></table></figure>
 
-<h3 id="3-交互式应用"><a href="#3-交互式应用" class="headerlink" title="3. 交互式应用"></a>3. 交互式应用</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 游戏服务器、实时通信</span></span><br><span class="line">-XX:+UseShenandoahGC</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="3-交互式应用"><a href="#3-交互式应用" class="headerlink" title="3. 交互式应用"></a>3. 交互式应用</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 游戏服务器、实时通信</span></span><br><span class="line">-XX:+UseShenandoahGC</span><br></pre></td></tr></table></figure>
 
 <h2 id="性能对比"><a href="#性能对比" class="headerlink" title="性能对比"></a>性能对比</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">测试环境：32核, 128GB内存, JDK 17</span><br><span class="line"></span><br><span class="line">G1:    平均停顿 150ms, 最大停顿 500ms, 吞吐量 95%</span><br><span class="line">ZGC:   平均停顿 1ms,   最大停顿 5ms,   吞吐量 85%</span><br><span class="line">Shenandoah: 平均停顿 2ms, 最大停顿 8ms, 吞吐量 87%</span><br></pre></td></tr></table></figure>
 
@@ -670,6 +676,17 @@ JDK版本
 <li><strong>可扩展</strong>：支持 TB 级堆内存</li>
 </ul>
 <p>随着 JDK 版本迭代，ZGC 和 Shenandoah 越来越成熟。对于延迟敏感型应用，JDK 17+ 环境下可以大胆使用。</p>
+<h2 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a>核心要点</h2><ol>
+<li><p>关注 Minor GC 和 Full GC 的频率和耗时</p>
+</li>
+<li><p>年轻代晋升到老年代的对象大小和频率</p>
+</li>
+<li><p>GC 前后的内存使用变化</p>
+</li>
+<li><p>使用 jstat、jmap、jvisualvm 等工具辅助分析</p>
+</li>
+</ol>
+<h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2><p>GC 调优是一个持续的过程，没有一劳永逸的方案。需要结合业务特点、数据量、响应时间要求来调整。理解 GC 日志是调优的第一步。</p>
 
             </div>
             <hr />
@@ -915,7 +932,7 @@ JDK版本
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            系统讲解类加载的五个阶段、双亲委派模型的实现原理、好处，以及自定义类加载器的应用场景。
+                            详解类加载机制与双亲委派模型的核心概念与实践方法，结合真实开发场景说明使用注意事项。
                         
                     </div>
                     <div class="publish-info">
@@ -1169,7 +1186,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">564.6k</span>
+            <span class="white-color">604.3k</span>
             
 
             <br>

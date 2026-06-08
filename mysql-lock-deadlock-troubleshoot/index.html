@@ -7,14 +7,9 @@
     <meta name="keywords" content="MySQL锁机制与死锁排查, 程序员小乐">
 
     
-    <meta name="description" content="MySQL锁机制与死锁排查锁是并发控制的核心机制。理解InnoDB的锁实现，对于排查并发问题和优化性能至关重要。
-一、锁的基本概念1.1 为什么需要锁数据库是多用户共享资源，锁用于：
-
-保证数据一致性
-控制并发访问
-实现事务隔离
-
-1.2 ">
+    <meta name="description" content="MySQL锁机制与死锁排查MySQL 是业务系统中最常见的数据库，但用好它并不容易。索引设计、SQL 优化、事务处理都是日常开发中需要关注的点。本文从实际场景出发，讲常见问题和解决思路。
+一、锁的基本概念#
+1.1 为什么需要锁数据库是多用">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -496,7 +491,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.9k
+                    2.1k
                 </div>
                 
 
@@ -519,14 +514,16 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="MySQL锁机制与死锁排查"><a href="#MySQL锁机制与死锁排查" class="headerlink" title="MySQL锁机制与死锁排查"></a>MySQL锁机制与死锁排查</h1><p>锁是并发控制的核心机制。理解InnoDB的锁实现，对于排查并发问题和优化性能至关重要。</p>
-<h2 id="一、锁的基本概念"><a href="#一、锁的基本概念" class="headerlink" title="一、锁的基本概念"></a>一、锁的基本概念</h2><h3 id="1-1-为什么需要锁"><a href="#1-1-为什么需要锁" class="headerlink" title="1.1 为什么需要锁"></a>1.1 为什么需要锁</h3><p>数据库是多用户共享资源，锁用于：</p>
+                <h1 id="MySQL锁机制与死锁排查"><a href="#MySQL锁机制与死锁排查" class="headerlink" title="MySQL锁机制与死锁排查"></a>MySQL锁机制与死锁排查</h1><p>MySQL 是业务系统中最常见的数据库，但用好它并不容易。索引设计、SQL 优化、事务处理都是日常开发中需要关注的点。本文从实际场景出发，讲常见问题和解决思路。</p>
+<h2 id="一、锁的基本概念"><a href="#一、锁的基本概念" class="headerlink" title="一、锁的基本概念"></a>一、锁的基本概念</h2><p>#</p>
+<h2 id="1-1-为什么需要锁"><a href="#1-1-为什么需要锁" class="headerlink" title="1.1 为什么需要锁"></a>1.1 为什么需要锁</h2><p>数据库是多用户共享资源，锁用于：</p>
 <ul>
 <li>保证数据一致性</li>
 <li>控制并发访问</li>
 <li>实现事务隔离</li>
 </ul>
-<h3 id="1-2-锁的分类"><a href="#1-2-锁的分类" class="headerlink" title="1.2 锁的分类"></a>1.2 锁的分类</h3><p><strong>按粒度</strong>：</p>
+<p>#</p>
+<h2 id="1-2-锁的分类"><a href="#1-2-锁的分类" class="headerlink" title="1.2 锁的分类"></a>1.2 锁的分类</h2><p><strong>按粒度</strong>：</p>
 <ul>
 <li>全局锁</li>
 <li>表级锁</li>
@@ -543,11 +540,13 @@
 <li>乐观锁</li>
 <li>悲观锁</li>
 </ul>
-<h2 id="二、InnoDB锁类型"><a href="#二、InnoDB锁类型" class="headerlink" title="二、InnoDB锁类型"></a>二、InnoDB锁类型</h2><h3 id="2-1-行锁（Record-Lock）"><a href="#2-1-行锁（Record-Lock）" class="headerlink" title="2.1 行锁（Record Lock）"></a>2.1 行锁（Record Lock）</h3><p>锁定索引记录本身：</p>
+<h2 id="二、InnoDB锁类型"><a href="#二、InnoDB锁类型" class="headerlink" title="二、InnoDB锁类型"></a>二、InnoDB锁类型</h2><p>#</p>
+<h2 id="2-1-行锁（Record-Lock）"><a href="#2-1-行锁（Record-Lock）" class="headerlink" title="2.1 行锁（Record Lock）"></a>2.1 行锁（Record Lock）</h2><p>锁定索引记录本身：</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 对id=1的记录加排他锁</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span> <span class="keyword">FOR</span> <span class="keyword">UPDATE</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 对id=1的记录加共享锁</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span> LOCK <span class="keyword">IN</span> SHARE MODE;</span><br></pre></td></tr></table></figure>
 
 <p><strong>注意</strong>：InnoDB行锁是通过锁定索引实现的。如果查询条件没有用到索引，会退化为表锁。</p>
-<h3 id="2-2-间隙锁（Gap-Lock）"><a href="#2-2-间隙锁（Gap-Lock）" class="headerlink" title="2.2 间隙锁（Gap Lock）"></a>2.2 间隙锁（Gap Lock）</h3><p>锁定索引记录之间的”间隙”，防止幻读：</p>
+<p>#</p>
+<h2 id="2-2-间隙锁（Gap-Lock）"><a href="#2-2-间隙锁（Gap-Lock）" class="headerlink" title="2.2 间隙锁（Gap Lock）"></a>2.2 间隙锁（Gap Lock）</h2><p>锁定索引记录之间的”间隙”，防止幻读：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">已有记录id: 1, 5, 10</span><br><span class="line"></span><br><span class="line">间隙：(-∞, 1), (1, 5), (5, 10), (10, +∞)</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 锁定id&gt;5的间隙</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> id <span class="operator">&gt;</span> <span class="number">5</span> <span class="keyword">FOR</span> <span class="keyword">UPDATE</span>;</span><br><span class="line"><span class="comment">-- 锁住 (5,10] 和 (10,+∞) 的间隙</span></span><br></pre></td></tr></table></figure>
@@ -558,14 +557,17 @@
 <li>间隙锁之间不冲突（多个事务可同时持有同一间隙锁）</li>
 <li>阻止在间隙中插入数据</li>
 </ul>
-<h3 id="2-3-临键锁（Next-Key-Lock）"><a href="#2-3-临键锁（Next-Key-Lock）" class="headerlink" title="2.3 临键锁（Next-Key Lock）"></a>2.3 临键锁（Next-Key Lock）</h3><p>Record Lock + Gap Lock的组合，锁定记录及其前面的间隙：</p>
+<p>#</p>
+<h2 id="2-3-临键锁（Next-Key-Lock）"><a href="#2-3-临键锁（Next-Key-Lock）" class="headerlink" title="2.3 临键锁（Next-Key Lock）"></a>2.3 临键锁（Next-Key Lock）</h2><p>Record Lock + Gap Lock的组合，锁定记录及其前面的间隙：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">记录10的临键锁：锁定(5, 10]区间</span><br></pre></td></tr></table></figure>
 
 <p>InnoDB默认使用临键锁进行搜索和索引扫描。</p>
-<h3 id="2-4-插入意向锁（Insert-Intention-Lock）"><a href="#2-4-插入意向锁（Insert-Intention-Lock）" class="headerlink" title="2.4 插入意向锁（Insert Intention Lock）"></a>2.4 插入意向锁（Insert Intention Lock）</h3><p>插入操作前设置的间隙锁，表明要在某个间隙插入数据：</p>
+<p>#</p>
+<h2 id="2-4-插入意向锁（Insert-Intention-Lock）"><a href="#2-4-插入意向锁（Insert-Intention-Lock）" class="headerlink" title="2.4 插入意向锁（Insert Intention Lock）"></a>2.4 插入意向锁（Insert Intention Lock）</h2><p>插入操作前设置的间隙锁，表明要在某个间隙插入数据：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">事务T1持有(5, 10)的间隙锁</span><br><span class="line">事务T2想插入id=7的记录</span><br><span class="line"></span><br><span class="line">T2获得(5, 10)的插入意向锁</span><br><span class="line">-- 插入意向锁与间隙锁兼容，T2可以等待</span><br></pre></td></tr></table></figure>
 
-<h3 id="2-5-自增锁（AUTO-INC-Lock）"><a href="#2-5-自增锁（AUTO-INC-Lock）" class="headerlink" title="2.5 自增锁（AUTO-INC Lock）"></a>2.5 自增锁（AUTO-INC Lock）</h3><p>保证自增ID的连续性：</p>
+<p>#</p>
+<h2 id="2-5-自增锁（AUTO-INC-Lock）"><a href="#2-5-自增锁（AUTO-INC-Lock）" class="headerlink" title="2.5 自增锁（AUTO-INC Lock）"></a>2.5 自增锁（AUTO-INC Lock）</h2><p>保证自增ID的连续性：</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">INSERT INTO</span> <span class="keyword">user</span> (name) <span class="keyword">VALUES</span> (<span class="string">&#x27;Alice&#x27;</span>), (<span class="string">&#x27;Bob&#x27;</span>);</span><br></pre></td></tr></table></figure>
 
 <p><strong>三种模式</strong>（<code>innodb_autoinc_lock_mode</code>）：</p>
@@ -574,7 +576,8 @@
 <li>1：连续模式（默认），批量INSERT加锁，单行使用轻量锁</li>
 <li>2：交错模式，所有使用轻量锁，ID可能不连续但并发最高</li>
 </ul>
-<h2 id="三、锁的兼容性"><a href="#三、锁的兼容性" class="headerlink" title="三、锁的兼容性"></a>三、锁的兼容性</h2><h3 id="3-1-锁兼容矩阵"><a href="#3-1-锁兼容矩阵" class="headerlink" title="3.1 锁兼容矩阵"></a>3.1 锁兼容矩阵</h3><table>
+<h2 id="三、锁的兼容性"><a href="#三、锁的兼容性" class="headerlink" title="三、锁的兼容性"></a>三、锁的兼容性</h2><p>#</p>
+<h2 id="3-1-锁兼容矩阵"><a href="#3-1-锁兼容矩阵" class="headerlink" title="3.1 锁兼容矩阵"></a>3.1 锁兼容矩阵</h2><table>
 <thead>
 <tr>
 <th></th>
@@ -633,20 +636,26 @@
 <li>IS：意向共享锁</li>
 <li>AI：自增锁</li>
 </ul>
-<h3 id="3-2-意向锁（Intention-Lock）"><a href="#3-2-意向锁（Intention-Lock）" class="headerlink" title="3.2 意向锁（Intention Lock）"></a>3.2 意向锁（Intention Lock）</h3><p>意向锁是表级锁，用于协调行锁和表锁：</p>
+<p>#</p>
+<h2 id="3-2-意向锁（Intention-Lock）"><a href="#3-2-意向锁（Intention-Lock）" class="headerlink" title="3.2 意向锁（Intention Lock）"></a>3.2 意向锁（Intention Lock）</h2><p>意向锁是表级锁，用于协调行锁和表锁：</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 事务要更新某行，先加意向排他锁</span></span><br><span class="line"><span class="keyword">UPDATE</span> <span class="keyword">user</span> <span class="keyword">SET</span> name <span class="operator">=</span> <span class="string">&#x27;Alice&#x27;</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line"><span class="comment">-- 自动加IX锁</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 其他事务要加表锁，检查意向锁冲突</span></span><br><span class="line">LOCK TABLES <span class="keyword">user</span> WRITE;  <span class="comment">-- 需要等待IX释放</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>作用</strong>：避免加表锁时逐行检查行锁冲突。</p>
-<h2 id="四、锁的查看与分析"><a href="#四、锁的查看与分析" class="headerlink" title="四、锁的查看与分析"></a>四、锁的查看与分析</h2><h3 id="4-1-查看当前锁"><a href="#4-1-查看当前锁" class="headerlink" title="4.1 查看当前锁"></a>4.1 查看当前锁</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- MySQL 8.0</span></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    ENGINE_TRANSACTION_ID,</span><br><span class="line">    OBJECT_NAME,</span><br><span class="line">    OBJECT_SCHEMA,</span><br><span class="line">    LOCK_TYPE,</span><br><span class="line">    LOCK_MODE,</span><br><span class="line">    LOCK_STATUS,</span><br><span class="line">    LOCK_DATA</span><br><span class="line"><span class="keyword">FROM</span> performance_schema.data_locks;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看锁等待</span></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    REQUESTING_ENGINE_TRANSACTION_ID <span class="keyword">AS</span> waiting_trx,</span><br><span class="line">    BLOCKING_ENGINE_TRANSACTION_ID <span class="keyword">AS</span> blocking_trx,</span><br><span class="line">    LOCK_TYPE,</span><br><span class="line">    LOCK_MODE</span><br><span class="line"><span class="keyword">FROM</span> performance_schema.data_lock_waits;</span><br></pre></td></tr></table></figure>
+<h2 id="四、锁的查看与分析"><a href="#四、锁的查看与分析" class="headerlink" title="四、锁的查看与分析"></a>四、锁的查看与分析</h2><p>#</p>
+<h2 id="4-1-查看当前锁"><a href="#4-1-查看当前锁" class="headerlink" title="4.1 查看当前锁"></a>4.1 查看当前锁</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- MySQL 8.0</span></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    ENGINE_TRANSACTION_ID,</span><br><span class="line">    OBJECT_NAME,</span><br><span class="line">    OBJECT_SCHEMA,</span><br><span class="line">    LOCK_TYPE,</span><br><span class="line">    LOCK_MODE,</span><br><span class="line">    LOCK_STATUS,</span><br><span class="line">    LOCK_DATA</span><br><span class="line"><span class="keyword">FROM</span> performance_schema.data_locks;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看锁等待</span></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    REQUESTING_ENGINE_TRANSACTION_ID <span class="keyword">AS</span> waiting_trx,</span><br><span class="line">    BLOCKING_ENGINE_TRANSACTION_ID <span class="keyword">AS</span> blocking_trx,</span><br><span class="line">    LOCK_TYPE,</span><br><span class="line">    LOCK_MODE</span><br><span class="line"><span class="keyword">FROM</span> performance_schema.data_lock_waits;</span><br></pre></td></tr></table></figure>
 
-<h3 id="4-2-查看事务和锁（传统方式）"><a href="#4-2-查看事务和锁（传统方式）" class="headerlink" title="4.2 查看事务和锁（传统方式）"></a>4.2 查看事务和锁（传统方式）</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看InnoDB状态（包含最近死锁信息）</span></span><br><span class="line"><span class="keyword">SHOW</span> ENGINE INNODB STATUS;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看事务</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> information_schema.innodb_trx;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看锁</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> information_schema.innodb_locks;      <span class="comment">-- MySQL 5.7</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> performance_schema.data_locks;        <span class="comment">-- MySQL 8.0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看锁等待</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> information_schema.innodb_lock_waits; <span class="comment">-- MySQL 5.7</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> performance_schema.data_lock_waits;   <span class="comment">-- MySQL 8.0</span></span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="4-2-查看事务和锁（传统方式）"><a href="#4-2-查看事务和锁（传统方式）" class="headerlink" title="4.2 查看事务和锁（传统方式）"></a>4.2 查看事务和锁（传统方式）</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看InnoDB状态（包含最近死锁信息）</span></span><br><span class="line"><span class="keyword">SHOW</span> ENGINE INNODB STATUS;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看事务</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> information_schema.innodb_trx;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看锁</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> information_schema.innodb_locks;      <span class="comment">-- MySQL 5.7</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> performance_schema.data_locks;        <span class="comment">-- MySQL 8.0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看锁等待</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> information_schema.innodb_lock_waits; <span class="comment">-- MySQL 5.7</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> performance_schema.data_lock_waits;   <span class="comment">-- MySQL 8.0</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="五、死锁"><a href="#五、死锁" class="headerlink" title="五、死锁"></a>五、死锁</h2><h3 id="5-1-什么是死锁"><a href="#5-1-什么是死锁" class="headerlink" title="5.1 什么是死锁"></a>5.1 什么是死锁</h3><p>两个或多个事务互相等待对方释放锁，形成循环等待。</p>
+<h2 id="五、死锁"><a href="#五、死锁" class="headerlink" title="五、死锁"></a>五、死锁</h2><p>#</p>
+<h2 id="5-1-什么是死锁"><a href="#5-1-什么是死锁" class="headerlink" title="5.1 什么是死锁"></a>5.1 什么是死锁</h2><p>两个或多个事务互相等待对方释放锁，形成循环等待。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">事务T1: 持有A的锁，请求B的锁</span><br><span class="line">事务T2: 持有B的锁，请求A的锁</span><br><span class="line"></span><br><span class="line">T1等待T2释放B</span><br><span class="line">T2等待T1释放A</span><br><span class="line"></span><br><span class="line">→ 死锁！</span><br></pre></td></tr></table></figure>
 
-<h3 id="5-2-死锁示例"><a href="#5-2-死锁示例" class="headerlink" title="5.2 死锁示例"></a>5.2 死锁示例</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 表: account(id, balance)</span></span><br><span class="line"><span class="comment">-- 数据: (1, 1000), (2, 2000)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 事务T1</span></span><br><span class="line"><span class="keyword">BEGIN</span>;</span><br><span class="line"><span class="keyword">UPDATE</span> account <span class="keyword">SET</span> balance <span class="operator">=</span> balance <span class="operator">-</span> <span class="number">100</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span>;  <span class="comment">-- 锁id=1</span></span><br><span class="line"><span class="comment">-- ... 其他操作 ...</span></span><br><span class="line"><span class="keyword">UPDATE</span> account <span class="keyword">SET</span> balance <span class="operator">=</span> balance <span class="operator">+</span> <span class="number">100</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">2</span>;  <span class="comment">-- 等待id=2</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 事务T2（同时执行）</span></span><br><span class="line"><span class="keyword">BEGIN</span>;</span><br><span class="line"><span class="keyword">UPDATE</span> account <span class="keyword">SET</span> balance <span class="operator">=</span> balance <span class="operator">-</span> <span class="number">200</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">2</span>;  <span class="comment">-- 锁id=2</span></span><br><span class="line"><span class="comment">-- ... 其他操作 ...</span></span><br><span class="line"><span class="keyword">UPDATE</span> account <span class="keyword">SET</span> balance <span class="operator">=</span> balance <span class="operator">+</span> <span class="number">200</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span>;  <span class="comment">-- 等待id=1</span></span><br><span class="line"><span class="comment">-- ERROR 1213 (40001): Deadlock found</span></span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="5-2-死锁示例"><a href="#5-2-死锁示例" class="headerlink" title="5.2 死锁示例"></a>5.2 死锁示例</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 表: account(id, balance)</span></span><br><span class="line"><span class="comment">-- 数据: (1, 1000), (2, 2000)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 事务T1</span></span><br><span class="line"><span class="keyword">BEGIN</span>;</span><br><span class="line"><span class="keyword">UPDATE</span> account <span class="keyword">SET</span> balance <span class="operator">=</span> balance <span class="operator">-</span> <span class="number">100</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span>;  <span class="comment">-- 锁id=1</span></span><br><span class="line"><span class="comment">-- ... 其他操作 ...</span></span><br><span class="line"><span class="keyword">UPDATE</span> account <span class="keyword">SET</span> balance <span class="operator">=</span> balance <span class="operator">+</span> <span class="number">100</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">2</span>;  <span class="comment">-- 等待id=2</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 事务T2（同时执行）</span></span><br><span class="line"><span class="keyword">BEGIN</span>;</span><br><span class="line"><span class="keyword">UPDATE</span> account <span class="keyword">SET</span> balance <span class="operator">=</span> balance <span class="operator">-</span> <span class="number">200</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">2</span>;  <span class="comment">-- 锁id=2</span></span><br><span class="line"><span class="comment">-- ... 其他操作 ...</span></span><br><span class="line"><span class="keyword">UPDATE</span> account <span class="keyword">SET</span> balance <span class="operator">=</span> balance <span class="operator">+</span> <span class="number">200</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span>;  <span class="comment">-- 等待id=1</span></span><br><span class="line"><span class="comment">-- ERROR 1213 (40001): Deadlock found</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="5-3-死锁检测"><a href="#5-3-死锁检测" class="headerlink" title="5.3 死锁检测"></a>5.3 死锁检测</h3><p>InnoDB自动检测死锁：</p>
+<p>#</p>
+<h2 id="5-3-死锁检测"><a href="#5-3-死锁检测" class="headerlink" title="5.3 死锁检测"></a>5.3 死锁检测</h2><p>InnoDB自动检测死锁：</p>
 <figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="attr">innodb_deadlock_detect</span> = <span class="literal">ON</span>   -- 默认开启</span><br><span class="line"><span class="attr">innodb_lock_wait_timeout</span> = <span class="number">50</span>  -- 锁等待超时时间（秒）</span><br></pre></td></tr></table></figure>
 
 <p><strong>死锁处理策略</strong>：</p>
@@ -654,12 +663,14 @@
 <li>选择undo量最小的事务回滚（代价最小）</li>
 <li>被回滚的事务会收到ERROR 1213</li>
 </ul>
-<h3 id="5-4-查看死锁日志"><a href="#5-4-查看死锁日志" class="headerlink" title="5.4 查看死锁日志"></a>5.4 查看死锁日志</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> ENGINE INNODB STATUS;</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="5-4-查看死锁日志"><a href="#5-4-查看死锁日志" class="headerlink" title="5.4 查看死锁日志"></a>5.4 查看死锁日志</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> ENGINE INNODB STATUS;</span><br></pre></td></tr></table></figure>
 
 <p>在LATEST DETECTED DEADLOCK部分：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">------------------------</span><br><span class="line">LATEST DETECTED DEADLOCK</span><br><span class="line">------------------------</span><br><span class="line">*** (1) TRANSACTION:</span><br><span class="line">TRANSACTION 12345, ACTIVE 10 sec starting index read</span><br><span class="line">mysql tables in use 1, locked 1</span><br><span class="line">LOCK WAIT 2 lock struct(s), heap size 1136, 1 row lock(s)</span><br><span class="line">MySQL thread id 100, OS thread handle 1234567, query id 500 localhost root updating</span><br><span class="line">UPDATE account SET balance = balance + 100 WHERE id = 2</span><br><span class="line">*** (1) WAITING FOR THIS LOCK TO BE GRANTED:</span><br><span class="line">RECORD LOCKS space id 58 page no 3 n bits 72 index PRIMARY of table `test`.`account`</span><br><span class="line">trx id 12345 lock_mode X locks rec but not gap waiting</span><br><span class="line">Record lock, heap no 2 PHYSICAL RECORD: n_fields 4; compact format; info bits 0</span><br><span class="line"></span><br><span class="line">*** (2) TRANSACTION:</span><br><span class="line">TRANSACTION 12346, ACTIVE 8 sec starting index read</span><br><span class="line">mysql tables in use 1, locked 1</span><br><span class="line">4 lock struct(s), heap size 1136, 2 row lock(s)</span><br><span class="line">MySQL thread id 101, OS thread handle 1234568, query id 501 localhost root updating</span><br><span class="line">UPDATE account SET balance = balance + 200 WHERE id = 1</span><br><span class="line">*** (2) HOLDS THE LOCK(S):</span><br><span class="line">... </span><br><span class="line">*** (2) WAITING FOR THIS LOCK TO BE GRANTED:</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">*** WE ROLL BACK TRANSACTION (2)</span><br></pre></td></tr></table></figure>
 
-<h3 id="5-5-死锁预防"><a href="#5-5-死锁预防" class="headerlink" title="5.5 死锁预防"></a>5.5 死锁预防</h3><p><strong>1. 固定访问顺序</strong></p>
+<p>#</p>
+<h2 id="5-5-死锁预防"><a href="#5-5-死锁预防" class="headerlink" title="5.5 死锁预防"></a>5.5 死锁预防</h2><p><strong>1. 固定访问顺序</strong></p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 按id从小到大排序，统一访问顺序</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">transfer</span><span class="params">(Long fromId, Long toId, BigDecimal amount)</span> &#123;</span><br><span class="line">    <span class="type">Long</span> <span class="variable">firstId</span> <span class="operator">=</span> Math.min(fromId, toId);</span><br><span class="line">    <span class="type">Long</span> <span class="variable">secondId</span> <span class="operator">=</span> Math.max(fromId, toId);</span><br><span class="line">    </span><br><span class="line">    <span class="type">Account</span> <span class="variable">first</span> <span class="operator">=</span> accountDao.selectForUpdate(firstId);</span><br><span class="line">    <span class="type">Account</span> <span class="variable">second</span> <span class="operator">=</span> accountDao.selectForUpdate(secondId);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 执行转账逻辑</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong>2. 降低隔离级别</strong></p>
@@ -671,15 +682,18 @@
 <p><strong>4. 使用乐观锁</strong></p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 添加版本号字段</span></span><br><span class="line"><span class="keyword">ALTER TABLE</span> account <span class="keyword">ADD</span> <span class="keyword">COLUMN</span> version <span class="type">INT</span> <span class="keyword">DEFAULT</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 更新时检查版本号</span></span><br><span class="line"><span class="keyword">UPDATE</span> account </span><br><span class="line"><span class="keyword">SET</span> balance <span class="operator">=</span> balance <span class="operator">-</span> <span class="number">100</span>, version <span class="operator">=</span> version <span class="operator">+</span> <span class="number">1</span> </span><br><span class="line"><span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span> <span class="keyword">AND</span> version <span class="operator">=</span> <span class="number">5</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 如果影响行数为0，说明数据被修改，需要重试</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="5-6-死锁排查流程"><a href="#5-6-死锁排查流程" class="headerlink" title="5.6 死锁排查流程"></a>5.6 死锁排查流程</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">发现死锁错误</span><br><span class="line">    │</span><br><span class="line">    ├── 查看死锁日志</span><br><span class="line">    │       └── SHOW ENGINE INNODB STATUS</span><br><span class="line">    │</span><br><span class="line">    ├── 分析死锁原因</span><br><span class="line">    │       ├── 事务访问顺序不一致？→ 统一访问顺序</span><br><span class="line">    │       ├── 间隙锁冲突？→ 考虑降低隔离级别</span><br><span class="line">    │       ├── 事务时间过长？→ 缩短事务</span><br><span class="line">    │       └── 批量操作？→ 分批处理</span><br><span class="line">    │</span><br><span class="line">    └── 验证修复效果</span><br><span class="line">            └── 持续监控错误日志</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="5-6-死锁排查流程"><a href="#5-6-死锁排查流程" class="headerlink" title="5.6 死锁排查流程"></a>5.6 死锁排查流程</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">发现死锁错误</span><br><span class="line">    │</span><br><span class="line">    ├── 查看死锁日志</span><br><span class="line">    │       └── SHOW ENGINE INNODB STATUS</span><br><span class="line">    │</span><br><span class="line">    ├── 分析死锁原因</span><br><span class="line">    │       ├── 事务访问顺序不一致？→ 统一访问顺序</span><br><span class="line">    │       ├── 间隙锁冲突？→ 考虑降低隔离级别</span><br><span class="line">    │       ├── 事务时间过长？→ 缩短事务</span><br><span class="line">    │       └── 批量操作？→ 分批处理</span><br><span class="line">    │</span><br><span class="line">    └── 验证修复效果</span><br><span class="line">            └── 持续监控错误日志</span><br></pre></td></tr></table></figure>
 
-<h2 id="六、锁优化建议"><a href="#六、锁优化建议" class="headerlink" title="六、锁优化建议"></a>六、锁优化建议</h2><h3 id="6-1-减少锁竞争"><a href="#6-1-减少锁竞争" class="headerlink" title="6.1 减少锁竞争"></a>6.1 减少锁竞争</h3><ol>
+<h2 id="六、锁优化建议"><a href="#六、锁优化建议" class="headerlink" title="六、锁优化建议"></a>六、锁优化建议</h2><p>#</p>
+<h2 id="6-1-减少锁竞争"><a href="#6-1-减少锁竞争" class="headerlink" title="6.1 减少锁竞争"></a>6.1 减少锁竞争</h2><ol>
 <li><strong>使用合适的索引</strong>：无索引的WHERE条件会锁全表</li>
 <li><strong>控制事务大小</strong>：大批量操作分批执行</li>
 <li><strong>避免长事务</strong>：及时提交或回滚</li>
 <li><strong>使用READ COMMITTED</strong>：减少间隙锁使用</li>
 </ol>
-<h3 id="6-2-锁粒度选择"><a href="#6-2-锁粒度选择" class="headerlink" title="6.2 锁粒度选择"></a>6.2 锁粒度选择</h3><table>
+<p>#</p>
+<h2 id="6-2-锁粒度选择"><a href="#6-2-锁粒度选择" class="headerlink" title="6.2 锁粒度选择"></a>6.2 锁粒度选择</h2><table>
 <thead>
 <tr>
 <th>场景</th>
@@ -703,7 +717,8 @@
 <td>考虑队列串行化</td>
 </tr>
 </tbody></table>
-<h3 id="6-3-监控指标"><a href="#6-3-监控指标" class="headerlink" title="6.3 监控指标"></a>6.3 监控指标</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 锁等待次数</span></span><br><span class="line"><span class="keyword">SHOW</span> STATUS <span class="keyword">LIKE</span> <span class="string">&#x27;Table_locks_waited&#x27;</span>;</span><br><span class="line"><span class="keyword">SHOW</span> STATUS <span class="keyword">LIKE</span> <span class="string">&#x27;Innodb_row_lock_waits&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 平均锁等待时间</span></span><br><span class="line"><span class="keyword">SHOW</span> STATUS <span class="keyword">LIKE</span> <span class="string">&#x27;Innodb_row_lock_time_avg&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 死锁次数</span></span><br><span class="line"><span class="keyword">SHOW</span> STATUS <span class="keyword">LIKE</span> <span class="string">&#x27;Innodb_deadlocks&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="6-3-监控指标"><a href="#6-3-监控指标" class="headerlink" title="6.3 监控指标"></a>6.3 监控指标</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 锁等待次数</span></span><br><span class="line"><span class="keyword">SHOW</span> STATUS <span class="keyword">LIKE</span> <span class="string">&#x27;Table_locks_waited&#x27;</span>;</span><br><span class="line"><span class="keyword">SHOW</span> STATUS <span class="keyword">LIKE</span> <span class="string">&#x27;Innodb_row_lock_waits&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 平均锁等待时间</span></span><br><span class="line"><span class="keyword">SHOW</span> STATUS <span class="keyword">LIKE</span> <span class="string">&#x27;Innodb_row_lock_time_avg&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 死锁次数</span></span><br><span class="line"><span class="keyword">SHOW</span> STATUS <span class="keyword">LIKE</span> <span class="string">&#x27;Innodb_deadlocks&#x27;</span>;</span><br></pre></td></tr></table></figure>
 
 <h2 id="七、总结"><a href="#七、总结" class="headerlink" title="七、总结"></a>七、总结</h2><table>
 <thead>
@@ -766,6 +781,17 @@
 <li>死锁通过固定访问顺序和缩短事务预防</li>
 <li>监控锁等待和死锁指标，及时发现和解决问题</li>
 </ol>
+<h2 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a>核心要点</h2><ol>
+<li><p>索引设计的原则：最左前缀原则、避免索引列参与计算、选择合适的索引类型</p>
+</li>
+<li><p>SQL 优化的方法：使用 EXPLAIN 分析执行计划、避免 SELECT *、优化 JOIN</p>
+</li>
+<li><p>事务隔离级别的选择：根据业务需求选择合适的级别</p>
+</li>
+<li><p>常见的锁问题：行锁、表锁、死锁的处理</p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>MySQL 优化是一个持续的过程，需要结合业务特点和数据量来调整。在实际项目中，定期分析慢查询日志、优化索引、调整配置参数，都能提升数据库性能。</p>
 
             </div>
             <hr />
@@ -1265,7 +1291,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">564.6k</span>
+            <span class="white-color">604.3k</span>
             
 
             <br>

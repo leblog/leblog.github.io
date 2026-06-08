@@ -7,8 +7,8 @@
     <meta name="keywords" content="GC 日志怎么看才有用, 程序员小乐">
 
     
-    <meta name="description" content="GC 日志怎么看才有用GC 日志看起来乱，关键是找准几个核心指标。本文从实际调优经验出发，讲需要关注什么、忽略什么。
-先看现象，不要急着改参数JVM 问题常见现象有：CPU 飙高、频繁 Full GC、接口变慢、内存溢出。处理时先收集证据：">
+    <meta name="description" content="GC 日志怎么看才有用GC 日志看起来乱，关键是找准几个核心指标。很多开发者面对 GC 日志不知道该关注什么。本文从实际调优经验出发，讲需要关注什么、忽略什么，帮你快速定位问题。
+先看现象，不要急着改参数JVM 问题常见现象有：CPU 飙高">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -490,7 +490,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    278
+                    414
                 </div>
                 
 
@@ -513,7 +513,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="GC-日志怎么看才有用"><a href="#GC-日志怎么看才有用" class="headerlink" title="GC 日志怎么看才有用"></a>GC 日志怎么看才有用</h1><p>GC 日志看起来乱，关键是找准几个核心指标。本文从实际调优经验出发，讲需要关注什么、忽略什么。</p>
+                <h1 id="GC-日志怎么看才有用"><a href="#GC-日志怎么看才有用" class="headerlink" title="GC 日志怎么看才有用"></a>GC 日志怎么看才有用</h1><p>GC 日志看起来乱，关键是找准几个核心指标。很多开发者面对 GC 日志不知道该关注什么。本文从实际调优经验出发，讲需要关注什么、忽略什么，帮你快速定位问题。</p>
 <h2 id="先看现象，不要急着改参数"><a href="#先看现象，不要急着改参数" class="headerlink" title="先看现象，不要急着改参数"></a>先看现象，不要急着改参数</h2><p>JVM 问题常见现象有：CPU 飙高、频繁 Full GC、接口变慢、内存溢出。处理时先收集证据：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">jps -l</span><br><span class="line">top -Hp &lt;pid&gt;</span><br><span class="line">jstat -gcutil &lt;pid&gt; 1000 10</span><br><span class="line">jmap -histo &lt;pid&gt; | <span class="built_in">head</span> -30</span><br></pre></td></tr></table></figure>
 
@@ -522,6 +522,17 @@
 
 <h2 id="GC-日志怎么看"><a href="#GC-日志怎么看" class="headerlink" title="GC 日志怎么看"></a>GC 日志怎么看</h2><p>不要只看“发生了 GC”，重点看频率、停顿时间、回收前后内存变化。如果每次回收后老年代仍然很高，可能是对象长期被引用，需要继续分析堆。</p>
 <h2 id="小白可以怎么练"><a href="#小白可以怎么练" class="headerlink" title="小白可以怎么练"></a>小白可以怎么练</h2><p>本地写一个不断往 List 里放对象的 demo，故意触发 OOM，然后用 <code>jmap</code> 导出堆文件，用 MAT 或 VisualVM 看最大对象是谁。练过一次，线上看到类似问题就不会慌。</p>
+<h2 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a>核心要点</h2><ol>
+<li><p>关注 Minor GC 和 Full GC 的频率和耗时</p>
+</li>
+<li><p>年轻代晋升到老年代的对象大小和频率</p>
+</li>
+<li><p>GC 前后的内存使用变化</p>
+</li>
+<li><p>使用 jstat、jmap、jvisualvm 等工具辅助分析</p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>GC 调优是一个持续的过程，没有一劳永逸的方案。需要结合业务特点、数据量、响应时间要求来调整。理解 GC 日志是调优的第一步。</p>
 
             </div>
             <hr />
@@ -767,7 +778,7 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            深入解析AbstractQueuedSynchronizer的底层实现，包括CLH队列、状态管理、独占锁与共享锁的实现原理。
+                            详解AQS为什么是并发工具的基础的核心概念与实践方法，结合真实开发场景说明使用注意事项。
                         
                     </div>
                     <div class="publish-info">
@@ -820,7 +831,7 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            深入讲解CAS算法的原理、ABA问题及解决方案，以及Atomic原子类家族的使用方法和实现机制。
+                            详解CAS与原子操作类Atomic的核心概念与实践方法，结合真实开发场景说明使用注意事项。
                         
                     </div>
                     <div class="publish-info">
@@ -1021,7 +1032,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">564.6k</span>
+            <span class="white-color">604.3k</span>
             
 
             <br>

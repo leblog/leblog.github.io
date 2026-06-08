@@ -7,22 +7,14 @@
     <meta name="keywords" content="MySQL高可用架构方案, 程序员小乐">
 
     
-    <meta name="description" content="MySQL高可用架构方案数据库高可用是保障业务连续性的关键。本文系统介绍MySQL各类高可用方案。
-一、高可用目标1.1 衡量指标
+    <meta name="description" content="MySQL高可用架构方案MySQL 是业务系统中最常见的数据库，但用好它并不容易。索引设计、SQL 优化、事务处理都是日常开发中需要关注的点。本文从实际场景出发，讲常见问题和解决思路。
+一、高可用目标#
+1.1 衡量指标
 
 
 指标
 说明
-优秀标准
-
-
-
-可用性
-系统可用时间占比
-99.99%（全年停机&amp;lt;1小时）
-
-
-RTO">
+优">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -508,14 +500,14 @@ RTO">
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.6k
+                    1.8k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    6 分
+                    7 分
                 </div>
                 
                 
@@ -531,8 +523,9 @@ RTO">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="MySQL高可用架构方案"><a href="#MySQL高可用架构方案" class="headerlink" title="MySQL高可用架构方案"></a>MySQL高可用架构方案</h1><p>数据库高可用是保障业务连续性的关键。本文系统介绍MySQL各类高可用方案。</p>
-<h2 id="一、高可用目标"><a href="#一、高可用目标" class="headerlink" title="一、高可用目标"></a>一、高可用目标</h2><h3 id="1-1-衡量指标"><a href="#1-1-衡量指标" class="headerlink" title="1.1 衡量指标"></a>1.1 衡量指标</h3><table>
+                <h1 id="MySQL高可用架构方案"><a href="#MySQL高可用架构方案" class="headerlink" title="MySQL高可用架构方案"></a>MySQL高可用架构方案</h1><p>MySQL 是业务系统中最常见的数据库，但用好它并不容易。索引设计、SQL 优化、事务处理都是日常开发中需要关注的点。本文从实际场景出发，讲常见问题和解决思路。</p>
+<h2 id="一、高可用目标"><a href="#一、高可用目标" class="headerlink" title="一、高可用目标"></a>一、高可用目标</h2><p>#</p>
+<h2 id="1-1-衡量指标"><a href="#1-1-衡量指标" class="headerlink" title="1.1 衡量指标"></a>1.1 衡量指标</h2><table>
 <thead>
 <tr>
 <th>指标</th>
@@ -556,7 +549,8 @@ RTO">
 <td>0（不丢数据）</td>
 </tr>
 </tbody></table>
-<h3 id="1-2-可用性等级"><a href="#1-2-可用性等级" class="headerlink" title="1.2 可用性等级"></a>1.2 可用性等级</h3><table>
+<p>#</p>
+<h2 id="1-2-可用性等级"><a href="#1-2-可用性等级" class="headerlink" title="1.2 可用性等级"></a>1.2 可用性等级</h2><table>
 <thead>
 <tr>
 <th>等级</th>
@@ -585,7 +579,8 @@ RTO">
 <td>5.26分钟</td>
 </tr>
 </tbody></table>
-<h2 id="二、主从复制架构"><a href="#二、主从复制架构" class="headerlink" title="二、主从复制架构"></a>二、主从复制架构</h2><h3 id="2-1-一主一从"><a href="#2-1-一主一从" class="headerlink" title="2.1 一主一从"></a>2.1 一主一从</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">┌─────────┐      复制      ┌─────────┐</span><br><span class="line">│  Master │  ──────────&gt;  │  Slave  │</span><br><span class="line">│  (读写)  │               │  (只读)  │</span><br><span class="line">└─────────┘               └─────────┘</span><br></pre></td></tr></table></figure>
+<h2 id="二、主从复制架构"><a href="#二、主从复制架构" class="headerlink" title="二、主从复制架构"></a>二、主从复制架构</h2><p>#</p>
+<h2 id="2-1-一主一从"><a href="#2-1-一主一从" class="headerlink" title="2.1 一主一从"></a>2.1 一主一从</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">┌─────────┐      复制      ┌─────────┐</span><br><span class="line">│  Master │  ──────────&gt;  │  Slave  │</span><br><span class="line">│  (读写)  │               │  (只读)  │</span><br><span class="line">└─────────┘               └─────────┘</span><br></pre></td></tr></table></figure>
 
 <p><strong>特点</strong>：</p>
 <ul>
@@ -593,7 +588,8 @@ RTO">
 <li>主库故障时，提升从库为主库</li>
 <li>适合读多写少，对RTO要求不高</li>
 </ul>
-<h3 id="2-2-一主多从"><a href="#2-2-一主多从" class="headerlink" title="2.2 一主多从"></a>2.2 一主多从</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">         ┌──────────&gt; ┌─────────┐</span><br><span class="line">┌────────┐            │ Slave 1 │</span><br><span class="line">│ Master │ ──────────&gt;├─────────┤</span><br><span class="line">└────────┘            │ Slave 2 │</span><br><span class="line">         └──────────&gt; │ Slave 3 │</span><br><span class="line">                      └─────────┘</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="2-2-一主多从"><a href="#2-2-一主多从" class="headerlink" title="2.2 一主多从"></a>2.2 一主多从</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">         ┌──────────&gt; ┌─────────┐</span><br><span class="line">┌────────┐            │ Slave 1 │</span><br><span class="line">│ Master │ ──────────&gt;├─────────┤</span><br><span class="line">└────────┘            │ Slave 2 │</span><br><span class="line">         └──────────&gt; │ Slave 3 │</span><br><span class="line">                      └─────────┘</span><br></pre></td></tr></table></figure>
 
 <p><strong>特点</strong>：</p>
 <ul>
@@ -601,14 +597,16 @@ RTO">
 <li>可专门分离出备份从库、报表从库</li>
 <li>延迟问题需要关注</li>
 </ul>
-<h3 id="2-3-级联复制"><a href="#2-3-级联复制" class="headerlink" title="2.3 级联复制"></a>2.3 级联复制</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Master ──&gt; Slave1 ──&gt; Slave2</span><br><span class="line">  │</span><br><span class="line">  └────&gt; Slave3</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="2-3-级联复制"><a href="#2-3-级联复制" class="headerlink" title="2.3 级联复制"></a>2.3 级联复制</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Master ──&gt; Slave1 ──&gt; Slave2</span><br><span class="line">  │</span><br><span class="line">  └────&gt; Slave3</span><br></pre></td></tr></table></figure>
 
 <p><strong>适用</strong>：</p>
 <ul>
 <li>从库数量很多时，减轻主库压力</li>
 <li>跨地域复制</li>
 </ul>
-<h2 id="三、高可用方案对比"><a href="#三、高可用方案对比" class="headerlink" title="三、高可用方案对比"></a>三、高可用方案对比</h2><h3 id="3-1-方案总览"><a href="#3-1-方案总览" class="headerlink" title="3.1 方案总览"></a>3.1 方案总览</h3><table>
+<h2 id="三、高可用方案对比"><a href="#三、高可用方案对比" class="headerlink" title="三、高可用方案对比"></a>三、高可用方案对比</h2><p>#</p>
+<h2 id="3-1-方案总览"><a href="#3-1-方案总览" class="headerlink" title="3.1 方案总览"></a>3.1 方案总览</h2><table>
 <thead>
 <tr>
 <th>方案</th>
@@ -661,9 +659,11 @@ RTO">
 <td>各种规模</td>
 </tr>
 </tbody></table>
-<h2 id="四、MHA（Master-High-Availability）"><a href="#四、MHA（Master-High-Availability）" class="headerlink" title="四、MHA（Master High Availability）"></a>四、MHA（Master High Availability）</h2><h3 id="4-1-架构"><a href="#4-1-架构" class="headerlink" title="4.1 架构"></a>4.1 架构</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">┌─────────┐</span><br><span class="line">│ Manager │  ← 监控和故障切换</span><br><span class="line">└────┬────┘</span><br><span class="line">     │</span><br><span class="line">     ├──&gt; Master（写）</span><br><span class="line">     ├──&gt; Slave1（读）</span><br><span class="line">     ├──&gt; Slave2（读）</span><br><span class="line">     └──&gt; Slave3（读/候选主库）</span><br></pre></td></tr></table></figure>
+<h2 id="四、MHA（Master-High-Availability）"><a href="#四、MHA（Master-High-Availability）" class="headerlink" title="四、MHA（Master High Availability）"></a>四、MHA（Master High Availability）</h2><p>#</p>
+<h2 id="4-1-架构"><a href="#4-1-架构" class="headerlink" title="4.1 架构"></a>4.1 架构</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">┌─────────┐</span><br><span class="line">│ Manager │  ← 监控和故障切换</span><br><span class="line">└────┬────┘</span><br><span class="line">     │</span><br><span class="line">     ├──&gt; Master（写）</span><br><span class="line">     ├──&gt; Slave1（读）</span><br><span class="line">     ├──&gt; Slave2（读）</span><br><span class="line">     └──&gt; Slave3（读/候选主库）</span><br></pre></td></tr></table></figure>
 
-<h3 id="4-2-故障切换流程"><a href="#4-2-故障切换流程" class="headerlink" title="4.2 故障切换流程"></a>4.2 故障切换流程</h3><ol>
+<p>#</p>
+<h2 id="4-2-故障切换流程"><a href="#4-2-故障切换流程" class="headerlink" title="4.2 故障切换流程"></a>4.2 故障切换流程</h2><ol>
 <li>Manager检测到Master不可达</li>
 <li>尝试SSH到Master，确认是否真的故障（避免网络抖动）</li>
 <li>选择最新的Slave作为新Master</li>
@@ -672,49 +672,62 @@ RTO">
 <li>其他Slave重新指向新Master</li>
 <li>发送告警</li>
 </ol>
-<h3 id="4-3-MHA配置"><a href="#4-3-MHA配置" class="headerlink" title="4.3 MHA配置"></a>4.3 MHA配置</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 安装MHA</span></span><br><span class="line">yum install mha4mysql-manager mha4mysql-node</span><br><span class="line"></span><br><span class="line"><span class="comment"># Manager配置</span></span><br><span class="line"><span class="built_in">cat</span> /etc/mha/app1.cnf</span><br><span class="line">[server default]</span><br><span class="line">user=mha</span><br><span class="line">password=password</span><br><span class="line">ssh_user=root</span><br><span class="line">repl_user=repl</span><br><span class="line">repl_password=password</span><br><span class="line">ping_interval=1</span><br><span class="line">master_ip_failover_script=/usr/local/bin/master_ip_failover</span><br><span class="line">master_ip_online_change_script=/usr/local/bin/master_ip_online_change</span><br><span class="line"></span><br><span class="line">[server1]</span><br><span class="line">hostname=192.168.1.10</span><br><span class="line">candidate_master=1</span><br><span class="line"></span><br><span class="line">[server2]</span><br><span class="line">hostname=192.168.1.11</span><br><span class="line">candidate_master=1</span><br><span class="line"></span><br><span class="line">[server3]</span><br><span class="line">hostname=192.168.1.12</span><br><span class="line">no_master=1</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="4-3-MHA配置"><a href="#4-3-MHA配置" class="headerlink" title="4.3 MHA配置"></a>4.3 MHA配置</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 安装MHA</span></span><br><span class="line">yum install mha4mysql-manager mha4mysql-node</span><br><span class="line"></span><br><span class="line"><span class="comment"># Manager配置</span></span><br><span class="line"><span class="built_in">cat</span> /etc/mha/app1.cnf</span><br><span class="line">[server default]</span><br><span class="line">user=mha</span><br><span class="line">password=password</span><br><span class="line">ssh_user=root</span><br><span class="line">repl_user=repl</span><br><span class="line">repl_password=password</span><br><span class="line">ping_interval=1</span><br><span class="line">master_ip_failover_script=/usr/local/bin/master_ip_failover</span><br><span class="line">master_ip_online_change_script=/usr/local/bin/master_ip_online_change</span><br><span class="line"></span><br><span class="line">[server1]</span><br><span class="line">hostname=192.168.1.10</span><br><span class="line">candidate_master=1</span><br><span class="line"></span><br><span class="line">[server2]</span><br><span class="line">hostname=192.168.1.11</span><br><span class="line">candidate_master=1</span><br><span class="line"></span><br><span class="line">[server3]</span><br><span class="line">hostname=192.168.1.12</span><br><span class="line">no_master=1</span><br></pre></td></tr></table></figure>
 
-<h3 id="4-4-VIP漂移"><a href="#4-4-VIP漂移" class="headerlink" title="4.4 VIP漂移"></a>4.4 VIP漂移</h3><p>使用Keepalived或脚本实现VIP自动漂移：</p>
+<p>#</p>
+<h2 id="4-4-VIP漂移"><a href="#4-4-VIP漂移" class="headerlink" title="4.4 VIP漂移"></a>4.4 VIP漂移</h2><p>使用Keepalived或脚本实现VIP自动漂移：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># master_ip_failover</span></span><br><span class="line"></span><br><span class="line">vip=<span class="string">&quot;192.168.1.100&quot;</span></span><br><span class="line">new_master=<span class="string">&quot;<span class="variable">$1</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 在新主库添加VIP</span></span><br><span class="line">ssh <span class="variable">$new_master</span> <span class="string">&quot;ip addr add <span class="variable">$vip</span>/24 dev eth0&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 在旧主库移除VIP（如果可达）</span></span><br><span class="line">ssh -o ConnectTimeout=3 <span class="variable">$old_master</span> <span class="string">&quot;ip addr del <span class="variable">$vip</span>/24 dev eth0&quot;</span> 2&gt;/dev/null</span><br></pre></td></tr></table></figure>
 
-<h2 id="五、MGR（MySQL-Group-Replication）"><a href="#五、MGR（MySQL-Group-Replication）" class="headerlink" title="五、MGR（MySQL Group Replication）"></a>五、MGR（MySQL Group Replication）</h2><h3 id="5-1-架构"><a href="#5-1-架构" class="headerlink" title="5.1 架构"></a>5.1 架构</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">     ┌──────────┐</span><br><span class="line">     │  Primary  │ ← 单主模式（默认）</span><br><span class="line">     │  (读写)   │</span><br><span class="line">     └────┬─────┘</span><br><span class="line">          │  Paxos协议</span><br><span class="line">    ┌─────┼─────┐</span><br><span class="line">    ▼     ▼     ▼</span><br><span class="line">┌─────┐┌─────┐┌─────┐</span><br><span class="line">│Secondary│Secondary│Secondary│</span><br><span class="line">│ (只读)  │ (只读)  │ (只读)  │</span><br><span class="line">└─────┘└─────┘└─────┘</span><br></pre></td></tr></table></figure>
+<h2 id="五、MGR（MySQL-Group-Replication）"><a href="#五、MGR（MySQL-Group-Replication）" class="headerlink" title="五、MGR（MySQL Group Replication）"></a>五、MGR（MySQL Group Replication）</h2><p>#</p>
+<h2 id="5-1-架构"><a href="#5-1-架构" class="headerlink" title="5.1 架构"></a>5.1 架构</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">     ┌──────────┐</span><br><span class="line">     │  Primary  │ ← 单主模式（默认）</span><br><span class="line">     │  (读写)   │</span><br><span class="line">     └────┬─────┘</span><br><span class="line">          │  Paxos协议</span><br><span class="line">    ┌─────┼─────┐</span><br><span class="line">    ▼     ▼     ▼</span><br><span class="line">┌─────┐┌─────┐┌─────┐</span><br><span class="line">│Secondary│Secondary│Secondary│</span><br><span class="line">│ (只读)  │ (只读)  │ (只读)  │</span><br><span class="line">└─────┘└─────┘└─────┘</span><br></pre></td></tr></table></figure>
 
-<h3 id="5-2-特点"><a href="#5-2-特点" class="headerlink" title="5.2 特点"></a>5.2 特点</h3><ul>
+<p>#</p>
+<h2 id="5-2-特点"><a href="#5-2-特点" class="headerlink" title="5.2 特点"></a>5.2 特点</h2><ul>
 <li>基于Paxos协议，多数派确认</li>
 <li>自动故障检测和切换</li>
 <li>数据强一致性（不会丢数据）</li>
 <li>支持单主和多主模式</li>
 </ul>
-<h3 id="5-3-MGR配置"><a href="#5-3-MGR配置" class="headerlink" title="5.3 MGR配置"></a>5.3 MGR配置</h3><figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 每个节点配置</span></span><br><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="attr">server_id</span> = <span class="number">1</span></span><br><span class="line"><span class="attr">gtid_mode</span> = <span class="literal">ON</span></span><br><span class="line"><span class="attr">enforce_gtid_consistency</span> = <span class="literal">ON</span></span><br><span class="line"><span class="attr">binlog_format</span> = ROW</span><br><span class="line"><span class="attr">log_slave_updates</span> = <span class="literal">ON</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># MGR插件</span></span><br><span class="line"><span class="attr">plugin_load_add</span> = group_replication.so</span><br><span class="line"><span class="attr">transaction_write_set_extraction</span> = XXHASH64</span><br><span class="line"><span class="attr">group_replication_group_name</span> = <span class="string">&quot;aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee&quot;</span></span><br><span class="line"><span class="attr">group_replication_start_on_boot</span> = <span class="literal">off</span></span><br><span class="line"><span class="attr">group_replication_local_address</span> = <span class="string">&quot;192.168.1.10:33061&quot;</span></span><br><span class="line"><span class="attr">group_replication_group_seeds</span> = <span class="string">&quot;192.168.1.10:33061,192.168.1.11:33061,192.168.1.12:33061&quot;</span></span><br><span class="line"><span class="attr">group_replication_bootstrap_group</span> = <span class="literal">off</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 单主模式</span></span><br><span class="line"><span class="attr">group_replication_single_primary_mode</span> = <span class="literal">ON</span></span><br><span class="line"><span class="attr">group_replication_enforce_update_everywhere_checks</span> = <span class="literal">OFF</span></span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="5-3-MGR配置"><a href="#5-3-MGR配置" class="headerlink" title="5.3 MGR配置"></a>5.3 MGR配置</h2><figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 每个节点配置</span></span><br><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="attr">server_id</span> = <span class="number">1</span></span><br><span class="line"><span class="attr">gtid_mode</span> = <span class="literal">ON</span></span><br><span class="line"><span class="attr">enforce_gtid_consistency</span> = <span class="literal">ON</span></span><br><span class="line"><span class="attr">binlog_format</span> = ROW</span><br><span class="line"><span class="attr">log_slave_updates</span> = <span class="literal">ON</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># MGR插件</span></span><br><span class="line"><span class="attr">plugin_load_add</span> = group_replication.so</span><br><span class="line"><span class="attr">transaction_write_set_extraction</span> = XXHASH64</span><br><span class="line"><span class="attr">group_replication_group_name</span> = <span class="string">&quot;aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee&quot;</span></span><br><span class="line"><span class="attr">group_replication_start_on_boot</span> = <span class="literal">off</span></span><br><span class="line"><span class="attr">group_replication_local_address</span> = <span class="string">&quot;192.168.1.10:33061&quot;</span></span><br><span class="line"><span class="attr">group_replication_group_seeds</span> = <span class="string">&quot;192.168.1.10:33061,192.168.1.11:33061,192.168.1.12:33061&quot;</span></span><br><span class="line"><span class="attr">group_replication_bootstrap_group</span> = <span class="literal">off</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 单主模式</span></span><br><span class="line"><span class="attr">group_replication_single_primary_mode</span> = <span class="literal">ON</span></span><br><span class="line"><span class="attr">group_replication_enforce_update_everywhere_checks</span> = <span class="literal">OFF</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="5-4-启动MGR"><a href="#5-4-启动MGR" class="headerlink" title="5.4 启动MGR"></a>5.4 启动MGR</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 第一个节点（引导组）</span></span><br><span class="line"><span class="keyword">SET</span> <span class="keyword">GLOBAL</span> group_replication_bootstrap_group <span class="operator">=</span> <span class="keyword">ON</span>;</span><br><span class="line"><span class="keyword">START</span> GROUP_REPLICATION;</span><br><span class="line"><span class="keyword">SET</span> <span class="keyword">GLOBAL</span> group_replication_bootstrap_group <span class="operator">=</span> OFF;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 其他节点加入</span></span><br><span class="line"><span class="keyword">START</span> GROUP_REPLICATION;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看组成员</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> performance_schema.replication_group_members;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看主节点</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> performance_schema.global_status </span><br><span class="line"><span class="keyword">WHERE</span> variable_name <span class="operator">=</span> <span class="string">&#x27;group_replication_primary_member&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="5-4-启动MGR"><a href="#5-4-启动MGR" class="headerlink" title="5.4 启动MGR"></a>5.4 启动MGR</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 第一个节点（引导组）</span></span><br><span class="line"><span class="keyword">SET</span> <span class="keyword">GLOBAL</span> group_replication_bootstrap_group <span class="operator">=</span> <span class="keyword">ON</span>;</span><br><span class="line"><span class="keyword">START</span> GROUP_REPLICATION;</span><br><span class="line"><span class="keyword">SET</span> <span class="keyword">GLOBAL</span> group_replication_bootstrap_group <span class="operator">=</span> OFF;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 其他节点加入</span></span><br><span class="line"><span class="keyword">START</span> GROUP_REPLICATION;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看组成员</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> performance_schema.replication_group_members;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看主节点</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> performance_schema.global_status </span><br><span class="line"><span class="keyword">WHERE</span> variable_name <span class="operator">=</span> <span class="string">&#x27;group_replication_primary_member&#x27;</span>;</span><br></pre></td></tr></table></figure>
 
-<h3 id="5-5-MGR限制"><a href="#5-5-MGR限制" class="headerlink" title="5.5 MGR限制"></a>5.5 MGR限制</h3><ul>
+<p>#</p>
+<h2 id="5-5-MGR限制"><a href="#5-5-MGR限制" class="headerlink" title="5.5 MGR限制"></a>5.5 MGR限制</h2><ul>
 <li>仅支持InnoDB表</li>
 <li>表必须有主键</li>
 <li>不支持外键的级联操作</li>
 <li>最大节点数：9个</li>
 <li>网络要求高（低延迟）</li>
 </ul>
-<h2 id="六、Orchestrator"><a href="#六、Orchestrator" class="headerlink" title="六、Orchestrator"></a>六、Orchestrator</h2><h3 id="6-1-特点"><a href="#6-1-特点" class="headerlink" title="6.1 特点"></a>6.1 特点</h3><ul>
+<h2 id="六、Orchestrator"><a href="#六、Orchestrator" class="headerlink" title="六、Orchestrator"></a>六、Orchestrator</h2><p>#</p>
+<h2 id="6-1-特点"><a href="#6-1-特点" class="headerlink" title="6.1 特点"></a>6.1 特点</h2><ul>
 <li>GitHub开源的MySQL高可用工具</li>
 <li>可视化拓扑管理</li>
 <li>支持自动和手动故障转移</li>
 <li>支持预检查，降低误切换</li>
 </ul>
-<h3 id="6-2-架构"><a href="#6-2-架构" class="headerlink" title="6.2 架构"></a>6.2 架构</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">┌─────────────┐</span><br><span class="line">│ Orchestrator │ ← Web UI + API</span><br><span class="line">│   (RAFT)    │</span><br><span class="line">└──────┬──────┘</span><br><span class="line">       │</span><br><span class="line">  ┌────┴────┐</span><br><span class="line">  ▼         ▼</span><br><span class="line">Master    Slave</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="6-2-架构"><a href="#6-2-架构" class="headerlink" title="6.2 架构"></a>6.2 架构</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">┌─────────────┐</span><br><span class="line">│ Orchestrator │ ← Web UI + API</span><br><span class="line">│   (RAFT)    │</span><br><span class="line">└──────┬──────┘</span><br><span class="line">       │</span><br><span class="line">  ┌────┴────┐</span><br><span class="line">  ▼         ▼</span><br><span class="line">Master    Slave</span><br></pre></td></tr></table></figure>
 
-<h3 id="6-3-核心功能"><a href="#6-3-核心功能" class="headerlink" title="6.3 核心功能"></a>6.3 核心功能</h3><ul>
+<p>#</p>
+<h2 id="6-3-核心功能"><a href="#6-3-核心功能" class="headerlink" title="6.3 核心功能"></a>6.3 核心功能</h2><ul>
 <li><strong>自动发现</strong>：自动发现MySQL拓扑</li>
 <li><strong>可视化</strong>：Web界面展示复制拓扑</li>
 <li><strong>故障转移</strong>：支持自动和手动</li>
 <li><strong>钩子</strong>：支持自定义脚本（切换后执行）</li>
 </ul>
-<h2 id="七、ProxySQL读写分离"><a href="#七、ProxySQL读写分离" class="headerlink" title="七、ProxySQL读写分离"></a>七、ProxySQL读写分离</h2><h3 id="7-1-架构"><a href="#7-1-架构" class="headerlink" title="7.1 架构"></a>7.1 架构</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">App ──&gt; ProxySQL ──&gt; Master（写）</span><br><span class="line">            │</span><br><span class="line">            ├──&gt; Slave1（读）</span><br><span class="line">            ├──&gt; Slave2（读）</span><br><span class="line">            └──&gt; Slave3（读）</span><br></pre></td></tr></table></figure>
+<h2 id="七、ProxySQL读写分离"><a href="#七、ProxySQL读写分离" class="headerlink" title="七、ProxySQL读写分离"></a>七、ProxySQL读写分离</h2><p>#</p>
+<h2 id="7-1-架构"><a href="#7-1-架构" class="headerlink" title="7.1 架构"></a>7.1 架构</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">App ──&gt; ProxySQL ──&gt; Master（写）</span><br><span class="line">            │</span><br><span class="line">            ├──&gt; Slave1（读）</span><br><span class="line">            ├──&gt; Slave2（读）</span><br><span class="line">            └──&gt; Slave3（读）</span><br></pre></td></tr></table></figure>
 
-<h3 id="7-2-配置"><a href="#7-2-配置" class="headerlink" title="7.2 配置"></a>7.2 配置</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 添加后端服务器</span></span><br><span class="line"><span class="keyword">INSERT INTO</span> mysql_servers(hostgroup_id, hostname, port) </span><br><span class="line"><span class="keyword">VALUES</span> </span><br><span class="line">(<span class="number">10</span>, <span class="string">&#x27;master&#x27;</span>, <span class="number">3306</span>),  <span class="comment">-- 写组</span></span><br><span class="line">(<span class="number">20</span>, <span class="string">&#x27;slave1&#x27;</span>, <span class="number">3306</span>),  <span class="comment">-- 读组</span></span><br><span class="line">(<span class="number">20</span>, <span class="string">&#x27;slave2&#x27;</span>, <span class="number">3306</span>),</span><br><span class="line">(<span class="number">20</span>, <span class="string">&#x27;slave3&#x27;</span>, <span class="number">3306</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 配置读写规则</span></span><br><span class="line"><span class="keyword">INSERT INTO</span> mysql_query_rules (rule_id, active, match_pattern, </span><br><span class="line">    destination_hostgroup, apply) </span><br><span class="line"><span class="keyword">VALUES</span> </span><br><span class="line">(<span class="number">1</span>, <span class="number">1</span>, <span class="string">&#x27;^SELECT.*FOR UPDATE&#x27;</span>, <span class="number">10</span>, <span class="number">1</span>),</span><br><span class="line">(<span class="number">2</span>, <span class="number">1</span>, <span class="string">&#x27;^SELECT&#x27;</span>, <span class="number">20</span>, <span class="number">1</span>),</span><br><span class="line">(<span class="number">3</span>, <span class="number">1</span>, <span class="string">&#x27;.*&#x27;</span>, <span class="number">10</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 加载配置</span></span><br><span class="line">LOAD MYSQL SERVERS <span class="keyword">TO</span> RUNTIME;</span><br><span class="line">LOAD MYSQL QUERY RULES <span class="keyword">TO</span> RUNTIME;</span><br><span class="line">SAVE MYSQL SERVERS <span class="keyword">TO</span> DISK;</span><br><span class="line">SAVE MYSQL QUERY RULES <span class="keyword">TO</span> DISK;</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="7-2-配置"><a href="#7-2-配置" class="headerlink" title="7.2 配置"></a>7.2 配置</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 添加后端服务器</span></span><br><span class="line"><span class="keyword">INSERT INTO</span> mysql_servers(hostgroup_id, hostname, port) </span><br><span class="line"><span class="keyword">VALUES</span> </span><br><span class="line">(<span class="number">10</span>, <span class="string">&#x27;master&#x27;</span>, <span class="number">3306</span>),  <span class="comment">-- 写组</span></span><br><span class="line">(<span class="number">20</span>, <span class="string">&#x27;slave1&#x27;</span>, <span class="number">3306</span>),  <span class="comment">-- 读组</span></span><br><span class="line">(<span class="number">20</span>, <span class="string">&#x27;slave2&#x27;</span>, <span class="number">3306</span>),</span><br><span class="line">(<span class="number">20</span>, <span class="string">&#x27;slave3&#x27;</span>, <span class="number">3306</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 配置读写规则</span></span><br><span class="line"><span class="keyword">INSERT INTO</span> mysql_query_rules (rule_id, active, match_pattern, </span><br><span class="line">    destination_hostgroup, apply) </span><br><span class="line"><span class="keyword">VALUES</span> </span><br><span class="line">(<span class="number">1</span>, <span class="number">1</span>, <span class="string">&#x27;^SELECT.*FOR UPDATE&#x27;</span>, <span class="number">10</span>, <span class="number">1</span>),</span><br><span class="line">(<span class="number">2</span>, <span class="number">1</span>, <span class="string">&#x27;^SELECT&#x27;</span>, <span class="number">20</span>, <span class="number">1</span>),</span><br><span class="line">(<span class="number">3</span>, <span class="number">1</span>, <span class="string">&#x27;.*&#x27;</span>, <span class="number">10</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 加载配置</span></span><br><span class="line">LOAD MYSQL SERVERS <span class="keyword">TO</span> RUNTIME;</span><br><span class="line">LOAD MYSQL QUERY RULES <span class="keyword">TO</span> RUNTIME;</span><br><span class="line">SAVE MYSQL SERVERS <span class="keyword">TO</span> DISK;</span><br><span class="line">SAVE MYSQL QUERY RULES <span class="keyword">TO</span> DISK;</span><br></pre></td></tr></table></figure>
 
-<h2 id="八、云数据库高可用"><a href="#八、云数据库高可用" class="headerlink" title="八、云数据库高可用"></a>八、云数据库高可用</h2><h3 id="8-1-阿里云RDS"><a href="#8-1-阿里云RDS" class="headerlink" title="8.1 阿里云RDS"></a>8.1 阿里云RDS</h3><table>
+<h2 id="八、云数据库高可用"><a href="#八、云数据库高可用" class="headerlink" title="八、云数据库高可用"></a>八、云数据库高可用</h2><p>#</p>
+<h2 id="8-1-阿里云RDS"><a href="#8-1-阿里云RDS" class="headerlink" title="8.1 阿里云RDS"></a>8.1 阿里云RDS</h2><table>
 <thead>
 <tr>
 <th>版本</th>
@@ -743,18 +756,23 @@ RTO">
 <td>30秒内</td>
 </tr>
 </tbody></table>
-<h3 id="8-2-腾讯云CDB"><a href="#8-2-腾讯云CDB" class="headerlink" title="8.2 腾讯云CDB"></a>8.2 腾讯云CDB</h3><ul>
+<p>#</p>
+<h2 id="8-2-腾讯云CDB"><a href="#8-2-腾讯云CDB" class="headerlink" title="8.2 腾讯云CDB"></a>8.2 腾讯云CDB</h2><ul>
 <li>自动故障切换</li>
 <li>支持跨可用区部署</li>
 <li>只读实例自动扩展</li>
 </ul>
-<h2 id="九、故障切换实践"><a href="#九、故障切换实践" class="headerlink" title="九、故障切换实践"></a>九、故障切换实践</h2><h3 id="9-1-切换前检查"><a href="#9-1-切换前检查" class="headerlink" title="9.1 切换前检查"></a>9.1 切换前检查</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 1. 检查复制延迟</span></span><br><span class="line"><span class="keyword">SHOW</span> SLAVE STATUS \G;</span><br><span class="line"><span class="comment">-- Seconds_Behind_Master = 0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 2. 检查数据一致性</span></span><br><span class="line">pt<span class="operator">-</span><span class="keyword">table</span><span class="operator">-</span>checksum <span class="comment">--host=master --host=slave</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 3. 检查从库状态</span></span><br><span class="line"><span class="keyword">SHOW</span> PROCESSLIST;</span><br><span class="line"><span class="comment">-- 确保没有长时间查询</span></span><br></pre></td></tr></table></figure>
+<h2 id="九、故障切换实践"><a href="#九、故障切换实践" class="headerlink" title="九、故障切换实践"></a>九、故障切换实践</h2><p>#</p>
+<h2 id="9-1-切换前检查"><a href="#9-1-切换前检查" class="headerlink" title="9.1 切换前检查"></a>9.1 切换前检查</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 1. 检查复制延迟</span></span><br><span class="line"><span class="keyword">SHOW</span> SLAVE STATUS \G;</span><br><span class="line"><span class="comment">-- Seconds_Behind_Master = 0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 2. 检查数据一致性</span></span><br><span class="line">pt<span class="operator">-</span><span class="keyword">table</span><span class="operator">-</span>checksum <span class="comment">--host=master --host=slave</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 3. 检查从库状态</span></span><br><span class="line"><span class="keyword">SHOW</span> PROCESSLIST;</span><br><span class="line"><span class="comment">-- 确保没有长时间查询</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="9-2-切换步骤"><a href="#9-2-切换步骤" class="headerlink" title="9.2 切换步骤"></a>9.2 切换步骤</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 暂停应用写入（或切到只读）</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 确认主从数据一致</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 停止从库复制</span></span><br><span class="line">STOP SLAVE;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 重置从库（变为独立库）</span></span><br><span class="line">RESET SLAVE ALL;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5. 开启新主库读写</span></span><br><span class="line">SET GLOBAL read_only = OFF;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 6. 应用指向新主库</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 7. 旧主库修复后作为从库加入</span></span><br><span class="line">CHANGE MASTER TO ...</span><br><span class="line">START SLAVE;</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="9-2-切换步骤"><a href="#9-2-切换步骤" class="headerlink" title="9.2 切换步骤"></a>9.2 切换步骤</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 暂停应用写入（或切到只读）</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 确认主从数据一致</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 停止从库复制</span></span><br><span class="line">STOP SLAVE;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 重置从库（变为独立库）</span></span><br><span class="line">RESET SLAVE ALL;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5. 开启新主库读写</span></span><br><span class="line">SET GLOBAL read_only = OFF;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 6. 应用指向新主库</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 7. 旧主库修复后作为从库加入</span></span><br><span class="line">CHANGE MASTER TO ...</span><br><span class="line">START SLAVE;</span><br></pre></td></tr></table></figure>
 
-<h3 id="9-3-切换后验证"><a href="#9-3-切换后验证" class="headerlink" title="9.3 切换后验证"></a>9.3 切换后验证</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 验证新主库</span></span><br><span class="line"><span class="keyword">SHOW</span> MASTER STATUS;</span><br><span class="line"><span class="keyword">SHOW</span> PROCESSLIST;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 验证从库连接</span></span><br><span class="line"><span class="keyword">SHOW</span> SLAVE STATUS \G;</span><br><span class="line"><span class="comment">-- Slave_IO_Running: Yes</span></span><br><span class="line"><span class="comment">-- Slave_SQL_Running: Yes</span></span><br><span class="line"><span class="comment">-- Seconds_Behind_Master: 0</span></span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="9-3-切换后验证"><a href="#9-3-切换后验证" class="headerlink" title="9.3 切换后验证"></a>9.3 切换后验证</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 验证新主库</span></span><br><span class="line"><span class="keyword">SHOW</span> MASTER STATUS;</span><br><span class="line"><span class="keyword">SHOW</span> PROCESSLIST;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 验证从库连接</span></span><br><span class="line"><span class="keyword">SHOW</span> SLAVE STATUS \G;</span><br><span class="line"><span class="comment">-- Slave_IO_Running: Yes</span></span><br><span class="line"><span class="comment">-- Slave_SQL_Running: Yes</span></span><br><span class="line"><span class="comment">-- Seconds_Behind_Master: 0</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="十、高可用设计建议"><a href="#十、高可用设计建议" class="headerlink" title="十、高可用设计建议"></a>十、高可用设计建议</h2><h3 id="10-1-架构选型"><a href="#10-1-架构选型" class="headerlink" title="10.1 架构选型"></a>10.1 架构选型</h3><table>
+<h2 id="十、高可用设计建议"><a href="#十、高可用设计建议" class="headerlink" title="十、高可用设计建议"></a>十、高可用设计建议</h2><p>#</p>
+<h2 id="10-1-架构选型"><a href="#10-1-架构选型" class="headerlink" title="10.1 架构选型"></a>10.1 架构选型</h2><table>
 <thead>
 <tr>
 <th>场景</th>
@@ -782,9 +800,11 @@ RTO">
 <td>MGR + 多副本</td>
 </tr>
 </tbody></table>
-<h3 id="10-2-监控告警"><a href="#10-2-监控告警" class="headerlink" title="10.2 监控告警"></a>10.2 监控告警</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 复制延迟监控</span></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    <span class="built_in">MAX</span>(Seconds_Behind_Master) <span class="keyword">AS</span> max_delay</span><br><span class="line"><span class="keyword">FROM</span> information_schema.processlist</span><br><span class="line"><span class="keyword">WHERE</span> command <span class="operator">=</span> <span class="string">&#x27;Binlog Dump&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 告警：delay &gt; 10秒</span></span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="10-2-监控告警"><a href="#10-2-监控告警" class="headerlink" title="10.2 监控告警"></a>10.2 监控告警</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 复制延迟监控</span></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    <span class="built_in">MAX</span>(Seconds_Behind_Master) <span class="keyword">AS</span> max_delay</span><br><span class="line"><span class="keyword">FROM</span> information_schema.processlist</span><br><span class="line"><span class="keyword">WHERE</span> command <span class="operator">=</span> <span class="string">&#x27;Binlog Dump&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 告警：delay &gt; 10秒</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="10-3-灾备设计"><a href="#10-3-灾备设计" class="headerlink" title="10.3 灾备设计"></a>10.3 灾备设计</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">同城双中心：</span><br><span class="line">  中心A（主）      中心B（备）</span><br><span class="line">  ┌──────┐        ┌──────┐</span><br><span class="line">  │Master│───────&gt;│Slave │</span><br><span class="line">  └──────┘  同步   └──────┘</span><br><span class="line"></span><br><span class="line">异地灾备：</span><br><span class="line">  中心A ──&gt; 中心B（同城）──&gt; 中心C（异地）</span><br><span class="line">  同步/半同步    异步复制</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="10-3-灾备设计"><a href="#10-3-灾备设计" class="headerlink" title="10.3 灾备设计"></a>10.3 灾备设计</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">同城双中心：</span><br><span class="line">  中心A（主）      中心B（备）</span><br><span class="line">  ┌──────┐        ┌──────┐</span><br><span class="line">  │Master│───────&gt;│Slave │</span><br><span class="line">  └──────┘  同步   └──────┘</span><br><span class="line"></span><br><span class="line">异地灾备：</span><br><span class="line">  中心A ──&gt; 中心B（同城）──&gt; 中心C（异地）</span><br><span class="line">  同步/半同步    异步复制</span><br></pre></td></tr></table></figure>
 
 <h2 id="十一、总结"><a href="#十一、总结" class="headerlink" title="十一、总结"></a>十一、总结</h2><table>
 <thead>
@@ -840,6 +860,17 @@ RTO">
 <li>定期的故障演练</li>
 <li>文档化操作流程</li>
 </ol>
+<h2 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a>核心要点</h2><ol>
+<li><p>索引设计的原则：最左前缀原则、避免索引列参与计算、选择合适的索引类型</p>
+</li>
+<li><p>SQL 优化的方法：使用 EXPLAIN 分析执行计划、避免 SELECT *、优化 JOIN</p>
+</li>
+<li><p>事务隔离级别的选择：根据业务需求选择合适的级别</p>
+</li>
+<li><p>常见的锁问题：行锁、表锁、死锁的处理</p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>MySQL 优化是一个持续的过程，需要结合业务特点和数据量来调整。在实际项目中，定期分析慢查询日志、优化索引、调整配置参数，都能提升数据库性能。</p>
 
             </div>
             <hr />
@@ -1339,7 +1370,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">564.6k</span>
+            <span class="white-color">604.3k</span>
             
 
             <br>

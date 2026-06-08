@@ -7,9 +7,8 @@
     <meta name="keywords" content="MySQL 事务隔离级别和幻读问题, 程序员小乐">
 
     
-    <meta name="description" content="MySQL 事务隔离级别和幻读问题MySQL 事务隔离级别是理解并发问题的基础。本文从脏读、不可重复读到幻读，把概念和实际表现对应起来。
-准备一张示例表以订单表为例：
-CREATE TABLE orders (  id BIGINT PRI">
+    <meta name="description" content="MySQL 事务隔离级别和幻读问题Spring 事务用起来简单，但失效场景非常多。很多人遇到过 @Transactional 不生效的情况，却不知道原因。本文把日常开发中常见的坑和对应的排查思路整理出来，帮你避免踩坑。
+准备一张示例表以订单">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -491,7 +490,7 @@ CREATE TABLE orders (  id BIGINT PRI">
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    291
+                    461
                 </div>
                 
 
@@ -514,7 +513,7 @@ CREATE TABLE orders (  id BIGINT PRI">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="MySQL-事务隔离级别和幻读问题"><a href="#MySQL-事务隔离级别和幻读问题" class="headerlink" title="MySQL 事务隔离级别和幻读问题"></a>MySQL 事务隔离级别和幻读问题</h1><p>MySQL 事务隔离级别是理解并发问题的基础。本文从脏读、不可重复读到幻读，把概念和实际表现对应起来。</p>
+                <h1 id="MySQL-事务隔离级别和幻读问题"><a href="#MySQL-事务隔离级别和幻读问题" class="headerlink" title="MySQL 事务隔离级别和幻读问题"></a>MySQL 事务隔离级别和幻读问题</h1><p>Spring 事务用起来简单，但失效场景非常多。很多人遇到过 @Transactional 不生效的情况，却不知道原因。本文把日常开发中常见的坑和对应的排查思路整理出来，帮你避免踩坑。</p>
 <h2 id="准备一张示例表"><a href="#准备一张示例表" class="headerlink" title="准备一张示例表"></a>准备一张示例表</h2><p>以订单表为例：</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE TABLE</span> orders (</span><br><span class="line">  id <span class="type">BIGINT</span> <span class="keyword">PRIMARY KEY</span> AUTO_INCREMENT,</span><br><span class="line">  user_id <span class="type">BIGINT</span> <span class="keyword">NOT NULL</span>,</span><br><span class="line">  status <span class="type">VARCHAR</span>(<span class="number">20</span>) <span class="keyword">NOT NULL</span>,</span><br><span class="line">  amount <span class="type">DECIMAL</span>(<span class="number">10</span>,<span class="number">2</span>) <span class="keyword">NOT NULL</span>,</span><br><span class="line">  created_at DATETIME <span class="keyword">NOT NULL</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
 
@@ -533,6 +532,17 @@ CREATE TABLE orders (  id BIGINT PRI">
 <li>字段类型不一致，例如字符串和数字混用，会影响优化器选择。</li>
 <li>大 offset 分页会越来越慢，可以改成基于 id 的游标分页。</li>
 </ul>
+<h2 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a>核心要点</h2><ol>
+<li><p>事务失效的常见原因：非 public 方法、自调用、异常被吞掉、错误的传播级别</p>
+</li>
+<li><p>事务传播级别决定了方法之间的事务关系，REQUIRED 是默认值</p>
+</li>
+<li><p>使用 @Transactional(rollbackFor = Exception.class) 确保异常回滚</p>
+</li>
+<li><p>编程式事务在某些场景下比声明式事务更灵活</p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>事务管理是保证数据一致性的关键。理解事务的工作机制和常见陷阱，能帮你写出更健壮的代码。在实际项目中，合理配置事务边界非常重要。</p>
 
             </div>
             <hr />
@@ -831,7 +841,7 @@ CREATE TABLE orders (  id BIGINT PRI">
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            深入讲解G1收集器的Region划分、记忆集、并发标记、Mixed GC过程，以及实际生产环境的调优参数和策略。
+                            详解G1垃圾收集器原理与调优的核心概念与实践方法，结合真实开发场景说明使用注意事项。
                         
                     </div>
                     <div class="publish-info">
@@ -1032,7 +1042,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">564.6k</span>
+            <span class="white-color">604.3k</span>
             
 
             <br>

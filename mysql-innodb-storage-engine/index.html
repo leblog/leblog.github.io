@@ -7,8 +7,9 @@
     <meta name="keywords" content="MySQL存储引擎InnoDB详解, 程序员小乐">
 
     
-    <meta name="description" content="MySQL存储引擎InnoDB详解InnoDB是MySQL默认的存储引擎，理解其内部机制对于数据库优化和故障排查至关重要。
-一、InnoDB架构概览1.1 内存结构┌─────────────────────────────────────">
+    <meta name="description" content="MySQL存储引擎InnoDB详解MySQL 是业务系统中最常见的数据库，但用好它并不容易。索引设计、SQL 优化、事务处理都是日常开发中需要关注的点。本文从实际场景出发，讲常见问题和解决思路。
+一、InnoDB架构概览#
+1.1 内存结构">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -490,14 +491,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.9k
+                    2.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    7 分
+                    8 分
                 </div>
                 
                 
@@ -513,15 +514,19 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="MySQL存储引擎InnoDB详解"><a href="#MySQL存储引擎InnoDB详解" class="headerlink" title="MySQL存储引擎InnoDB详解"></a>MySQL存储引擎InnoDB详解</h1><p>InnoDB是MySQL默认的存储引擎，理解其内部机制对于数据库优化和故障排查至关重要。</p>
-<h2 id="一、InnoDB架构概览"><a href="#一、InnoDB架构概览" class="headerlink" title="一、InnoDB架构概览"></a>一、InnoDB架构概览</h2><h3 id="1-1-内存结构"><a href="#1-1-内存结构" class="headerlink" title="1.1 内存结构"></a>1.1 内存结构</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">┌─────────────────────────────────────────────────┐</span><br><span class="line">│                  Buffer Pool                     │</span><br><span class="line">│  ┌─────────────┐  ┌─────────────┐              │</span><br><span class="line">│  │ Data Pages  │  │ Index Pages │              │</span><br><span class="line">│  └─────────────┘  └─────────────┘              │</span><br><span class="line">│  ┌─────────────┐  ┌─────────────┐              │</span><br><span class="line">│  │ Insert Buf  │  │ Adaptive Hash│              │</span><br><span class="line">│  │ (Change Buf)│  │   Index      │              │</span><br><span class="line">│  └─────────────┘  └─────────────┘              │</span><br><span class="line">│  ┌─────────────┐  ┌─────────────┐              │</span><br><span class="line">│  │  Lock Info  │  │ Data Dict    │              │</span><br><span class="line">│  └─────────────┘  └─────────────┘              │</span><br><span class="line">└─────────────────────────────────────────────────┘</span><br><span class="line">┌─────────────────────────────────────────────────┐</span><br><span class="line">│               Redo Log Buffer                    │</span><br><span class="line">└─────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+                <h1 id="MySQL存储引擎InnoDB详解"><a href="#MySQL存储引擎InnoDB详解" class="headerlink" title="MySQL存储引擎InnoDB详解"></a>MySQL存储引擎InnoDB详解</h1><p>MySQL 是业务系统中最常见的数据库，但用好它并不容易。索引设计、SQL 优化、事务处理都是日常开发中需要关注的点。本文从实际场景出发，讲常见问题和解决思路。</p>
+<h2 id="一、InnoDB架构概览"><a href="#一、InnoDB架构概览" class="headerlink" title="一、InnoDB架构概览"></a>一、InnoDB架构概览</h2><p>#</p>
+<h2 id="1-1-内存结构"><a href="#1-1-内存结构" class="headerlink" title="1.1 内存结构"></a>1.1 内存结构</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">┌─────────────────────────────────────────────────┐</span><br><span class="line">│                  Buffer Pool                     │</span><br><span class="line">│  ┌─────────────┐  ┌─────────────┐              │</span><br><span class="line">│  │ Data Pages  │  │ Index Pages │              │</span><br><span class="line">│  └─────────────┘  └─────────────┘              │</span><br><span class="line">│  ┌─────────────┐  ┌─────────────┐              │</span><br><span class="line">│  │ Insert Buf  │  │ Adaptive Hash│              │</span><br><span class="line">│  │ (Change Buf)│  │   Index      │              │</span><br><span class="line">│  └─────────────┘  └─────────────┘              │</span><br><span class="line">│  ┌─────────────┐  ┌─────────────┐              │</span><br><span class="line">│  │  Lock Info  │  │ Data Dict    │              │</span><br><span class="line">│  └─────────────┘  └─────────────┘              │</span><br><span class="line">└─────────────────────────────────────────────────┘</span><br><span class="line">┌─────────────────────────────────────────────────┐</span><br><span class="line">│               Redo Log Buffer                    │</span><br><span class="line">└─────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
 
-<h3 id="1-2-磁盘结构"><a href="#1-2-磁盘结构" class="headerlink" title="1.2 磁盘结构"></a>1.2 磁盘结构</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">┌─────────────────────────────────────────────────┐</span><br><span class="line">│               System Tablespace                  │</span><br><span class="line">│  (ibdata1: 数据字典、Undo Log、双写缓冲)          │</span><br><span class="line">└─────────────────────────────────────────────────┘</span><br><span class="line">┌─────────────────────────────────────────────────┐</span><br><span class="line">│             File-Per-Table Tablespace            │</span><br><span class="line">│  (user.ibd: 表数据、索引)                         │</span><br><span class="line">└─────────────────────────────────────────────────┘</span><br><span class="line">┌─────────────────────────────────────────────────┐</span><br><span class="line">│               Redo Log Files                     │</span><br><span class="line">│  (ib_logfile0, ib_logfile1)                      │</span><br><span class="line">└─────────────────────────────────────────────────┘</span><br><span class="line">┌─────────────────────────────────────────────────┐</span><br><span class="line">│               Undo Tablespace                    │</span><br><span class="line">│  (undo_001, undo_002, MySQL 8.0+)               │</span><br><span class="line">└─────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="1-2-磁盘结构"><a href="#1-2-磁盘结构" class="headerlink" title="1.2 磁盘结构"></a>1.2 磁盘结构</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">┌─────────────────────────────────────────────────┐</span><br><span class="line">│               System Tablespace                  │</span><br><span class="line">│  (ibdata1: 数据字典、Undo Log、双写缓冲)          │</span><br><span class="line">└─────────────────────────────────────────────────┘</span><br><span class="line">┌─────────────────────────────────────────────────┐</span><br><span class="line">│             File-Per-Table Tablespace            │</span><br><span class="line">│  (user.ibd: 表数据、索引)                         │</span><br><span class="line">└─────────────────────────────────────────────────┘</span><br><span class="line">┌─────────────────────────────────────────────────┐</span><br><span class="line">│               Redo Log Files                     │</span><br><span class="line">│  (ib_logfile0, ib_logfile1)                      │</span><br><span class="line">└─────────────────────────────────────────────────┘</span><br><span class="line">┌─────────────────────────────────────────────────┐</span><br><span class="line">│               Undo Tablespace                    │</span><br><span class="line">│  (undo_001, undo_002, MySQL 8.0+)               │</span><br><span class="line">└─────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
 
-<h2 id="二、Buffer-Pool"><a href="#二、Buffer-Pool" class="headerlink" title="二、Buffer Pool"></a>二、Buffer Pool</h2><h3 id="2-1-什么是Buffer-Pool"><a href="#2-1-什么是Buffer-Pool" class="headerlink" title="2.1 什么是Buffer Pool"></a>2.1 什么是Buffer Pool</h3><p>InnoDB在内存中缓存数据页和索引页的区域。所有数据操作先修改Buffer Pool中的页，再异步刷盘。</p>
+<h2 id="二、Buffer-Pool"><a href="#二、Buffer-Pool" class="headerlink" title="二、Buffer Pool"></a>二、Buffer Pool</h2><p>#</p>
+<h2 id="2-1-什么是Buffer-Pool"><a href="#2-1-什么是Buffer-Pool" class="headerlink" title="2.1 什么是Buffer Pool"></a>2.1 什么是Buffer Pool</h2><p>InnoDB在内存中缓存数据页和索引页的区域。所有数据操作先修改Buffer Pool中的页，再异步刷盘。</p>
 <figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="comment"># Buffer Pool大小（建议物理内存的50%-75%）</span></span><br><span class="line"><span class="attr">innodb_buffer_pool_size</span> = <span class="number">4</span>G</span><br><span class="line"></span><br><span class="line"><span class="comment"># Buffer Pool实例数（每个实例至少1GB）</span></span><br><span class="line"><span class="attr">innodb_buffer_pool_instances</span> = <span class="number">4</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="2-2-页管理"><a href="#2-2-页管理" class="headerlink" title="2.2 页管理"></a>2.2 页管理</h3><p><strong>页类型</strong>：</p>
+<p>#</p>
+<h2 id="2-2-页管理"><a href="#2-2-页管理" class="headerlink" title="2.2 页管理"></a>2.2 页管理</h2><p><strong>页类型</strong>：</p>
 <ul>
 <li>数据页（Data Page）</li>
 <li>索引页（Index Page）</li>
@@ -532,7 +537,8 @@
 <p><strong>页状态</strong>：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Free List → LRU List → Flush List</span><br><span class="line">  空闲页    使用中的页    待刷盘页</span><br></pre></td></tr></table></figure>
 
-<h3 id="2-3-LRU算法"><a href="#2-3-LRU算法" class="headerlink" title="2.3 LRU算法"></a>2.3 LRU算法</h3><p>InnoDB使用改进的LRU（Least Recently Used）算法：</p>
+<p>#</p>
+<h2 id="2-3-LRU算法"><a href="#2-3-LRU算法" class="headerlink" title="2.3 LRU算法"></a>2.3 LRU算法</h2><p>InnoDB使用改进的LRU（Least Recently Used）算法：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">LRU List（默认划分为5/8和3/8）：</span><br><span class="line"></span><br><span class="line">新生代（young sublist，5/8）     老生代（old sublist，3/8）</span><br><span class="line">┌─────────────────────┐  ┌─────────────────────┐</span><br><span class="line">│ 热数据              │  │ 冷数据              │</span><br><span class="line">│ 经常访问            │  │ 首次访问            │</span><br><span class="line">│ mid point           │  │                     │</span><br><span class="line">└─────────────────────┘  └─────────────────────┘</span><br></pre></td></tr></table></figure>
 
 <p><strong>midpoint insertion strategy</strong>：</p>
@@ -541,13 +547,16 @@
 <li>避免大扫描（如全表扫描）冲掉热数据</li>
 <li>页在old区停留超过innodb_old_blocks_time（默认1秒）后被访问，才移到young区</li>
 </ul>
-<h3 id="2-4-预读机制"><a href="#2-4-预读机制" class="headerlink" title="2.4 预读机制"></a>2.4 预读机制</h3><p><strong>线性预读</strong>：顺序访问 extent 的56个页，预读下一个extent</p>
+<p>#</p>
+<h2 id="2-4-预读机制"><a href="#2-4-预读机制" class="headerlink" title="2.4 预读机制"></a>2.4 预读机制</h2><p><strong>线性预读</strong>：顺序访问 extent 的56个页，预读下一个extent</p>
 <p><strong>随机预读</strong>：同一个extent的13个页被访问，预读整个extent</p>
 <figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="attr">innodb_read_ahead_threshold</span> = <span class="number">56</span>  <span class="comment"># 线性预读阈值</span></span><br><span class="line"><span class="attr">innodb_random_read_ahead</span> = <span class="literal">OFF</span>    <span class="comment"># 随机预读开关</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="2-5-Buffer-Pool状态查看"><a href="#2-5-Buffer-Pool状态查看" class="headerlink" title="2.5 Buffer Pool状态查看"></a>2.5 Buffer Pool状态查看</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看Buffer Pool状态</span></span><br><span class="line"><span class="keyword">SHOW</span> ENGINE INNODB STATUS;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看Buffer Pool配置和命中情况</span></span><br><span class="line"><span class="keyword">SHOW</span> STATUS <span class="keyword">LIKE</span> <span class="string">&#x27;Innodb_buffer_pool%&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 关键指标：</span></span><br><span class="line"><span class="comment">-- Innodb_buffer_pool_reads: 从磁盘读取的页数</span></span><br><span class="line"><span class="comment">-- Innodb_buffer_pool_read_requests: 逻辑读取请求数</span></span><br><span class="line"><span class="comment">-- 命中率 = 1 - reads / read_requests</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- MySQL 8.0 查看每个Buffer Pool实例状态</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> performance_schema.innodb_buffer_pool_stats;</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="2-5-Buffer-Pool状态查看"><a href="#2-5-Buffer-Pool状态查看" class="headerlink" title="2.5 Buffer Pool状态查看"></a>2.5 Buffer Pool状态查看</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看Buffer Pool状态</span></span><br><span class="line"><span class="keyword">SHOW</span> ENGINE INNODB STATUS;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看Buffer Pool配置和命中情况</span></span><br><span class="line"><span class="keyword">SHOW</span> STATUS <span class="keyword">LIKE</span> <span class="string">&#x27;Innodb_buffer_pool%&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 关键指标：</span></span><br><span class="line"><span class="comment">-- Innodb_buffer_pool_reads: 从磁盘读取的页数</span></span><br><span class="line"><span class="comment">-- Innodb_buffer_pool_read_requests: 逻辑读取请求数</span></span><br><span class="line"><span class="comment">-- 命中率 = 1 - reads / read_requests</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- MySQL 8.0 查看每个Buffer Pool实例状态</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> performance_schema.innodb_buffer_pool_stats;</span><br></pre></td></tr></table></figure>
 
-<h2 id="三、Change-Buffer"><a href="#三、Change-Buffer" class="headerlink" title="三、Change Buffer"></a>三、Change Buffer</h2><h3 id="3-1-什么是Change-Buffer"><a href="#3-1-什么是Change-Buffer" class="headerlink" title="3.1 什么是Change Buffer"></a>3.1 什么是Change Buffer</h3><p>当更新二级索引页时，如果该页不在Buffer Pool中，不立即读入磁盘页，而是将修改缓存到Change Buffer中。后续读该页时合并（Merge）。</p>
+<h2 id="三、Change-Buffer"><a href="#三、Change-Buffer" class="headerlink" title="三、Change Buffer"></a>三、Change Buffer</h2><p>#</p>
+<h2 id="3-1-什么是Change-Buffer"><a href="#3-1-什么是Change-Buffer" class="headerlink" title="3.1 什么是Change Buffer"></a>3.1 什么是Change Buffer</h2><p>当更新二级索引页时，如果该页不在Buffer Pool中，不立即读入磁盘页，而是将修改缓存到Change Buffer中。后续读该页时合并（Merge）。</p>
 <p><strong>适用</strong>：</p>
 <ul>
 <li>二级索引的INSERT、UPDATE、DELETE</li>
@@ -559,40 +568,51 @@
 <li>主键索引（聚簇索引）</li>
 <li>数据页</li>
 </ul>
-<h3 id="3-2-Change-Buffer的优势"><a href="#3-2-Change-Buffer的优势" class="headerlink" title="3.2 Change Buffer的优势"></a>3.2 Change Buffer的优势</h3><ul>
+<p>#</p>
+<h2 id="3-2-Change-Buffer的优势"><a href="#3-2-Change-Buffer的优势" class="headerlink" title="3.2 Change Buffer的优势"></a>3.2 Change Buffer的优势</h2><ul>
 <li>减少随机IO：避免频繁读入不常用的索引页</li>
 <li>批量合并：将多个修改合并到一次IO</li>
 <li>提升写性能：写密集型场景效果显著</li>
 </ul>
-<h3 id="3-3-配置"><a href="#3-3-配置" class="headerlink" title="3.3 配置"></a>3.3 配置</h3><figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 开启Change Buffer（默认开启）</span></span><br><span class="line"><span class="attr">innodb_change_buffering</span> = all</span><br><span class="line"><span class="comment"># 可选值：inserts, deletes, changes, purges, all, none</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Change Buffer占Buffer Pool的比例（默认25%）</span></span><br><span class="line"><span class="attr">innodb_change_buffer_max_size</span> = <span class="number">25</span></span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="3-3-配置"><a href="#3-3-配置" class="headerlink" title="3.3 配置"></a>3.3 配置</h2><figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 开启Change Buffer（默认开启）</span></span><br><span class="line"><span class="attr">innodb_change_buffering</span> = all</span><br><span class="line"><span class="comment"># 可选值：inserts, deletes, changes, purges, all, none</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Change Buffer占Buffer Pool的比例（默认25%）</span></span><br><span class="line"><span class="attr">innodb_change_buffer_max_size</span> = <span class="number">25</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="3-4-监控"><a href="#3-4-监控" class="headerlink" title="3.4 监控"></a>3.4 监控</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看Change Buffer使用情况</span></span><br><span class="line"><span class="keyword">SHOW</span> ENGINE INNODB STATUS;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 相关输出：</span></span><br><span class="line"><span class="comment">-- INSERT BUFFER AND ADAPTIVE HASH INDEX</span></span><br><span class="line"><span class="comment">-- Ibuf: size 1, free list len 0, seg size 2, 0 merges</span></span><br><span class="line"><span class="comment">-- Ibuf: size = 缓存的页数</span></span><br><span class="line"><span class="comment">-- merges = 合并次数</span></span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="3-4-监控"><a href="#3-4-监控" class="headerlink" title="3.4 监控"></a>3.4 监控</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看Change Buffer使用情况</span></span><br><span class="line"><span class="keyword">SHOW</span> ENGINE INNODB STATUS;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 相关输出：</span></span><br><span class="line"><span class="comment">-- INSERT BUFFER AND ADAPTIVE HASH INDEX</span></span><br><span class="line"><span class="comment">-- Ibuf: size 1, free list len 0, seg size 2, 0 merges</span></span><br><span class="line"><span class="comment">-- Ibuf: size = 缓存的页数</span></span><br><span class="line"><span class="comment">-- merges = 合并次数</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="四、Adaptive-Hash-Index"><a href="#四、Adaptive-Hash-Index" class="headerlink" title="四、Adaptive Hash Index"></a>四、Adaptive Hash Index</h2><h3 id="4-1-原理"><a href="#4-1-原理" class="headerlink" title="4.1 原理"></a>4.1 原理</h3><p>InnoDB自动为频繁访问的索引页建立哈希索引，加速等值查询：</p>
+<h2 id="四、Adaptive-Hash-Index"><a href="#四、Adaptive-Hash-Index" class="headerlink" title="四、Adaptive Hash Index"></a>四、Adaptive Hash Index</h2><p>#</p>
+<h2 id="4-1-原理"><a href="#4-1-原理" class="headerlink" title="4.1 原理"></a>4.1 原理</h2><p>InnoDB自动为频繁访问的索引页建立哈希索引，加速等值查询：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">B+树查找：需要遍历树，约3-4次比较</span><br><span class="line">哈希查找：O(1)直接定位</span><br></pre></td></tr></table></figure>
 
-<h3 id="4-2-自动构建"><a href="#4-2-自动构建" class="headerlink" title="4.2 自动构建"></a>4.2 自动构建</h3><ul>
+<p>#</p>
+<h2 id="4-2-自动构建"><a href="#4-2-自动构建" class="headerlink" title="4.2 自动构建"></a>4.2 自动构建</h2><ul>
 <li>自动为Buffer Pool中的热点页建立</li>
 <li>不需要DBA干预</li>
 <li>只适用于等值查询（=、IN）</li>
 </ul>
-<h3 id="4-3-配置"><a href="#4-3-配置" class="headerlink" title="4.3 配置"></a>4.3 配置</h3><figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 开启AHI（默认开启）</span></span><br><span class="line"><span class="attr">innodb_adaptive_hash_index</span> = <span class="literal">ON</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># AHI分区数（减少锁竞争）</span></span><br><span class="line"><span class="attr">innodb_adaptive_hash_index_parts</span> = <span class="number">8</span></span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="4-3-配置"><a href="#4-3-配置" class="headerlink" title="4.3 配置"></a>4.3 配置</h2><figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 开启AHI（默认开启）</span></span><br><span class="line"><span class="attr">innodb_adaptive_hash_index</span> = <span class="literal">ON</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># AHI分区数（减少锁竞争）</span></span><br><span class="line"><span class="attr">innodb_adaptive_hash_index_parts</span> = <span class="number">8</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="4-4-监控"><a href="#4-4-监控" class="headerlink" title="4.4 监控"></a>4.4 监控</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> ENGINE INNODB STATUS;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- Hash table size: 内存中的AHI大小</span></span><br><span class="line"><span class="comment">-- Hash searches/s: 使用AHI的查询次数</span></span><br><span class="line"><span class="comment">-- Non-hash searches/s: 未使用AHI的查询次数</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- AHI使用率 = hash searches / (hash + non-hash searches)</span></span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="4-4-监控"><a href="#4-4-监控" class="headerlink" title="4.4 监控"></a>4.4 监控</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> ENGINE INNODB STATUS;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- Hash table size: 内存中的AHI大小</span></span><br><span class="line"><span class="comment">-- Hash searches/s: 使用AHI的查询次数</span></span><br><span class="line"><span class="comment">-- Non-hash searches/s: 未使用AHI的查询次数</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- AHI使用率 = hash searches / (hash + non-hash searches)</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>注意</strong>：</p>
 <ul>
 <li>大量并发写时，AHI可能成为瓶颈（锁竞争）</li>
 <li>可临时关闭：<code>SET GLOBAL innodb_adaptive_hash_index = OFF</code></li>
 </ul>
-<h2 id="五、Redo-Log"><a href="#五、Redo-Log" class="headerlink" title="五、Redo Log"></a>五、Redo Log</h2><h3 id="5-1-为什么需要Redo-Log"><a href="#5-1-为什么需要Redo-Log" class="headerlink" title="5.1 为什么需要Redo Log"></a>5.1 为什么需要Redo Log</h3><p>保证事务的持久性（Durability）。数据修改先写Redo Log（顺序写），再异步刷数据页（随机写）。</p>
+<h2 id="五、Redo-Log"><a href="#五、Redo-Log" class="headerlink" title="五、Redo Log"></a>五、Redo Log</h2><p>#</p>
+<h2 id="5-1-为什么需要Redo-Log"><a href="#5-1-为什么需要Redo-Log" class="headerlink" title="5.1 为什么需要Redo Log"></a>5.1 为什么需要Redo Log</h2><p>保证事务的持久性（Durability）。数据修改先写Redo Log（顺序写），再异步刷数据页（随机写）。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">写入流程：</span><br><span class="line">1. 修改Buffer Pool中的数据页</span><br><span class="line">2. 生成Redo Log记录</span><br><span class="line">3. 写入Redo Log Buffer</span><br><span class="line">4. 事务提交时刷Redo Log到磁盘</span><br><span class="line">5. 后台线程异步刷脏页</span><br><span class="line"></span><br><span class="line">崩溃恢复：</span><br><span class="line">- 重启时根据Redo Log恢复未刷盘的数据</span><br><span class="line">- 保证已提交事务不丢失</span><br></pre></td></tr></table></figure>
 
-<h3 id="5-2-Redo-Log结构"><a href="#5-2-Redo-Log结构" class="headerlink" title="5.2 Redo Log结构"></a>5.2 Redo Log结构</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Redo Log File（循环使用）：</span><br><span class="line">┌─────────────────────────────────────────────────┐</span><br><span class="line">│  LSN 1000    │  LSN 2000    │  LSN 3000        │</span><br><span class="line">│  ┌────────┐  │  ┌────────┐  │  ┌────────┐     │</span><br><span class="line">│  │Record 1│  │  │Record 2│  │  │Record 3│     │</span><br><span class="line">│  └────────┘  │  └────────┘  │  └────────┘     │</span><br><span class="line">└─────────────────────────────────────────────────┘</span><br><span class="line">      ▲                                   │</span><br><span class="line">      └────────── checkpint LSN ──────────┘</span><br><span class="line"></span><br><span class="line">- checkpoint之前的日志：已刷盘，可覆盖</span><br><span class="line">- checkpoint之后的日志：未刷盘，需保留</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="5-2-Redo-Log结构"><a href="#5-2-Redo-Log结构" class="headerlink" title="5.2 Redo Log结构"></a>5.2 Redo Log结构</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Redo Log File（循环使用）：</span><br><span class="line">┌─────────────────────────────────────────────────┐</span><br><span class="line">│  LSN 1000    │  LSN 2000    │  LSN 3000        │</span><br><span class="line">│  ┌────────┐  │  ┌────────┐  │  ┌────────┐     │</span><br><span class="line">│  │Record 1│  │  │Record 2│  │  │Record 3│     │</span><br><span class="line">│  └────────┘  │  └────────┘  │  └────────┘     │</span><br><span class="line">└─────────────────────────────────────────────────┘</span><br><span class="line">      ▲                                   │</span><br><span class="line">      └────────── checkpint LSN ──────────┘</span><br><span class="line"></span><br><span class="line">- checkpoint之前的日志：已刷盘，可覆盖</span><br><span class="line">- checkpoint之后的日志：未刷盘，需保留</span><br></pre></td></tr></table></figure>
 
-<h3 id="5-3-配置"><a href="#5-3-配置" class="headerlink" title="5.3 配置"></a>5.3 配置</h3><figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Redo Log文件大小（默认48MB，建议1-2GB）</span></span><br><span class="line"><span class="attr">innodb_log_file_size</span> = <span class="number">1</span>G</span><br><span class="line"></span><br><span class="line"><span class="comment"># Redo Log文件数量</span></span><br><span class="line"><span class="attr">innodb_log_files_in_group</span> = <span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Redo Log缓冲区（默认16MB）</span></span><br><span class="line"><span class="attr">innodb_log_buffer_size</span> = <span class="number">64</span>M</span><br><span class="line"></span><br><span class="line"><span class="comment"># 提交时刷盘策略</span></span><br><span class="line"><span class="comment"># 0: 每秒刷盘</span></span><br><span class="line"><span class="comment"># 1: 每次事务刷盘（最安全）</span></span><br><span class="line"><span class="comment"># 2: 写OS缓存，每秒刷盘</span></span><br><span class="line"><span class="attr">innodb_flush_log_at_trx_commit</span> = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="5-3-配置"><a href="#5-3-配置" class="headerlink" title="5.3 配置"></a>5.3 配置</h2><figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Redo Log文件大小（默认48MB，建议1-2GB）</span></span><br><span class="line"><span class="attr">innodb_log_file_size</span> = <span class="number">1</span>G</span><br><span class="line"></span><br><span class="line"><span class="comment"># Redo Log文件数量</span></span><br><span class="line"><span class="attr">innodb_log_files_in_group</span> = <span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Redo Log缓冲区（默认16MB）</span></span><br><span class="line"><span class="attr">innodb_log_buffer_size</span> = <span class="number">64</span>M</span><br><span class="line"></span><br><span class="line"><span class="comment"># 提交时刷盘策略</span></span><br><span class="line"><span class="comment"># 0: 每秒刷盘</span></span><br><span class="line"><span class="comment"># 1: 每次事务刷盘（最安全）</span></span><br><span class="line"><span class="comment"># 2: 写OS缓存，每秒刷盘</span></span><br><span class="line"><span class="attr">innodb_flush_log_at_trx_commit</span> = <span class="number">1</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="5-4-Redo-Log刷盘策略对比"><a href="#5-4-Redo-Log刷盘策略对比" class="headerlink" title="5.4 Redo Log刷盘策略对比"></a>5.4 Redo Log刷盘策略对比</h3><table>
+<p>#</p>
+<h2 id="5-4-Redo-Log刷盘策略对比"><a href="#5-4-Redo-Log刷盘策略对比" class="headerlink" title="5.4 Redo Log刷盘策略对比"></a>5.4 Redo Log刷盘策略对比</h2><table>
 <thead>
 <tr>
 <th>值</th>
@@ -625,15 +645,18 @@
 <li>金融系统：= 1</li>
 <li>一般系统：= 2（配合UPS和RAID电池）</li>
 </ul>
-<h2 id="六、Undo-Log"><a href="#六、Undo-Log" class="headerlink" title="六、Undo Log"></a>六、Undo Log</h2><h3 id="6-1-作用"><a href="#6-1-作用" class="headerlink" title="6.1 作用"></a>6.1 作用</h3><ul>
+<h2 id="六、Undo-Log"><a href="#六、Undo-Log" class="headerlink" title="六、Undo Log"></a>六、Undo Log</h2><p>#</p>
+<h2 id="6-1-作用"><a href="#6-1-作用" class="headerlink" title="6.1 作用"></a>6.1 作用</h2><ul>
 <li><strong>事务回滚</strong>：记录数据修改前的状态</li>
 <li><strong>MVCC</strong>：提供历史版本数据</li>
 <li><strong>崩溃恢复</strong>：协助Redo Log恢复</li>
 </ul>
-<h3 id="6-2-存储位置"><a href="#6-2-存储位置" class="headerlink" title="6.2 存储位置"></a>6.2 存储位置</h3><p>MySQL 5.7：系统表空间（ibdata1）<br>MySQL 8.0：独立的Undo Tablespace</p>
+<p>#</p>
+<h2 id="6-2-存储位置"><a href="#6-2-存储位置" class="headerlink" title="6.2 存储位置"></a>6.2 存储位置</h2><p>MySQL 5.7：系统表空间（ibdata1）<br>MySQL 8.0：独立的Undo Tablespace</p>
 <figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="comment"># MySQL 8.0 Undo Tablespace配置</span></span><br><span class="line"><span class="attr">innodb_undo_tablespaces</span> = <span class="number">2</span>  <span class="comment"># Undo表空间数量</span></span><br><span class="line"><span class="attr">innodb_max_undo_log_size</span> = <span class="number">1</span>G <span class="comment"># 单个Undo表空间最大大小</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="6-3-Undo-Log类型"><a href="#6-3-Undo-Log类型" class="headerlink" title="6.3 Undo Log类型"></a>6.3 Undo Log类型</h3><p><strong>insert undo log</strong>：</p>
+<p>#</p>
+<h2 id="6-3-Undo-Log类型"><a href="#6-3-Undo-Log类型" class="headerlink" title="6.3 Undo Log类型"></a>6.3 Undo Log类型</h2><p><strong>insert undo log</strong>：</p>
 <ul>
 <li>INSERT操作产生</li>
 <li>事务提交后即可删除（不需要MVCC）</li>
@@ -643,12 +666,16 @@
 <li>UPDATE/DELETE产生</li>
 <li>需要保留到没有更早的ReadView存在</li>
 </ul>
-<h3 id="6-4-Undo-Log清理"><a href="#6-4-Undo-Log清理" class="headerlink" title="6.4 Undo Log清理"></a>6.4 Undo Log清理</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Purge线程负责清理：</span><br><span class="line">1. 找到所有活跃ReadView中最老的trx_id</span><br><span class="line">2. 删除比该trx_id更早且已提交的Undo Log</span><br><span class="line">3. 清理标记为删除的记录</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="6-4-Undo-Log清理"><a href="#6-4-Undo-Log清理" class="headerlink" title="6.4 Undo Log清理"></a>6.4 Undo Log清理</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Purge线程负责清理：</span><br><span class="line">1. 找到所有活跃ReadView中最老的trx_id</span><br><span class="line">2. 删除比该trx_id更早且已提交的Undo Log</span><br><span class="line">3. 清理标记为删除的记录</span><br></pre></td></tr></table></figure>
 
-<h2 id="七、Double-Write-Buffer"><a href="#七、Double-Write-Buffer" class="headerlink" title="七、Double Write Buffer"></a>七、Double Write Buffer</h2><h3 id="7-1-部分写问题"><a href="#7-1-部分写问题" class="headerlink" title="7.1 部分写问题"></a>7.1 部分写问题</h3><p>16KB的页写到磁盘时，如果写到一半服务器宕机，页可能损坏（partial page write）。</p>
-<h3 id="7-2-Double-Write机制"><a href="#7-2-Double-Write机制" class="headerlink" title="7.2 Double Write机制"></a>7.2 Double Write机制</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. 脏页刷盘前，先复制到Double Write Buffer（2MB，顺序写）</span><br><span class="line">2. 再将脏页写到数据文件（随机写）</span><br><span class="line">3. 如果写数据文件时崩溃：</span><br><span class="line">   - 从Double Write Buffer恢复完整页</span><br><span class="line">   - 再根据Redo Log恢复</span><br></pre></td></tr></table></figure>
+<h2 id="七、Double-Write-Buffer"><a href="#七、Double-Write-Buffer" class="headerlink" title="七、Double Write Buffer"></a>七、Double Write Buffer</h2><p>#</p>
+<h2 id="7-1-部分写问题"><a href="#7-1-部分写问题" class="headerlink" title="7.1 部分写问题"></a>7.1 部分写问题</h2><p>16KB的页写到磁盘时，如果写到一半服务器宕机，页可能损坏（partial page write）。</p>
+<p>#</p>
+<h2 id="7-2-Double-Write机制"><a href="#7-2-Double-Write机制" class="headerlink" title="7.2 Double Write机制"></a>7.2 Double Write机制</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. 脏页刷盘前，先复制到Double Write Buffer（2MB，顺序写）</span><br><span class="line">2. 再将脏页写到数据文件（随机写）</span><br><span class="line">3. 如果写数据文件时崩溃：</span><br><span class="line">   - 从Double Write Buffer恢复完整页</span><br><span class="line">   - 再根据Redo Log恢复</span><br></pre></td></tr></table></figure>
 
-<h3 id="7-3-配置"><a href="#7-3-配置" class="headerlink" title="7.3 配置"></a>7.3 配置</h3><figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 开启Double Write（默认开启）</span></span><br><span class="line"><span class="attr">innodb_doublewrite</span> = <span class="literal">ON</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 原子写支持（某些SSD支持16KB原子写，可关闭Double Write）</span></span><br><span class="line"><span class="comment"># innodb_doublewrite = OFF  # 仅当存储支持原子写时</span></span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="7-3-配置"><a href="#7-3-配置" class="headerlink" title="7.3 配置"></a>7.3 配置</h2><figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 开启Double Write（默认开启）</span></span><br><span class="line"><span class="attr">innodb_doublewrite</span> = <span class="literal">ON</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 原子写支持（某些SSD支持16KB原子写，可关闭Double Write）</span></span><br><span class="line"><span class="comment"># innodb_doublewrite = OFF  # 仅当存储支持原子写时</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="八、关键参数汇总"><a href="#八、关键参数汇总" class="headerlink" title="八、关键参数汇总"></a>八、关键参数汇总</h2><table>
 <thead>
@@ -768,6 +795,17 @@
 <li>诊断性能问题</li>
 <li>优化SQL和表结构</li>
 </ul>
+<h2 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a>核心要点</h2><ol>
+<li><p>索引设计的原则：最左前缀原则、避免索引列参与计算、选择合适的索引类型</p>
+</li>
+<li><p>SQL 优化的方法：使用 EXPLAIN 分析执行计划、避免 SELECT *、优化 JOIN</p>
+</li>
+<li><p>事务隔离级别的选择：根据业务需求选择合适的级别</p>
+</li>
+<li><p>常见的锁问题：行锁、表锁、死锁的处理</p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>MySQL 优化是一个持续的过程，需要结合业务特点和数据量来调整。在实际项目中，定期分析慢查询日志、优化索引、调整配置参数，都能提升数据库性能。</p>
 
             </div>
             <hr />
@@ -1267,7 +1305,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">564.6k</span>
+            <span class="white-color">604.3k</span>
             
 
             <br>

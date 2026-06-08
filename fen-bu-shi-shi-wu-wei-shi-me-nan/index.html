@@ -7,8 +7,8 @@
     <meta name="keywords" content="分布式事务为什么难, 程序员小乐">
 
     
-    <meta name="description" content="分布式事务为什么难MySQL 事务隔离级别是理解并发问题的基础。本文从脏读、不可重复读到幻读，把概念和实际表现对应起来。
-先从业务问题出发架构设计不要先问“用什么中间件”，而要先问业务目标：是要提升吞吐、解耦系统、保证最终一致，还是降低峰值">
+    <meta name="description" content="分布式事务为什么难Spring 事务用起来简单，但失效场景非常多。很多人遇到过 @Transactional 不生效的情况，却不知道原因。本文把日常开发中常见的坑和对应的排查思路整理出来，帮你避免踩坑。
+先从业务问题出发架构设计不要先问“用">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -490,7 +490,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    263
+                    433
                 </div>
                 
 
@@ -513,7 +513,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="分布式事务为什么难"><a href="#分布式事务为什么难" class="headerlink" title="分布式事务为什么难"></a>分布式事务为什么难</h1><p>MySQL 事务隔离级别是理解并发问题的基础。本文从脏读、不可重复读到幻读，把概念和实际表现对应起来。</p>
+                <h1 id="分布式事务为什么难"><a href="#分布式事务为什么难" class="headerlink" title="分布式事务为什么难"></a>分布式事务为什么难</h1><p>Spring 事务用起来简单，但失效场景非常多。很多人遇到过 @Transactional 不生效的情况，却不知道原因。本文把日常开发中常见的坑和对应的排查思路整理出来，帮你避免踩坑。</p>
 <h2 id="先从业务问题出发"><a href="#先从业务问题出发" class="headerlink" title="先从业务问题出发"></a>先从业务问题出发</h2><p>架构设计不要先问“用什么中间件”，而要先问业务目标：是要提升吞吐、解耦系统、保证最终一致，还是降低峰值压力？不同目标对应的方案完全不同。</p>
 <h2 id="一个典型流程"><a href="#一个典型流程" class="headerlink" title="一个典型流程"></a>一个典型流程</h2><p>以订单创建后发送通知为例：</p>
 <ol>
@@ -534,6 +534,17 @@
 <li>重复消费如何保证幂等？</li>
 <li>下游长时间不可用时如何降级？</li>
 </ul>
+<h2 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a>核心要点</h2><ol>
+<li><p>事务失效的常见原因：非 public 方法、自调用、异常被吞掉、错误的传播级别</p>
+</li>
+<li><p>事务传播级别决定了方法之间的事务关系，REQUIRED 是默认值</p>
+</li>
+<li><p>使用 @Transactional(rollbackFor = Exception.class) 确保异常回滚</p>
+</li>
+<li><p>编程式事务在某些场景下比声明式事务更灵活</p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>事务管理是保证数据一致性的关键。理解事务的工作机制和常见陷阱，能帮你写出更健壮的代码。在实际项目中，合理配置事务边界非常重要。</p>
 
             </div>
             <hr />
@@ -779,7 +790,7 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            详细讲解Spring MVC从请求接收到响应的完整处理流程，包括DispatcherServlet、HandlerMapping、HandlerAdapter、ViewResolver等核心组件。
+                            详解Spring MVC请求处理流程的核心概念与实践方法，结合真实开发场景说明使用注意事项。
                         
                     </div>
                     <div class="publish-info">
@@ -832,7 +843,7 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            深入分析Spring如何解决循环依赖问题，详解三级缓存的设计，以及构造器循环依赖的解决方案。
+                            详解Spring循环依赖与三级缓存的核心概念与实践方法，结合真实开发场景说明使用注意事项。
                         
                     </div>
                     <div class="publish-info">
@@ -1033,7 +1044,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">564.6k</span>
+            <span class="white-color">604.3k</span>
             
 
             <br>

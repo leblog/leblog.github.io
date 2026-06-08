@@ -7,10 +7,8 @@
     <meta name="keywords" content="Redis持久化RDB与AOF, 程序员小乐">
 
     
-    <meta name="description" content="Redis持久化RDB与AOFRedis是内存数据库，持久化机制保证数据不因进程退出而丢失。理解RDB和AOF的原理，是运维Redis的基础。
-一、持久化概述1.1 为什么需要持久化
-Redis数据存储在内存，进程退出数据丢失
-持久化将内存">
+    <meta name="description" content="Redis持久化RDB与AOFRedis 的五种数据结构各有特色，用对了才能发挥它的优势。很多人只用到了 String 和 Hash，却不知道 List、Set、ZSet 在特定场景下更合适。本文从应用场景出发，讲什么时候用什么类型。
+一、">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -492,14 +490,14 @@ Redis数据存储在内存，进程退出数据丢失
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2k
+                    2.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    7 分
+                    8 分
                 </div>
                 
                 
@@ -515,13 +513,15 @@ Redis数据存储在内存，进程退出数据丢失
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="Redis持久化RDB与AOF"><a href="#Redis持久化RDB与AOF" class="headerlink" title="Redis持久化RDB与AOF"></a>Redis持久化RDB与AOF</h1><p>Redis是内存数据库，持久化机制保证数据不因进程退出而丢失。理解RDB和AOF的原理，是运维Redis的基础。</p>
-<h2 id="一、持久化概述"><a href="#一、持久化概述" class="headerlink" title="一、持久化概述"></a>一、持久化概述</h2><h3 id="1-1-为什么需要持久化"><a href="#1-1-为什么需要持久化" class="headerlink" title="1.1 为什么需要持久化"></a>1.1 为什么需要持久化</h3><ul>
+                <h1 id="Redis持久化RDB与AOF"><a href="#Redis持久化RDB与AOF" class="headerlink" title="Redis持久化RDB与AOF"></a>Redis持久化RDB与AOF</h1><p>Redis 的五种数据结构各有特色，用对了才能发挥它的优势。很多人只用到了 String 和 Hash，却不知道 List、Set、ZSet 在特定场景下更合适。本文从应用场景出发，讲什么时候用什么类型。</p>
+<h2 id="一、持久化概述"><a href="#一、持久化概述" class="headerlink" title="一、持久化概述"></a>一、持久化概述</h2><p>#</p>
+<h2 id="1-1-为什么需要持久化"><a href="#1-1-为什么需要持久化" class="headerlink" title="1.1 为什么需要持久化"></a>1.1 为什么需要持久化</h2><ul>
 <li>Redis数据存储在内存，进程退出数据丢失</li>
 <li>持久化将内存数据保存到磁盘</li>
 <li>用于重启恢复、备份、复制同步</li>
 </ul>
-<h3 id="1-2-两种持久化方式"><a href="#1-2-两种持久化方式" class="headerlink" title="1.2 两种持久化方式"></a>1.2 两种持久化方式</h3><table>
+<p>#</p>
+<h2 id="1-2-两种持久化方式"><a href="#1-2-两种持久化方式" class="headerlink" title="1.2 两种持久化方式"></a>1.2 两种持久化方式</h2><table>
 <thead>
 <tr>
 <th>方式</th>
@@ -543,10 +543,12 @@ Redis数据存储在内存，进程退出数据丢失
 <td>文件大，恢复慢</td>
 </tr>
 </tbody></table>
-<h2 id="二、RDB持久化"><a href="#二、RDB持久化" class="headerlink" title="二、RDB持久化"></a>二、RDB持久化</h2><h3 id="2-1-什么是RDB"><a href="#2-1-什么是RDB" class="headerlink" title="2.1 什么是RDB"></a>2.1 什么是RDB</h3><p>RDB（Redis Database）是将某一时刻的内存数据生成快照保存到磁盘：</p>
+<h2 id="二、RDB持久化"><a href="#二、RDB持久化" class="headerlink" title="二、RDB持久化"></a>二、RDB持久化</h2><p>#</p>
+<h2 id="2-1-什么是RDB"><a href="#2-1-什么是RDB" class="headerlink" title="2.1 什么是RDB"></a>2.1 什么是RDB</h2><p>RDB（Redis Database）是将某一时刻的内存数据生成快照保存到磁盘：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">内存数据 ──fork──&gt; 子进程 ──写入──&gt; dump.rdb</span><br></pre></td></tr></table></figure>
 
-<h3 id="2-2-触发方式"><a href="#2-2-触发方式" class="headerlink" title="2.2 触发方式"></a>2.2 触发方式</h3><p><strong>手动触发</strong>：</p>
+<p>#</p>
+<h2 id="2-2-触发方式"><a href="#2-2-触发方式" class="headerlink" title="2.2 触发方式"></a>2.2 触发方式</h2><p><strong>手动触发</strong>：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">SAVE        <span class="comment"># 阻塞主进程，直到完成</span></span><br><span class="line">BGSAVE      <span class="comment"># 后台执行，不阻塞</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>自动触发</strong>（配置文件）：</p>
@@ -558,7 +560,8 @@ Redis数据存储在内存，进程退出数据丢失
 <li>主从复制时，从节点发起同步</li>
 <li>执行SHUTDOWN且没有开启AOF</li>
 </ul>
-<h3 id="2-3-BGSAVE的fork机制"><a href="#2-3-BGSAVE的fork机制" class="headerlink" title="2.3 BGSAVE的fork机制"></a>2.3 BGSAVE的fork机制</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">主进程                    子进程</span><br><span class="line">  │                        │</span><br><span class="line">  ├── fork() ─────────────&gt;│</span><br><span class="line">  │  （瞬间完成）            │</span><br><span class="line">  │                        │</span><br><span class="line">  │ 继续服务客户端           ├── 扫描内存</span><br><span class="line">  │                        │    写入RDB文件</span><br><span class="line">  │                        │</span><br><span class="line">  │  &lt;─────────────────────┤</span><br><span class="line">  │    子进程退出            │  写入完成</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="2-3-BGSAVE的fork机制"><a href="#2-3-BGSAVE的fork机制" class="headerlink" title="2.3 BGSAVE的fork机制"></a>2.3 BGSAVE的fork机制</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">主进程                    子进程</span><br><span class="line">  │                        │</span><br><span class="line">  ├── fork() ─────────────&gt;│</span><br><span class="line">  │  （瞬间完成）            │</span><br><span class="line">  │                        │</span><br><span class="line">  │ 继续服务客户端           ├── 扫描内存</span><br><span class="line">  │                        │    写入RDB文件</span><br><span class="line">  │                        │</span><br><span class="line">  │  &lt;─────────────────────┤</span><br><span class="line">  │    子进程退出            │  写入完成</span><br></pre></td></tr></table></figure>
 
 <p><strong>fork的过程</strong>：</p>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Redis调用fork创建子进程</span></span><br><span class="line"><span class="type">pid_t</span> childpid = fork();</span><br><span class="line"><span class="keyword">if</span> (childpid == <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">// 子进程：生成RDB文件</span></span><br><span class="line">    rdbSave(filename);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 父进程：继续处理客户端请求</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -572,11 +575,14 @@ Redis数据存储在内存，进程退出数据丢失
 <li>只有修改的页才会复制</li>
 <li>子进程看到fork时的数据快照</li>
 </ul>
-<h3 id="2-4-RDB文件格式"><a href="#2-4-RDB文件格式" class="headerlink" title="2.4 RDB文件格式"></a>2.4 RDB文件格式</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">RDB文件结构：</span><br><span class="line">┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐</span><br><span class="line">│  REDIS  │ VERSION │  SELECT │  DB DATA│  SELECT │  EOF    │</span><br><span class="line">│  magic  │  0009   │  DB 0   │         │  DB 1   │ + CRC   │</span><br><span class="line">│  5字节  │  4字节  │         │         │         │         │</span><br><span class="line">└─────────┴─────────┴─────────┴─────────┴─────────┴─────────┘</span><br><span class="line"></span><br><span class="line">DB DATA格式：</span><br><span class="line">┌─────────┬─────────┬─────────┬─────────┐</span><br><span class="line">│ EXPIRE  │  TYPE   │  KEY    │  VALUE  │</span><br><span class="line">│ (可选)  │         │         │         │</span><br><span class="line">└─────────┴─────────┴─────────┴─────────┘</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="2-4-RDB文件格式"><a href="#2-4-RDB文件格式" class="headerlink" title="2.4 RDB文件格式"></a>2.4 RDB文件格式</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">RDB文件结构：</span><br><span class="line">┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐</span><br><span class="line">│  REDIS  │ VERSION │  SELECT │  DB DATA│  SELECT │  EOF    │</span><br><span class="line">│  magic  │  0009   │  DB 0   │         │  DB 1   │ + CRC   │</span><br><span class="line">│  5字节  │  4字节  │         │         │         │         │</span><br><span class="line">└─────────┴─────────┴─────────┴─────────┴─────────┴─────────┘</span><br><span class="line"></span><br><span class="line">DB DATA格式：</span><br><span class="line">┌─────────┬─────────┬─────────┬─────────┐</span><br><span class="line">│ EXPIRE  │  TYPE   │  KEY    │  VALUE  │</span><br><span class="line">│ (可选)  │         │         │         │</span><br><span class="line">└─────────┴─────────┴─────────┴─────────┘</span><br></pre></td></tr></table></figure>
 
-<h3 id="2-5-RDB配置"><a href="#2-5-RDB配置" class="headerlink" title="2.5 RDB配置"></a>2.5 RDB配置</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># redis.conf</span><br><span class="line"></span><br><span class="line"># RDB文件名</span><br><span class="line">dbfilename dump.rdb</span><br><span class="line"></span><br><span class="line"># RDB文件保存目录</span><br><span class="line">dir /var/lib/redis</span><br><span class="line"></span><br><span class="line"># 停止写入如果RDB失败</span><br><span class="line">stop-writes-on-bgsave-error yes</span><br><span class="line"></span><br><span class="line"># RDB文件压缩</span><br><span class="line">rdbcompression yes</span><br><span class="line"></span><br><span class="line"># RDB文件校验</span><br><span class="line">rdbchecksum yes</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="2-5-RDB配置"><a href="#2-5-RDB配置" class="headerlink" title="2.5 RDB配置"></a>2.5 RDB配置</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># redis.conf</span><br><span class="line"></span><br><span class="line"># RDB文件名</span><br><span class="line">dbfilename dump.rdb</span><br><span class="line"></span><br><span class="line"># RDB文件保存目录</span><br><span class="line">dir /var/lib/redis</span><br><span class="line"></span><br><span class="line"># 停止写入如果RDB失败</span><br><span class="line">stop-writes-on-bgsave-error yes</span><br><span class="line"></span><br><span class="line"># RDB文件压缩</span><br><span class="line">rdbcompression yes</span><br><span class="line"></span><br><span class="line"># RDB文件校验</span><br><span class="line">rdbchecksum yes</span><br></pre></td></tr></table></figure>
 
-<h3 id="2-6-RDB的优缺点"><a href="#2-6-RDB的优缺点" class="headerlink" title="2.6 RDB的优缺点"></a>2.6 RDB的优缺点</h3><p><strong>优点</strong>：</p>
+<p>#</p>
+<h2 id="2-6-RDB的优缺点"><a href="#2-6-RDB的优缺点" class="headerlink" title="2.6 RDB的优缺点"></a>2.6 RDB的优缺点</h2><p><strong>优点</strong>：</p>
 <ul>
 <li>文件紧凑，适合备份和灾难恢复</li>
 <li>恢复速度快（直接加载到内存）</li>
@@ -587,12 +593,15 @@ Redis数据存储在内存，进程退出数据丢失
 <li>可能丢失最后一次save后的数据</li>
 <li>fork时内存占用可能翻倍（COW期间）</li>
 </ul>
-<h2 id="三、AOF持久化"><a href="#三、AOF持久化" class="headerlink" title="三、AOF持久化"></a>三、AOF持久化</h2><h3 id="3-1-什么是AOF"><a href="#3-1-什么是AOF" class="headerlink" title="3.1 什么是AOF"></a>3.1 什么是AOF</h3><p>AOF（Append Only File）记录每个写操作命令：</p>
+<h2 id="三、AOF持久化"><a href="#三、AOF持久化" class="headerlink" title="三、AOF持久化"></a>三、AOF持久化</h2><p>#</p>
+<h2 id="3-1-什么是AOF"><a href="#3-1-什么是AOF" class="headerlink" title="3.1 什么是AOF"></a>3.1 什么是AOF</h2><p>AOF（Append Only File）记录每个写操作命令：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">客户端: SET key value</span><br><span class="line">Redis: 将命令追加到AOF文件</span><br><span class="line"></span><br><span class="line">AOF文件内容：</span><br><span class="line">*3\r</span><br><span class="line">$3\r</span><br><span class="line">SET\r</span><br><span class="line">$3\r</span><br><span class="line">key\r</span><br><span class="line">$5\r</span><br><span class="line">value\r</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h3 id="3-2-AOF持久化流程"><a href="#3-2-AOF持久化流程" class="headerlink" title="3.2 AOF持久化流程"></a>3.2 AOF持久化流程</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">客户端写命令</span><br><span class="line">    │</span><br><span class="line">    ▼</span><br><span class="line">┌─────────────┐</span><br><span class="line">│ AOF缓冲区   │  ← 先写入内存缓冲区</span><br><span class="line">└──────┬──────┘</span><br><span class="line">       │</span><br><span class="line">       ├── sync策略 ──&gt;</span><br><span class="line">       │</span><br><span class="line">       ▼</span><br><span class="line">┌─────────────┐</span><br><span class="line">│ AOF文件     │  ← 同步到磁盘</span><br><span class="line">└─────────────┘</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="3-2-AOF持久化流程"><a href="#3-2-AOF持久化流程" class="headerlink" title="3.2 AOF持久化流程"></a>3.2 AOF持久化流程</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">客户端写命令</span><br><span class="line">    │</span><br><span class="line">    ▼</span><br><span class="line">┌─────────────┐</span><br><span class="line">│ AOF缓冲区   │  ← 先写入内存缓冲区</span><br><span class="line">└──────┬──────┘</span><br><span class="line">       │</span><br><span class="line">       ├── sync策略 ──&gt;</span><br><span class="line">       │</span><br><span class="line">       ▼</span><br><span class="line">┌─────────────┐</span><br><span class="line">│ AOF文件     │  ← 同步到磁盘</span><br><span class="line">└─────────────┘</span><br></pre></td></tr></table></figure>
 
-<h3 id="3-3-AOF同步策略"><a href="#3-3-AOF同步策略" class="headerlink" title="3.3 AOF同步策略"></a>3.3 AOF同步策略</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># redis.conf</span><br><span class="line"></span><br><span class="line"># 每次写入都fsync（最安全，最慢）</span><br><span class="line">appendfsync always</span><br><span class="line"></span><br><span class="line"># 每秒fsync一次（推荐，平衡安全性和性能）</span><br><span class="line">appendfsync everysec</span><br><span class="line"></span><br><span class="line"># 由操作系统决定（最快，最不安全）</span><br><span class="line">appendfsync no</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="3-3-AOF同步策略"><a href="#3-3-AOF同步策略" class="headerlink" title="3.3 AOF同步策略"></a>3.3 AOF同步策略</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># redis.conf</span><br><span class="line"></span><br><span class="line"># 每次写入都fsync（最安全，最慢）</span><br><span class="line">appendfsync always</span><br><span class="line"></span><br><span class="line"># 每秒fsync一次（推荐，平衡安全性和性能）</span><br><span class="line">appendfsync everysec</span><br><span class="line"></span><br><span class="line"># 由操作系统决定（最快，最不安全）</span><br><span class="line">appendfsync no</span><br></pre></td></tr></table></figure>
 
 <table>
 <thead>
@@ -623,7 +632,8 @@ Redis数据存储在内存，进程退出数据丢失
 </tr>
 </tbody></table>
 <p><strong>推荐</strong>：everysec（默认）</p>
-<h3 id="3-4-AOF重写"><a href="#3-4-AOF重写" class="headerlink" title="3.4 AOF重写"></a>3.4 AOF重写</h3><p><strong>为什么需要重写</strong>：</p>
+<p>#</p>
+<h2 id="3-4-AOF重写"><a href="#3-4-AOF重写" class="headerlink" title="3.4 AOF重写"></a>3.4 AOF重写</h2><p><strong>为什么需要重写</strong>：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">AOF文件不断增长：</span><br><span class="line">SET key value1</span><br><span class="line">SET key value2</span><br><span class="line">SET key value3</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">同一个key多次修改，只有最后一次有效</span><br><span class="line">需要压缩只保留最终状态</span><br></pre></td></tr></table></figure>
 
 <p><strong>重写原理</strong>：</p>
@@ -632,9 +642,11 @@ Redis数据存储在内存，进程退出数据丢失
 <p><strong>触发方式</strong>：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 自动触发</span><br><span class="line">auto-aof-rewrite-percentage 100   # AOF文件增长100%</span><br><span class="line">auto-aof-rewrite-min-size 64mb    # 最小64MB才触发</span><br><span class="line"></span><br><span class="line"># 手动触发</span><br><span class="line">BGREWRITEAOF</span><br></pre></td></tr></table></figure>
 
-<h3 id="3-5-AOF配置"><a href="#3-5-AOF配置" class="headerlink" title="3.5 AOF配置"></a>3.5 AOF配置</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 开启AOF</span><br><span class="line">appendonly yes</span><br><span class="line"></span><br><span class="line"># AOF文件名</span><br><span class="line">appendfilename &quot;appendonly.aof&quot;</span><br><span class="line"></span><br><span class="line"># 同步策略</span><br><span class="line">appendfsync everysec</span><br><span class="line"></span><br><span class="line"># 重写时是否禁用fsync（减少IO压力）</span><br><span class="line">no-appendfsync-on-rewrite no</span><br><span class="line"></span><br><span class="line"># 自动重写配置</span><br><span class="line">auto-aof-rewrite-percentage 100</span><br><span class="line">auto-aof-rewrite-min-size 64mb</span><br><span class="line"></span><br><span class="line"># 加载AOF时是否忽略末尾错误（如AOF被截断）</span><br><span class="line">aof-load-truncated yes</span><br><span class="line"></span><br><span class="line"># 使用RDB前缀加速AOF恢复（Redis 4.0+）</span><br><span class="line">aof-use-rdb-preamble yes</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="3-5-AOF配置"><a href="#3-5-AOF配置" class="headerlink" title="3.5 AOF配置"></a>3.5 AOF配置</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 开启AOF</span><br><span class="line">appendonly yes</span><br><span class="line"></span><br><span class="line"># AOF文件名</span><br><span class="line">appendfilename &quot;appendonly.aof&quot;</span><br><span class="line"></span><br><span class="line"># 同步策略</span><br><span class="line">appendfsync everysec</span><br><span class="line"></span><br><span class="line"># 重写时是否禁用fsync（减少IO压力）</span><br><span class="line">no-appendfsync-on-rewrite no</span><br><span class="line"></span><br><span class="line"># 自动重写配置</span><br><span class="line">auto-aof-rewrite-percentage 100</span><br><span class="line">auto-aof-rewrite-min-size 64mb</span><br><span class="line"></span><br><span class="line"># 加载AOF时是否忽略末尾错误（如AOF被截断）</span><br><span class="line">aof-load-truncated yes</span><br><span class="line"></span><br><span class="line"># 使用RDB前缀加速AOF恢复（Redis 4.0+）</span><br><span class="line">aof-use-rdb-preamble yes</span><br></pre></td></tr></table></figure>
 
-<h3 id="3-6-AOF的优缺点"><a href="#3-6-AOF的优缺点" class="headerlink" title="3.6 AOF的优缺点"></a>3.6 AOF的优缺点</h3><p><strong>优点</strong>：</p>
+<p>#</p>
+<h2 id="3-6-AOF的优缺点"><a href="#3-6-AOF的优缺点" class="headerlink" title="3.6 AOF的优缺点"></a>3.6 AOF的优缺点</h2><p><strong>优点</strong>：</p>
 <ul>
 <li>数据安全性高（everysec只丢1秒）</li>
 <li>AOF文件可读，可手动修复</li>
@@ -685,7 +697,8 @@ Redis数据存储在内存，进程退出数据丢失
 <td>数据安全要求高</td>
 </tr>
 </tbody></table>
-<h2 id="五、持久化方案选择"><a href="#五、持久化方案选择" class="headerlink" title="五、持久化方案选择"></a>五、持久化方案选择</h2><h3 id="5-1-推荐方案"><a href="#5-1-推荐方案" class="headerlink" title="5.1 推荐方案"></a>5.1 推荐方案</h3><p><strong>方案一：RDB + AOF（推荐）</strong></p>
+<h2 id="五、持久化方案选择"><a href="#五、持久化方案选择" class="headerlink" title="五、持久化方案选择"></a>五、持久化方案选择</h2><p>#</p>
+<h2 id="5-1-推荐方案"><a href="#5-1-推荐方案" class="headerlink" title="5.1 推荐方案"></a>5.1 推荐方案</h2><p><strong>方案一：RDB + AOF（推荐）</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 同时开启RDB和AOF</span><br><span class="line">save 900 1</span><br><span class="line">save 300 10</span><br><span class="line">save 60 10000</span><br><span class="line"></span><br><span class="line">appendonly yes</span><br><span class="line">appendfsync everysec</span><br><span class="line">aof-use-rdb-preamble yes</span><br></pre></td></tr></table></figure>
 
 <ul>
@@ -707,7 +720,8 @@ Redis数据存储在内存，进程退出数据丢失
 <li>数据安全要求极高</li>
 <li>禁用RDB save</li>
 </ul>
-<h3 id="5-2-混合持久化（Redis-4-0-）"><a href="#5-2-混合持久化（Redis-4-0-）" class="headerlink" title="5.2 混合持久化（Redis 4.0+）"></a>5.2 混合持久化（Redis 4.0+）</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">aof-use-rdb-preamble yes</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="5-2-混合持久化（Redis-4-0-）"><a href="#5-2-混合持久化（Redis-4-0-）" class="headerlink" title="5.2 混合持久化（Redis 4.0+）"></a>5.2 混合持久化（Redis 4.0+）</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">aof-use-rdb-preamble yes</span><br></pre></td></tr></table></figure>
 
 <p>AOF文件格式：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">┌─────────────────┬─────────────────────┐</span><br><span class="line">│  RDB格式前缀     │  AOF格式追加命令     │</span><br><span class="line">│  (全量数据)      │  (增量命令)          │</span><br><span class="line">└─────────────────┴─────────────────────┘</span><br><span class="line"></span><br><span class="line">恢复时：</span><br><span class="line">1. 先加载RDB前缀（快速）</span><br><span class="line">2. 再执行AOF命令（精确）</span><br></pre></td></tr></table></figure>
@@ -717,11 +731,14 @@ Redis数据存储在内存，进程退出数据丢失
 <li>恢复速度接近RDB</li>
 <li>数据安全性接近AOF</li>
 </ul>
-<h2 id="六、恢复流程"><a href="#六、恢复流程" class="headerlink" title="六、恢复流程"></a>六、恢复流程</h2><h3 id="6-1-启动时恢复"><a href="#6-1-启动时恢复" class="headerlink" title="6.1 启动时恢复"></a>6.1 启动时恢复</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Redis启动</span><br><span class="line">    │</span><br><span class="line">    ├── AOF开启？</span><br><span class="line">    │       ├── 是 → 加载AOF文件</span><br><span class="line">    │       │         └── 成功 → 启动完成</span><br><span class="line">    │       │         └── 失败 → 报错退出（可配置截断加载）</span><br><span class="line">    │       └── 否 → 加载RDB文件</span><br><span class="line">    │                   └── 成功 → 启动完成</span><br><span class="line">    │                   └── 失败 → 空数据启动</span><br><span class="line">    │</span><br><span class="line">    └── 如果AOF和RDB都存在，优先AOF</span><br></pre></td></tr></table></figure>
+<h2 id="六、恢复流程"><a href="#六、恢复流程" class="headerlink" title="六、恢复流程"></a>六、恢复流程</h2><p>#</p>
+<h2 id="6-1-启动时恢复"><a href="#6-1-启动时恢复" class="headerlink" title="6.1 启动时恢复"></a>6.1 启动时恢复</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Redis启动</span><br><span class="line">    │</span><br><span class="line">    ├── AOF开启？</span><br><span class="line">    │       ├── 是 → 加载AOF文件</span><br><span class="line">    │       │         └── 成功 → 启动完成</span><br><span class="line">    │       │         └── 失败 → 报错退出（可配置截断加载）</span><br><span class="line">    │       └── 否 → 加载RDB文件</span><br><span class="line">    │                   └── 成功 → 启动完成</span><br><span class="line">    │                   └── 失败 → 空数据启动</span><br><span class="line">    │</span><br><span class="line">    └── 如果AOF和RDB都存在，优先AOF</span><br></pre></td></tr></table></figure>
 
-<h3 id="6-2-灾难恢复"><a href="#6-2-灾难恢复" class="headerlink" title="6.2 灾难恢复"></a>6.2 灾难恢复</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 停止Redis</span></span><br><span class="line">redis-cli SHUTDOWN</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 备份当前文件</span></span><br><span class="line"><span class="built_in">cp</span> appendonly.aof appendonly.aof.bak</span><br><span class="line"><span class="built_in">cp</span> dump.rdb dump.rdb.bak</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 恢复备份文件</span></span><br><span class="line"><span class="built_in">cp</span> /backup/dump.rdb /var/lib/redis/</span><br><span class="line"><span class="comment"># 或</span></span><br><span class="line"><span class="built_in">cp</span> /backup/appendonly.aof /var/lib/redis/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 启动Redis</span></span><br><span class="line">redis-server /etc/redis/redis.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5. 检查数据完整性</span></span><br><span class="line">redis-cli INFO keyspace</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="6-2-灾难恢复"><a href="#6-2-灾难恢复" class="headerlink" title="6.2 灾难恢复"></a>6.2 灾难恢复</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 停止Redis</span></span><br><span class="line">redis-cli SHUTDOWN</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 备份当前文件</span></span><br><span class="line"><span class="built_in">cp</span> appendonly.aof appendonly.aof.bak</span><br><span class="line"><span class="built_in">cp</span> dump.rdb dump.rdb.bak</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 恢复备份文件</span></span><br><span class="line"><span class="built_in">cp</span> /backup/dump.rdb /var/lib/redis/</span><br><span class="line"><span class="comment"># 或</span></span><br><span class="line"><span class="built_in">cp</span> /backup/appendonly.aof /var/lib/redis/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 启动Redis</span></span><br><span class="line">redis-server /etc/redis/redis.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5. 检查数据完整性</span></span><br><span class="line">redis-cli INFO keyspace</span><br></pre></td></tr></table></figure>
 
-<h2 id="七、常见问题"><a href="#七、常见问题" class="headerlink" title="七、常见问题"></a>七、常见问题</h2><h3 id="7-1-fork耗时过长"><a href="#7-1-fork耗时过长" class="headerlink" title="7.1 fork耗时过长"></a>7.1 fork耗时过长</h3><p><strong>现象</strong>：BGSAVE或AOF重写时，Redis卡顿</p>
+<h2 id="七、常见问题"><a href="#七、常见问题" class="headerlink" title="七、常见问题"></a>七、常见问题</h2><p>#</p>
+<h2 id="7-1-fork耗时过长"><a href="#7-1-fork耗时过长" class="headerlink" title="7.1 fork耗时过长"></a>7.1 fork耗时过长</h2><p><strong>现象</strong>：BGSAVE或AOF重写时，Redis卡顿</p>
 <p><strong>原因</strong>：</p>
 <ul>
 <li>内存过大，fork需要时间</li>
@@ -730,11 +747,13 @@ Redis数据存储在内存，进程退出数据丢失
 <p><strong>解决</strong>：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 监控fork耗时</span></span><br><span class="line">redis-cli INFO stats | grep latest_fork_usec</span><br><span class="line"></span><br><span class="line"><span class="comment"># 优化：控制Redis内存大小</span></span><br><span class="line"><span class="comment"># 或启用大页（如果系统支持）</span></span><br><span class="line"><span class="built_in">echo</span> never &gt; /sys/kernel/mm/transparent_hugepage/enabled</span><br></pre></td></tr></table></figure>
 
-<h3 id="7-2-AOF文件过大"><a href="#7-2-AOF文件过大" class="headerlink" title="7.2 AOF文件过大"></a>7.2 AOF文件过大</h3><p><strong>现象</strong>：AOF文件持续增长</p>
+<p>#</p>
+<h2 id="7-2-AOF文件过大"><a href="#7-2-AOF文件过大" class="headerlink" title="7.2 AOF文件过大"></a>7.2 AOF文件过大</h2><p><strong>现象</strong>：AOF文件持续增长</p>
 <p><strong>解决</strong>：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 手动触发重写</span></span><br><span class="line">redis-cli BGREWRITEAOF</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查重写配置</span></span><br><span class="line">redis-cli CONFIG GET auto-aof-rewrite*</span><br></pre></td></tr></table></figure>
 
-<h3 id="7-3-持久化失败"><a href="#7-3-持久化失败" class="headerlink" title="7.3 持久化失败"></a>7.3 持久化失败</h3><p><strong>现象</strong>：Redis日志报错 “Can’t save in background”</p>
+<p>#</p>
+<h2 id="7-3-持久化失败"><a href="#7-3-持久化失败" class="headerlink" title="7.3 持久化失败"></a>7.3 持久化失败</h2><p><strong>现象</strong>：Redis日志报错 “Can’t save in background”</p>
 <p><strong>原因</strong>：</p>
 <ul>
 <li>内存不足（COW需要额外内存）</li>
@@ -776,6 +795,19 @@ Redis数据存储在内存，进程退出数据丢失
 <li>监控fork耗时和持久化状态</li>
 <li>确保足够的磁盘空间和内存</li>
 </ol>
+<h2 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a>核心要点</h2><ol>
+<li><p>String：简单的键值对，适合缓存、计数器</p>
+</li>
+<li><p>Hash：存储对象属性，适合用户信息、配置</p>
+</li>
+<li><p>List：有序列表，适合消息队列、最新列表</p>
+</li>
+<li><p>Set：无序去重，适合共同好友、抽奖</p>
+</li>
+<li><p>ZSet：有序集合，适合排行榜、积分系统</p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>选择合适的数据结构是使用 Redis 的关键。在实际项目中，根据业务需求选择合适的类型，可以提升性能和开发效率。</p>
 
             </div>
             <hr />
@@ -1275,7 +1307,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">564.6k</span>
+            <span class="white-color">604.3k</span>
             
 
             <br>

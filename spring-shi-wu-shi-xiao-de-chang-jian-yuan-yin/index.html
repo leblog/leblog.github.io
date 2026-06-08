@@ -7,9 +7,8 @@
     <meta name="keywords" content="Spring 事务失效的常见原因, 程序员小乐">
 
     
-    <meta name="description" content="Spring 事务失效的常见原因MySQL 事务隔离级别是理解并发问题的基础。本文从脏读、不可重复读到幻读，把概念和实际表现对应起来。
-先搭一个最小接口以 Spring Boot 为例，一个接口最好保持分层清楚：
-@RestControll">
+    <meta name="description" content="Spring 事务失效的常见原因Spring 事务用起来简单，但失效场景非常多。很多人遇到过 @Transactional 不生效的情况，却不知道原因。本文把日常开发中常见的坑和对应的排查思路整理出来，帮你避免踩坑。
+先搭一个最小接口以 S">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -491,7 +490,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    294
+                    464
                 </div>
                 
 
@@ -514,7 +513,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="Spring-事务失效的常见原因"><a href="#Spring-事务失效的常见原因" class="headerlink" title="Spring 事务失效的常见原因"></a>Spring 事务失效的常见原因</h1><p>MySQL 事务隔离级别是理解并发问题的基础。本文从脏读、不可重复读到幻读，把概念和实际表现对应起来。</p>
+                <h1 id="Spring-事务失效的常见原因"><a href="#Spring-事务失效的常见原因" class="headerlink" title="Spring 事务失效的常见原因"></a>Spring 事务失效的常见原因</h1><p>Spring 事务用起来简单，但失效场景非常多。很多人遇到过 @Transactional 不生效的情况，却不知道原因。本文把日常开发中常见的坑和对应的排查思路整理出来，帮你避免踩坑。</p>
 <h2 id="先搭一个最小接口"><a href="#先搭一个最小接口" class="headerlink" title="先搭一个最小接口"></a>先搭一个最小接口</h2><p>以 Spring Boot 为例，一个接口最好保持分层清楚：</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/users&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserController</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> UserService userService;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">UserController</span><span class="params">(UserService userService)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.userService = userService;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> UserDTO <span class="title function_">detail</span><span class="params">(<span class="meta">@PathVariable</span> Long id)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> userService.detail(id);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -533,6 +532,17 @@
 <li>Controller 不要返回 Entity，避免数据库字段直接暴露。</li>
 <li>参数校验和异常处理最好统一做，不要散落在每个接口里。</li>
 </ul>
+<h2 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a>核心要点</h2><ol>
+<li><p>事务失效的常见原因：非 public 方法、自调用、异常被吞掉、错误的传播级别</p>
+</li>
+<li><p>事务传播级别决定了方法之间的事务关系，REQUIRED 是默认值</p>
+</li>
+<li><p>使用 @Transactional(rollbackFor = Exception.class) 确保异常回滚</p>
+</li>
+<li><p>编程式事务在某些场景下比声明式事务更灵活</p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>事务管理是保证数据一致性的关键。理解事务的工作机制和常见陷阱，能帮你写出更健壮的代码。在实际项目中，合理配置事务边界非常重要。</p>
 
             </div>
             <hr />
@@ -778,7 +788,7 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            全面讲解CompletableFuture的创建、组合、异常处理方法，以及在实际开发中编排复杂异步流程的最佳实践。
+                            详解CompletableFuture编排异步任务的核心概念与实践方法，结合真实开发场景说明使用注意事项。
                         
                     </div>
                     <div class="publish-info">
@@ -831,7 +841,7 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            系统讲解BlockingQueue的7种实现类，包括ArrayBlockingQueue、LinkedBlockingQueue、SynchronousQueue等的特点和适用场景。
+                            详解阻塞队列BlockingQueue详解的核心概念与实践方法，结合真实开发场景说明使用注意事项。
                         
                     </div>
                     <div class="publish-info">
@@ -1032,7 +1042,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">564.6k</span>
+            <span class="white-color">604.3k</span>
             
 
             <br>

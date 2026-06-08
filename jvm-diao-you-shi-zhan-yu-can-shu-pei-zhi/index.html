@@ -7,23 +7,12 @@
     <meta name="keywords" content="JVM调优实战与参数配置, 程序员小乐">
 
     
-    <meta name="description" content="JVM调优实战与参数配置JVM 调优没有银弹，需要根据应用特点、硬件资源和业务目标进行针对性调整。本文总结调优的核心原则和实战经验。
-调优前准备1. 明确目标
+    <meta name="description" content="JVM调优实战与参数配置JVM 内存布局是排查线上问题的基础。很多开发者遇到 OutOfMemoryError 时不知道从哪里入手。本文结合实际案例，讲清楚各区域的作用和常见异常，帮你建立排查思路。
+调优前准备#
+1. 明确目标
 
 
 目标
-关注点
-
-
-
-低延迟
-GC 停顿时间
-
-
-高吞吐
-单位时间处理量
-
-
 ">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -506,14 +495,14 @@ GC 停顿时间
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1k
+                    1.2k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    4 分
+                    5 分
                 </div>
                 
                 
@@ -529,8 +518,9 @@ GC 停顿时间
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="JVM调优实战与参数配置"><a href="#JVM调优实战与参数配置" class="headerlink" title="JVM调优实战与参数配置"></a>JVM调优实战与参数配置</h1><p>JVM 调优没有银弹，需要根据应用特点、硬件资源和业务目标进行针对性调整。本文总结调优的核心原则和实战经验。</p>
-<h2 id="调优前准备"><a href="#调优前准备" class="headerlink" title="调优前准备"></a>调优前准备</h2><h3 id="1-明确目标"><a href="#1-明确目标" class="headerlink" title="1. 明确目标"></a>1. 明确目标</h3><table>
+                <h1 id="JVM调优实战与参数配置"><a href="#JVM调优实战与参数配置" class="headerlink" title="JVM调优实战与参数配置"></a>JVM调优实战与参数配置</h1><p>JVM 内存布局是排查线上问题的基础。很多开发者遇到 OutOfMemoryError 时不知道从哪里入手。本文结合实际案例，讲清楚各区域的作用和常见异常，帮你建立排查思路。</p>
+<h2 id="调优前准备"><a href="#调优前准备" class="headerlink" title="调优前准备"></a>调优前准备</h2><p>#</p>
+<h2 id="1-明确目标"><a href="#1-明确目标" class="headerlink" title="1. 明确目标"></a>1. 明确目标</h2><table>
 <thead>
 <tr>
 <th>目标</th>
@@ -554,9 +544,11 @@ GC 停顿时间
 <td>线程数、连接数</td>
 </tr>
 </tbody></table>
-<h3 id="2-收集基线数据"><a href="#2-收集基线数据" class="headerlink" title="2. 收集基线数据"></a>2. 收集基线数据</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 压测工具</span></span><br><span class="line">wrk -t12 -c400 -d30s http://localhost:8080/api</span><br><span class="line"></span><br><span class="line"><span class="comment"># 监控指标</span></span><br><span class="line">- 吞吐量 (TPS/QPS)</span><br><span class="line">- 平均/最大响应时间</span><br><span class="line">- GC 频率和停顿时间</span><br><span class="line">- CPU/内存使用率</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="2-收集基线数据"><a href="#2-收集基线数据" class="headerlink" title="2. 收集基线数据"></a>2. 收集基线数据</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 压测工具</span></span><br><span class="line">wrk -t12 -c400 -d30s http://localhost:8080/api</span><br><span class="line"></span><br><span class="line"><span class="comment"># 监控指标</span></span><br><span class="line">- 吞吐量 (TPS/QPS)</span><br><span class="line">- 平均/最大响应时间</span><br><span class="line">- GC 频率和停顿时间</span><br><span class="line">- CPU/内存使用率</span><br></pre></td></tr></table></figure>
 
-<h2 id="内存配置"><a href="#内存配置" class="headerlink" title="内存配置"></a>内存配置</h2><h3 id="堆内存设置"><a href="#堆内存设置" class="headerlink" title="堆内存设置"></a>堆内存设置</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 基础配置</span></span><br><span class="line">-Xms4g -Xmx4g        <span class="comment"># 初始和最大堆内存相同，避免动态调整开销</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 年轻代</span></span><br><span class="line">-Xmn1g               <span class="comment"># 年轻代大小</span></span><br><span class="line"><span class="comment"># 或</span></span><br><span class="line">-XX:NewRatio=2       <span class="comment"># 老年代:年轻代 = 2:1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Survivor区</span></span><br><span class="line">-XX:SurvivorRatio=8  <span class="comment"># Eden:S0:S1 = 8:1:1</span></span><br></pre></td></tr></table></figure>
+<h2 id="内存配置"><a href="#内存配置" class="headerlink" title="内存配置"></a>内存配置</h2><p>#</p>
+<h2 id="堆内存设置"><a href="#堆内存设置" class="headerlink" title="堆内存设置"></a>堆内存设置</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 基础配置</span></span><br><span class="line">-Xms4g -Xmx4g        <span class="comment"># 初始和最大堆内存相同，避免动态调整开销</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 年轻代</span></span><br><span class="line">-Xmn1g               <span class="comment"># 年轻代大小</span></span><br><span class="line"><span class="comment"># 或</span></span><br><span class="line">-XX:NewRatio=2       <span class="comment"># 老年代:年轻代 = 2:1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Survivor区</span></span><br><span class="line">-XX:SurvivorRatio=8  <span class="comment"># Eden:S0:S1 = 8:1:1</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>原则</strong>：</p>
 <ul>
@@ -564,34 +556,46 @@ GC 停顿时间
 <li>年轻代占堆的 1/4 到 1/3</li>
 <li>Survivor 区能容纳一次 Young GC 后的存活对象</li>
 </ul>
-<h3 id="元空间设置"><a href="#元空间设置" class="headerlink" title="元空间设置"></a>元空间设置</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-XX:MetaspaceSize=128m</span><br><span class="line">-XX:MaxMetaspaceSize=256m</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="元空间设置"><a href="#元空间设置" class="headerlink" title="元空间设置"></a>元空间设置</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-XX:MetaspaceSize=128m</span><br><span class="line">-XX:MaxMetaspaceSize=256m</span><br></pre></td></tr></table></figure>
 
 <p><strong>注意</strong>：MaxMetaspaceSize 默认无限制，建议设置上限防止类加载泄漏导致内存耗尽。</p>
-<h3 id="直接内存"><a href="#直接内存" class="headerlink" title="直接内存"></a>直接内存</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-XX:MaxDirectMemorySize=512m</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="直接内存"><a href="#直接内存" class="headerlink" title="直接内存"></a>直接内存</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-XX:MaxDirectMemorySize=512m</span><br></pre></td></tr></table></figure>
 
 <p><strong>适用</strong>：Netty、NIO 等使用堆外内存的场景。</p>
-<h3 id="栈内存"><a href="#栈内存" class="headerlink" title="栈内存"></a>栈内存</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-Xss512k    <span class="comment"># 每个线程的栈大小</span></span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="栈内存"><a href="#栈内存" class="headerlink" title="栈内存"></a>栈内存</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-Xss512k    <span class="comment"># 每个线程的栈大小</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>注意</strong>：线程数多时应减小，避免总内存占用过高。</p>
-<h2 id="GC-选择与配置"><a href="#GC-选择与配置" class="headerlink" title="GC 选择与配置"></a>GC 选择与配置</h2><h3 id="场景1：Web-应用（低延迟）"><a href="#场景1：Web-应用（低延迟）" class="headerlink" title="场景1：Web 应用（低延迟）"></a>场景1：Web 应用（低延迟）</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># JDK 8</span></span><br><span class="line">-XX:+UseG1GC</span><br><span class="line">-XX:MaxGCPauseMillis=200</span><br><span class="line"></span><br><span class="line"><span class="comment"># JDK 11+</span></span><br><span class="line">-XX:+UseG1GC</span><br><span class="line">-XX:MaxGCPauseMillis=100</span><br><span class="line">-XX:+UseStringDeduplication  <span class="comment"># 字符串去重</span></span><br></pre></td></tr></table></figure>
+<h2 id="GC-选择与配置"><a href="#GC-选择与配置" class="headerlink" title="GC 选择与配置"></a>GC 选择与配置</h2><p>#</p>
+<h2 id="场景1：Web-应用（低延迟）"><a href="#场景1：Web-应用（低延迟）" class="headerlink" title="场景1：Web 应用（低延迟）"></a>场景1：Web 应用（低延迟）</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># JDK 8</span></span><br><span class="line">-XX:+UseG1GC</span><br><span class="line">-XX:MaxGCPauseMillis=200</span><br><span class="line"></span><br><span class="line"><span class="comment"># JDK 11+</span></span><br><span class="line">-XX:+UseG1GC</span><br><span class="line">-XX:MaxGCPauseMillis=100</span><br><span class="line">-XX:+UseStringDeduplication  <span class="comment"># 字符串去重</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="场景2：批处理（高吞吐）"><a href="#场景2：批处理（高吞吐）" class="headerlink" title="场景2：批处理（高吞吐）"></a>场景2：批处理（高吞吐）</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-XX:+UseParallelGC</span><br><span class="line">-XX:GCTimeRatio=19          <span class="comment"># GC时间占比 5%</span></span><br><span class="line">-XX:+UseAdaptiveSizePolicy</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="场景2：批处理（高吞吐）"><a href="#场景2：批处理（高吞吐）" class="headerlink" title="场景2：批处理（高吞吐）"></a>场景2：批处理（高吞吐）</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-XX:+UseParallelGC</span><br><span class="line">-XX:GCTimeRatio=19          <span class="comment"># GC时间占比 5%</span></span><br><span class="line">-XX:+UseAdaptiveSizePolicy</span><br></pre></td></tr></table></figure>
 
-<h3 id="场景3：大内存低延迟"><a href="#场景3：大内存低延迟" class="headerlink" title="场景3：大内存低延迟"></a>场景3：大内存低延迟</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># JDK 17+</span></span><br><span class="line">-XX:+UseZGC</span><br><span class="line">-XX:MaxGCPauseMillis=10</span><br><span class="line">-Xms64g -Xmx64g</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="场景3：大内存低延迟"><a href="#场景3：大内存低延迟" class="headerlink" title="场景3：大内存低延迟"></a>场景3：大内存低延迟</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># JDK 17+</span></span><br><span class="line">-XX:+UseZGC</span><br><span class="line">-XX:MaxGCPauseMillis=10</span><br><span class="line">-Xms64g -Xmx64g</span><br></pre></td></tr></table></figure>
 
-<h2 id="GC-日志配置"><a href="#GC-日志配置" class="headerlink" title="GC 日志配置"></a>GC 日志配置</h2><h3 id="JDK-8"><a href="#JDK-8" class="headerlink" title="JDK 8"></a>JDK 8</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-XX:+PrintGCDetails</span><br><span class="line">-XX:+PrintGCDateStamps</span><br><span class="line">-XX:+PrintGCTimeStamps</span><br><span class="line">-XX:+PrintGCCause</span><br><span class="line">-Xloggc:/var/log/app/gc.log</span><br><span class="line">-XX:+UseGCLogFileRotation</span><br><span class="line">-XX:NumberOfGCLogFiles=10</span><br><span class="line">-XX:GCLogFileSize=10M</span><br></pre></td></tr></table></figure>
+<h2 id="GC-日志配置"><a href="#GC-日志配置" class="headerlink" title="GC 日志配置"></a>GC 日志配置</h2><p>#</p>
+<h2 id="JDK-8"><a href="#JDK-8" class="headerlink" title="JDK 8"></a>JDK 8</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-XX:+PrintGCDetails</span><br><span class="line">-XX:+PrintGCDateStamps</span><br><span class="line">-XX:+PrintGCTimeStamps</span><br><span class="line">-XX:+PrintGCCause</span><br><span class="line">-Xloggc:/var/log/app/gc.log</span><br><span class="line">-XX:+UseGCLogFileRotation</span><br><span class="line">-XX:NumberOfGCLogFiles=10</span><br><span class="line">-XX:GCLogFileSize=10M</span><br></pre></td></tr></table></figure>
 
-<h3 id="JDK-9"><a href="#JDK-9" class="headerlink" title="JDK 9+"></a>JDK 9+</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-Xlog:gc*:file=/var/log/app/gc.log:<span class="keyword">time</span>,<span class="built_in">uptime</span>,level,tags:filecount=10,filesize=10m</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="JDK-9"><a href="#JDK-9" class="headerlink" title="JDK 9+"></a>JDK 9+</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-Xlog:gc*:file=/var/log/app/gc.log:<span class="keyword">time</span>,<span class="built_in">uptime</span>,level,tags:filecount=10,filesize=10m</span><br></pre></td></tr></table></figure>
 
 <h2 id="OOM-时自动-dump"><a href="#OOM-时自动-dump" class="headerlink" title="OOM 时自动 dump"></a>OOM 时自动 dump</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-XX:+HeapDumpOnOutOfMemoryError</span><br><span class="line">-XX:HeapDumpPath=/var/log/app/heapdump.hprof</span><br><span class="line">-XX:OnOutOfMemoryError=<span class="string">&quot;sh /app/alert.sh&quot;</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="生产环境配置模板"><a href="#生产环境配置模板" class="headerlink" title="生产环境配置模板"></a>生产环境配置模板</h2><h3 id="通用-Web-应用（JDK-11-）"><a href="#通用-Web-应用（JDK-11-）" class="headerlink" title="通用 Web 应用（JDK 11+）"></a>通用 Web 应用（JDK 11+）</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">JAVA_OPTS=<span class="string">&quot;</span></span><br><span class="line"><span class="string">  -server</span></span><br><span class="line"><span class="string">  -Xms4g -Xmx4g</span></span><br><span class="line"><span class="string">  -Xmn1536m</span></span><br><span class="line"><span class="string">  -XX:MetaspaceSize=256m</span></span><br><span class="line"><span class="string">  -XX:MaxMetaspaceSize=512m</span></span><br><span class="line"><span class="string">  -XX:+UseG1GC</span></span><br><span class="line"><span class="string">  -XX:MaxGCPauseMillis=200</span></span><br><span class="line"><span class="string">  -XX:+ParallelRefProcEnabled</span></span><br><span class="line"><span class="string">  -XX:+AlwaysPreTouch</span></span><br><span class="line"><span class="string">  -XX:+DisableExplicitGC</span></span><br><span class="line"><span class="string">  -XX:+HeapDumpOnOutOfMemoryError</span></span><br><span class="line"><span class="string">  -XX:HeapDumpPath=/var/log/app/</span></span><br><span class="line"><span class="string">  -Xlog:gc*:file=/var/log/app/gc.log:time,uptime,level,tags:filecount=10,filesize=10m</span></span><br><span class="line"><span class="string">  -XX:ErrorFile=/var/log/app/hs_err_pid%p.log</span></span><br><span class="line"><span class="string">&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="生产环境配置模板"><a href="#生产环境配置模板" class="headerlink" title="生产环境配置模板"></a>生产环境配置模板</h2><p>#</p>
+<h2 id="通用-Web-应用（JDK-11-）"><a href="#通用-Web-应用（JDK-11-）" class="headerlink" title="通用 Web 应用（JDK 11+）"></a>通用 Web 应用（JDK 11+）</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">JAVA_OPTS=<span class="string">&quot;</span></span><br><span class="line"><span class="string">  -server</span></span><br><span class="line"><span class="string">  -Xms4g -Xmx4g</span></span><br><span class="line"><span class="string">  -Xmn1536m</span></span><br><span class="line"><span class="string">  -XX:MetaspaceSize=256m</span></span><br><span class="line"><span class="string">  -XX:MaxMetaspaceSize=512m</span></span><br><span class="line"><span class="string">  -XX:+UseG1GC</span></span><br><span class="line"><span class="string">  -XX:MaxGCPauseMillis=200</span></span><br><span class="line"><span class="string">  -XX:+ParallelRefProcEnabled</span></span><br><span class="line"><span class="string">  -XX:+AlwaysPreTouch</span></span><br><span class="line"><span class="string">  -XX:+DisableExplicitGC</span></span><br><span class="line"><span class="string">  -XX:+HeapDumpOnOutOfMemoryError</span></span><br><span class="line"><span class="string">  -XX:HeapDumpPath=/var/log/app/</span></span><br><span class="line"><span class="string">  -Xlog:gc*:file=/var/log/app/gc.log:time,uptime,level,tags:filecount=10,filesize=10m</span></span><br><span class="line"><span class="string">  -XX:ErrorFile=/var/log/app/hs_err_pid%p.log</span></span><br><span class="line"><span class="string">&quot;</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="高并发-API-服务（JDK-17-）"><a href="#高并发-API-服务（JDK-17-）" class="headerlink" title="高并发 API 服务（JDK 17+）"></a>高并发 API 服务（JDK 17+）</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">JAVA_OPTS=<span class="string">&quot;</span></span><br><span class="line"><span class="string">  -server</span></span><br><span class="line"><span class="string">  -Xms8g -Xmx8g</span></span><br><span class="line"><span class="string">  -XX:+UseZGC</span></span><br><span class="line"><span class="string">  -XX:MaxGCPauseMillis=5</span></span><br><span class="line"><span class="string">  -XX:+ZGenerational</span></span><br><span class="line"><span class="string">  -XX:+AlwaysPreTouch</span></span><br><span class="line"><span class="string">  -XX:+DisableExplicitGC</span></span><br><span class="line"><span class="string">  -XX:+HeapDumpOnOutOfMemoryError</span></span><br><span class="line"><span class="string">  -XX:HeapDumpPath=/var/log/app/</span></span><br><span class="line"><span class="string">&quot;</span></span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="高并发-API-服务（JDK-17-）"><a href="#高并发-API-服务（JDK-17-）" class="headerlink" title="高并发 API 服务（JDK 17+）"></a>高并发 API 服务（JDK 17+）</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">JAVA_OPTS=<span class="string">&quot;</span></span><br><span class="line"><span class="string">  -server</span></span><br><span class="line"><span class="string">  -Xms8g -Xmx8g</span></span><br><span class="line"><span class="string">  -XX:+UseZGC</span></span><br><span class="line"><span class="string">  -XX:MaxGCPauseMillis=5</span></span><br><span class="line"><span class="string">  -XX:+ZGenerational</span></span><br><span class="line"><span class="string">  -XX:+AlwaysPreTouch</span></span><br><span class="line"><span class="string">  -XX:+DisableExplicitGC</span></span><br><span class="line"><span class="string">  -XX:+HeapDumpOnOutOfMemoryError</span></span><br><span class="line"><span class="string">  -XX:HeapDumpPath=/var/log/app/</span></span><br><span class="line"><span class="string">&quot;</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="微服务容器化"><a href="#微服务容器化" class="headerlink" title="微服务容器化"></a>微服务容器化</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">JAVA_OPTS=<span class="string">&quot;</span></span><br><span class="line"><span class="string">  -server</span></span><br><span class="line"><span class="string">  -XX:+UseContainerSupport</span></span><br><span class="line"><span class="string">  -XX:InitialRAMPercentage=70.0</span></span><br><span class="line"><span class="string">  -XX:MaxRAMPercentage=70.0</span></span><br><span class="line"><span class="string">  -XX:+UseG1GC</span></span><br><span class="line"><span class="string">  -XX:MaxGCPauseMillis=200</span></span><br><span class="line"><span class="string">  -XX:+UseStringDeduplication</span></span><br><span class="line"><span class="string">&quot;</span></span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="微服务容器化"><a href="#微服务容器化" class="headerlink" title="微服务容器化"></a>微服务容器化</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">JAVA_OPTS=<span class="string">&quot;</span></span><br><span class="line"><span class="string">  -server</span></span><br><span class="line"><span class="string">  -XX:+UseContainerSupport</span></span><br><span class="line"><span class="string">  -XX:InitialRAMPercentage=70.0</span></span><br><span class="line"><span class="string">  -XX:MaxRAMPercentage=70.0</span></span><br><span class="line"><span class="string">  -XX:+UseG1GC</span></span><br><span class="line"><span class="string">  -XX:MaxGCPauseMillis=200</span></span><br><span class="line"><span class="string">  -XX:+UseStringDeduplication</span></span><br><span class="line"><span class="string">&quot;</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="典型调优案例"><a href="#典型调优案例" class="headerlink" title="典型调优案例"></a>典型调优案例</h2><h3 id="案例1：频繁-Full-GC"><a href="#案例1：频繁-Full-GC" class="headerlink" title="案例1：频繁 Full GC"></a>案例1：频繁 Full GC</h3><p><strong>现象</strong>：</p>
+<h2 id="典型调优案例"><a href="#典型调优案例" class="headerlink" title="典型调优案例"></a>典型调优案例</h2><p>#</p>
+<h2 id="案例1：频繁-Full-GC"><a href="#案例1：频繁-Full-GC" class="headerlink" title="案例1：频繁 Full GC"></a>案例1：频繁 Full GC</h2><p><strong>现象</strong>：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Full GC (Allocation Failure)  4096M-&gt;3890M(4096M), 3.5s]</span><br><span class="line">频繁发生，每次停顿 3~5 秒</span><br></pre></td></tr></table></figure>
 
 <p><strong>分析</strong>：</p>
@@ -603,7 +607,8 @@ GC 停顿时间
 <p><strong>解决</strong>：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 增大堆内存</span></span><br><span class="line">-Xms8g -Xmx8g</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 增大年轻代</span></span><br><span class="line">-Xmn3g</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 提高晋升阈值</span></span><br><span class="line">-XX:MaxTenuringThreshold=15</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 检查内存泄漏（MAT分析heap dump）</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="案例2：Young-GC-频繁"><a href="#案例2：Young-GC-频繁" class="headerlink" title="案例2：Young GC 频繁"></a>案例2：Young GC 频繁</h3><p><strong>现象</strong>：</p>
+<p>#</p>
+<h2 id="案例2：Young-GC-频繁"><a href="#案例2：Young-GC-频繁" class="headerlink" title="案例2：Young GC 频繁"></a>案例2：Young GC 频繁</h2><p><strong>现象</strong>：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[GC pause (G1 Evacuation Pause) (young) 200M-&gt;50M(4096M), 0.05s]</span><br><span class="line">每秒发生 5~10 次</span><br></pre></td></tr></table></figure>
 
 <p><strong>分析</strong>：</p>
@@ -615,7 +620,8 @@ GC 停顿时间
 <p><strong>解决</strong>：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 增大年轻代</span></span><br><span class="line">-Xmn2g</span><br><span class="line"></span><br><span class="line"><span class="comment"># 或调整 Eden 比例</span></span><br><span class="line">-XX:SurvivorRatio=6</span><br><span class="line"></span><br><span class="line"><span class="comment"># 代码优化：使用对象池、避免大对象</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="案例3：GC-停顿过长"><a href="#案例3：GC-停顿过长" class="headerlink" title="案例3：GC 停顿过长"></a>案例3：GC 停顿过长</h3><p><strong>现象</strong>：</p>
+<p>#</p>
+<h2 id="案例3：GC-停顿过长"><a href="#案例3：GC-停顿过长" class="headerlink" title="案例3：GC 停顿过长"></a>案例3：GC 停顿过长</h2><p><strong>现象</strong>：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[GC pause (G1 Evacuation Pause) (mixed) 6000M-&gt;3000M(8000M), 1.2s]</span><br></pre></td></tr></table></figure>
 
 <p><strong>分析</strong>：</p>
@@ -664,6 +670,17 @@ GC 停顿时间
 </tr>
 </tbody></table>
 <p>JVM 调优是一个持续的过程：监控 -&gt; 分析 -&gt; 调整 -&gt; 验证。不要过度调优，合理的配置 + 健康的代码才是性能的根本保障。</p>
+<h2 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a>核心要点</h2><ol>
+<li><p>堆内存分为年轻代和老年代，年轻代又分为 Eden、Survivor 等区域</p>
+</li>
+<li><p>栈内存是线程私有的，每个线程都有自己的栈空间</p>
+</li>
+<li><p>方法区（元空间）存储类信息、常量池等</p>
+</li>
+<li><p>常见的 OOM 类型：HeapSpace、OutOfMemoryError、StackOverflowError</p>
+</li>
+</ol>
+<h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2><p>理解 JVM 内存模型是成为高级 Java 工程师的必备技能。在实际项目中，配置合适的堆内存大小、选择合适的垃圾收集器，都需要对内存布局有清晰的认识。</p>
 
             </div>
             <hr />
@@ -1163,7 +1180,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">564.6k</span>
+            <span class="white-color">604.3k</span>
             
 
             <br>

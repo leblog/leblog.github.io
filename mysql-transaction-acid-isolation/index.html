@@ -7,9 +7,9 @@
     <meta name="keywords" content="MySQL事务ACID与隔离级别, 程序员小乐">
 
     
-    <meta name="description" content="MySQL事务ACID与隔离级别事务是数据库系统的核心概念。理解ACID特性和隔离级别，对于开发高并发数据访问应用至关重要。
-一、事务基础1.1 什么是事务事务是一组逻辑操作的集合，要么全部成功，要么全部失败。
-START TRANSACT">
+    <meta name="description" content="MySQL事务ACID与隔离级别Spring 事务用起来简单，但失效场景非常多。很多人遇到过 @Transactional 不生效的情况，却不知道原因。本文把日常开发中常见的坑和对应的排查思路整理出来，帮你避免踩坑。
+一、事务基础#
+1.1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -491,14 +491,14 @@ START TRANSACT">
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.1k
+                    2.3k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    8 分
+                    9 分
                 </div>
                 
                 
@@ -514,19 +514,24 @@ START TRANSACT">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="MySQL事务ACID与隔离级别"><a href="#MySQL事务ACID与隔离级别" class="headerlink" title="MySQL事务ACID与隔离级别"></a>MySQL事务ACID与隔离级别</h1><p>事务是数据库系统的核心概念。理解ACID特性和隔离级别，对于开发高并发数据访问应用至关重要。</p>
-<h2 id="一、事务基础"><a href="#一、事务基础" class="headerlink" title="一、事务基础"></a>一、事务基础</h2><h3 id="1-1-什么是事务"><a href="#1-1-什么是事务" class="headerlink" title="1.1 什么是事务"></a>1.1 什么是事务</h3><p>事务是一组逻辑操作的集合，要么全部成功，要么全部失败。</p>
+                <h1 id="MySQL事务ACID与隔离级别"><a href="#MySQL事务ACID与隔离级别" class="headerlink" title="MySQL事务ACID与隔离级别"></a>MySQL事务ACID与隔离级别</h1><p>Spring 事务用起来简单，但失效场景非常多。很多人遇到过 @Transactional 不生效的情况，却不知道原因。本文把日常开发中常见的坑和对应的排查思路整理出来，帮你避免踩坑。</p>
+<h2 id="一、事务基础"><a href="#一、事务基础" class="headerlink" title="一、事务基础"></a>一、事务基础</h2><p>#</p>
+<h2 id="1-1-什么是事务"><a href="#1-1-什么是事务" class="headerlink" title="1.1 什么是事务"></a>1.1 什么是事务</h2><p>事务是一组逻辑操作的集合，要么全部成功，要么全部失败。</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">START</span> TRANSACTION;</span><br><span class="line"><span class="keyword">UPDATE</span> account <span class="keyword">SET</span> balance <span class="operator">=</span> balance <span class="operator">-</span> <span class="number">100</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line"><span class="keyword">UPDATE</span> account <span class="keyword">SET</span> balance <span class="operator">=</span> balance <span class="operator">+</span> <span class="number">100</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">2</span>;</span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
 
-<h3 id="1-2-事务控制语句"><a href="#1-2-事务控制语句" class="headerlink" title="1.2 事务控制语句"></a>1.2 事务控制语句</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 开启事务</span></span><br><span class="line"><span class="keyword">START</span> TRANSACTION;</span><br><span class="line"><span class="comment">-- 或</span></span><br><span class="line"><span class="keyword">BEGIN</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 提交事务</span></span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 回滚事务</span></span><br><span class="line"><span class="keyword">ROLLBACK</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 设置保存点</span></span><br><span class="line"><span class="keyword">SAVEPOINT</span> sp1;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 回滚到保存点</span></span><br><span class="line"><span class="keyword">ROLLBACK</span> <span class="keyword">TO</span> <span class="keyword">SAVEPOINT</span> sp1;</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="1-2-事务控制语句"><a href="#1-2-事务控制语句" class="headerlink" title="1.2 事务控制语句"></a>1.2 事务控制语句</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 开启事务</span></span><br><span class="line"><span class="keyword">START</span> TRANSACTION;</span><br><span class="line"><span class="comment">-- 或</span></span><br><span class="line"><span class="keyword">BEGIN</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 提交事务</span></span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 回滚事务</span></span><br><span class="line"><span class="keyword">ROLLBACK</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 设置保存点</span></span><br><span class="line"><span class="keyword">SAVEPOINT</span> sp1;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 回滚到保存点</span></span><br><span class="line"><span class="keyword">ROLLBACK</span> <span class="keyword">TO</span> <span class="keyword">SAVEPOINT</span> sp1;</span><br></pre></td></tr></table></figure>
 
-<h3 id="1-3-自动提交"><a href="#1-3-自动提交" class="headerlink" title="1.3 自动提交"></a>1.3 自动提交</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看自动提交状态</span></span><br><span class="line"><span class="keyword">SELECT</span> @<span class="variable">@autocommit</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 关闭自动提交</span></span><br><span class="line"><span class="keyword">SET</span> autocommit <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 开启自动提交（默认）</span></span><br><span class="line"><span class="keyword">SET</span> autocommit <span class="operator">=</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="1-3-自动提交"><a href="#1-3-自动提交" class="headerlink" title="1.3 自动提交"></a>1.3 自动提交</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看自动提交状态</span></span><br><span class="line"><span class="keyword">SELECT</span> @<span class="variable">@autocommit</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 关闭自动提交</span></span><br><span class="line"><span class="keyword">SET</span> autocommit <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 开启自动提交（默认）</span></span><br><span class="line"><span class="keyword">SET</span> autocommit <span class="operator">=</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
 
-<h2 id="二、ACID特性"><a href="#二、ACID特性" class="headerlink" title="二、ACID特性"></a>二、ACID特性</h2><h3 id="2-1-原子性（Atomicity）"><a href="#2-1-原子性（Atomicity）" class="headerlink" title="2.1 原子性（Atomicity）"></a>2.1 原子性（Atomicity）</h3><p><strong>定义</strong>：事务中的所有操作要么全部完成，要么全部不完成。</p>
+<h2 id="二、ACID特性"><a href="#二、ACID特性" class="headerlink" title="二、ACID特性"></a>二、ACID特性</h2><p>#</p>
+<h2 id="2-1-原子性（Atomicity）"><a href="#2-1-原子性（Atomicity）" class="headerlink" title="2.1 原子性（Atomicity）"></a>2.1 原子性（Atomicity）</h2><p><strong>定义</strong>：事务中的所有操作要么全部完成，要么全部不完成。</p>
 <p><strong>实现原理</strong>：Undo Log（回滚日志）</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">事务执行过程：</span><br><span class="line">1. 记录undo log</span><br><span class="line">2. 修改内存数据页</span><br><span class="line">3. 写redo log（Prepare阶段）</span><br><span class="line">4. 写binlog</span><br><span class="line">5. redo log commit</span><br><span class="line"></span><br><span class="line">如果需要回滚：</span><br><span class="line">- 根据undo log将数据恢复到事务前状态</span><br></pre></td></tr></table></figure>
 
-<h3 id="2-2-一致性（Consistency）"><a href="#2-2-一致性（Consistency）" class="headerlink" title="2.2 一致性（Consistency）"></a>2.2 一致性（Consistency）</h3><p><strong>定义</strong>：事务执行前后，数据库从一个一致状态转换到另一个一致状态。</p>
+<p>#</p>
+<h2 id="2-2-一致性（Consistency）"><a href="#2-2-一致性（Consistency）" class="headerlink" title="2.2 一致性（Consistency）"></a>2.2 一致性（Consistency）</h2><p><strong>定义</strong>：事务执行前后，数据库从一个一致状态转换到另一个一致状态。</p>
 <p><strong>含义</strong>：</p>
 <ul>
 <li>数据库完整性约束不被破坏</li>
@@ -534,13 +539,15 @@ START TRANSACT">
 <li>业务规则保证（如转账总额不变）</li>
 </ul>
 <p><strong>实现</strong>：原子性、隔离性、持久性共同保证一致性。</p>
-<h3 id="2-3-隔离性（Isolation）"><a href="#2-3-隔离性（Isolation）" class="headerlink" title="2.3 隔离性（Isolation）"></a>2.3 隔离性（Isolation）</h3><p><strong>定义</strong>：多个事务并发执行时，一个事务的执行不应影响其他事务。</p>
+<p>#</p>
+<h2 id="2-3-隔离性（Isolation）"><a href="#2-3-隔离性（Isolation）" class="headerlink" title="2.3 隔离性（Isolation）"></a>2.3 隔离性（Isolation）</h2><p><strong>定义</strong>：多个事务并发执行时，一个事务的执行不应影响其他事务。</p>
 <p><strong>实现原理</strong>：</p>
 <ul>
 <li>锁机制（Locking）</li>
 <li>多版本并发控制（MVCC）</li>
 </ul>
-<h3 id="2-4-持久性（Durability）"><a href="#2-4-持久性（Durability）" class="headerlink" title="2.4 持久性（Durability）"></a>2.4 持久性（Durability）</h3><p><strong>定义</strong>：事务一旦提交，对数据库的改变就是永久的。</p>
+<p>#</p>
+<h2 id="2-4-持久性（Durability）"><a href="#2-4-持久性（Durability）" class="headerlink" title="2.4 持久性（Durability）"></a>2.4 持久性（Durability）</h2><p><strong>定义</strong>：事务一旦提交，对数据库的改变就是永久的。</p>
 <p><strong>实现原理</strong>：</p>
 <ul>
 <li>Redo Log（重做日志）：保证已提交事务不丢失</li>
@@ -548,23 +555,28 @@ START TRANSACT">
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">事务提交时的写盘流程：</span><br><span class="line">1. 修改Buffer Pool中的数据页（内存）</span><br><span class="line">2. 写Redo Log Buffer（内存）</span><br><span class="line">3. 刷Redo Log到磁盘（顺序写，速度快）</span><br><span class="line">4. 事务标记为已提交</span><br><span class="line">5. 后台线程异步将脏页刷到数据文件</span><br></pre></td></tr></table></figure>
 
-<h2 id="三、并发问题"><a href="#三、并发问题" class="headerlink" title="三、并发问题"></a>三、并发问题</h2><h3 id="3-1-脏读（Dirty-Read）"><a href="#3-1-脏读（Dirty-Read）" class="headerlink" title="3.1 脏读（Dirty Read）"></a>3.1 脏读（Dirty Read）</h3><p><strong>现象</strong>：读取到其他事务未提交的数据。</p>
+<h2 id="三、并发问题"><a href="#三、并发问题" class="headerlink" title="三、并发问题"></a>三、并发问题</h2><p>#</p>
+<h2 id="3-1-脏读（Dirty-Read）"><a href="#3-1-脏读（Dirty-Read）" class="headerlink" title="3.1 脏读（Dirty Read）"></a>3.1 脏读（Dirty Read）</h2><p><strong>现象</strong>：读取到其他事务未提交的数据。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">时间线：</span><br><span class="line">T1: UPDATE account SET balance = 900 WHERE id = 1;  -- 未提交</span><br><span class="line">T2: SELECT balance FROM account WHERE id = 1;  -- 读到900（脏读）</span><br><span class="line">T1: ROLLBACK;  -- 回滚，balance实际还是1000</span><br></pre></td></tr></table></figure>
 
 <p><strong>解决</strong>：禁止读取未提交数据（Read Committed及以上）。</p>
-<h3 id="3-2-不可重复读（Non-repeatable-Read）"><a href="#3-2-不可重复读（Non-repeatable-Read）" class="headerlink" title="3.2 不可重复读（Non-repeatable Read）"></a>3.2 不可重复读（Non-repeatable Read）</h3><p><strong>现象</strong>：同一事务内两次读取同一数据，结果不同。</p>
+<p>#</p>
+<h2 id="3-2-不可重复读（Non-repeatable-Read）"><a href="#3-2-不可重复读（Non-repeatable-Read）" class="headerlink" title="3.2 不可重复读（Non-repeatable Read）"></a>3.2 不可重复读（Non-repeatable Read）</h2><p><strong>现象</strong>：同一事务内两次读取同一数据，结果不同。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">时间线：</span><br><span class="line">T1: SELECT balance FROM account WHERE id = 1;  -- 读到1000</span><br><span class="line">T2: UPDATE account SET balance = 900 WHERE id = 1; COMMIT;</span><br><span class="line">T1: SELECT balance FROM account WHERE id = 1;  -- 读到900（不可重复读）</span><br></pre></td></tr></table></figure>
 
 <p><strong>解决</strong>：Repeatable Read及以上隔离级别。</p>
-<h3 id="3-3-幻读（Phantom-Read）"><a href="#3-3-幻读（Phantom-Read）" class="headerlink" title="3.3 幻读（Phantom Read）"></a>3.3 幻读（Phantom Read）</h3><p><strong>现象</strong>：同一事务内两次查询，第二次查到了第一次没有的行。</p>
+<p>#</p>
+<h2 id="3-3-幻读（Phantom-Read）"><a href="#3-3-幻读（Phantom-Read）" class="headerlink" title="3.3 幻读（Phantom Read）"></a>3.3 幻读（Phantom Read）</h2><p><strong>现象</strong>：同一事务内两次查询，第二次查到了第一次没有的行。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">时间线：</span><br><span class="line">T1: SELECT * FROM account WHERE balance &gt; 500;  -- 查到3条</span><br><span class="line">T2: INSERT INTO account VALUES (4, 600); COMMIT;</span><br><span class="line">T1: SELECT * FROM account WHERE balance &gt; 500;  -- 查到4条（幻读）</span><br></pre></td></tr></table></figure>
 
 <p><strong>解决</strong>：Serializable隔离级别，或InnoDB的间隙锁（Gap Lock）。</p>
-<h3 id="3-4-丢失更新（Lost-Update）"><a href="#3-4-丢失更新（Lost-Update）" class="headerlink" title="3.4 丢失更新（Lost Update）"></a>3.4 丢失更新（Lost Update）</h3><p><strong>现象</strong>：两个事务同时修改同一数据，后提交的事务覆盖了先提交的修改。</p>
+<p>#</p>
+<h2 id="3-4-丢失更新（Lost-Update）"><a href="#3-4-丢失更新（Lost-Update）" class="headerlink" title="3.4 丢失更新（Lost Update）"></a>3.4 丢失更新（Lost Update）</h2><p><strong>现象</strong>：两个事务同时修改同一数据，后提交的事务覆盖了先提交的修改。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">时间线：</span><br><span class="line">T1: SELECT balance FROM account WHERE id = 1;  -- 读到1000</span><br><span class="line">T2: SELECT balance FROM account WHERE id = 1;  -- 读到1000</span><br><span class="line">T1: UPDATE account SET balance = 1100 WHERE id = 1; COMMIT;</span><br><span class="line">T2: UPDATE account SET balance = 900 WHERE id = 1; COMMIT;</span><br><span class="line">-- 最终结果900，T1的更新丢失了</span><br></pre></td></tr></table></figure>
 
 <p><strong>解决</strong>：使用乐观锁（版本号）或悲观锁（SELECT FOR UPDATE）。</p>
-<h2 id="四、隔离级别"><a href="#四、隔离级别" class="headerlink" title="四、隔离级别"></a>四、隔离级别</h2><h3 id="4-1-四种隔离级别"><a href="#4-1-四种隔离级别" class="headerlink" title="4.1 四种隔离级别"></a>4.1 四种隔离级别</h3><table>
+<h2 id="四、隔离级别"><a href="#四、隔离级别" class="headerlink" title="四、隔离级别"></a>四、隔离级别</h2><p>#</p>
+<h2 id="4-1-四种隔离级别"><a href="#4-1-四种隔离级别" class="headerlink" title="4.1 四种隔离级别"></a>4.1 四种隔离级别</h2><table>
 <thead>
 <tr>
 <th>隔离级别</th>
@@ -598,14 +610,16 @@ START TRANSACT">
 <td>不可能</td>
 </tr>
 </tbody></table>
-<h3 id="4-2-READ-UNCOMMITTED"><a href="#4-2-READ-UNCOMMITTED" class="headerlink" title="4.2 READ UNCOMMITTED"></a>4.2 READ UNCOMMITTED</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SET</span> SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="4-2-READ-UNCOMMITTED"><a href="#4-2-READ-UNCOMMITTED" class="headerlink" title="4.2 READ UNCOMMITTED"></a>4.2 READ UNCOMMITTED</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SET</span> SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>可以读取未提交的数据</li>
 <li>性能最好，但数据一致性最差</li>
 <li><strong>生产环境不建议使用</strong></li>
 </ul>
-<h3 id="4-3-READ-COMMITTED"><a href="#4-3-READ-COMMITTED" class="headerlink" title="4.3 READ COMMITTED"></a>4.3 READ COMMITTED</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SET</span> SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="4-3-READ-COMMITTED"><a href="#4-3-READ-COMMITTED" class="headerlink" title="4.3 READ COMMITTED"></a>4.3 READ COMMITTED</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SET</span> SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>只能读取已提交的数据（解决脏读）</li>
@@ -613,33 +627,39 @@ START TRANSACT">
 <li>Oracle、SQL Server默认级别</li>
 <li><strong>可能出现不可重复读和幻读</strong></li>
 </ul>
-<h3 id="4-4-REPEATABLE-READ（MySQL默认）"><a href="#4-4-REPEATABLE-READ（MySQL默认）" class="headerlink" title="4.4 REPEATABLE READ（MySQL默认）"></a>4.4 REPEATABLE READ（MySQL默认）</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SET</span> SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="4-4-REPEATABLE-READ（MySQL默认）"><a href="#4-4-REPEATABLE-READ（MySQL默认）" class="headerlink" title="4.4 REPEATABLE READ（MySQL默认）"></a>4.4 REPEATABLE READ（MySQL默认）</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SET</span> SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>同一事务内多次读取结果一致（解决不可重复读）</li>
 <li>事务开始时生成ReadView，整个事务复用</li>
 <li>InnoDB通过MVCC + 间隙锁，一定程度上解决幻读</li>
 </ul>
-<h3 id="4-5-SERIALIZABLE"><a href="#4-5-SERIALIZABLE" class="headerlink" title="4.5 SERIALIZABLE"></a>4.5 SERIALIZABLE</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SET</span> SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE;</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="4-5-SERIALIZABLE"><a href="#4-5-SERIALIZABLE" class="headerlink" title="4.5 SERIALIZABLE"></a>4.5 SERIALIZABLE</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SET</span> SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE;</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>所有操作串行执行</li>
 <li>通过加锁实现，性能最差</li>
 <li>完全解决所有并发问题</li>
 </ul>
-<h3 id="4-6-查看和设置隔离级别"><a href="#4-6-查看和设置隔离级别" class="headerlink" title="4.6 查看和设置隔离级别"></a>4.6 查看和设置隔离级别</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看当前隔离级别</span></span><br><span class="line"><span class="keyword">SELECT</span> @<span class="variable">@transaction_isolation</span>;</span><br><span class="line"><span class="comment">-- 或</span></span><br><span class="line"><span class="keyword">SHOW</span> VARIABLES <span class="keyword">LIKE</span> <span class="string">&#x27;transaction_isolation&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 设置当前会话隔离级别</span></span><br><span class="line"><span class="keyword">SET</span> SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 设置全局隔离级别</span></span><br><span class="line"><span class="keyword">SET</span> <span class="keyword">GLOBAL</span> TRANSACTION ISOLATION LEVEL READ COMMITTED;</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="4-6-查看和设置隔离级别"><a href="#4-6-查看和设置隔离级别" class="headerlink" title="4.6 查看和设置隔离级别"></a>4.6 查看和设置隔离级别</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看当前隔离级别</span></span><br><span class="line"><span class="keyword">SELECT</span> @<span class="variable">@transaction_isolation</span>;</span><br><span class="line"><span class="comment">-- 或</span></span><br><span class="line"><span class="keyword">SHOW</span> VARIABLES <span class="keyword">LIKE</span> <span class="string">&#x27;transaction_isolation&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 设置当前会话隔离级别</span></span><br><span class="line"><span class="keyword">SET</span> SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 设置全局隔离级别</span></span><br><span class="line"><span class="keyword">SET</span> <span class="keyword">GLOBAL</span> TRANSACTION ISOLATION LEVEL READ COMMITTED;</span><br></pre></td></tr></table></figure>
 
-<h2 id="五、InnoDB的MVCC实现"><a href="#五、InnoDB的MVCC实现" class="headerlink" title="五、InnoDB的MVCC实现"></a>五、InnoDB的MVCC实现</h2><h3 id="5-1-隐藏字段"><a href="#5-1-隐藏字段" class="headerlink" title="5.1 隐藏字段"></a>5.1 隐藏字段</h3><p>InnoDB每行记录都有两个隐藏字段：</p>
+<h2 id="五、InnoDB的MVCC实现"><a href="#五、InnoDB的MVCC实现" class="headerlink" title="五、InnoDB的MVCC实现"></a>五、InnoDB的MVCC实现</h2><p>#</p>
+<h2 id="5-1-隐藏字段"><a href="#5-1-隐藏字段" class="headerlink" title="5.1 隐藏字段"></a>5.1 隐藏字段</h2><p>InnoDB每行记录都有两个隐藏字段：</p>
 <ul>
 <li><strong>DB_TRX_ID</strong>：最后修改该记录的事务ID</li>
 <li><strong>DB_ROLL_PTR</strong>：回滚指针，指向undo log</li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">+----------+--------+---------+------------+-------------+</span><br><span class="line">| id | name | balance | DB_TRX_ID  | DB_ROLL_PTR |</span><br><span class="line">+----------+--------+---------+------------+-------------+</span><br><span class="line">| 1  | Alice| 1000    | 100        | 0x7f...     |</span><br><span class="line">+----------+--------+---------+------------+-------------+</span><br></pre></td></tr></table></figure>
 
-<h3 id="5-2-Undo-Log链"><a href="#5-2-Undo-Log链" class="headerlink" title="5.2 Undo Log链"></a>5.2 Undo Log链</h3><p>每次修改记录，都会生成undo log，形成版本链：</p>
+<p>#</p>
+<h2 id="5-2-Undo-Log链"><a href="#5-2-Undo-Log链" class="headerlink" title="5.2 Undo Log链"></a>5.2 Undo Log链</h2><p>每次修改记录，都会生成undo log，形成版本链：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">当前记录（最新版本）</span><br><span class="line">    │ DB_ROLL_PTR</span><br><span class="line">    ▼</span><br><span class="line">Undo Log（上一个版本）</span><br><span class="line">    │ DB_ROLL_PTR</span><br><span class="line">    ▼</span><br><span class="line">Undo Log（更早版本）</span><br><span class="line">    │</span><br><span class="line">   NULL</span><br></pre></td></tr></table></figure>
 
-<h3 id="5-3-ReadView机制"><a href="#5-3-ReadView机制" class="headerlink" title="5.3 ReadView机制"></a>5.3 ReadView机制</h3><p>ReadView是事务进行快照读时生成的读视图，决定能看到哪个版本的数据。</p>
+<p>#</p>
+<h2 id="5-3-ReadView机制"><a href="#5-3-ReadView机制" class="headerlink" title="5.3 ReadView机制"></a>5.3 ReadView机制</h2><p>ReadView是事务进行快照读时生成的读视图，决定能看到哪个版本的数据。</p>
 <p><strong>ReadView包含</strong>：</p>
 <ul>
 <li><strong>creator_trx_id</strong>：创建该ReadView的事务ID</li>
@@ -660,7 +680,8 @@ START TRANSACT">
 </li>
 </ol>
 <p><strong>不可见时</strong>：通过DB_ROLL_PTR找到上一个版本，继续判断。</p>
-<h3 id="5-4-不同隔离级别的ReadView差异"><a href="#5-4-不同隔离级别的ReadView差异" class="headerlink" title="5.4 不同隔离级别的ReadView差异"></a>5.4 不同隔离级别的ReadView差异</h3><p><strong>READ COMMITTED</strong>：</p>
+<p>#</p>
+<h2 id="5-4-不同隔离级别的ReadView差异"><a href="#5-4-不同隔离级别的ReadView差异" class="headerlink" title="5.4 不同隔离级别的ReadView差异"></a>5.4 不同隔离级别的ReadView差异</h2><p><strong>READ COMMITTED</strong>：</p>
 <ul>
 <li>每次SELECT生成新的ReadView</li>
 <li>能看到其他事务已提交的最新数据</li>
@@ -671,7 +692,8 @@ START TRANSACT">
 <li>整个事务期间复用该ReadView</li>
 <li>保证同一事务内读取一致性</li>
 </ul>
-<h2 id="六、锁机制与隔离级别"><a href="#六、锁机制与隔离级别" class="headerlink" title="六、锁机制与隔离级别"></a>六、锁机制与隔离级别</h2><h3 id="6-1-InnoDB锁类型"><a href="#6-1-InnoDB锁类型" class="headerlink" title="6.1 InnoDB锁类型"></a>6.1 InnoDB锁类型</h3><p><strong>按粒度</strong>：</p>
+<h2 id="六、锁机制与隔离级别"><a href="#六、锁机制与隔离级别" class="headerlink" title="六、锁机制与隔离级别"></a>六、锁机制与隔离级别</h2><p>#</p>
+<h2 id="6-1-InnoDB锁类型"><a href="#6-1-InnoDB锁类型" class="headerlink" title="6.1 InnoDB锁类型"></a>6.1 InnoDB锁类型</h2><p><strong>按粒度</strong>：</p>
 <ul>
 <li>行锁（Record Lock）</li>
 <li>间隙锁（Gap Lock）</li>
@@ -683,7 +705,8 @@ START TRANSACT">
 <li>共享锁（S Lock）：读锁</li>
 <li>排他锁（X Lock）：写锁</li>
 </ul>
-<h3 id="6-2-各隔离级别的锁行为"><a href="#6-2-各隔离级别的锁行为" class="headerlink" title="6.2 各隔离级别的锁行为"></a>6.2 各隔离级别的锁行为</h3><p><strong>READ UNCOMMITTED</strong>：</p>
+<p>#</p>
+<h2 id="6-2-各隔离级别的锁行为"><a href="#6-2-各隔离级别的锁行为" class="headerlink" title="6.2 各隔离级别的锁行为"></a>6.2 各隔离级别的锁行为</h2><p><strong>READ UNCOMMITTED</strong>：</p>
 <ul>
 <li>SELECT不加锁，直接读最新数据（包括未提交的）</li>
 </ul>
@@ -703,19 +726,23 @@ START TRANSACT">
 <li>所有SELECT加共享锁</li>
 <li>完全串行化</li>
 </ul>
-<h3 id="6-3-幻读的解决"><a href="#6-3-幻读的解决" class="headerlink" title="6.3 幻读的解决"></a>6.3 幻读的解决</h3><p>InnoDB在REPEATABLE READ下通过间隙锁解决幻读：</p>
+<p>#</p>
+<h2 id="6-3-幻读的解决"><a href="#6-3-幻读的解决" class="headerlink" title="6.3 幻读的解决"></a>6.3 幻读的解决</h2><p>InnoDB在REPEATABLE READ下通过间隙锁解决幻读：</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- T1</span></span><br><span class="line"><span class="keyword">BEGIN</span>;</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> account <span class="keyword">WHERE</span> id <span class="operator">&gt;</span> <span class="number">5</span> <span class="keyword">FOR</span> <span class="keyword">UPDATE</span>;</span><br><span class="line"><span class="comment">-- 锁住id&gt;5的记录，以及id&gt;5的间隙</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- T2</span></span><br><span class="line"><span class="keyword">INSERT INTO</span> account <span class="keyword">VALUES</span> (<span class="number">10</span>, ...);  <span class="comment">-- 被阻塞！间隙锁阻止插入</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>注意</strong>：普通SELECT（快照读）不受间隙锁保护，可能看到幻读。只有FOR UPDATE（当前读）加间隙锁才能完全避免。</p>
-<h2 id="七、事务优化建议"><a href="#七、事务优化建议" class="headerlink" title="七、事务优化建议"></a>七、事务优化建议</h2><h3 id="7-1-事务设计原则"><a href="#7-1-事务设计原则" class="headerlink" title="7.1 事务设计原则"></a>7.1 事务设计原则</h3><ol>
+<h2 id="七、事务优化建议"><a href="#七、事务优化建议" class="headerlink" title="七、事务优化建议"></a>七、事务优化建议</h2><p>#</p>
+<h2 id="7-1-事务设计原则"><a href="#7-1-事务设计原则" class="headerlink" title="7.1 事务设计原则"></a>7.1 事务设计原则</h2><ol>
 <li><strong>保持事务简短</strong>：长事务占用锁时间长，影响并发</li>
 <li><strong>避免在事务中做RPC调用</strong>：网络延迟导致事务长时间不提交</li>
 <li><strong>按固定顺序访问资源</strong>：减少死锁概率</li>
 <li><strong>合适的隔离级别</strong>：不需要RR时，使用RC提升并发</li>
 </ol>
-<h3 id="7-2-大事务处理"><a href="#7-2-大事务处理" class="headerlink" title="7.2 大事务处理"></a>7.2 大事务处理</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 大DELETE分批处理</span></span><br><span class="line">REPEAT</span><br><span class="line">    <span class="keyword">DELETE</span> <span class="keyword">FROM</span> logs <span class="keyword">WHERE</span> create_time <span class="operator">&lt;</span> <span class="string">&#x27;2023-01-01&#x27;</span> LIMIT <span class="number">1000</span>;</span><br><span class="line">    SLEEP <span class="number">1</span>;</span><br><span class="line">UNTIL ROW_COUNT() <span class="operator">=</span> <span class="number">0</span> <span class="keyword">END</span> REPEAT;</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="7-2-大事务处理"><a href="#7-2-大事务处理" class="headerlink" title="7.2 大事务处理"></a>7.2 大事务处理</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 大DELETE分批处理</span></span><br><span class="line">REPEAT</span><br><span class="line">    <span class="keyword">DELETE</span> <span class="keyword">FROM</span> logs <span class="keyword">WHERE</span> create_time <span class="operator">&lt;</span> <span class="string">&#x27;2023-01-01&#x27;</span> LIMIT <span class="number">1000</span>;</span><br><span class="line">    SLEEP <span class="number">1</span>;</span><br><span class="line">UNTIL ROW_COUNT() <span class="operator">=</span> <span class="number">0</span> <span class="keyword">END</span> REPEAT;</span><br></pre></td></tr></table></figure>
 
-<h3 id="7-3-监控长事务"><a href="#7-3-监控长事务" class="headerlink" title="7.3 监控长事务"></a>7.3 监控长事务</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看正在执行的事务</span></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    trx_id,</span><br><span class="line">    trx_state,</span><br><span class="line">    trx_started,</span><br><span class="line">    TIMESTAMPDIFF(<span class="keyword">SECOND</span>, trx_started, NOW()) <span class="keyword">AS</span> trx_seconds,</span><br><span class="line">    trx_mysql_thread_id,</span><br><span class="line">    trx_tables_locked,</span><br><span class="line">    trx_rows_locked</span><br><span class="line"><span class="keyword">FROM</span> information_schema.innodb_trx</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> trx_started;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 杀死长事务</span></span><br><span class="line">KILL <span class="operator">&lt;</span>trx_mysql_thread_id<span class="operator">&gt;</span>;</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="7-3-监控长事务"><a href="#7-3-监控长事务" class="headerlink" title="7.3 监控长事务"></a>7.3 监控长事务</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看正在执行的事务</span></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    trx_id,</span><br><span class="line">    trx_state,</span><br><span class="line">    trx_started,</span><br><span class="line">    TIMESTAMPDIFF(<span class="keyword">SECOND</span>, trx_started, NOW()) <span class="keyword">AS</span> trx_seconds,</span><br><span class="line">    trx_mysql_thread_id,</span><br><span class="line">    trx_tables_locked,</span><br><span class="line">    trx_rows_locked</span><br><span class="line"><span class="keyword">FROM</span> information_schema.innodb_trx</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> trx_started;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 杀死长事务</span></span><br><span class="line">KILL <span class="operator">&lt;</span>trx_mysql_thread_id<span class="operator">&gt;</span>;</span><br></pre></td></tr></table></figure>
 
 <h2 id="八、总结"><a href="#八、总结" class="headerlink" title="八、总结"></a>八、总结</h2><table>
 <thead>
@@ -791,6 +818,17 @@ START TRANSACT">
 <li>设计出高效的事务逻辑</li>
 <li>快速定位和解决并发问题</li>
 </ol>
+<h2 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a>核心要点</h2><ol>
+<li><p>事务失效的常见原因：非 public 方法、自调用、异常被吞掉、错误的传播级别</p>
+</li>
+<li><p>事务传播级别决定了方法之间的事务关系，REQUIRED 是默认值</p>
+</li>
+<li><p>使用 @Transactional(rollbackFor = Exception.class) 确保异常回滚</p>
+</li>
+<li><p>编程式事务在某些场景下比声明式事务更灵活</p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>事务管理是保证数据一致性的关键。理解事务的工作机制和常见陷阱，能帮你写出更健壮的代码。在实际项目中，合理配置事务边界非常重要。</p>
 
             </div>
             <hr />
@@ -1290,7 +1328,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">564.6k</span>
+            <span class="white-color">604.3k</span>
             
 
             <br>

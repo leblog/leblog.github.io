@@ -7,8 +7,7 @@
     <meta name="keywords" content="Spring IoC 容器到底解决了什么, 程序员小乐">
 
     
-    <meta name="description" content="Spring IoC 容器到底解决了什么IoC 容器是 Spring 的根基，很多开发者每天在用却未必能说清它解决了什么。本文从实际使用场景出发，理解依赖注入的价值。
-先搭一个最小接口以 Spring Boot 为例，一个接口最好保持分层清">
+    <meta name="description" content="Spring IoC 容器到底解决了什么IoC 容器是 Spring 的根基，很多开发者每天在用却未必能说清它解决了什么。从手动 new 对象到依赖注入，这个转变看似简单，却带来了巨大的设计优势。本文从实际使用场景出发，理解依赖注入的价值。">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -490,7 +489,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    302
+                    487
                 </div>
                 
 
@@ -513,7 +512,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="Spring-IoC-容器到底解决了什么"><a href="#Spring-IoC-容器到底解决了什么" class="headerlink" title="Spring IoC 容器到底解决了什么"></a>Spring IoC 容器到底解决了什么</h1><p>IoC 容器是 Spring 的根基，很多开发者每天在用却未必能说清它解决了什么。本文从实际使用场景出发，理解依赖注入的价值。</p>
+                <h1 id="Spring-IoC-容器到底解决了什么"><a href="#Spring-IoC-容器到底解决了什么" class="headerlink" title="Spring IoC 容器到底解决了什么"></a>Spring IoC 容器到底解决了什么</h1><p>IoC 容器是 Spring 的根基，很多开发者每天在用却未必能说清它解决了什么。从手动 new 对象到依赖注入，这个转变看似简单，却带来了巨大的设计优势。本文从实际使用场景出发，理解依赖注入的价值。</p>
 <h2 id="先搭一个最小接口"><a href="#先搭一个最小接口" class="headerlink" title="先搭一个最小接口"></a>先搭一个最小接口</h2><p>以 Spring Boot 为例，一个接口最好保持分层清楚：</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/users&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserController</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> UserService userService;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">UserController</span><span class="params">(UserService userService)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.userService = userService;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> UserDTO <span class="title function_">detail</span><span class="params">(<span class="meta">@PathVariable</span> Long id)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> userService.detail(id);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -532,6 +531,17 @@
 <li>Controller 不要返回 Entity，避免数据库字段直接暴露。</li>
 <li>参数校验和异常处理最好统一做，不要散落在每个接口里。</li>
 </ul>
+<h2 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a>核心要点</h2><ol>
+<li><p>依赖注入实现了控制反转，把对象创建的控制权交给容器</p>
+</li>
+<li><p>构造器注入优于字段注入，能保证依赖的不可变性和非空性</p>
+</li>
+<li><p>IoC 容器提供了对象生命周期管理、依赖解析、配置管理等能力</p>
+</li>
+<li><p>通过 @Autowired 或 @Resource 注解实现依赖注入，前者按类型，后者按名称</p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>IoC 不仅是一种技术实现，更是一种设计理念。它让代码更易测试、更易维护、更具扩展性。理解 IoC 有助于更好地设计和架构 Spring 应用。</p>
 
             </div>
             <hr />
@@ -777,7 +787,7 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            深入对比HashMap、Hashtable、Collections.synchronizedMap，重点解析ConcurrentHashMap在JDK7分段锁和JDK8 CAS+synchronized的演进。
+                            详解ConcurrentHashMap为什么适合并发的核心概念与实践方法，结合真实开发场景说明使用注意事项。
                         
                     </div>
                     <div class="publish-info">
@@ -830,7 +840,7 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            深入讲解ThreadLocal的实现原理、使用场景，以及在线程池环境下内存泄漏的原因和解决方案。
+                            详解ThreadLocal的使用和内存泄漏的核心概念与实践方法，结合真实开发场景说明使用注意事项。
                         
                     </div>
                     <div class="publish-info">
@@ -1031,7 +1041,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">564.6k</span>
+            <span class="white-color">604.3k</span>
             
 
             <br>

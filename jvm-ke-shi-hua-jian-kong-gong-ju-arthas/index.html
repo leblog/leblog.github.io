@@ -7,8 +7,8 @@
     <meta name="keywords" content="JVM可视化监控工具Arthas, 程序员小乐">
 
     
-    <meta name="description" content="JVM可视化监控工具ArthasArthas 是阿里巴巴开源的 Java 诊断工具，可以在不重启应用的情况下查看 JVM 状态、追踪方法执行、反编译代码等。
-安装与启动# 在线安装curl -O https://arthas.aliyun.">
+    <meta name="description" content="JVM可视化监控工具ArthasJVM 内存布局是排查线上问题的基础。很多开发者遇到 OutOfMemoryError 时不知道从哪里入手。本文结合实际案例，讲清楚各区域的作用和常见异常，帮你建立排查思路。
+安装与启动# 在线安装curl ">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -490,7 +490,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.1k
+                    1.2k
                 </div>
                 
 
@@ -513,22 +513,26 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="JVM可视化监控工具Arthas"><a href="#JVM可视化监控工具Arthas" class="headerlink" title="JVM可视化监控工具Arthas"></a>JVM可视化监控工具Arthas</h1><p>Arthas 是阿里巴巴开源的 Java 诊断工具，可以在不重启应用的情况下查看 JVM 状态、追踪方法执行、反编译代码等。</p>
+                <h1 id="JVM可视化监控工具Arthas"><a href="#JVM可视化监控工具Arthas" class="headerlink" title="JVM可视化监控工具Arthas"></a>JVM可视化监控工具Arthas</h1><p>JVM 内存布局是排查线上问题的基础。很多开发者遇到 OutOfMemoryError 时不知道从哪里入手。本文结合实际案例，讲清楚各区域的作用和常见异常，帮你建立排查思路。</p>
 <h2 id="安装与启动"><a href="#安装与启动" class="headerlink" title="安装与启动"></a>安装与启动</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 在线安装</span></span><br><span class="line">curl -O https://arthas.aliyun.com/arthas-boot.jar</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动</span></span><br><span class="line">java -jar arthas-boot.jar</span><br><span class="line"></span><br><span class="line"><span class="comment"># 选择要诊断的 Java 进程</span></span><br><span class="line">[INFO] arthas-boot version: 3.x.x</span><br><span class="line">[INFO] Found existing java process, please choose one and input the serial number of the process, eg : 1. Then hit ENTER.</span><br><span class="line">* [1]: 12345 /app/myapp.jar</span><br><span class="line">  [2]: 67890 org.apache.catalina.startup.Bootstrap</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
 
-<h2 id="核心命令"><a href="#核心命令" class="headerlink" title="核心命令"></a>核心命令</h2><h3 id="1-dashboard：系统仪表盘"><a href="#1-dashboard：系统仪表盘" class="headerlink" title="1. dashboard：系统仪表盘"></a>1. dashboard：系统仪表盘</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ dashboard</span><br></pre></td></tr></table></figure>
+<h2 id="核心命令"><a href="#核心命令" class="headerlink" title="核心命令"></a>核心命令</h2><p>#</p>
+<h2 id="1-dashboard：系统仪表盘"><a href="#1-dashboard：系统仪表盘" class="headerlink" title="1. dashboard：系统仪表盘"></a>1. dashboard：系统仪表盘</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ dashboard</span><br></pre></td></tr></table></figure>
 
 <p><strong>输出</strong>：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ID   NAME                      GROUP    PRIORITY STATE    %CPU  TIME   INTERRUPTED DAEMON</span><br><span class="line">12   AsyncAppender-Worker      main     5        WAITING  0.0   0:0    false       true</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">Memory                    used    total    max     usage    GC</span><br><span class="line">heap                      256M    512M     4096M   6.25%    gc.g1_young_generation.count   100</span><br><span class="line">g1_eden_space             100M    200M     -       50.00%   gc.g1_young_generation.time    500ms</span><br><span class="line">g1_old_gen                150M    300M     4096M   3.66%</span><br><span class="line">g1_survivor_space         6M      12M      -       50.00%</span><br></pre></td></tr></table></figure>
 
-<h3 id="2-thread：线程诊断"><a href="#2-thread：线程诊断" class="headerlink" title="2. thread：线程诊断"></a>2. thread：线程诊断</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看所有线程</span></span><br><span class="line">$ thread</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看最忙的5个线程</span></span><br><span class="line">$ thread -n 5</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看指定线程</span></span><br><span class="line">$ thread 12</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看死锁</span></span><br><span class="line">$ thread -b</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看线程状态统计</span></span><br><span class="line">$ thread --state</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="2-thread：线程诊断"><a href="#2-thread：线程诊断" class="headerlink" title="2. thread：线程诊断"></a>2. thread：线程诊断</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看所有线程</span></span><br><span class="line">$ thread</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看最忙的5个线程</span></span><br><span class="line">$ thread -n 5</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看指定线程</span></span><br><span class="line">$ thread 12</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看死锁</span></span><br><span class="line">$ thread -b</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看线程状态统计</span></span><br><span class="line">$ thread --state</span><br></pre></td></tr></table></figure>
 
-<h3 id="3-trace：方法耗时追踪"><a href="#3-trace：方法耗时追踪" class="headerlink" title="3. trace：方法耗时追踪"></a>3. trace：方法耗时追踪</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 追踪方法的入参和返回值</span></span><br><span class="line">$ trace com.example.Service getOrder <span class="string">&#x27;#cost&gt;100&#x27;</span> -n 5</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只追踪异常</span></span><br><span class="line">$ trace com.example.Service getOrder <span class="string">&#x27;#cost&gt;100&#x27;</span> --skipJDKMethod <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 多层追踪</span></span><br><span class="line">$ trace -E com.example.Service|com.example.Dao getOrder</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="3-trace：方法耗时追踪"><a href="#3-trace：方法耗时追踪" class="headerlink" title="3. trace：方法耗时追踪"></a>3. trace：方法耗时追踪</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 追踪方法的入参和返回值</span></span><br><span class="line">$ trace com.example.Service getOrder <span class="string">&#x27;#cost&gt;100&#x27;</span> -n 5</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只追踪异常</span></span><br><span class="line">$ trace com.example.Service getOrder <span class="string">&#x27;#cost&gt;100&#x27;</span> --skipJDKMethod <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 多层追踪</span></span><br><span class="line">$ trace -E com.example.Service|com.example.Dao getOrder</span><br></pre></td></tr></table></figure>
 
 <p><strong>输出</strong>：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">`---ts=2024-06-13 10:00:00;thread_name=http-nio-8080-exec-1;id=12;is_daemon=true;priority=5;TCCL=org.springframework.boot.web.embedded.tomcat.TomcatEmbeddedWebappClassLoader@1234</span><br><span class="line">    `---[50.234ms] com.example.Service:getOrder()</span><br><span class="line">        +---[5.123ms] com.example.Dao:queryById()</span><br><span class="line">        +---[40.456ms] com.example.Client:fetchRemote() # 这里耗时最长</span><br><span class="line">        `---[4.655ms] com.example.Mapper:insertLog()</span><br></pre></td></tr></table></figure>
 
-<h3 id="4-watch：方法执行数据观测"><a href="#4-watch：方法执行数据观测" class="headerlink" title="4. watch：方法执行数据观测"></a>4. watch：方法执行数据观测</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看方法入参和返回值</span></span><br><span class="line">$ watch com.example.Service getOrder <span class="string">&#x27;&#123;params,returnObj&#125;&#x27;</span> -x 2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看异常</span></span><br><span class="line">$ watch com.example.Service getOrder <span class="string">&#x27;&#123;params,throwExp&#125;&#x27;</span> -e</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看方法执行前后的对象字段</span></span><br><span class="line">$ watch com.example.User setName <span class="string">&#x27;&#123;target,name,params,returnObj&#125;&#x27;</span> -b -s -x 2</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="4-watch：方法执行数据观测"><a href="#4-watch：方法执行数据观测" class="headerlink" title="4. watch：方法执行数据观测"></a>4. watch：方法执行数据观测</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看方法入参和返回值</span></span><br><span class="line">$ watch com.example.Service getOrder <span class="string">&#x27;&#123;params,returnObj&#125;&#x27;</span> -x 2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看异常</span></span><br><span class="line">$ watch com.example.Service getOrder <span class="string">&#x27;&#123;params,throwExp&#125;&#x27;</span> -e</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看方法执行前后的对象字段</span></span><br><span class="line">$ watch com.example.User setName <span class="string">&#x27;&#123;target,name,params,returnObj&#125;&#x27;</span> -b -s -x 2</span><br></pre></td></tr></table></figure>
 
 <p><strong>参数</strong>：</p>
 <ul>
@@ -537,9 +541,11 @@
 <li><code>-e</code>：方法异常后</li>
 <li><code>-x 2</code>：展开层级</li>
 </ul>
-<h3 id="5-jad：反编译代码"><a href="#5-jad：反编译代码" class="headerlink" title="5. jad：反编译代码"></a>5. jad：反编译代码</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 反编译类</span></span><br><span class="line">$ jad com.example.Service</span><br><span class="line"></span><br><span class="line"><span class="comment"># 反编译方法</span></span><br><span class="line">$ jad com.example.Service getOrder</span><br><span class="line"></span><br><span class="line"><span class="comment"># 反编译并保存</span></span><br><span class="line">$ jad --source-only com.example.Service &gt; /tmp/Service.java</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="5-jad：反编译代码"><a href="#5-jad：反编译代码" class="headerlink" title="5. jad：反编译代码"></a>5. jad：反编译代码</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 反编译类</span></span><br><span class="line">$ jad com.example.Service</span><br><span class="line"></span><br><span class="line"><span class="comment"># 反编译方法</span></span><br><span class="line">$ jad com.example.Service getOrder</span><br><span class="line"></span><br><span class="line"><span class="comment"># 反编译并保存</span></span><br><span class="line">$ jad --source-only com.example.Service &gt; /tmp/Service.java</span><br></pre></td></tr></table></figure>
 
-<h3 id="6-redefine：热更新代码"><a href="#6-redefine：热更新代码" class="headerlink" title="6. redefine：热更新代码"></a>6. redefine：热更新代码</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 修改 Java 文件</span></span><br><span class="line"><span class="comment"># 2. 编译为 class</span></span><br><span class="line">javac /tmp/Service.java</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 热加载</span></span><br><span class="line">$ redefine /tmp/Service.class</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="6-redefine：热更新代码"><a href="#6-redefine：热更新代码" class="headerlink" title="6. redefine：热更新代码"></a>6. redefine：热更新代码</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 修改 Java 文件</span></span><br><span class="line"><span class="comment"># 2. 编译为 class</span></span><br><span class="line">javac /tmp/Service.java</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 热加载</span></span><br><span class="line">$ redefine /tmp/Service.class</span><br></pre></td></tr></table></figure>
 
 <p><strong>注意</strong>：</p>
 <ul>
@@ -547,19 +553,26 @@
 <li>不能添加/删除方法</li>
 <li>不能修改静态字段</li>
 </ul>
-<h3 id="7-heapdump：生成堆-dump"><a href="#7-heapdump：生成堆-dump" class="headerlink" title="7. heapdump：生成堆 dump"></a>7. heapdump：生成堆 dump</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 生成堆 dump</span></span><br><span class="line">$ heapdump /tmp/dump.hprof</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只 dump live 对象</span></span><br><span class="line">$ heapdump --live /tmp/dump.hprof</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="7-heapdump：生成堆-dump"><a href="#7-heapdump：生成堆-dump" class="headerlink" title="7. heapdump：生成堆 dump"></a>7. heapdump：生成堆 dump</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 生成堆 dump</span></span><br><span class="line">$ heapdump /tmp/dump.hprof</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只 dump live 对象</span></span><br><span class="line">$ heapdump --live /tmp/dump.hprof</span><br></pre></td></tr></table></figure>
 
-<h3 id="8-vmtool：强制-GC、获取实例"><a href="#8-vmtool：强制-GC、获取实例" class="headerlink" title="8. vmtool：强制 GC、获取实例"></a>8. vmtool：强制 GC、获取实例</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 强制 GC</span></span><br><span class="line">$ vmtool --action forceGc</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取类的所有实例</span></span><br><span class="line">$ vmtool --action getInstances --className com.example.User --<span class="built_in">limit</span> 10</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行表达式</span></span><br><span class="line">$ vmtool --action getInstances --className java.lang.String \</span><br><span class="line">    --express <span class="string">&#x27;instances.length&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="8-vmtool：强制-GC、获取实例"><a href="#8-vmtool：强制-GC、获取实例" class="headerlink" title="8. vmtool：强制 GC、获取实例"></a>8. vmtool：强制 GC、获取实例</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 强制 GC</span></span><br><span class="line">$ vmtool --action forceGc</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取类的所有实例</span></span><br><span class="line">$ vmtool --action getInstances --className com.example.User --<span class="built_in">limit</span> 10</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行表达式</span></span><br><span class="line">$ vmtool --action getInstances --className java.lang.String \</span><br><span class="line">    --express <span class="string">&#x27;instances.length&#x27;</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="9-tt：方法执行时空隧道"><a href="#9-tt：方法执行时空隧道" class="headerlink" title="9. tt：方法执行时空隧道"></a>9. tt：方法执行时空隧道</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 记录方法调用</span></span><br><span class="line">$ tt -t com.example.Service getOrder</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看记录</span></span><br><span class="line">$ tt -l</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重放第1000次调用</span></span><br><span class="line">$ tt -p -i 1000</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看调用入参和返回值</span></span><br><span class="line">$ tt -i 1000 -w <span class="string">&#x27;&#123;params, returnObj&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="9-tt：方法执行时空隧道"><a href="#9-tt：方法执行时空隧道" class="headerlink" title="9. tt：方法执行时空隧道"></a>9. tt：方法执行时空隧道</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 记录方法调用</span></span><br><span class="line">$ tt -t com.example.Service getOrder</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看记录</span></span><br><span class="line">$ tt -l</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重放第1000次调用</span></span><br><span class="line">$ tt -p -i 1000</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看调用入参和返回值</span></span><br><span class="line">$ tt -i 1000 -w <span class="string">&#x27;&#123;params, returnObj&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="10-profiler：生成火焰图"><a href="#10-profiler：生成火焰图" class="headerlink" title="10. profiler：生成火焰图"></a>10. profiler：生成火焰图</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 开始采样</span></span><br><span class="line">$ profiler start</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看状态</span></span><br><span class="line">$ profiler status</span><br><span class="line"></span><br><span class="line"><span class="comment"># 停止并生成火焰图</span></span><br><span class="line">$ profiler stop --file /tmp/flamegraph.html</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定采样事件</span></span><br><span class="line">$ profiler start --event alloc  <span class="comment"># 内存分配</span></span><br><span class="line">$ profiler start --event lock   <span class="comment"># 锁竞争</span></span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="10-profiler：生成火焰图"><a href="#10-profiler：生成火焰图" class="headerlink" title="10. profiler：生成火焰图"></a>10. profiler：生成火焰图</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 开始采样</span></span><br><span class="line">$ profiler start</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看状态</span></span><br><span class="line">$ profiler status</span><br><span class="line"></span><br><span class="line"><span class="comment"># 停止并生成火焰图</span></span><br><span class="line">$ profiler stop --file /tmp/flamegraph.html</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定采样事件</span></span><br><span class="line">$ profiler start --event alloc  <span class="comment"># 内存分配</span></span><br><span class="line">$ profiler start --event lock   <span class="comment"># 锁竞争</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="实战场景"><a href="#实战场景" class="headerlink" title="实战场景"></a>实战场景</h2><h3 id="场景1：接口响应慢"><a href="#场景1：接口响应慢" class="headerlink" title="场景1：接口响应慢"></a>场景1：接口响应慢</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 找到处理请求的线程</span></span><br><span class="line">$ thread -n 5</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 追踪方法耗时</span></span><br><span class="line">$ trace com.example.Controller getData <span class="string">&#x27;#cost&gt;1000&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 定位到具体方法后，查看入参</span></span><br><span class="line">$ watch com.example.Dao slowQuery <span class="string">&#x27;&#123;params&#125;&#x27;</span> -x 2</span><br></pre></td></tr></table></figure>
+<h2 id="实战场景"><a href="#实战场景" class="headerlink" title="实战场景"></a>实战场景</h2><p>#</p>
+<h2 id="场景1：接口响应慢"><a href="#场景1：接口响应慢" class="headerlink" title="场景1：接口响应慢"></a>场景1：接口响应慢</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 找到处理请求的线程</span></span><br><span class="line">$ thread -n 5</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 追踪方法耗时</span></span><br><span class="line">$ trace com.example.Controller getData <span class="string">&#x27;#cost&gt;1000&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 定位到具体方法后，查看入参</span></span><br><span class="line">$ watch com.example.Dao slowQuery <span class="string">&#x27;&#123;params&#125;&#x27;</span> -x 2</span><br></pre></td></tr></table></figure>
 
-<h3 id="场景2：线上-Bug-修复"><a href="#场景2：线上-Bug-修复" class="headerlink" title="场景2：线上 Bug 修复"></a>场景2：线上 Bug 修复</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 反编译确认代码</span></span><br><span class="line">$ jad com.example.Service bugMethod</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 修改本地代码并编译</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 热更新</span></span><br><span class="line">$ redefine /tmp/Service.class</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 验证修复</span></span><br><span class="line">$ trace com.example.Service bugMethod</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="场景2：线上-Bug-修复"><a href="#场景2：线上-Bug-修复" class="headerlink" title="场景2：线上 Bug 修复"></a>场景2：线上 Bug 修复</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 反编译确认代码</span></span><br><span class="line">$ jad com.example.Service bugMethod</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 修改本地代码并编译</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 热更新</span></span><br><span class="line">$ redefine /tmp/Service.class</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 验证修复</span></span><br><span class="line">$ trace com.example.Service bugMethod</span><br></pre></td></tr></table></figure>
 
-<h3 id="场景3：内存泄漏排查"><a href="#场景3：内存泄漏排查" class="headerlink" title="场景3：内存泄漏排查"></a>场景3：内存泄漏排查</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 查看内存使用</span></span><br><span class="line">$ dashboard</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 获取可疑类的实例</span></span><br><span class="line">$ vmtool --action getInstances --className com.example.Cache --<span class="built_in">limit</span> 100</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 查看对象引用链</span></span><br><span class="line">$ heapdump /tmp/dump.hprof</span><br><span class="line"><span class="comment"># 用 MAT 分析</span></span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="场景3：内存泄漏排查"><a href="#场景3：内存泄漏排查" class="headerlink" title="场景3：内存泄漏排查"></a>场景3：内存泄漏排查</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 查看内存使用</span></span><br><span class="line">$ dashboard</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 获取可疑类的实例</span></span><br><span class="line">$ vmtool --action getInstances --className com.example.Cache --<span class="built_in">limit</span> 100</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 查看对象引用链</span></span><br><span class="line">$ heapdump /tmp/dump.hprof</span><br><span class="line"><span class="comment"># 用 MAT 分析</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="在-Spring-Boot-中集成"><a href="#在-Spring-Boot-中集成" class="headerlink" title="在 Spring Boot 中集成"></a>在 Spring Boot 中集成</h2><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.taobao.arthas<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>arthas-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.6.7<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>runtime<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
@@ -614,6 +627,17 @@
 </tr>
 </tbody></table>
 <p>Arthas 是 Java 线上诊断的瑞士军刀，掌握它可以大幅提升线上问题排查效率。</p>
+<h2 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a>核心要点</h2><ol>
+<li><p>堆内存分为年轻代和老年代，年轻代又分为 Eden、Survivor 等区域</p>
+</li>
+<li><p>栈内存是线程私有的，每个线程都有自己的栈空间</p>
+</li>
+<li><p>方法区（元空间）存储类信息、常量池等</p>
+</li>
+<li><p>常见的 OOM 类型：HeapSpace、OutOfMemoryError、StackOverflowError</p>
+</li>
+</ol>
+<h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2><p>理解 JVM 内存模型是成为高级 Java 工程师的必备技能。在实际项目中，配置合适的堆内存大小、选择合适的垃圾收集器，都需要对内存布局有清晰的认识。</p>
 
             </div>
             <hr />
@@ -859,7 +883,7 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            从设计原则角度解析IoC和DI的本质，对比传统工厂模式，讲解Spring BeanFactory和ApplicationContext的核心功能。
+                            详解Spring IoC容器到底解决了什么的核心概念与实践方法，结合真实开发场景说明使用注意事项。
                         
                     </div>
                     <div class="publish-info">
@@ -1113,7 +1137,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">564.6k</span>
+            <span class="white-color">604.3k</span>
             
 
             <br>

@@ -7,8 +7,7 @@
     <meta name="keywords" content="AQS 为什么是并发工具的基础, 程序员小乐">
 
     
-    <meta name="description" content="AQS 为什么是并发工具的基础在 Java 并发编程中，AQS（AbstractQueuedSynchronizer）是理解 ReentrantLock、Semaphore 等工具的关键。本文从实际应用角度梳理它的核心思想。
-先建立一个最小">
+    <meta name="description" content="AQS 为什么是并发工具的基础在 Java 并发编程中，AQS（AbstractQueuedSynchronizer）是理解 ReentrantLock、Semaphore、CountDownLatch 等工具的关键。很多开发者每天在用这些">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -490,7 +489,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    297
+                    529
                 </div>
                 
 
@@ -513,7 +512,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="AQS-为什么是并发工具的基础"><a href="#AQS-为什么是并发工具的基础" class="headerlink" title="AQS 为什么是并发工具的基础"></a>AQS 为什么是并发工具的基础</h1><p>在 Java 并发编程中，AQS（AbstractQueuedSynchronizer）是理解 ReentrantLock、Semaphore 等工具的关键。本文从实际应用角度梳理它的核心思想。</p>
+                <h1 id="AQS-为什么是并发工具的基础"><a href="#AQS-为什么是并发工具的基础" class="headerlink" title="AQS 为什么是并发工具的基础"></a>AQS 为什么是并发工具的基础</h1><p>在 Java 并发编程中，AQS（AbstractQueuedSynchronizer）是理解 ReentrantLock、Semaphore、CountDownLatch 等工具的关键。很多开发者每天在用这些并发工具，却未必清楚它们的底层实现都依赖同一个框架。本文从实际应用角度梳理 AQS 的核心思想，结合源码片段说明它是如何支撑各种同步器的。</p>
 <h2 id="先建立一个最小案例"><a href="#先建立一个最小案例" class="headerlink" title="先建立一个最小案例"></a>先建立一个最小案例</h2><p>并发问题不要一开始就上复杂业务。可以先准备一个计数器场景：</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Counter</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">add</span><span class="params">()</span> &#123;</span><br><span class="line">        count++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">get</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -523,6 +522,17 @@
 
 <p>如果临界区里有多步业务逻辑，可以考虑 <code>synchronized</code> 或 <code>ReentrantLock</code>。选择时不要只看性能，先看代码是否清晰、锁范围是否足够小、异常时是否能释放锁。</p>
 <h2 id="排查建议"><a href="#排查建议" class="headerlink" title="排查建议"></a>排查建议</h2><p>线上并发问题通常不稳定复现。可以先看日志里是否有重复请求、状态覆盖、库存扣减异常，再用压测或单元测试构造并发场景。</p>
+<h2 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a>核心要点</h2><ol>
+<li><p>AQS 的核心是一个共享状态（state）加上一个双向链表，线程获取锁失败时会被包装成节点加入队列等待</p>
+</li>
+<li><p>独占模式和共享模式是 AQS 支持的两种基本模式，分别对应 ReentrantLock 和 Semaphore</p>
+</li>
+<li><p>tryAcquire/tryRelease 等方法由子类实现，AQS 提供模板方法和队列管理</p>
+</li>
+<li><p>ConditionObject 是 AQS 的内部类，实现了 Condition 接口，支持线程等待/通知</p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>理解 AQS 不仅能帮你更好地使用并发工具，遇到问题时也能快速定位根源。比如排查死锁、分析线程阻塞原因时，知道 AQS 的工作机制会非常有帮助。</p>
 
             </div>
             <hr />
@@ -768,7 +778,7 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            深入分析volatile关键字的内存语义，包括可见性、禁止指令重排序，以及为什么volatile不能保证原子性。
+                            详解volatile能保证什么不能保证什么的核心概念与实践方法，结合真实开发场景说明使用注意事项。
                         
                     </div>
                     <div class="publish-info">
@@ -821,7 +831,7 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            深入分析synchronized的底层实现，包括对象头、Mark Word、Monitor、锁升级过程（无锁->偏向锁->轻量级锁->重量级锁）。
+                            详解synchronized底层原理与锁升级的核心概念与实践方法，结合真实开发场景说明使用注意事项。
                         
                     </div>
                     <div class="publish-info">
@@ -1022,7 +1032,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">564.6k</span>
+            <span class="white-color">604.3k</span>
             
 
             <br>
