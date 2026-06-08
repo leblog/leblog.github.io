@@ -7,8 +7,9 @@
     <meta name="keywords" content="JVM 内存区域从入门到排查, 程序员小乐">
 
     
-    <meta name="description" content="JVM 内存区域从入门到排查今天复习的是「JVM 内存区域从入门到排查」。这个知识点不是背概念就够了，真正重要的是知道在项目里什么时候用、怎么验证、出了问题先看哪里。
-先看现象，不要急着改参数JVM 问题常见现象有：CPU 飙高、频繁 Fu">
+    <meta name="description" content="JVM 内存区域从入门到排查JVM 内存布局是排查线上问题的基础。本文结合实际案例，讲清楚各区域的作用和常见异常。
+先看现象，不要急着改参数JVM 问题常见现象有：CPU 飙高、频繁 Full GC、接口变慢、内存溢出。处理时先收集证据：
+">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -490,7 +491,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    422
+                    277
                 </div>
                 
 
@@ -513,7 +514,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="JVM-内存区域从入门到排查"><a href="#JVM-内存区域从入门到排查" class="headerlink" title="JVM 内存区域从入门到排查"></a>JVM 内存区域从入门到排查</h1><p>今天复习的是「JVM 内存区域从入门到排查」。这个知识点不是背概念就够了，真正重要的是知道在项目里什么时候用、怎么验证、出了问题先看哪里。</p>
+                <h1 id="JVM-内存区域从入门到排查"><a href="#JVM-内存区域从入门到排查" class="headerlink" title="JVM 内存区域从入门到排查"></a>JVM 内存区域从入门到排查</h1><p>JVM 内存布局是排查线上问题的基础。本文结合实际案例，讲清楚各区域的作用和常见异常。</p>
 <h2 id="先看现象，不要急着改参数"><a href="#先看现象，不要急着改参数" class="headerlink" title="先看现象，不要急着改参数"></a>先看现象，不要急着改参数</h2><p>JVM 问题常见现象有：CPU 飙高、频繁 Full GC、接口变慢、内存溢出。处理时先收集证据：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">jps -l</span><br><span class="line">top -Hp &lt;pid&gt;</span><br><span class="line">jstat -gcutil &lt;pid&gt; 1000 10</span><br><span class="line">jmap -histo &lt;pid&gt; | <span class="built_in">head</span> -30</span><br></pre></td></tr></table></figure>
 
@@ -522,13 +523,6 @@
 
 <h2 id="GC-日志怎么看"><a href="#GC-日志怎么看" class="headerlink" title="GC 日志怎么看"></a>GC 日志怎么看</h2><p>不要只看“发生了 GC”，重点看频率、停顿时间、回收前后内存变化。如果每次回收后老年代仍然很高，可能是对象长期被引用，需要继续分析堆。</p>
 <h2 id="小白可以怎么练"><a href="#小白可以怎么练" class="headerlink" title="小白可以怎么练"></a>小白可以怎么练</h2><p>本地写一个不断往 List 里放对象的 demo，故意触发 OOM，然后用 <code>jmap</code> 导出堆文件，用 MAT 或 VisualVM 看最大对象是谁。练过一次，线上看到类似问题就不会慌。</p>
-<h2 id="最后再检查一遍"><a href="#最后再检查一遍" class="headerlink" title="最后再检查一遍"></a>最后再检查一遍</h2><ul>
-<li>是否写清楚了使用场景，而不是只背定义。</li>
-<li>是否有可以复制运行的命令、SQL 或代码片段。</li>
-<li>是否说明了验证方式，能判断这一步到底有没有成功。</li>
-<li>是否提醒了常见坑，避免在真实项目里踩雷。</li>
-</ul>
-<p>写技术文章最怕只讲“是什么”。真正能帮到人的文章，应该让读者知道“为什么、怎么做、怎么确认做对了”。</p>
 
             </div>
             <hr />
@@ -1028,7 +1022,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">630.2k</span>
+            <span class="white-color">564.6k</span>
             
 
             <br>

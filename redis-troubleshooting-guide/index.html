@@ -12,7 +12,7 @@
 单机还是集群环境
 问题发生的时间点和频率
 
-1.2 收集基础信息# Redis版本和配置redis-cli INFO serverredis-cli INFO clientsred">
+1.2 收集基础信息# Redis线上问题排查手册redis-cli INFO serverredis-cli INFO clients">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -498,7 +498,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    887
+                    890
                 </div>
                 
 
@@ -526,7 +526,7 @@
 <li>单机还是集群环境</li>
 <li>问题发生的时间点和频率</li>
 </ul>
-<h3 id="1-2-收集基础信息"><a href="#1-2-收集基础信息" class="headerlink" title="1.2 收集基础信息"></a>1.2 收集基础信息</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Redis版本和配置</span></span><br><span class="line">redis-cli INFO server</span><br><span class="line">redis-cli INFO clients</span><br><span class="line">redis-cli INFO memory</span><br><span class="line"></span><br><span class="line"><span class="comment"># 连接数</span></span><br><span class="line">redis-cli INFO clients | grep connected_clients</span><br></pre></td></tr></table></figure>
+<h3 id="1-2-收集基础信息"><a href="#1-2-收集基础信息" class="headerlink" title="1.2 收集基础信息"></a>1.2 收集基础信息</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Redis线上问题排查手册</span></span><br><span class="line">redis-cli INFO server</span><br><span class="line">redis-cli INFO clients</span><br><span class="line">redis-cli INFO memory</span><br><span class="line"></span><br><span class="line"><span class="comment"># 连接数</span></span><br><span class="line">redis-cli INFO clients | grep connected_clients</span><br></pre></td></tr></table></figure>
 
 <h2 id="二、连接问题排查"><a href="#二、连接问题排查" class="headerlink" title="二、连接问题排查"></a>二、连接问题排查</h2><h3 id="2-1-连接数爆满"><a href="#2-1-连接数爆满" class="headerlink" title="2.1 连接数爆满"></a>2.1 连接数爆满</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">redis-cli INFO clients</span><br></pre></td></tr></table></figure>
 <ul>
@@ -902,15 +902,15 @@
                     <div class="card-image">
                         
                         
-                        <img src="https://wp-cdn.4ce.cn/v2/9YWoS77.jpeg" class="responsive-img" alt="实践：慢 SQL 排查和优化完整流程">
+                        <img src="https://wp-cdn.4ce.cn/v2/8tsjhuM.jpeg" class="responsive-img" alt="慢 SQL 排查和优化完整流程">
                         
-                        <span class="card-title">实践：慢 SQL 排查和优化完整流程</span>
+                        <span class="card-title">慢 SQL 排查和优化完整流程</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            这是一篇关于实践：慢 SQL 排查和优化完整流程的原创技术笔记，侧重原理理解、项目用法和排查经验。
+                            详解慢 SQL 排查和优化完整流程的核心概念与实践方法，结合真实开发场景说明使用注意事项。
                         
                     </div>
                     <div class="publish-info">
@@ -955,15 +955,15 @@
                     <div class="card-image">
                         
                         
-                        <img src="https://wp-cdn.4ce.cn/v2/fwziXCb.jpeg" class="responsive-img" alt="实践：MySQL 事务隔离级别和幻读问题">
+                        <img src="https://wp-cdn.4ce.cn/v2/3m4WYCP.jpeg" class="responsive-img" alt="MySQL 事务隔离级别和幻读问题">
                         
-                        <span class="card-title">实践：MySQL 事务隔离级别和幻读问题</span>
+                        <span class="card-title">MySQL 事务隔离级别和幻读问题</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            这是一篇关于实践：MySQL 事务隔离级别和幻读问题的原创技术笔记，侧重原理理解、项目用法和排查经验。
+                            详解MySQL 事务隔离级别和幻读问题的核心概念与实践方法，结合真实开发场景说明使用注意事项。
                         
                     </div>
                     <div class="publish-info">
@@ -1164,7 +1164,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">630.2k</span>
+            <span class="white-color">564.6k</span>
             
 
             <br>

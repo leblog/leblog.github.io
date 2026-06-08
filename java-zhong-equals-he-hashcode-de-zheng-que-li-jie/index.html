@@ -489,7 +489,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    301
+                    257
                 </div>
                 
 
@@ -518,8 +518,6 @@
 <h2 id="为什么-hashCode-也要改"><a href="#为什么-hashCode-也要改" class="headerlink" title="为什么 hashCode 也要改"></a>为什么 hashCode 也要改</h2><p>HashSet 判断元素是否重复时，会先看 hashCode，再看 equals。如果两个对象 equals 相等，但 hashCode 不一样，它们可能会被放到不同桶里，集合就会认为它们不是同一个对象。</p>
 <h2 id="验证方式"><a href="#验证方式" class="headerlink" title="验证方式"></a>验证方式</h2><p>写一个简单测试：创建两个 id 相同的 User，放进 HashSet，最后 size 应该是 1。</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Set&lt;User&gt; users = <span class="keyword">new</span> <span class="title class_">HashSet</span>&lt;&gt;();</span><br><span class="line">users.add(<span class="keyword">new</span> <span class="title class_">User</span>(<span class="number">1L</span>));</span><br><span class="line">users.add(<span class="keyword">new</span> <span class="title class_">User</span>(<span class="number">1L</span>));</span><br><span class="line">System.out.println(users.size()); <span class="comment">// 期望输出 1</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>对象相等不是语法细节，而是集合、缓存、去重逻辑的基础。实体类如果有业务主键，就要认真设计 equals 和 hashCode。</p>
 
             </div>
             <hr />
@@ -1019,7 +1017,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">630.2k</span>
+            <span class="white-color">564.6k</span>
             
 
             <br>

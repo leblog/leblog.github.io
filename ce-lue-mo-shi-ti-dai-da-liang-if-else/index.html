@@ -7,8 +7,8 @@
     <meta name="keywords" content="策略模式替代大量 if else, 程序员小乐">
 
     
-    <meta name="description" content="策略模式替代大量 if else这篇文章整理「策略模式替代大量 if else」这个主题。我会尽量按真实开发里的使用顺序来写：先说它解决什么问题，再给出可以直接照着做的步骤，最后补上排查和验证方法。
-先看业务味道设计模式不是为了炫技，而是为">
+    <meta name="description" content="策略模式替代大量 if else策略模式是替代大量 if-else 的经典方案。本文讲它的实现方式和注意事项。
+先看业务味道设计模式不是为了炫技，而是为了解决重复变化。比如同一个业务流程里，不同类型有不同算法，就可以考虑策略模式；对象创建过">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -490,7 +490,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    386
+                    223
                 </div>
                 
 
@@ -513,19 +513,12 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="策略模式替代大量-if-else"><a href="#策略模式替代大量-if-else" class="headerlink" title="策略模式替代大量 if else"></a>策略模式替代大量 if else</h1><p>这篇文章整理「策略模式替代大量 if else」这个主题。我会尽量按真实开发里的使用顺序来写：先说它解决什么问题，再给出可以直接照着做的步骤，最后补上排查和验证方法。</p>
+                <h1 id="策略模式替代大量-if-else"><a href="#策略模式替代大量-if-else" class="headerlink" title="策略模式替代大量 if else"></a>策略模式替代大量 if else</h1><p>策略模式是替代大量 if-else 的经典方案。本文讲它的实现方式和注意事项。</p>
 <h2 id="先看业务味道"><a href="#先看业务味道" class="headerlink" title="先看业务味道"></a>先看业务味道</h2><p>设计模式不是为了炫技，而是为了解决重复变化。比如同一个业务流程里，不同类型有不同算法，就可以考虑策略模式；对象创建过程很复杂，可以考虑工厂模式。</p>
 <h2 id="一个策略模式示例"><a href="#一个策略模式示例" class="headerlink" title="一个策略模式示例"></a>一个策略模式示例</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">DiscountStrategy</span> &#123;</span><br><span class="line">    BigDecimal <span class="title function_">calculate</span><span class="params">(BigDecimal amount)</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">VipDiscount</span> <span class="keyword">implements</span> <span class="title class_">DiscountStrategy</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> BigDecimal <span class="title function_">calculate</span><span class="params">(BigDecimal amount)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> amount.multiply(<span class="keyword">new</span> <span class="title class_">BigDecimal</span>(<span class="string">&quot;0.8&quot;</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>使用时通过类型选择策略，而不是写一大堆 if else。</p>
 <h2 id="判断是否值得使用"><a href="#判断是否值得使用" class="headerlink" title="判断是否值得使用"></a>判断是否值得使用</h2><p>如果只有两个简单分支，直接 if 可能更清楚。如果规则经常新增、每个规则都有独立逻辑，模式才真正有价值。</p>
-<h2 id="最后再检查一遍"><a href="#最后再检查一遍" class="headerlink" title="最后再检查一遍"></a>最后再检查一遍</h2><ul>
-<li>是否写清楚了使用场景，而不是只背定义。</li>
-<li>是否有可以复制运行的命令、SQL 或代码片段。</li>
-<li>是否说明了验证方式，能判断这一步到底有没有成功。</li>
-<li>是否提醒了常见坑，避免在真实项目里踩雷。</li>
-</ul>
-<p>写技术文章最怕只讲“是什么”。真正能帮到人的文章，应该让读者知道“为什么、怎么做、怎么确认做对了”。</p>
 
             </div>
             <hr />
@@ -1025,7 +1018,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">630.2k</span>
+            <span class="white-color">564.6k</span>
             
 
             <br>

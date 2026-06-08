@@ -7,9 +7,9 @@
     <meta name="keywords" content="容器健康检查为什么重要, 程序员小乐">
 
     
-    <meta name="description" content="容器健康检查为什么重要这是一篇偏实战的学习笔记，主题是「容器健康检查为什么重要」。我把它写成小白也能跟着走的形式，避免只留下几句空泛结论。
+    <meta name="description" content="容器健康检查为什么重要容器健康检查是保证服务稳定的重要一环。本文讲为什么重要以及如何做。
 先准备可回滚的操作方式服务器上的操作不要直接莽。修改配置前先备份，执行命令前先确认路径：
-pwdls">
+pwdls -lahcp app.conf app.conf">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -491,7 +491,7 @@ pwdls">
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    395
+                    251
                 </div>
                 
 
@@ -514,7 +514,7 @@ pwdls">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="容器健康检查为什么重要"><a href="#容器健康检查为什么重要" class="headerlink" title="容器健康检查为什么重要"></a>容器健康检查为什么重要</h1><p>这是一篇偏实战的学习笔记，主题是「容器健康检查为什么重要」。我把它写成小白也能跟着走的形式，避免只留下几句空泛结论。</p>
+                <h1 id="容器健康检查为什么重要"><a href="#容器健康检查为什么重要" class="headerlink" title="容器健康检查为什么重要"></a>容器健康检查为什么重要</h1><p>容器健康检查是保证服务稳定的重要一环。本文讲为什么重要以及如何做。</p>
 <h2 id="先准备可回滚的操作方式"><a href="#先准备可回滚的操作方式" class="headerlink" title="先准备可回滚的操作方式"></a>先准备可回滚的操作方式</h2><p>服务器上的操作不要直接莽。修改配置前先备份，执行命令前先确认路径：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">pwd</span></span><br><span class="line"><span class="built_in">ls</span> -lah</span><br><span class="line"><span class="built_in">cp</span> app.conf app.conf.bak.$(<span class="built_in">date</span> +%F-%H%M%S)</span><br></pre></td></tr></table></figure>
 
@@ -535,13 +535,6 @@ pwdls">
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ss -lntp</span><br><span class="line"><span class="built_in">df</span> -h</span><br><span class="line">free -m</span><br><span class="line"><span class="built_in">tail</span> -f /var/log/nginx/error.log</span><br></pre></td></tr></table></figure>
 
 <h2 id="小白要注意什么"><a href="#小白要注意什么" class="headerlink" title="小白要注意什么"></a>小白要注意什么</h2><p>不要看到网上一条命令就直接复制到生产环境。先理解它会改什么、删什么、重启什么，再决定是否执行。</p>
-<h2 id="最后再检查一遍"><a href="#最后再检查一遍" class="headerlink" title="最后再检查一遍"></a>最后再检查一遍</h2><ul>
-<li>是否写清楚了使用场景，而不是只背定义。</li>
-<li>是否有可以复制运行的命令、SQL 或代码片段。</li>
-<li>是否说明了验证方式，能判断这一步到底有没有成功。</li>
-<li>是否提醒了常见坑，避免在真实项目里踩雷。</li>
-</ul>
-<p>写技术文章最怕只讲“是什么”。真正能帮到人的文章，应该让读者知道“为什么、怎么做、怎么确认做对了”。</p>
 
             </div>
             <hr />
@@ -1041,7 +1034,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">630.2k</span>
+            <span class="white-color">564.6k</span>
             
 
             <br>

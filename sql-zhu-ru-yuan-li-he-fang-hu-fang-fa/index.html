@@ -7,8 +7,8 @@
     <meta name="keywords" content="SQL 注入原理和防护方法, 程序员小乐">
 
     
-    <meta name="description" content="SQL 注入原理和防护方法这篇文章整理「SQL 注入原理和防护方法」这个主题。我会尽量按真实开发里的使用顺序来写：先说它解决什么问题，再给出可以直接照着做的步骤，最后补上排查和验证方法。
-安全问题要默认不信任输入无论是表单、URL 参数、H">
+    <meta name="description" content="SQL 注入原理和防护方法SQL 注入原理和防护方法是日常开发和面试中都会遇到的话题。本文从实际项目经验出发，讲它的核心概念和使用方式。
+安全问题要默认不信任输入无论是表单、URL 参数、Header，还是内部系统传来的字段，都不能天然相信">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -490,7 +490,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    352
+                    208
                 </div>
                 
 
@@ -513,7 +513,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="SQL-注入原理和防护方法"><a href="#SQL-注入原理和防护方法" class="headerlink" title="SQL 注入原理和防护方法"></a>SQL 注入原理和防护方法</h1><p>这篇文章整理「SQL 注入原理和防护方法」这个主题。我会尽量按真实开发里的使用顺序来写：先说它解决什么问题，再给出可以直接照着做的步骤，最后补上排查和验证方法。</p>
+                <h1 id="SQL-注入原理和防护方法"><a href="#SQL-注入原理和防护方法" class="headerlink" title="SQL 注入原理和防护方法"></a>SQL 注入原理和防护方法</h1><p>SQL 注入原理和防护方法是日常开发和面试中都会遇到的话题。本文从实际项目经验出发，讲它的核心概念和使用方式。</p>
 <h2 id="安全问题要默认不信任输入"><a href="#安全问题要默认不信任输入" class="headerlink" title="安全问题要默认不信任输入"></a>安全问题要默认不信任输入</h2><p>无论是表单、URL 参数、Header，还是内部系统传来的字段，都不能天然相信。后端必须做校验、鉴权和日志审计。</p>
 <h2 id="SQL-注入的例子"><a href="#SQL-注入的例子" class="headerlink" title="SQL 注入的例子"></a>SQL 注入的例子</h2><p>危险写法：</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">sql</span> <span class="operator">=</span> <span class="string">&quot;select * from user where name = &#x27;&quot;</span> + name + <span class="string">&quot;&#x27;&quot;</span>;</span><br></pre></td></tr></table></figure>
@@ -523,13 +523,6 @@
 
 <p>在 MyBatis 中优先使用 <code>#{name}</code>，不要用 <code>${name}</code> 拼接用户输入。</p>
 <h2 id="权限校验"><a href="#权限校验" class="headerlink" title="权限校验"></a>权限校验</h2><p>登录只说明“你是谁”，权限校验才说明“你能做什么”。敏感操作必须在服务端校验资源归属。</p>
-<h2 id="最后再检查一遍"><a href="#最后再检查一遍" class="headerlink" title="最后再检查一遍"></a>最后再检查一遍</h2><ul>
-<li>是否写清楚了使用场景，而不是只背定义。</li>
-<li>是否有可以复制运行的命令、SQL 或代码片段。</li>
-<li>是否说明了验证方式，能判断这一步到底有没有成功。</li>
-<li>是否提醒了常见坑，避免在真实项目里踩雷。</li>
-</ul>
-<p>写技术文章最怕只讲“是什么”。真正能帮到人的文章，应该让读者知道“为什么、怎么做、怎么确认做对了”。</p>
 
             </div>
             <hr />
@@ -1029,7 +1022,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">630.2k</span>
+            <span class="white-color">564.6k</span>
             
 
             <br>

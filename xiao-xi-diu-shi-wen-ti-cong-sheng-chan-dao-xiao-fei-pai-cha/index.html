@@ -7,8 +7,8 @@
     <meta name="keywords" content="消息丢失问题从生产到消费排查, 程序员小乐">
 
     
-    <meta name="description" content="消息丢失问题从生产到消费排查这是一篇偏实战的学习笔记，主题是「消息丢失问题从生产到消费排查」。我把它写成小白也能跟着走的形式，避免只留下几句空泛结论。
-先从业务问题出发架构设计不要先问“用什么中间件”，而要先问业务目标：是要提升吞吐、解耦系">
+    <meta name="description" content="消息丢失问题从生产到消费排查消息从生产到消费的过程中可能在多处丢失。本文讲如何排查和预防。
+先从业务问题出发架构设计不要先问“用什么中间件”，而要先问业务目标：是要提升吞吐、解耦系统、保证最终一致，还是降低峰值压力？不同目标对应的方案完全不">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -490,7 +490,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    404
+                    255
                 </div>
                 
 
@@ -513,7 +513,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="消息丢失问题从生产到消费排查"><a href="#消息丢失问题从生产到消费排查" class="headerlink" title="消息丢失问题从生产到消费排查"></a>消息丢失问题从生产到消费排查</h1><p>这是一篇偏实战的学习笔记，主题是「消息丢失问题从生产到消费排查」。我把它写成小白也能跟着走的形式，避免只留下几句空泛结论。</p>
+                <h1 id="消息丢失问题从生产到消费排查"><a href="#消息丢失问题从生产到消费排查" class="headerlink" title="消息丢失问题从生产到消费排查"></a>消息丢失问题从生产到消费排查</h1><p>消息从生产到消费的过程中可能在多处丢失。本文讲如何排查和预防。</p>
 <h2 id="先从业务问题出发"><a href="#先从业务问题出发" class="headerlink" title="先从业务问题出发"></a>先从业务问题出发</h2><p>架构设计不要先问“用什么中间件”，而要先问业务目标：是要提升吞吐、解耦系统、保证最终一致，还是降低峰值压力？不同目标对应的方案完全不同。</p>
 <h2 id="一个典型流程"><a href="#一个典型流程" class="headerlink" title="一个典型流程"></a>一个典型流程</h2><p>以订单创建后发送通知为例：</p>
 <ol>
@@ -534,13 +534,6 @@
 <li>重复消费如何保证幂等？</li>
 <li>下游长时间不可用时如何降级？</li>
 </ul>
-<h2 id="最后再检查一遍"><a href="#最后再检查一遍" class="headerlink" title="最后再检查一遍"></a>最后再检查一遍</h2><ul>
-<li>是否写清楚了使用场景，而不是只背定义。</li>
-<li>是否有可以复制运行的命令、SQL 或代码片段。</li>
-<li>是否说明了验证方式，能判断这一步到底有没有成功。</li>
-<li>是否提醒了常见坑，避免在真实项目里踩雷。</li>
-</ul>
-<p>写技术文章最怕只讲“是什么”。真正能帮到人的文章，应该让读者知道“为什么、怎么做、怎么确认做对了”。</p>
 
             </div>
             <hr />
@@ -1040,7 +1033,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">630.2k</span>
+            <span class="white-color">564.6k</span>
             
 
             <br>

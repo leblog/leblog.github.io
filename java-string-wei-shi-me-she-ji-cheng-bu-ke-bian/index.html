@@ -491,7 +491,7 @@ S">
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    282
+                    242
                 </div>
                 
 
@@ -526,8 +526,6 @@ S">
 </ul>
 <h2 id="什么时候用-StringBuilder"><a href="#什么时候用-StringBuilder" class="headerlink" title="什么时候用 StringBuilder"></a>什么时候用 StringBuilder</h2><p>循环拼接大量字符串时，不要一直用 <code>+</code>：</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">StringBuilder</span> <span class="variable">builder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">1000</span>; i++) &#123;</span><br><span class="line">    builder.append(i).append(<span class="string">&#x27;,&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">String</span> <span class="variable">result</span> <span class="operator">=</span> builder.toString();</span><br></pre></td></tr></table></figure>
-
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>String 不可变换来的是安全、稳定和可复用。需要频繁拼接时，用 StringBuilder；需要线程安全拼接时，再考虑 StringBuffer。</p>
 
             </div>
             <hr />
@@ -1027,7 +1025,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">630.2k</span>
+            <span class="white-color">564.6k</span>
             
 
             <br>

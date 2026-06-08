@@ -7,8 +7,8 @@
     <meta name="keywords" content="Redis 大 key 和热 key 排查, 程序员小乐">
 
     
-    <meta name="description" content="Redis 大 key 和热 key 排查这篇文章整理「Redis 大 key 和热 key 排查」这个主题。我会尽量按真实开发里的使用顺序来写：先说它解决什么问题，再给出可以直接照着做的步骤，最后补上排查和验证方法。
-先明确 Redis ">
+    <meta name="description" content="Redis 大 key 和热 key 排查Redis 的五种数据结构各有特色，用对了才能发挥它的优势。本文从应用场景出发，讲什么时候用什么类型。
+先明确 Redis 在系统里的角色Redis 常见用途不是“替代数据库”，而是缓存热点数据、保">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -490,7 +490,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    468
+                    319
                 </div>
                 
 
@@ -513,7 +513,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="Redis-大-key-和热-key-排查"><a href="#Redis-大-key-和热-key-排查" class="headerlink" title="Redis 大 key 和热 key 排查"></a>Redis 大 key 和热 key 排查</h1><p>这篇文章整理「Redis 大 key 和热 key 排查」这个主题。我会尽量按真实开发里的使用顺序来写：先说它解决什么问题，再给出可以直接照着做的步骤，最后补上排查和验证方法。</p>
+                <h1 id="Redis-大-key-和热-key-排查"><a href="#Redis-大-key-和热-key-排查" class="headerlink" title="Redis 大 key 和热 key 排查"></a>Redis 大 key 和热 key 排查</h1><p>Redis 的五种数据结构各有特色，用对了才能发挥它的优势。本文从应用场景出发，讲什么时候用什么类型。</p>
 <h2 id="先明确-Redis-在系统里的角色"><a href="#先明确-Redis-在系统里的角色" class="headerlink" title="先明确 Redis 在系统里的角色"></a>先明确 Redis 在系统里的角色</h2><p>Redis 常见用途不是“替代数据库”，而是缓存热点数据、保存会话、做简单计数、排行榜、分布式锁等。设计时要先问：这份数据丢了能不能恢复？是否允许短暂不一致？</p>
 <h2 id="一个缓存查询的基本写法"><a href="#一个缓存查询的基本写法" class="headerlink" title="一个缓存查询的基本写法"></a>一个缓存查询的基本写法</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="string">&quot;user:&quot;</span> + userId;</span><br><span class="line"><span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> redisTemplate.opsForValue().get(key);</span><br><span class="line"><span class="keyword">if</span> (user != <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> user;</span><br><span class="line">&#125;</span><br><span class="line">user = userMapper.selectById(userId);</span><br><span class="line"><span class="keyword">if</span> (user != <span class="literal">null</span>) &#123;</span><br><span class="line">    redisTemplate.opsForValue().set(key, user, Duration.ofMinutes(<span class="number">30</span>));</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> user;</span><br></pre></td></tr></table></figure>
 
@@ -527,13 +527,6 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">redis-cli</span><br><span class="line">GET user:1001</span><br><span class="line">TTL user:1001</span><br></pre></td></tr></table></figure>
 
 <p>确认缓存写入、过期时间和删除策略都符合预期。</p>
-<h2 id="最后再检查一遍"><a href="#最后再检查一遍" class="headerlink" title="最后再检查一遍"></a>最后再检查一遍</h2><ul>
-<li>是否写清楚了使用场景，而不是只背定义。</li>
-<li>是否有可以复制运行的命令、SQL 或代码片段。</li>
-<li>是否说明了验证方式，能判断这一步到底有没有成功。</li>
-<li>是否提醒了常见坑，避免在真实项目里踩雷。</li>
-</ul>
-<p>写技术文章最怕只讲“是什么”。真正能帮到人的文章，应该让读者知道“为什么、怎么做、怎么确认做对了”。</p>
 
             </div>
             <hr />
@@ -779,7 +772,7 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            这是一篇关于消息队列为什么能削峰填谷的原创技术笔记，侧重原理理解、项目用法和排查经验。
+                            详解消息队列为什么能削峰填谷的核心概念与实践方法，结合真实开发场景说明使用注意事项。
                         
                     </div>
                     <div class="publish-info">
@@ -1033,7 +1026,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">630.2k</span>
+            <span class="white-color">564.6k</span>
             
 
             <br>

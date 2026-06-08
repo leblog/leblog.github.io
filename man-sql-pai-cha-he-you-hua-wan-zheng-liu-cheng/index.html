@@ -7,9 +7,9 @@
     <meta name="keywords" content="慢 SQL 排查和优化完整流程, 程序员小乐">
 
     
-    <meta name="description" content="慢 SQL 排查和优化完整流程这是一篇偏实战的学习笔记，主题是「慢 SQL 排查和优化完整流程」。我把它写成小白也能跟着走的形式，避免只留下几句空泛结论。
+    <meta name="description" content="慢 SQL 排查和优化完整流程慢 SQL 排查和优化完整流程是日常开发和面试中都会遇到的话题。本文从实际项目经验出发，讲它的核心概念和使用方式。
 准备一张示例表以订单表为例：
-CREATE TABLE orders (  id B">
+CREATE TABLE orders (  id BIGINT">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -491,7 +491,7 @@ CREATE TABLE orders (  id B">
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    423
+                    298
                 </div>
                 
 
@@ -514,7 +514,7 @@ CREATE TABLE orders (  id B">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="慢-SQL-排查和优化完整流程"><a href="#慢-SQL-排查和优化完整流程" class="headerlink" title="慢 SQL 排查和优化完整流程"></a>慢 SQL 排查和优化完整流程</h1><p>这是一篇偏实战的学习笔记，主题是「慢 SQL 排查和优化完整流程」。我把它写成小白也能跟着走的形式，避免只留下几句空泛结论。</p>
+                <h1 id="慢-SQL-排查和优化完整流程"><a href="#慢-SQL-排查和优化完整流程" class="headerlink" title="慢 SQL 排查和优化完整流程"></a>慢 SQL 排查和优化完整流程</h1><p>慢 SQL 排查和优化完整流程是日常开发和面试中都会遇到的话题。本文从实际项目经验出发，讲它的核心概念和使用方式。</p>
 <h2 id="准备一张示例表"><a href="#准备一张示例表" class="headerlink" title="准备一张示例表"></a>准备一张示例表</h2><p>以订单表为例：</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE TABLE</span> orders (</span><br><span class="line">  id <span class="type">BIGINT</span> <span class="keyword">PRIMARY KEY</span> AUTO_INCREMENT,</span><br><span class="line">  user_id <span class="type">BIGINT</span> <span class="keyword">NOT NULL</span>,</span><br><span class="line">  status <span class="type">VARCHAR</span>(<span class="number">20</span>) <span class="keyword">NOT NULL</span>,</span><br><span class="line">  amount <span class="type">DECIMAL</span>(<span class="number">10</span>,<span class="number">2</span>) <span class="keyword">NOT NULL</span>,</span><br><span class="line">  created_at DATETIME <span class="keyword">NOT NULL</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
 
@@ -533,13 +533,6 @@ CREATE TABLE orders (  id B">
 <li>字段类型不一致，例如字符串和数字混用，会影响优化器选择。</li>
 <li>大 offset 分页会越来越慢，可以改成基于 id 的游标分页。</li>
 </ul>
-<h2 id="最后再检查一遍"><a href="#最后再检查一遍" class="headerlink" title="最后再检查一遍"></a>最后再检查一遍</h2><ul>
-<li>是否写清楚了使用场景，而不是只背定义。</li>
-<li>是否有可以复制运行的命令、SQL 或代码片段。</li>
-<li>是否说明了验证方式，能判断这一步到底有没有成功。</li>
-<li>是否提醒了常见坑，避免在真实项目里踩雷。</li>
-</ul>
-<p>写技术文章最怕只讲“是什么”。真正能帮到人的文章，应该让读者知道“为什么、怎么做、怎么确认做对了”。</p>
 
             </div>
             <hr />
@@ -838,7 +831,7 @@ CREATE TABLE orders (  id B">
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            这是一篇关于MySQL 事务隔离级别和幻读问题的原创技术笔记，侧重原理理解、项目用法和排查经验。
+                            详解MySQL 事务隔离级别和幻读问题的核心概念与实践方法，结合真实开发场景说明使用注意事项。
                         
                     </div>
                     <div class="publish-info">
@@ -1039,7 +1032,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">630.2k</span>
+            <span class="white-color">564.6k</span>
             
 
             <br>

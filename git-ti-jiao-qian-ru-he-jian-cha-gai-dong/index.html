@@ -7,9 +7,9 @@
     <meta name="keywords" content="Git 提交前如何检查改动, 程序员小乐">
 
     
-    <meta name="description" content="Git 提交前如何检查改动今天复习的是「Git 提交前如何检查改动」。这个知识点不是背概念就够了，真正重要的是知道在项目里什么时候用、怎么验证、出了问题先看哪里。
+    <meta name="description" content="Git 提交前如何检查改动Git rebase 和 merge 是开发中经常讨论的话题。本文讲它们的区别和适用场景。
 提交前先看清楚改动Git 最重要的习惯是提交前看 diff：
-git sta">
+git statusgit diffgit diff --c">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -491,7 +491,7 @@ git sta">
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    353
+                    200
                 </div>
                 
 
@@ -514,7 +514,7 @@ git sta">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="Git-提交前如何检查改动"><a href="#Git-提交前如何检查改动" class="headerlink" title="Git 提交前如何检查改动"></a>Git 提交前如何检查改动</h1><p>今天复习的是「Git 提交前如何检查改动」。这个知识点不是背概念就够了，真正重要的是知道在项目里什么时候用、怎么验证、出了问题先看哪里。</p>
+                <h1 id="Git-提交前如何检查改动"><a href="#Git-提交前如何检查改动" class="headerlink" title="Git 提交前如何检查改动"></a>Git 提交前如何检查改动</h1><p>Git rebase 和 merge 是开发中经常讨论的话题。本文讲它们的区别和适用场景。</p>
 <h2 id="提交前先看清楚改动"><a href="#提交前先看清楚改动" class="headerlink" title="提交前先看清楚改动"></a>提交前先看清楚改动</h2><p>Git 最重要的习惯是提交前看 diff：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git status</span><br><span class="line">git diff</span><br><span class="line">git diff --cached</span><br></pre></td></tr></table></figure>
 
@@ -524,13 +524,6 @@ git sta">
 
 <p>如果既改了接口又改了样式，最好拆成两个提交。后续回滚和 review 都会更轻松。</p>
 <h2 id="冲突怎么处理"><a href="#冲突怎么处理" class="headerlink" title="冲突怎么处理"></a>冲突怎么处理</h2><p>遇到冲突不要机械选择 ours/theirs。先看双方分别想解决什么问题，再手动合并。合并后至少跑一遍相关测试。</p>
-<h2 id="最后再检查一遍"><a href="#最后再检查一遍" class="headerlink" title="最后再检查一遍"></a>最后再检查一遍</h2><ul>
-<li>是否写清楚了使用场景，而不是只背定义。</li>
-<li>是否有可以复制运行的命令、SQL 或代码片段。</li>
-<li>是否说明了验证方式，能判断这一步到底有没有成功。</li>
-<li>是否提醒了常见坑，避免在真实项目里踩雷。</li>
-</ul>
-<p>写技术文章最怕只讲“是什么”。真正能帮到人的文章，应该让读者知道“为什么、怎么做、怎么确认做对了”。</p>
 
             </div>
             <hr />
@@ -1034,7 +1027,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">630.2k</span>
+            <span class="white-color">564.6k</span>
             
 
             <br>

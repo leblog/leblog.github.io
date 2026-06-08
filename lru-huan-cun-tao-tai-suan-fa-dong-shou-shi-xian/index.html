@@ -7,8 +7,10 @@
     <meta name="keywords" content="LRU 缓存淘汰算法动手实现, 程序员小乐">
 
     
-    <meta name="description" content="LRU 缓存淘汰算法动手实现这篇文章整理「LRU 缓存淘汰算法动手实现」这个主题。我会尽量按真实开发里的使用顺序来写：先说它解决什么问题，再给出可以直接照着做的步骤，最后补上排查和验证方法。
-先写清楚输入和输出算法题最怕脑子里觉得懂，代码一">
+    <meta name="description" content="LRU 缓存淘汰算法动手实现缓存穿透、击穿、雪崩是三个经典问题。本文从现象到解决方案，把这三个概念讲清楚。
+先写清楚输入和输出算法题最怕脑子里觉得懂，代码一写就错。先把输入、输出、边界条件列出来。
+以二分查找为例：
+public int b">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -490,7 +492,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    331
+                    171
                 </div>
                 
 
@@ -513,19 +515,12 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="LRU-缓存淘汰算法动手实现"><a href="#LRU-缓存淘汰算法动手实现" class="headerlink" title="LRU 缓存淘汰算法动手实现"></a>LRU 缓存淘汰算法动手实现</h1><p>这篇文章整理「LRU 缓存淘汰算法动手实现」这个主题。我会尽量按真实开发里的使用顺序来写：先说它解决什么问题，再给出可以直接照着做的步骤，最后补上排查和验证方法。</p>
+                <h1 id="LRU-缓存淘汰算法动手实现"><a href="#LRU-缓存淘汰算法动手实现" class="headerlink" title="LRU 缓存淘汰算法动手实现"></a>LRU 缓存淘汰算法动手实现</h1><p>缓存穿透、击穿、雪崩是三个经典问题。本文从现象到解决方案，把这三个概念讲清楚。</p>
 <h2 id="先写清楚输入和输出"><a href="#先写清楚输入和输出" class="headerlink" title="先写清楚输入和输出"></a>先写清楚输入和输出</h2><p>算法题最怕脑子里觉得懂，代码一写就错。先把输入、输出、边界条件列出来。</p>
 <p>以二分查找为例：</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">binarySearch</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>, right = nums.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt;= right) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + (right - left) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (nums[mid] == target) <span class="keyword">return</span> mid;</span><br><span class="line">        <span class="keyword">if</span> (nums[mid] &lt; target) left = mid + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">else</span> right = mid - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="验证边界"><a href="#验证边界" class="headerlink" title="验证边界"></a>验证边界</h2><p>至少测试：空数组、只有一个元素、目标在开头、目标在结尾、目标不存在。</p>
-<h2 id="最后再检查一遍"><a href="#最后再检查一遍" class="headerlink" title="最后再检查一遍"></a>最后再检查一遍</h2><ul>
-<li>是否写清楚了使用场景，而不是只背定义。</li>
-<li>是否有可以复制运行的命令、SQL 或代码片段。</li>
-<li>是否说明了验证方式，能判断这一步到底有没有成功。</li>
-<li>是否提醒了常见坑，避免在真实项目里踩雷。</li>
-</ul>
-<p>写技术文章最怕只讲“是什么”。真正能帮到人的文章，应该让读者知道“为什么、怎么做、怎么确认做对了”。</p>
 
             </div>
             <hr />
@@ -1025,7 +1020,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">630.2k</span>
+            <span class="white-color">564.6k</span>
             
 
             <br>

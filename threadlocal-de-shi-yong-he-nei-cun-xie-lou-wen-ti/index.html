@@ -7,8 +7,9 @@
     <meta name="keywords" content="ThreadLocal 的使用和内存泄漏问题, 程序员小乐">
 
     
-    <meta name="description" content="ThreadLocal 的使用和内存泄漏问题这是一篇偏实战的学习笔记，主题是「ThreadLocal 的使用和内存泄漏问题」。我把它写成小白也能跟着走的形式，避免只留下几句空泛结论。
-先建立一个最小案例并发问题不要一开始就上复杂业务。可以先">
+    <meta name="description" content="ThreadLocal 的使用和内存泄漏问题ThreadLocal 解决了什么问题、会引发什么问题，这是一个经典话题。本文从原理到内存泄漏的处理方式都覆盖到。
+先建立一个最小案例并发问题不要一开始就上复杂业务。可以先准备一个计数器场景：
+c">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -490,7 +491,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    434
+                    301
                 </div>
                 
 
@@ -513,7 +514,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="ThreadLocal-的使用和内存泄漏问题"><a href="#ThreadLocal-的使用和内存泄漏问题" class="headerlink" title="ThreadLocal 的使用和内存泄漏问题"></a>ThreadLocal 的使用和内存泄漏问题</h1><p>这是一篇偏实战的学习笔记，主题是「ThreadLocal 的使用和内存泄漏问题」。我把它写成小白也能跟着走的形式，避免只留下几句空泛结论。</p>
+                <h1 id="ThreadLocal-的使用和内存泄漏问题"><a href="#ThreadLocal-的使用和内存泄漏问题" class="headerlink" title="ThreadLocal 的使用和内存泄漏问题"></a>ThreadLocal 的使用和内存泄漏问题</h1><p>ThreadLocal 解决了什么问题、会引发什么问题，这是一个经典话题。本文从原理到内存泄漏的处理方式都覆盖到。</p>
 <h2 id="先建立一个最小案例"><a href="#先建立一个最小案例" class="headerlink" title="先建立一个最小案例"></a>先建立一个最小案例</h2><p>并发问题不要一开始就上复杂业务。可以先准备一个计数器场景：</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Counter</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">add</span><span class="params">()</span> &#123;</span><br><span class="line">        count++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">get</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -523,13 +524,6 @@
 
 <p>如果临界区里有多步业务逻辑，可以考虑 <code>synchronized</code> 或 <code>ReentrantLock</code>。选择时不要只看性能，先看代码是否清晰、锁范围是否足够小、异常时是否能释放锁。</p>
 <h2 id="排查建议"><a href="#排查建议" class="headerlink" title="排查建议"></a>排查建议</h2><p>线上并发问题通常不稳定复现。可以先看日志里是否有重复请求、状态覆盖、库存扣减异常，再用压测或单元测试构造并发场景。</p>
-<h2 id="最后再检查一遍"><a href="#最后再检查一遍" class="headerlink" title="最后再检查一遍"></a>最后再检查一遍</h2><ul>
-<li>是否写清楚了使用场景，而不是只背定义。</li>
-<li>是否有可以复制运行的命令、SQL 或代码片段。</li>
-<li>是否说明了验证方式，能判断这一步到底有没有成功。</li>
-<li>是否提醒了常见坑，避免在真实项目里踩雷。</li>
-</ul>
-<p>写技术文章最怕只讲“是什么”。真正能帮到人的文章，应该让读者知道“为什么、怎么做、怎么确认做对了”。</p>
 
             </div>
             <hr />
@@ -1029,7 +1023,7 @@ data-full-width-responsive="true"></ins>
             &copy; 2021-2099 程序员小乐. All Rights Reserved.
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">630.2k</span>
+            <span class="white-color">564.6k</span>
             
 
             <br>
