@@ -9,7 +9,6 @@ Allow: /friends/
 Allow: /contact/
 
 Allow: /ads.txt/
-Allow: /tools/
 
 Disallow: /js/
 Disallow: /css/
