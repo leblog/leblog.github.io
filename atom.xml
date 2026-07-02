@@ -1,351 +1,583 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
+  <title>程序员小乐</title>
+  
+  <subtitle>热爱生活</subtitle>
+  <link href="https://leblog.github.io/atom.xml" rel="self"/>
+  
+  <link href="https://leblog.github.io/"/>
+  <updated>2026-07-02T01:58:00.000Z</updated>
+  <id>https://leblog.github.io/</id>
+  
   <author>
     <name>小乐</name>
+    
   </author>
+  
   <generator uri="https://hexo.io/">Hexo</generator>
-  <id>https://leblog.github.io/</id>
-  <link href="https://leblog.github.io/" rel="alternate"/>
-  <link href="https://leblog.github.io/atom.xml" rel="self"/>
-  <rights>All rights reserved 2026, 小乐</rights>
-  <subtitle>热爱生活</subtitle>
-  <title>程序员小乐</title>
-  <updated>2026-07-02T01:58:00.000Z</updated>
+  
   <entry>
-    <author>
-      <name>小乐</name>
-    </author>
-    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
-    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
-    <id>https://leblog.github.io/2026/07/02/2026/07/20260702-ai-news/</id>
-    <link href="https://leblog.github.io/2026/07/02/2026/07/20260702-ai-news/"/>
-    <published>2026-07-02T01:58:00.000Z</published>
-    <summary>
-      <![CDATA[<h2 id="各位早"><a href="#各位早" class="headerlink" title="各位早"></a>各位早</h2><p>7 月第二天，AI 圈关键词：<strong>AI]]>
-    </summary>
     <title>快手可灵AI 30亿美元融资、联合国专家警告AI进展超速、Anthropic Sonnet 5突袭与Fable 5解禁</title>
+    <link href="https://leblog.github.io/2026/07/02/2026/07/20260702-ai-news/"/>
+    <id>https://leblog.github.io/2026/07/02/2026/07/20260702-ai-news/</id>
+    <published>2026-07-02T01:58:00.000Z</published>
     <updated>2026-07-02T01:58:00.000Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>小乐</name>
-    </author>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;各位早&quot;&gt;&lt;a href=&quot;#各位早&quot; class=&quot;headerlink&quot; title=&quot;各位早&quot;&gt;&lt;/a&gt;各位早&lt;/h2&gt;&lt;p&gt;7 月第二天，AI 圈关键词：&lt;strong&gt;AI</summary>
+        
+      
+    
+    
+    
     <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
     <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
-    <id>https://leblog.github.io/2026/07/01/2026/07/20260701-ai-news/</id>
-    <link href="https://leblog.github.io/2026/07/01/2026/07/20260701-ai-news/"/>
-    <published>2026-07-01T01:21:00.000Z</published>
-    <summary>
-      <![CDATA[<h2 id="👋-各位好"><a href="#👋-各位好" class="headerlink" title="👋 各位好"></a>👋 各位好</h2><p>7 月第一天，AI 圈关键词：<strong>小团队大模型、物理 AI 落地、端侧 AI]]>
-    </summary>
+    
+  </entry>
+  
+  <entry>
     <title>8人团队挑战Cursor/Claude Code、物理AI走进现实、Meta AI眼镜订阅上线、DeepSeek V4将发布</title>
+    <link href="https://leblog.github.io/2026/07/01/2026/07/20260701-ai-news/"/>
+    <id>https://leblog.github.io/2026/07/01/2026/07/20260701-ai-news/</id>
+    <published>2026-07-01T01:21:00.000Z</published>
     <updated>2026-07-01T01:21:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;👋-各位好&quot;&gt;&lt;a href=&quot;#👋-各位好&quot; class=&quot;headerlink&quot; title=&quot;👋 各位好&quot;&gt;&lt;/a&gt;👋 各位好&lt;/h2&gt;&lt;p&gt;7 月第一天，AI 圈关键词：&lt;strong&gt;小团队大模型、物理 AI 落地、端侧 AI</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
   </entry>
+  
   <entry>
-    <author>
-      <name>小乐</name>
-    </author>
-    <category term="AI" scheme="https://leblog.github.io/categories/AI/"/>
-    <category term="AI" scheme="https://leblog.github.io/tags/AI/"/>
-    <category term="AI智能体" scheme="https://leblog.github.io/tags/AI%E6%99%BA%E8%83%BD%E4%BD%93/"/>
-    <id>https://leblog.github.io/kan-diao-pm-quan-yuan-zuo-builder-ai-zhen-neng-rang-ren-ren-du-zuo-chan-pin-ma/</id>
-    <link href="https://leblog.github.io/kan-diao-pm-quan-yuan-zuo-builder-ai-zhen-neng-rang-ren-ren-du-zuo-chan-pin-ma/"/>
-    <published>2026-06-30T09:39:09.000Z</published>
-    <summary>
-      <![CDATA[<h1 id="砍掉-PM，全员做-Builder？AI-真能让人人都做产品吗？"><a href="#砍掉-PM，全员做-Builder？AI-真能让人人都做产品吗？" class="headerlink" title="砍掉 PM，全员做 Builder？AI]]>
-    </summary>
     <title>砍掉 PM，全员做 Builder？AI 真能让人人都做产品吗？</title>
+    <link href="https://leblog.github.io/kan-diao-pm-quan-yuan-zuo-builder-ai-zhen-neng-rang-ren-ren-du-zuo-chan-pin-ma/"/>
+    <id>https://leblog.github.io/kan-diao-pm-quan-yuan-zuo-builder-ai-zhen-neng-rang-ren-ren-du-zuo-chan-pin-ma/</id>
+    <published>2026-06-30T09:39:09.000Z</published>
     <updated>2026-06-30T09:39:09.000Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>小乐</name>
-    </author>
-    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
-    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
-    <id>https://leblog.github.io/2026/06/30/2026/06/20260630-ai-news/</id>
-    <link href="https://leblog.github.io/2026/06/30/2026/06/20260630-ai-news/"/>
-    <published>2026-06-30T01:20:00.000Z</published>
-    <summary>
-      <![CDATA[<h2 id="👋-各位好"><a href="#👋-各位好" class="headerlink" title="👋 各位好"></a>👋 各位好</h2><p>今天 AI 圈关键词：<strong>GPT-5.6 深度评估者爆料”疯狂作弊”、福特被 AI]]>
-    </summary>
-    <title>GPT-5.6深度评估者开麦&quot;疯狂作弊&quot;、福特召回350名老工程师救场、OpenAI首款硬件Codex键盘7月登场</title>
-    <updated>2026-06-30T01:20:00.000Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>小乐</name>
-    </author>
-    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
-    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
-    <id>https://leblog.github.io/2026/06/29/2026/06/20260629-ai-news/</id>
-    <link href="https://leblog.github.io/2026/06/29/2026/06/20260629-ai-news/"/>
-    <published>2026-06-29T01:20:00.000Z</published>
-    <summary>
-      <![CDATA[<h2 id="👋-各位好"><a href="#👋-各位好" class="headerlink" title="👋 各位好"></a>👋 各位好</h2><p>今天 AI 圈关键词：<strong>GPT-5.6 与国家安全、民用数据军事化、AI]]>
-    </summary>
-    <title>OpenAI GPT-5.6三大模型齐发却遭政府限发、AR手游300亿份扫描数据被曝用于军事AI训练</title>
-    <updated>2026-06-29T01:20:00.000Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>小乐</name>
-    </author>
-    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
-    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
-    <id>https://leblog.github.io/2026/06/28/2026/06/20260628-ai-news/</id>
-    <link href="https://leblog.github.io/2026/06/28/2026/06/20260628-ai-news/"/>
-    <published>2026-06-28T07:10:00.000Z</published>
-    <summary>
-      <![CDATA[<h2 id="👋-各位好"><a href="#👋-各位好" class="headerlink" title="👋 各位好"></a>👋 各位好</h2><p>今天 AI 圈关键词是：<strong>端侧大模型落地、算力供需矛盾、Agentic AI]]>
-    </summary>
-    <title>苹果Core AI框架端侧大模型、谷歌限制Meta调用Gemini、GitLab 19.0全面拥抱Agentic AI</title>
-    <updated>2026-06-28T07:10:00.000Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>小乐</name>
-    </author>
-    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
-    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
-    <id>https://leblog.github.io/2026/06/27/2026/06/20260627-ai-news/</id>
-    <link href="https://leblog.github.io/2026/06/27/2026/06/20260627-ai-news/"/>
-    <published>2026-06-27T02:00:00.000Z</published>
-    <summary>
-      <![CDATA[<h2 id="👋-各位好"><a href="#👋-各位好" class="headerlink" title="👋 各位好"></a>👋 各位好</h2><p>今天 AI 圈可以用三个关键词概括：<strong>大模型军备赛、政府监管入场、Agent]]>
-    </summary>
-    <title>OpenAI发布GPT-5.6系列三款模型、白宫签署AI安全行政令、中国发布智能体互联7项国标</title>
-    <updated>2026-06-27T02:00:00.000Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>小乐</name>
-    </author>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;砍掉-PM，全员做-Builder？AI-真能让人人都做产品吗？&quot;&gt;&lt;a href=&quot;#砍掉-PM，全员做-Builder？AI-真能让人人都做产品吗？&quot; class=&quot;headerlink&quot; title=&quot;砍掉 PM，全员做 Builder？AI</summary>
+        
+      
+    
+    
+    
     <category term="AI" scheme="https://leblog.github.io/categories/AI/"/>
+    
+    
     <category term="AI" scheme="https://leblog.github.io/tags/AI/"/>
+    
     <category term="AI智能体" scheme="https://leblog.github.io/tags/AI%E6%99%BA%E8%83%BD%E4%BD%93/"/>
-    <category term="人工智能产业" scheme="https://leblog.github.io/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E4%BA%A7%E4%B8%9A/"/>
-    <category term="算力基建" scheme="https://leblog.github.io/tags/%E7%AE%97%E5%8A%9B%E5%9F%BA%E5%BB%BA/"/>
-    <id>https://leblog.github.io/huang-ren-xun-gu-dong-da-hui-ding-diao-ai-zheng-shi-gao-bie-shao-qian-shi-dai-shu-shi-nian-ji-suan-li-ji-jian-zhou-qi-kai-qi/</id>
-    <link href="https://leblog.github.io/huang-ren-xun-gu-dong-da-hui-ding-diao-ai-zheng-shi-gao-bie-shao-qian-shi-dai-shu-shi-nian-ji-suan-li-ji-jian-zhou-qi-kai-qi/"/>
-    <published>2026-06-26T01:49:06.000Z</published>
-    <summary>
-      <![CDATA[<h1 id="深度博客：黄仁勋股东大会定调：AI正式告别烧钱时代，数十年级算力基建周期开启"><a href="#深度博客：黄仁勋股东大会定调：AI正式告别烧钱时代，数十年级算力基建周期开启" class="headerlink"]]>
-    </summary>
+    
+  </entry>
+  
+  <entry>
+    <title>GPT-5.6深度评估者开麦&quot;疯狂作弊&quot;、福特召回350名老工程师救场、OpenAI首款硬件Codex键盘7月登场</title>
+    <link href="https://leblog.github.io/2026/06/30/2026/06/20260630-ai-news/"/>
+    <id>https://leblog.github.io/2026/06/30/2026/06/20260630-ai-news/</id>
+    <published>2026-06-30T01:20:00.000Z</published>
+    <updated>2026-06-30T01:20:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;👋-各位好&quot;&gt;&lt;a href=&quot;#👋-各位好&quot; class=&quot;headerlink&quot; title=&quot;👋 各位好&quot;&gt;&lt;/a&gt;👋 各位好&lt;/h2&gt;&lt;p&gt;今天 AI 圈关键词：&lt;strong&gt;GPT-5.6 深度评估者爆料”疯狂作弊”、福特被 AI</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>OpenAI GPT-5.6三大模型齐发却遭政府限发、AR手游300亿份扫描数据被曝用于军事AI训练</title>
+    <link href="https://leblog.github.io/2026/06/29/2026/06/20260629-ai-news/"/>
+    <id>https://leblog.github.io/2026/06/29/2026/06/20260629-ai-news/</id>
+    <published>2026-06-29T01:20:00.000Z</published>
+    <updated>2026-06-29T01:20:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;👋-各位好&quot;&gt;&lt;a href=&quot;#👋-各位好&quot; class=&quot;headerlink&quot; title=&quot;👋 各位好&quot;&gt;&lt;/a&gt;👋 各位好&lt;/h2&gt;&lt;p&gt;今天 AI 圈关键词：&lt;strong&gt;GPT-5.6 与国家安全、民用数据军事化、AI</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>苹果Core AI框架端侧大模型、谷歌限制Meta调用Gemini、GitLab 19.0全面拥抱Agentic AI</title>
+    <link href="https://leblog.github.io/2026/06/28/2026/06/20260628-ai-news/"/>
+    <id>https://leblog.github.io/2026/06/28/2026/06/20260628-ai-news/</id>
+    <published>2026-06-28T07:10:00.000Z</published>
+    <updated>2026-06-28T07:10:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;👋-各位好&quot;&gt;&lt;a href=&quot;#👋-各位好&quot; class=&quot;headerlink&quot; title=&quot;👋 各位好&quot;&gt;&lt;/a&gt;👋 各位好&lt;/h2&gt;&lt;p&gt;今天 AI 圈关键词是：&lt;strong&gt;端侧大模型落地、算力供需矛盾、Agentic AI</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>OpenAI发布GPT-5.6系列三款模型、白宫签署AI安全行政令、中国发布智能体互联7项国标</title>
+    <link href="https://leblog.github.io/2026/06/27/2026/06/20260627-ai-news/"/>
+    <id>https://leblog.github.io/2026/06/27/2026/06/20260627-ai-news/</id>
+    <published>2026-06-27T02:00:00.000Z</published>
+    <updated>2026-06-27T02:00:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;👋-各位好&quot;&gt;&lt;a href=&quot;#👋-各位好&quot; class=&quot;headerlink&quot; title=&quot;👋 各位好&quot;&gt;&lt;/a&gt;👋 各位好&lt;/h2&gt;&lt;p&gt;今天 AI 圈可以用三个关键词概括：&lt;strong&gt;大模型军备赛、政府监管入场、Agent</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
+  
+  <entry>
     <title>黄仁勋股东大会定调：AI正式告别烧钱时代，数十年级算力基建周期开启</title>
+    <link href="https://leblog.github.io/huang-ren-xun-gu-dong-da-hui-ding-diao-ai-zheng-shi-gao-bie-shao-qian-shi-dai-shu-shi-nian-ji-suan-li-ji-jian-zhou-qi-kai-qi/"/>
+    <id>https://leblog.github.io/huang-ren-xun-gu-dong-da-hui-ding-diao-ai-zheng-shi-gao-bie-shao-qian-shi-dai-shu-shi-nian-ji-suan-li-ji-jian-zhou-qi-kai-qi/</id>
+    <published>2026-06-26T01:49:06.000Z</published>
     <updated>2026-06-26T01:49:06.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;深度博客：黄仁勋股东大会定调：AI正式告别烧钱时代，数十年级算力基建周期开启&quot;&gt;&lt;a href=&quot;#深度博客：黄仁勋股东大会定调：AI正式告别烧钱时代，数十年级算力基建周期开启&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="AI" scheme="https://leblog.github.io/categories/AI/"/>
+    
+    
+    <category term="AI" scheme="https://leblog.github.io/tags/AI/"/>
+    
+    <category term="AI智能体" scheme="https://leblog.github.io/tags/AI%E6%99%BA%E8%83%BD%E4%BD%93/"/>
+    
+    <category term="人工智能产业" scheme="https://leblog.github.io/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E4%BA%A7%E4%B8%9A/"/>
+    
+    <category term="算力基建" scheme="https://leblog.github.io/tags/%E7%AE%97%E5%8A%9B%E5%9F%BA%E5%BB%BA/"/>
+    
   </entry>
+  
   <entry>
-    <author>
-      <name>小乐</name>
-    </author>
-    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
-    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
-    <id>https://leblog.github.io/2026/06/26/2026/06/20260626-ai-news/</id>
-    <link href="https://leblog.github.io/2026/06/26/2026/06/20260626-ai-news/"/>
-    <published>2026-06-26T01:20:00.000Z</published>
-    <summary>
-      <![CDATA[<h2 id="👋-各位早"><a href="#👋-各位早" class="headerlink" title="👋 各位早"></a>👋 各位早</h2><p>今天 AI 圈关键词是：<strong>Token 算账、并行 Agent 桌面化、边缘 AI 整合、开源]]>
-    </summary>
     <title>Claude Code降温Agent狂烧Token、GitHub Copilot桌面版并行Agent工作流、安森美70亿美元收购Synaptics布局边缘AI</title>
+    <link href="https://leblog.github.io/2026/06/26/2026/06/20260626-ai-news/"/>
+    <id>https://leblog.github.io/2026/06/26/2026/06/20260626-ai-news/</id>
+    <published>2026-06-26T01:20:00.000Z</published>
     <updated>2026-06-26T01:20:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;👋-各位早&quot;&gt;&lt;a href=&quot;#👋-各位早&quot; class=&quot;headerlink&quot; title=&quot;👋 各位早&quot;&gt;&lt;/a&gt;👋 各位早&lt;/h2&gt;&lt;p&gt;今天 AI 圈关键词是：&lt;strong&gt;Token 算账、并行 Agent 桌面化、边缘 AI 整合、开源</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
   </entry>
+  
   <entry>
-    <author>
-      <name>小乐</name>
-    </author>
-    <category term="macOS" scheme="https://leblog.github.io/categories/macOS/"/>
-    <category term="工具" scheme="https://leblog.github.io/categories/macOS/%E5%B7%A5%E5%85%B7/"/>
-    <category term="macOS" scheme="https://leblog.github.io/tags/macOS/"/>
-    <category term="工具" scheme="https://leblog.github.io/tags/%E5%B7%A5%E5%85%B7/"/>
-    <id>https://leblog.github.io/mac-shu-ru-fa-pin-fan-luan-qie-kai-yuan-shen-qi-lockime-wan-zheng-shi-yong-jiao-cheng-yi-jian-suo-ding-shu-ru-fa/</id>
-    <link href="https://leblog.github.io/mac-shu-ru-fa-pin-fan-luan-qie-kai-yuan-shen-qi-lockime-wan-zheng-shi-yong-jiao-cheng-yi-jian-suo-ding-shu-ru-fa/"/>
-    <published>2026-06-25T06:52:58.000Z</published>
-    <summary>
-      <![CDATA[<h1 id="Mac输入法频繁乱切？开源神器LockIME完整使用教程，一键锁定输入法"><a href="#Mac输入法频繁乱切？开源神器LockIME完整使用教程，一键锁定输入法" class="headerlink"]]>
-    </summary>
     <title>Mac 输入法频繁乱切？开源神器 LockIME 完整使用教程，一键锁定输入法</title>
+    <link href="https://leblog.github.io/mac-shu-ru-fa-pin-fan-luan-qie-kai-yuan-shen-qi-lockime-wan-zheng-shi-yong-jiao-cheng-yi-jian-suo-ding-shu-ru-fa/"/>
+    <id>https://leblog.github.io/mac-shu-ru-fa-pin-fan-luan-qie-kai-yuan-shen-qi-lockime-wan-zheng-shi-yong-jiao-cheng-yi-jian-suo-ding-shu-ru-fa/</id>
+    <published>2026-06-25T06:52:58.000Z</published>
     <updated>2026-06-25T06:52:58.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;Mac输入法频繁乱切？开源神器LockIME完整使用教程，一键锁定输入法&quot;&gt;&lt;a href=&quot;#Mac输入法频繁乱切？开源神器LockIME完整使用教程，一键锁定输入法&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="macOS" scheme="https://leblog.github.io/categories/macOS/"/>
+    
+    <category term="工具" scheme="https://leblog.github.io/categories/macOS/%E5%B7%A5%E5%85%B7/"/>
+    
+    
+    <category term="macOS" scheme="https://leblog.github.io/tags/macOS/"/>
+    
+    <category term="工具" scheme="https://leblog.github.io/tags/%E5%B7%A5%E5%85%B7/"/>
+    
   </entry>
+  
   <entry>
-    <author>
-      <name>小乐</name>
-    </author>
-    <category term="AI资讯" scheme="https://leblog.github.io/categories/AI%E8%B5%84%E8%AE%AF/"/>
-    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
-    <category term="AI日报" scheme="https://leblog.github.io/tags/AI%E6%97%A5%E6%8A%A5/"/>
-    <id>https://leblog.github.io/2026/06/25/2026/06/20260625-ai-news/</id>
-    <link href="https://leblog.github.io/2026/06/25/2026/06/20260625-ai-news/"/>
-    <published>2026-06-25T01:20:00.000Z</published>
-    <summary>
-      <![CDATA[<p><img src="https://i.imgur.com/Vbvbi3O.jpeg" alt="AI 资讯日报"></p>
-<blockquote>
-<p>2026年6月25日 AI 领域速览：共收录 <strong>9</strong> 条新资讯，覆盖]]>
-    </summary>
     <title>AI 资讯日报 · 2026年06月25日</title>
+    <link href="https://leblog.github.io/2026/06/25/2026/06/20260625-ai-news/"/>
+    <id>https://leblog.github.io/2026/06/25/2026/06/20260625-ai-news/</id>
+    <published>2026-06-25T01:20:00.000Z</published>
     <updated>2026-06-25T01:20:00.000Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>小乐</name>
-    </author>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/Vbvbi3O.jpeg&quot; alt=&quot;AI 资讯日报&quot;&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;2026年6月25日 AI 领域速览：共收录 &lt;strong&gt;9&lt;/strong&gt; 条新资讯，覆盖</summary>
+        
+      
+    
+    
+    
     <category term="AI资讯" scheme="https://leblog.github.io/categories/AI%E8%B5%84%E8%AE%AF/"/>
-    <category term="人工智能" scheme="https://leblog.github.io/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/"/>
+    
+    
     <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
     <category term="AI日报" scheme="https://leblog.github.io/tags/AI%E6%97%A5%E6%8A%A5/"/>
-    <category term="大模型" scheme="https://leblog.github.io/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/"/>
-    <category term="Agent" scheme="https://leblog.github.io/tags/Agent/"/>
-    <category term="工程文化" scheme="https://leblog.github.io/tags/%E5%B7%A5%E7%A8%8B%E6%96%87%E5%8C%96/"/>
-    <category term="豆包" scheme="https://leblog.github.io/tags/%E8%B1%86%E5%8C%85/"/>
-    <category term="Meta" scheme="https://leblog.github.io/tags/Meta/"/>
-    <category term="腾讯云" scheme="https://leblog.github.io/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/"/>
-    <category term="Azure" scheme="https://leblog.github.io/tags/Azure/"/>
-    <category term="Angular" scheme="https://leblog.github.io/tags/Angular/"/>
-    <id>https://leblog.github.io/2026/06/24/2026/06/20260624-ai-news/</id>
-    <link href="https://leblog.github.io/2026/06/24/2026/06/20260624-ai-news/"/>
-    <published>2026-06-24T01:20:00.000Z</published>
-    <summary>
-      <![CDATA[<blockquote>
-<p>自动采集于 2026-06-24，共收录 <strong>14</strong> 条新资讯，覆盖 IT之家、InfoQ、少数派三大来源。</p>
-</blockquote>
-<hr>
-<h2 id="🔥-今日焦点"><a]]>
-    </summary>
+    
+  </entry>
+  
+  <entry>
     <title>AI 资讯日报 · 2026年06月24日</title>
+    <link href="https://leblog.github.io/2026/06/24/2026/06/20260624-ai-news/"/>
+    <id>https://leblog.github.io/2026/06/24/2026/06/20260624-ai-news/</id>
+    <published>2026-06-24T01:20:00.000Z</published>
     <updated>2026-06-24T01:20:00.000Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>小乐</name>
-    </author>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;自动采集于 2026-06-24，共收录 &lt;strong&gt;14&lt;/strong&gt; 条新资讯，覆盖 IT之家、InfoQ、少数派三大来源。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;🔥-今日焦点&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
     <category term="AI资讯" scheme="https://leblog.github.io/categories/AI%E8%B5%84%E8%AE%AF/"/>
-    <category term="人工智能" scheme="https://leblog.github.io/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/"/>
+    
+    
     <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+    <category term="人工智能" scheme="https://leblog.github.io/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/"/>
+    
     <category term="AI日报" scheme="https://leblog.github.io/tags/AI%E6%97%A5%E6%8A%A5/"/>
+    
     <category term="大模型" scheme="https://leblog.github.io/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/"/>
-    <category term="物理AI" scheme="https://leblog.github.io/tags/%E7%89%A9%E7%90%86AI/"/>
-    <category term="芯片" scheme="https://leblog.github.io/tags/%E8%8A%AF%E7%89%87/"/>
+    
     <category term="Agent" scheme="https://leblog.github.io/tags/Agent/"/>
-    <category term="IPO" scheme="https://leblog.github.io/tags/IPO/"/>
-    <id>https://leblog.github.io/2026/06/23/2026/06/20260623-ai-news/</id>
-    <link href="https://leblog.github.io/2026/06/23/2026/06/20260623-ai-news/"/>
-    <published>2026-06-23T01:20:00.000Z</published>
-    <summary>
-      <![CDATA[<blockquote>
-<p>自动采集于 2026-06-23，共收录 <strong>10</strong> 条新资讯，覆盖 IT之家、InfoQ、少数派三大来源。</p>
-</blockquote>
-<hr>
-<h2 id="🔥-今日焦点"><a]]>
-    </summary>
+    
+    <category term="工程文化" scheme="https://leblog.github.io/tags/%E5%B7%A5%E7%A8%8B%E6%96%87%E5%8C%96/"/>
+    
+    <category term="豆包" scheme="https://leblog.github.io/tags/%E8%B1%86%E5%8C%85/"/>
+    
+    <category term="Meta" scheme="https://leblog.github.io/tags/Meta/"/>
+    
+    <category term="腾讯云" scheme="https://leblog.github.io/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/"/>
+    
+    <category term="Azure" scheme="https://leblog.github.io/tags/Azure/"/>
+    
+    <category term="Angular" scheme="https://leblog.github.io/tags/Angular/"/>
+    
+  </entry>
+  
+  <entry>
     <title>AI 资讯日报 · 2026年06月23日</title>
+    <link href="https://leblog.github.io/2026/06/23/2026/06/20260623-ai-news/"/>
+    <id>https://leblog.github.io/2026/06/23/2026/06/20260623-ai-news/</id>
+    <published>2026-06-23T01:20:00.000Z</published>
     <updated>2026-06-23T01:20:00.000Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>小乐</name>
-    </author>
-    <category term="AI" scheme="https://leblog.github.io/categories/AI/"/>
-    <category term="AI" scheme="https://leblog.github.io/tags/AI/"/>
-    <category term="产品经理" scheme="https://leblog.github.io/tags/%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86/"/>
-    <category term="转型" scheme="https://leblog.github.io/tags/%E8%BD%AC%E5%9E%8B/"/>
-    <id>https://leblog.github.io/cheng-xu-yuan-ru-he-zhuan-xing-ai-chan-pin-jing-li/</id>
-    <link href="https://leblog.github.io/cheng-xu-yuan-ru-he-zhuan-xing-ai-chan-pin-jing-li/"/>
-    <published>2026-06-22T08:04:06.000Z</published>
-    <summary>
-      <![CDATA[<h1 id="程序员如何转型-AI-产品经理：你缺的可能不是技术，而是发现问题的能力"><a href="#程序员如何转型-AI-产品经理：你缺的可能不是技术，而是发现问题的能力" class="headerlink" title="程序员如何转型 AI]]>
-    </summary>
-    <title>程序员如何转型 AI 产品经理：你缺的可能不是技术，而是发现问题的能力</title>
-    <updated>2026-06-22T08:04:06.000Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>小乐</name>
-    </author>
-    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;自动采集于 2026-06-23，共收录 &lt;strong&gt;10&lt;/strong&gt; 条新资讯，覆盖 IT之家、InfoQ、少数派三大来源。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;🔥-今日焦点&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="AI资讯" scheme="https://leblog.github.io/categories/AI%E8%B5%84%E8%AE%AF/"/>
+    
+    
     <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
-    <id>https://leblog.github.io/2026/06/22/2026/06/20260622-ai-news/</id>
-    <link href="https://leblog.github.io/2026/06/22/2026/06/20260622-ai-news/"/>
-    <published>2026-06-22T07:30:00.000Z</published>
-    <summary>
-      <![CDATA[<h2 id="👋-各位早"><a href="#👋-各位早" class="headerlink" title="👋 各位早"></a>👋 各位早</h2><p>今天 AI 圈关键词是：<strong>风控智能化、Vibe Coding 实践、内核级可观测性、MOSS]]>
-    </summary>
-    <title>AI风控智能化升级、100%Vibe Coding完成Game Jam、eBPF取代用户态Agent、复旦MOSS多模态、英特尔为苹果代工芯片</title>
-    <updated>2026-06-22T07:30:00.000Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>小乐</name>
-    </author>
-    <category term="AI" scheme="https://leblog.github.io/categories/AI/"/>
-    <category term="AI" scheme="https://leblog.github.io/tags/AI/"/>
-    <id>https://leblog.github.io/claude-code-jing-ji-yan-jiu-bao-gao-jie-du-ai-zheng-zai-rang-shi-xian-bian-bian-yi-rang-pan-duan-bian-ang-gui/</id>
-    <link href="https://leblog.github.io/claude-code-jing-ji-yan-jiu-bao-gao-jie-du-ai-zheng-zai-rang-shi-xian-bian-bian-yi-rang-pan-duan-bian-ang-gui/"/>
-    <published>2026-06-22T03:53:06.000Z</published>
-    <summary>
-      <![CDATA[<h1 id="Claude-Code-经济研究报告解读：AI-正在让“实现”变便宜，让“判断”变昂贵"><a href="#Claude-Code-经济研究报告解读：AI-正在让“实现”变便宜，让“判断”变昂贵" class="headerlink"]]>
-    </summary>
-    <title>Claude Code 经济研究报告解读：AI 正在让“实现”变便宜，让“判断”变昂贵</title>
-    <updated>2026-06-22T03:53:06.000Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>小乐</name>
-    </author>
-    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
-    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
-    <id>https://leblog.github.io/2026/06/21/2026/06/20260621-ai-news/</id>
-    <link href="https://leblog.github.io/2026/06/21/2026/06/20260621-ai-news/"/>
-    <published>2026-06-21T00:00:00.000Z</published>
-    <summary>
-      <![CDATA[<h2 id="👋-各位早"><a href="#👋-各位早" class="headerlink" title="👋 各位早"></a>👋 各位早</h2><p>今天 AI 圈关键词是：<strong>语音驾控、金融落地、AI 创作平民化</strong>。马斯克在]]>
-    </summary>
-    <title>马斯克Grok语音控制特斯拉FSD、InfoQ关注银行信贷大模型变革、独立开发者用AI自制GTA6</title>
-    <updated>2026-06-21T00:00:00.000Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>小乐</name>
-    </author>
-    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
-    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
-    <id>https://leblog.github.io/2026/06/20/2026/06/20260620-ai-news/</id>
-    <link href="https://leblog.github.io/2026/06/20/2026/06/20260620-ai-news/"/>
-    <published>2026-06-20T00:00:00.000Z</published>
-    <summary>
-      <![CDATA[<h2 id="👋-各位早"><a href="#👋-各位早" class="headerlink" title="👋 各位早"></a>👋 各位早</h2><p>今天的 AI]]>
-    </summary>
-    <title>Anthropic承诺数日内重新开放Mythos与Fable 5、平安人寿AI神盾风控实践、京东618 AI产品成交额翻倍</title>
-    <updated>2026-06-20T00:00:00.000Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>小乐</name>
-    </author>
-    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
-    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
-    <id>https://leblog.github.io/2026/06/19/2026/06/20260619-ai-news/</id>
-    <link href="https://leblog.github.io/2026/06/19/2026/06/20260619-ai-news/"/>
-    <published>2026-06-19T00:00:00.000Z</published>
-    <summary>
-      <![CDATA[<h2 id="👋-各位早"><a href="#👋-各位早" class="headerlink" title="👋 各位早"></a>👋 各位早</h2><p>今天的 AI 圈关键词是：<strong>Token 商品化、Agent]]>
-    </summary>
-    <title>Token成为商品重构AI基建、JetBrains开源Mellum2挑战Claude Code、Anthropic新模型三天遭下架</title>
-    <updated>2026-06-19T00:00:00.000Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>小乐</name>
-    </author>
-    <category term="人工智能" scheme="https://leblog.github.io/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/"/>
-    <category term="AI" scheme="https://leblog.github.io/tags/AI/"/>
+    
     <category term="人工智能" scheme="https://leblog.github.io/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/"/>
-    <id>https://leblog.github.io/ren-gong-zhi-neng-ji-zhu-bian-ge-chan-ye-chong-gou-yu-ke-xin-wei-lai/</id>
-    <link href="https://leblog.github.io/ren-gong-zhi-neng-ji-zhu-bian-ge-chan-ye-chong-gou-yu-ke-xin-wei-lai/"/>
-    <published>2026-06-18T02:26:06.000Z</published>
-    <summary>
-      <![CDATA[<h1 id="人工智能：技术变革、产业重构与可信未来"><a href="#人工智能：技术变革、产业重构与可信未来" class="headerlink"]]>
-    </summary>
-    <title>人工智能：技术变革、产业重构与可信未来</title>
-    <updated>2026-06-18T02:26:06.000Z</updated>
+    
+    <category term="AI日报" scheme="https://leblog.github.io/tags/AI%E6%97%A5%E6%8A%A5/"/>
+    
+    <category term="大模型" scheme="https://leblog.github.io/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/"/>
+    
+    <category term="物理AI" scheme="https://leblog.github.io/tags/%E7%89%A9%E7%90%86AI/"/>
+    
+    <category term="芯片" scheme="https://leblog.github.io/tags/%E8%8A%AF%E7%89%87/"/>
+    
+    <category term="Agent" scheme="https://leblog.github.io/tags/Agent/"/>
+    
+    <category term="IPO" scheme="https://leblog.github.io/tags/IPO/"/>
+    
   </entry>
+  
+  <entry>
+    <title>程序员如何转型 AI 产品经理：你缺的可能不是技术，而是发现问题的能力</title>
+    <link href="https://leblog.github.io/cheng-xu-yuan-ru-he-zhuan-xing-ai-chan-pin-jing-li/"/>
+    <id>https://leblog.github.io/cheng-xu-yuan-ru-he-zhuan-xing-ai-chan-pin-jing-li/</id>
+    <published>2026-06-22T08:04:06.000Z</published>
+    <updated>2026-06-22T08:04:06.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;程序员如何转型-AI-产品经理：你缺的可能不是技术，而是发现问题的能力&quot;&gt;&lt;a href=&quot;#程序员如何转型-AI-产品经理：你缺的可能不是技术，而是发现问题的能力&quot; class=&quot;headerlink&quot; title=&quot;程序员如何转型 AI</summary>
+        
+      
+    
+    
+    
+    <category term="AI" scheme="https://leblog.github.io/categories/AI/"/>
+    
+    
+    <category term="AI" scheme="https://leblog.github.io/tags/AI/"/>
+    
+    <category term="产品经理" scheme="https://leblog.github.io/tags/%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86/"/>
+    
+    <category term="转型" scheme="https://leblog.github.io/tags/%E8%BD%AC%E5%9E%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>AI风控智能化升级、100%Vibe Coding完成Game Jam、eBPF取代用户态Agent、复旦MOSS多模态、英特尔为苹果代工芯片</title>
+    <link href="https://leblog.github.io/2026/06/22/2026/06/20260622-ai-news/"/>
+    <id>https://leblog.github.io/2026/06/22/2026/06/20260622-ai-news/</id>
+    <published>2026-06-22T07:30:00.000Z</published>
+    <updated>2026-06-22T07:30:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;👋-各位早&quot;&gt;&lt;a href=&quot;#👋-各位早&quot; class=&quot;headerlink&quot; title=&quot;👋 各位早&quot;&gt;&lt;/a&gt;👋 各位早&lt;/h2&gt;&lt;p&gt;今天 AI 圈关键词是：&lt;strong&gt;风控智能化、Vibe Coding 实践、内核级可观测性、MOSS</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Claude Code 经济研究报告解读：AI 正在让“实现”变便宜，让“判断”变昂贵</title>
+    <link href="https://leblog.github.io/claude-code-jing-ji-yan-jiu-bao-gao-jie-du-ai-zheng-zai-rang-shi-xian-bian-bian-yi-rang-pan-duan-bian-ang-gui/"/>
+    <id>https://leblog.github.io/claude-code-jing-ji-yan-jiu-bao-gao-jie-du-ai-zheng-zai-rang-shi-xian-bian-bian-yi-rang-pan-duan-bian-ang-gui/</id>
+    <published>2026-06-22T03:53:06.000Z</published>
+    <updated>2026-06-22T03:53:06.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;Claude-Code-经济研究报告解读：AI-正在让“实现”变便宜，让“判断”变昂贵&quot;&gt;&lt;a href=&quot;#Claude-Code-经济研究报告解读：AI-正在让“实现”变便宜，让“判断”变昂贵&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="AI" scheme="https://leblog.github.io/categories/AI/"/>
+    
+    
+    <category term="AI" scheme="https://leblog.github.io/tags/AI/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>马斯克Grok语音控制特斯拉FSD、InfoQ关注银行信贷大模型变革、独立开发者用AI自制GTA6</title>
+    <link href="https://leblog.github.io/2026/06/21/2026/06/20260621-ai-news/"/>
+    <id>https://leblog.github.io/2026/06/21/2026/06/20260621-ai-news/</id>
+    <published>2026-06-21T00:00:00.000Z</published>
+    <updated>2026-06-21T00:00:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;👋-各位早&quot;&gt;&lt;a href=&quot;#👋-各位早&quot; class=&quot;headerlink&quot; title=&quot;👋 各位早&quot;&gt;&lt;/a&gt;👋 各位早&lt;/h2&gt;&lt;p&gt;今天 AI 圈关键词是：&lt;strong&gt;语音驾控、金融落地、AI 创作平民化&lt;/strong&gt;。马斯克在</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Anthropic承诺数日内重新开放Mythos与Fable 5、平安人寿AI神盾风控实践、京东618 AI产品成交额翻倍</title>
+    <link href="https://leblog.github.io/2026/06/20/2026/06/20260620-ai-news/"/>
+    <id>https://leblog.github.io/2026/06/20/2026/06/20260620-ai-news/</id>
+    <published>2026-06-20T00:00:00.000Z</published>
+    <updated>2026-06-20T00:00:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;👋-各位早&quot;&gt;&lt;a href=&quot;#👋-各位早&quot; class=&quot;headerlink&quot; title=&quot;👋 各位早&quot;&gt;&lt;/a&gt;👋 各位早&lt;/h2&gt;&lt;p&gt;今天的 AI</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Token成为商品重构AI基建、JetBrains开源Mellum2挑战Claude Code、Anthropic新模型三天遭下架</title>
+    <link href="https://leblog.github.io/2026/06/19/2026/06/20260619-ai-news/"/>
+    <id>https://leblog.github.io/2026/06/19/2026/06/20260619-ai-news/</id>
+    <published>2026-06-19T00:00:00.000Z</published>
+    <updated>2026-06-19T00:00:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;👋-各位早&quot;&gt;&lt;a href=&quot;#👋-各位早&quot; class=&quot;headerlink&quot; title=&quot;👋 各位早&quot;&gt;&lt;/a&gt;👋 各位早&lt;/h2&gt;&lt;p&gt;今天的 AI 圈关键词是：&lt;strong&gt;Token 商品化、Agent</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>人工智能：技术变革、产业重构与可信未来</title>
+    <link href="https://leblog.github.io/ren-gong-zhi-neng-ji-zhu-bian-ge-chan-ye-chong-gou-yu-ke-xin-wei-lai/"/>
+    <id>https://leblog.github.io/ren-gong-zhi-neng-ji-zhu-bian-ge-chan-ye-chong-gou-yu-ke-xin-wei-lai/</id>
+    <published>2026-06-18T02:26:06.000Z</published>
+    <updated>2026-06-18T02:26:06.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;人工智能：技术变革、产业重构与可信未来&quot;&gt;&lt;a href=&quot;#人工智能：技术变革、产业重构与可信未来&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="人工智能" scheme="https://leblog.github.io/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/"/>
+    
+    
+    <category term="AI" scheme="https://leblog.github.io/tags/AI/"/>
+    
+    <category term="人工智能" scheme="https://leblog.github.io/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/"/>
+    
+  </entry>
+  
 </feed>
