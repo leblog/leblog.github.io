@@ -6,7 +6,7 @@
   <link href="https://leblog.github.io/atom.xml" rel="self"/>
   
   <link href="https://leblog.github.io/"/>
-  <updated>2026-07-02T01:58:00.000Z</updated>
+  <updated>2026-07-03T01:21:00.000Z</updated>
   <id>https://leblog.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Meta 转身卖算力股价暴涨、Agent 规模化落地冷思考、AWS 推隔离式智能体运行环境</title>
+    <link href="https://leblog.github.io/2026/07/03/2026/07/20260703-ai-news/"/>
+    <id>https://leblog.github.io/2026/07/03/2026/07/20260703-ai-news/</id>
+    <published>2026-07-03T01:21:00.000Z</published>
+    <updated>2026-07-03T01:21:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;各位早&quot;&gt;&lt;a href=&quot;#各位早&quot; class=&quot;headerlink&quot; title=&quot;各位早&quot;&gt;&lt;/a&gt;各位早&lt;/h2&gt;&lt;p&gt;7 月第三天，AI 圈关键词：&lt;strong&gt;算力即战略、Agent</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
   
   <entry>
     <title>快手可灵AI 30亿美元融资、联合国专家警告AI进展超速、Anthropic Sonnet 5突袭与Fable 5解禁</title>
@@ -550,33 +575,6 @@
     
     
     <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>人工智能：技术变革、产业重构与可信未来</title>
-    <link href="https://leblog.github.io/ren-gong-zhi-neng-ji-zhu-bian-ge-chan-ye-chong-gou-yu-ke-xin-wei-lai/"/>
-    <id>https://leblog.github.io/ren-gong-zhi-neng-ji-zhu-bian-ge-chan-ye-chong-gou-yu-ke-xin-wei-lai/</id>
-    <published>2026-06-18T02:26:06.000Z</published>
-    <updated>2026-06-18T02:26:06.000Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;人工智能：技术变革、产业重构与可信未来&quot;&gt;&lt;a href=&quot;#人工智能：技术变革、产业重构与可信未来&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="人工智能" scheme="https://leblog.github.io/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/"/>
-    
-    
-    <category term="AI" scheme="https://leblog.github.io/tags/AI/"/>
-    
-    <category term="人工智能" scheme="https://leblog.github.io/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/"/>
     
   </entry>
   
