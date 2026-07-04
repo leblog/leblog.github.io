@@ -6,7 +6,7 @@
   <link href="https://leblog.github.io/atom.xml" rel="self"/>
   
   <link href="https://leblog.github.io/"/>
-  <updated>2026-07-03T01:21:00.000Z</updated>
+  <updated>2026-07-04T01:21:00.000Z</updated>
   <id>https://leblog.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Claude Code 删 80% 提示词、OpenAI Anthropic 自研芯片攻英伟达、Agent 从 Coding 到 Anything 重写工作流</title>
+    <link href="https://leblog.github.io/2026/07/04/2026/07/20260704-ai-news/"/>
+    <id>https://leblog.github.io/2026/07/04/2026/07/20260704-ai-news/</id>
+    <published>2026-07-04T01:21:00.000Z</published>
+    <updated>2026-07-04T01:21:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;各位早&quot;&gt;&lt;a href=&quot;#各位早&quot; class=&quot;headerlink&quot; title=&quot;各位早&quot;&gt;&lt;/a&gt;各位早&lt;/h2&gt;&lt;p&gt;7 月第四天，AI 圈关键词：&lt;strong&gt;AI 降本、自研芯片、Agent</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
   
   <entry>
     <title>Meta 转身卖算力股价暴涨、Agent 规模化落地冷思考、AWS 推隔离式智能体运行环境</title>
@@ -414,11 +439,11 @@
     
     <category term="大模型" scheme="https://leblog.github.io/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/"/>
     
+    <category term="Agent" scheme="https://leblog.github.io/tags/Agent/"/>
+    
     <category term="物理AI" scheme="https://leblog.github.io/tags/%E7%89%A9%E7%90%86AI/"/>
     
     <category term="芯片" scheme="https://leblog.github.io/tags/%E8%8A%AF%E7%89%87/"/>
-    
-    <category term="Agent" scheme="https://leblog.github.io/tags/Agent/"/>
     
     <category term="IPO" scheme="https://leblog.github.io/tags/IPO/"/>
     
@@ -541,31 +566,6 @@
         
         
     <summary type="html">&lt;h2 id=&quot;👋-各位早&quot;&gt;&lt;a href=&quot;#👋-各位早&quot; class=&quot;headerlink&quot; title=&quot;👋 各位早&quot;&gt;&lt;/a&gt;👋 各位早&lt;/h2&gt;&lt;p&gt;今天的 AI</summary>
-        
-      
-    
-    
-    
-    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
-    
-    
-    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Token成为商品重构AI基建、JetBrains开源Mellum2挑战Claude Code、Anthropic新模型三天遭下架</title>
-    <link href="https://leblog.github.io/2026/06/19/2026/06/20260619-ai-news/"/>
-    <id>https://leblog.github.io/2026/06/19/2026/06/20260619-ai-news/</id>
-    <published>2026-06-19T00:00:00.000Z</published>
-    <updated>2026-06-19T00:00:00.000Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;👋-各位早&quot;&gt;&lt;a href=&quot;#👋-各位早&quot; class=&quot;headerlink&quot; title=&quot;👋 各位早&quot;&gt;&lt;/a&gt;👋 各位早&lt;/h2&gt;&lt;p&gt;今天的 AI 圈关键词是：&lt;strong&gt;Token 商品化、Agent</summary>
         
       
     
