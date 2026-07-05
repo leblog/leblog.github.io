@@ -6,7 +6,7 @@
   <link href="https://leblog.github.io/atom.xml" rel="self"/>
   
   <link href="https://leblog.github.io/"/>
-  <updated>2026-07-04T01:21:00.000Z</updated>
+  <updated>2026-07-05T01:21:00.000Z</updated>
   <id>https://leblog.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Gemini 3.5 Flash 原生操控电脑、OpenAI 百元订阅挑战 Claude、Meta Agent 承认停滞、Fable 5 禁令真相曝光</title>
+    <link href="https://leblog.github.io/2026/07/05/2026/07/20260705-ai-news/"/>
+    <id>https://leblog.github.io/2026/07/05/2026/07/20260705-ai-news/</id>
+    <published>2026-07-05T01:21:00.000Z</published>
+    <updated>2026-07-05T01:21:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;各位早&quot;&gt;&lt;a href=&quot;#各位早&quot; class=&quot;headerlink&quot; title=&quot;各位早&quot;&gt;&lt;/a&gt;各位早&lt;/h2&gt;&lt;p&gt;7 月第一个周末，AI 圈没有停下。&lt;strong&gt;Google 把计算机操作原生嵌入 Gemini 3.5 Flash，AI</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
   
   <entry>
     <title>Claude Code 删 80% 提示词、OpenAI Anthropic 自研芯片攻英伟达、Agent 从 Coding 到 Anything 重写工作流</title>
@@ -439,11 +464,11 @@
     
     <category term="大模型" scheme="https://leblog.github.io/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/"/>
     
-    <category term="Agent" scheme="https://leblog.github.io/tags/Agent/"/>
-    
     <category term="物理AI" scheme="https://leblog.github.io/tags/%E7%89%A9%E7%90%86AI/"/>
     
     <category term="芯片" scheme="https://leblog.github.io/tags/%E8%8A%AF%E7%89%87/"/>
+    
+    <category term="Agent" scheme="https://leblog.github.io/tags/Agent/"/>
     
     <category term="IPO" scheme="https://leblog.github.io/tags/IPO/"/>
     
@@ -541,31 +566,6 @@
         
         
     <summary type="html">&lt;h2 id=&quot;👋-各位早&quot;&gt;&lt;a href=&quot;#👋-各位早&quot; class=&quot;headerlink&quot; title=&quot;👋 各位早&quot;&gt;&lt;/a&gt;👋 各位早&lt;/h2&gt;&lt;p&gt;今天 AI 圈关键词是：&lt;strong&gt;语音驾控、金融落地、AI 创作平民化&lt;/strong&gt;。马斯克在</summary>
-        
-      
-    
-    
-    
-    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
-    
-    
-    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Anthropic承诺数日内重新开放Mythos与Fable 5、平安人寿AI神盾风控实践、京东618 AI产品成交额翻倍</title>
-    <link href="https://leblog.github.io/2026/06/20/2026/06/20260620-ai-news/"/>
-    <id>https://leblog.github.io/2026/06/20/2026/06/20260620-ai-news/</id>
-    <published>2026-06-20T00:00:00.000Z</published>
-    <updated>2026-06-20T00:00:00.000Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;👋-各位早&quot;&gt;&lt;a href=&quot;#👋-各位早&quot; class=&quot;headerlink&quot; title=&quot;👋 各位早&quot;&gt;&lt;/a&gt;👋 各位早&lt;/h2&gt;&lt;p&gt;今天的 AI</summary>
         
       
     
