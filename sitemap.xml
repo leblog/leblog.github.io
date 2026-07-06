@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://leblog.github.io/2026/07/06/2026/07/20260706-ai-news/</loc>
+    
+    <lastmod>2026-07-06T01:21:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://leblog.github.io/2026/07/05/2026/07/20260705-ai-news/</loc>
     
     <lastmod>2026-07-05T01:21:00.000Z</lastmod>
@@ -212,14 +219,14 @@
   </url>
   
   <url>
-    <loc>https://leblog.github.io/tools/Untitled-1.json</loc>
+    <loc>https://leblog.github.io/tools/index.html</loc>
     
     <lastmod>2026-06-10T07:39:30.800Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://leblog.github.io/tools/index.html</loc>
+    <loc>https://leblog.github.io/tools/Untitled-1.json</loc>
     
     <lastmod>2026-06-10T07:39:30.800Z</lastmod>
     
@@ -6337,14 +6344,14 @@
   </url>
   
   <url>
-    <loc>https://leblog.github.io/about/index.html</loc>
+    <loc>https://leblog.github.io/404.html</loc>
     
     <lastmod>2019-07-19T08:41:10.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://leblog.github.io/404.html</loc>
+    <loc>https://leblog.github.io/about/index.html</loc>
     
     <lastmod>2019-07-19T08:41:10.000Z</lastmod>
     
@@ -6358,14 +6365,14 @@
   </url>
   
   <url>
-    <loc>https://leblog.github.io/categories/index.html</loc>
+    <loc>https://leblog.github.io/archives/index.html</loc>
     
     <lastmod>2019-07-19T08:39:20.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://leblog.github.io/archives/index.html</loc>
+    <loc>https://leblog.github.io/categories/index.html</loc>
     
     <lastmod>2019-07-19T08:39:20.000Z</lastmod>
     
