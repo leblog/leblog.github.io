@@ -6,7 +6,7 @@
   <link href="https://leblog.github.io/atom.xml" rel="self"/>
   
   <link href="https://leblog.github.io/"/>
-  <updated>2026-07-22T01:20:00.000Z</updated>
+  <updated>2026-08-17T01:21:00.000Z</updated>
   <id>https://leblog.github.io/</id>
   
   <author>
@@ -15,6 +15,82 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Cloudflare 推出 Computer 持久化运行环境，AI Coding 落地金融科技研发闭环｜2026-08-17 AI 早报</title>
+    <link href="https://leblog.github.io/2026/08/17/2026/08/20260817-ai-news/"/>
+    <id>https://leblog.github.io/2026/08/17/2026/08/20260817-ai-news/</id>
+    <published>2026-08-17T01:21:00.000Z</published>
+    <updated>2026-08-17T01:21:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;各位早&quot;&gt;&lt;a href=&quot;#各位早&quot; class=&quot;headerlink&quot; title=&quot;各位早&quot;&gt;&lt;/a&gt;各位早&lt;/h2&gt;&lt;p&gt;周一的 AI 圈，主线围绕「智能体的运行基础设施」与「AI Coding 走向研发闭环」展开。Cloudflare 推出</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>WAIC探展AI新物种·腾讯云CodeBuddy流程原生研发智能体·Agent安全难题</title>
+    <link href="https://leblog.github.io/2026/07/24/2026/07/20260724-ai-news/"/>
+    <id>https://leblog.github.io/2026/07/24/2026/07/20260724-ai-news/</id>
+    <published>2026-07-24T01:20:00.000Z</published>
+    <updated>2026-07-24T01:20:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/eZjCROK.png&quot; alt=&quot;封面&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;各位早&quot;&gt;&lt;a href=&quot;#各位早&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>AMD 内部部署 Claude、阿里千问 Qwen-Image-3.0 发布、亚马逊 AGI 部门裁员｜2026-07-23 AI 早报</title>
+    <link href="https://leblog.github.io/2026/07/23/2026/07/20260723-ai-news/"/>
+    <id>https://leblog.github.io/2026/07/23/2026/07/20260723-ai-news/</id>
+    <published>2026-07-23T01:20:00.000Z</published>
+    <updated>2026-07-23T01:20:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;各位早&quot;&gt;&lt;a href=&quot;#各位早&quot; class=&quot;headerlink&quot; title=&quot;各位早&quot;&gt;&lt;/a&gt;各位早&lt;/h2&gt;&lt;p&gt;周三的 AI 圈，主线是「算力与模型的双向落地」加「巨头内部的 AI 重构」。AMD 与 Anthropic</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
   
   <entry>
     <title>银联联手 15 家银行推「智能体银行卡」，韩国 AI 巨头将集体会面黄仁勋｜2026-07-22 AI 早报</title>
@@ -429,81 +505,6 @@
         
         
     <summary type="html">&lt;h2 id=&quot;各位早&quot;&gt;&lt;a href=&quot;#各位早&quot; class=&quot;headerlink&quot; title=&quot;各位早&quot;&gt;&lt;/a&gt;各位早&lt;/h2&gt;&lt;p&gt;7 月第一个周一，AI 圈的信号从硬件、政策到大厂合规全面铺开。&lt;strong&gt;日本经济产业省把 AI 机器人写进国家战略，目标</summary>
-        
-      
-    
-    
-    
-    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
-    
-    
-    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Gemini 3.5 Flash 原生操控电脑、OpenAI 百元订阅挑战 Claude、Meta Agent 承认停滞、Fable 5 禁令真相曝光</title>
-    <link href="https://leblog.github.io/2026/07/05/2026/07/20260705-ai-news/"/>
-    <id>https://leblog.github.io/2026/07/05/2026/07/20260705-ai-news/</id>
-    <published>2026-07-05T01:21:00.000Z</published>
-    <updated>2026-07-05T01:21:00.000Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;各位早&quot;&gt;&lt;a href=&quot;#各位早&quot; class=&quot;headerlink&quot; title=&quot;各位早&quot;&gt;&lt;/a&gt;各位早&lt;/h2&gt;&lt;p&gt;7 月第一个周末，AI 圈没有停下。&lt;strong&gt;Google 把计算机操作原生嵌入 Gemini 3.5 Flash，AI</summary>
-        
-      
-    
-    
-    
-    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
-    
-    
-    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Claude Code 删 80% 提示词、OpenAI Anthropic 自研芯片攻英伟达、Agent 从 Coding 到 Anything 重写工作流</title>
-    <link href="https://leblog.github.io/2026/07/04/2026/07/20260704-ai-news/"/>
-    <id>https://leblog.github.io/2026/07/04/2026/07/20260704-ai-news/</id>
-    <published>2026-07-04T01:21:00.000Z</published>
-    <updated>2026-07-04T01:21:00.000Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;各位早&quot;&gt;&lt;a href=&quot;#各位早&quot; class=&quot;headerlink&quot; title=&quot;各位早&quot;&gt;&lt;/a&gt;各位早&lt;/h2&gt;&lt;p&gt;7 月第四天，AI 圈关键词：&lt;strong&gt;AI 降本、自研芯片、Agent</summary>
-        
-      
-    
-    
-    
-    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
-    
-    
-    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Meta 转身卖算力股价暴涨、Agent 规模化落地冷思考、AWS 推隔离式智能体运行环境</title>
-    <link href="https://leblog.github.io/2026/07/03/2026/07/20260703-ai-news/"/>
-    <id>https://leblog.github.io/2026/07/03/2026/07/20260703-ai-news/</id>
-    <published>2026-07-03T01:21:00.000Z</published>
-    <updated>2026-07-03T01:21:00.000Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;各位早&quot;&gt;&lt;a href=&quot;#各位早&quot; class=&quot;headerlink&quot; title=&quot;各位早&quot;&gt;&lt;/a&gt;各位早&lt;/h2&gt;&lt;p&gt;7 月第三天，AI 圈关键词：&lt;strong&gt;算力即战略、Agent</summary>
         
       
     
