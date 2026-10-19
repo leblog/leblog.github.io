@@ -1,0 +1,1418 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="智能体省钱、AI 重写短剧与研发链路：Uber/小红书/得物一线实践齐发｜2026-09-01 AI 早报, 程序员小乐">
+
+    
+    <meta name="description" content="各位早九月的 AI 圈，主线从「模型能力比拼」转向「落地与成本」：智能体请求量暴涨、token 账单却要压住，企业开始公开自己的「AI 工厂」省钱方法论；内容生产侧，AI 正把短剧的「出片—出海」全链路重写；研发侧，Agent 不再只替你写">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>智能体省钱、AI 重写短剧与研发链路：Uber/小红书/得物一线实践齐发｜2026-09-01 AI 早报 | 程序员小乐</title>
+    <link rel="icon" type="image/png" href="https://wp-cdn.4ce.cn/v2/aTeDpXd.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-3.7.1.min.js"></script>
+    <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+
+    <!-- 谷歌广告 -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3969824567415808"
+     crossorigin="anonymous"></script>
+
+     <!-- 谷歌分析 -->
+     <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XNDRSTWEQ8"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-XNDRSTWEQ8');
+    </script>
+
+    
+     
+<meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="程序员小乐" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="https://wp-cdn.4ce.cn/v2/aTeDpXd.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">程序员小乐</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/news/" class="waves-effect waves-light">
+            
+            <i class="fa fa-newspaper-o"></i>
+            
+            <span>每日新闻</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-list"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-card"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-users"></i>
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/contact" class="waves-effect waves-light">
+            
+            <i class="fa fa-volume-control-phone"></i>
+            
+            <span>留言板</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tools" class="waves-effect waves-light">
+            
+            <i class="fa fa-inbox"></i>
+            
+            <span>Tools</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="https://wp-cdn.4ce.cn/v2/aTeDpXd.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">程序员小乐</div>
+        <div class="logo-desc">
+            
+            计算机科学与技术
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/news/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-newspaper-o"></i>
+                
+                每日新闻
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-list"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-card"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-users"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        <li>
+            <a href="/contact" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-volume-control-phone"></i>
+                
+                留言板
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tools" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-inbox"></i>
+                
+                Tools
+            </a>
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/leblog" class="waves-effect waves-light" target="_blank">
+                <i class="fa fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/leblog" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://wp-cdn.4ce.cn/v2/IXZhU0p.jpeg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        智能体省钱、AI 重写短剧与研发链路：Uber/小红书/得物一线实践齐发｜2026-09-01 AI 早报
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                        <a href="/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/" target="_blank">
+                            <span class="chip bg-color">每日新闻</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                        <a href="/categories/%E7%A7%91%E6%8A%80/" class="post-category" target="_blank">
+                            科技
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2026-09-01
+                </div>
+
+                <div class="post-author info-break-policy">
+                    <i class="fa fa-user-o fa-fw"></i>作者:&nbsp;&nbsp;
+                    
+                    小乐
+                    
+                </div>
+
+                
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    1.8k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    6 分
+                </div>
+                
+                
+
+                
+                <div id="busuanzi_container_page_pv" class="info-break-policy">
+                    <i class="fa fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                    <span id="busuanzi_value_page_pv"></span>
+                </div>
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="各位早"><a href="#各位早" class="headerlink" title="各位早"></a>各位早</h2><p>九月的 AI 圈，主线从「模型能力比拼」转向「落地与成本」：智能体请求量暴涨、token 账单却要压住，企业开始公开自己的「AI 工厂」省钱方法论；内容生产侧，AI 正把短剧的「出片—出海」全链路重写；研发侧，Agent 不再只替你写代码，而是尝试接管企业研发的全链路。与此同时，开源 Agent 的兴衰、AI Token 的「缩水黑箱」也值得细看。</p>
+<blockquote>
+<p>说明：今日 RSS 采集正常（本地脚本入库 15 条，无补采）。以下条目均来自 InfoQ / IT之家 / 少数派 的当日 RSS，描述以原文标题与摘要为准。</p>
+</blockquote>
+<hr>
+<h2 id="今日数据"><a href="#今日数据" class="headerlink" title="今日数据"></a>今日数据</h2><ul>
+<li><strong>新增资讯</strong>：本地脚本入库 <strong>15</strong> 条</li>
+<li><strong>来源分布（本地 RSS）</strong>：InfoQ 7 篇（全部 AI 相关）· IT之家 2 篇（其中 1 篇智能家居涨价相关性弱）· 少数派 6 篇（其中约 4 篇与 AI 主题相关性较弱：游戏推荐 / 饮品 DIY / 明基显示器 / 物种科普）· 机器之心 / arXiv / 36氪 / 开源中国 0 篇 · VentureBeat AI 7 篇（历史重复，未入库）· Wired AI 404</li>
+<li><strong>真·AI 重点</strong>：约 10 条（见下文重点关注）</li>
+</ul>
+<hr>
+<h2 id="今日重点关注"><a href="#今日重点关注" class="headerlink" title="今日重点关注"></a>今日重点关注</h2><h3 id="1-英伟达向联发科投资-35-亿美元，覆盖-AI、PC-芯片、汽车三大领域"><a href="#1-英伟达向联发科投资-35-亿美元，覆盖-AI、PC-芯片、汽车三大领域" class="headerlink" title="1. 英伟达向联发科投资 35 亿美元，覆盖 AI、PC 芯片、汽车三大领域"></a>1. 英伟达向联发科投资 35 亿美元，覆盖 AI、PC 芯片、汽车三大领域</h3><blockquote>
+<p>来源：<a href="https://www.ithome.com/0/996/728.htm">IT之家</a></p>
+</blockquote>
+<p>英伟达与联发科宣布加深长期合作，英伟达向联发科投资 35 亿美元，双方将在 AI 基础设施、本地 AI 计算（AIPC）和汽车三大领域打造下一代 AI 计算平台；联发科将采用 NVIDIA NVLink Fusion，为超大规模企业、云服务商和前沿模型开发者提供预验证的异构集成路径。算力版图从「抢 GPU」进一步走向「绑定芯片设计」。</p>
+<hr>
+<h3 id="2-智能体请求暴增-9-4-倍、token-账单却没涨：Uber-公开-AI-软件工厂省钱方法"><a href="#2-智能体请求暴增-9-4-倍、token-账单却没涨：Uber-公开-AI-软件工厂省钱方法" class="headerlink" title="2. 智能体请求暴增 9.4 倍、token 账单却没涨：Uber 公开 AI 软件工厂省钱方法"></a>2. 智能体请求暴增 9.4 倍、token 账单却没涨：Uber 公开 AI 软件工厂省钱方法</h3><blockquote>
+<p>来源：<a href="https://www.infoq.cn/article/WGj2Jx0K2sbP3dhUXeC5">InfoQ</a></p>
+</blockquote>
+<p>Uber 公开其「AI 软件工厂」的成本治理经验：在智能体请求量暴涨近 9.4 倍的同时，通过缓存、请求合并、模型路由与工程化治理，把 token 账单控制在几乎没有增长。对正被 Agent 成本压得喘不过气的团队，这是一份难得的「省钱实操」。</p>
+<hr>
+<h3 id="3-从出片到出海：AI-MediaKit-重塑短剧全链路生产力"><a href="#3-从出片到出海：AI-MediaKit-重塑短剧全链路生产力" class="headerlink" title="3. 从出片到出海：AI MediaKit 重塑短剧全链路生产力"></a>3. 从出片到出海：AI MediaKit 重塑短剧全链路生产力</h3><blockquote>
+<p>来源：<a href="https://www.infoq.cn/article/L7P7cA3UMXXQJcBfyHuJ">InfoQ</a></p>
+</blockquote>
+<p>短剧出海竞争白热化，AI MediaKit 把「出片—本地化—出海分发」的链路重做了一遍：从脚本、分镜、翻译到多语配音与素材管理，用 AI 把原本分散在多个工种的生产力收拢成统一工作流，显著压缩制作与出海周期。</p>
+<hr>
+<h3 id="4-AI-写代码飞快，为何交付没有变快？小红书-Muse-的-Agentic-架构实践"><a href="#4-AI-写代码飞快，为何交付没有变快？小红书-Muse-的-Agentic-架构实践" class="headerlink" title="4. AI 写代码飞快，为何交付没有变快？小红书 Muse 的 Agentic 架构实践"></a>4. AI 写代码飞快，为何交付没有变快？小红书 Muse 的 Agentic 架构实践</h3><blockquote>
+<p>来源：<a href="https://www.infoq.cn/article/l88X1azz8wfwphDyECoP">InfoQ</a></p>
+</blockquote>
+<p>小红书 Muse 团队直面一个普遍困境：AI 生成代码很快，但端到端交付并没同步提速。文章拆解其 Agentic 架构——如何把代码生成嵌进需求、评审、测试、发布的真实研发闭环，而不是停留在「补全片段」层面，给出「提效 ≠ 提速」的架构答案。</p>
+<hr>
+<h3 id="5-智能体适应度函数：将演进式架构扩展至确定性规则之外"><a href="#5-智能体适应度函数：将演进式架构扩展至确定性规则之外" class="headerlink" title="5. 智能体适应度函数：将演进式架构扩展至确定性规则之外"></a>5. 智能体适应度函数：将演进式架构扩展至确定性规则之外</h3><blockquote>
+<p>来源：<a href="https://www.infoq.cn/article/8iWWrov7bkk1hz5CcFft">InfoQ</a></p>
+</blockquote>
+<p>把「演进式架构」从确定性规则推进到智能体世界：用「适应度函数」衡量系统在不同演化路径上的健康度，让架构决策能在 Agent 持续迭代、环境动态变化下保持可控，是 Agent 时代架构治理的新思路。</p>
+<hr>
+<h3 id="6-AI-Coding-之后，如何让-Agent-进入企业研发全链路？得物推荐的-Harness-实践"><a href="#6-AI-Coding-之后，如何让-Agent-进入企业研发全链路？得物推荐的-Harness-实践" class="headerlink" title="6. AI Coding 之后，如何让 Agent 进入企业研发全链路？得物推荐的 Harness 实践"></a>6. AI Coding 之后，如何让 Agent 进入企业研发全链路？得物推荐的 Harness 实践</h3><blockquote>
+<p>来源：<a href="https://www.infoq.cn/article/sDyQxrWR6zDPJuLX4FA8">InfoQ</a></p>
+</blockquote>
+<p>得物分享其 Harness 实践：在 AI Coding 已经跑通的基础上，进一步用 Agent 串联企业研发全链路——从需求拆解、任务编排到质量门禁与上线，探索「编码只是 Agent 的一环」的组织级落地范式。</p>
+<hr>
+<h3 id="7-OpenClaw-从意外爆红到「无人问津」：一个开源-AI-Agent-的八个月过山车"><a href="#7-OpenClaw-从意外爆红到「无人问津」：一个开源-AI-Agent-的八个月过山车" class="headerlink" title="7. OpenClaw 从意外爆红到「无人问津」：一个开源 AI Agent 的八个月过山车"></a>7. OpenClaw 从意外爆红到「无人问津」：一个开源 AI Agent 的八个月过山车</h3><blockquote>
+<p>来源：<a href="https://www.infoq.cn/article/4KQHJC49t8J8FPqaEVLv">InfoQ</a></p>
+</blockquote>
+<p>OpenClaw 用八个月走完「爆红—沉寂」的完整曲线：文章复盘这个开源 AI Agent 项目从意外走红到热度退潮的全过程，对「开源 Agent 如何穿越炒作周期、维持真实用户」是难得的样本研究。（相关：少数派派早报提到 OpenClaw 推出 2.0 版本更新。）</p>
+<hr>
+<h3 id="8-「你以为买的是-DeepSeek-Flash，到手可能是-1-5-bit-缩水版」：Pi-核心贡献者谈-AI-Token-黑箱"><a href="#8-「你以为买的是-DeepSeek-Flash，到手可能是-1-5-bit-缩水版」：Pi-核心贡献者谈-AI-Token-黑箱" class="headerlink" title="8. 「你以为买的是 DeepSeek Flash，到手可能是 1.5 bit 缩水版」：Pi 核心贡献者谈 AI Token 黑箱"></a>8. 「你以为买的是 DeepSeek Flash，到手可能是 1.5 bit 缩水版」：Pi 核心贡献者谈 AI Token 黑箱</h3><blockquote>
+<p>来源：<a href="https://www.infoq.cn/article/rsiiPG7xwQakgyulC88D">InfoQ</a></p>
+</blockquote>
+<p>Pi 核心贡献者揭开源 Token 的「缩水黑箱」：同样标称的模型，底层量化与精度差异可能让实际拿到的能力大幅缩水。文章提醒开发者在比价与选型时，要穿透「Token 价格」表象看真实推理质量，避免被低价误导。</p>
+<hr>
+<h3 id="9-派早报：OpenClaw-推出-2-0-版本更新，网易-CC-直播正式停运等"><a href="#9-派早报：OpenClaw-推出-2-0-版本更新，网易-CC-直播正式停运等" class="headerlink" title="9. 派早报：OpenClaw 推出 2.0 版本更新，网易 CC 直播正式停运等"></a>9. 派早报：OpenClaw 推出 2.0 版本更新，网易 CC 直播正式停运等</h3><blockquote>
+<p>来源：<a href="https://sspai.com/post/114055">少数派</a></p>
+</blockquote>
+<p>少数派早报聚焦 OpenClaw 2.0 版本更新、网易 CC 直播正式停运等科技动态；其中 DotSkill 等 AI 能力可让助手通过自然语言直接操控墨水屏摘录，是端侧 AI 交互的小而美的进展。</p>
+<hr>
+<h3 id="10-派评-近期值得关注的-App"><a href="#10-派评-近期值得关注的-App" class="headerlink" title="10. 派评 | 近期值得关注的 App"></a>10. 派评 | 近期值得关注的 App</h3><blockquote>
+<p>来源：<a href="https://sspai.com/post/114041">少数派</a></p>
+</blockquote>
+<p>少数派编辑部盘点的近期值得关注 App，其中不乏借助 AI 能力提升效率与创作力的新应用，适合想给工具箱「加点智能」的读者按图索骥。</p>
+<hr>
+<h2 id="全文索引"><a href="#全文索引" class="headerlink" title="全文索引"></a>全文索引</h2><ul>
+<li><a href="https://www.ithome.com/0/996/728.htm">英伟达宣布向联发科投资 35 亿美元，在 AI、PC 芯片、汽车三大领域达成合作</a> — IT之家</li>
+<li><a href="https://www.ithome.com/0/996/744.htm">谷歌多款智能家居硬件在美涨价，Google TV Streamer 机顶盒涨幅约 50%</a> — IT之家（智能家居调价，AI 相关性弱）</li>
+<li><a href="https://www.infoq.cn/article/WGj2Jx0K2sbP3dhUXeC5">智能体请求暴增 9.4 倍，token 账单却没涨：Uber 公开 AI 软件工厂省钱方法</a> — InfoQ</li>
+<li><a href="https://www.infoq.cn/article/L7P7cA3UMXXQJcBfyHuJ">从出片到出海：AI MediaKit 重塑短剧全链路生产力</a> — InfoQ</li>
+<li><a href="https://www.infoq.cn/article/l88X1azz8wfwphDyECoP">AI 写代码飞快，为何交付没有变快？小红书 Muse 的 Agentic 架构实践</a> — InfoQ</li>
+<li><a href="https://www.infoq.cn/article/8iWWrov7bkk1hz5CcFft">智能体适应度函数：将演进式架构扩展至确定性规则之外</a> — InfoQ</li>
+<li><a href="https://www.infoq.cn/article/sDyQxrWR6zDPJuLX4FA8">AI Coding 之后，如何让 Agent 进入企业研发全链路？得物推荐的 Harness 实践</a> — InfoQ</li>
+<li><a href="https://www.infoq.cn/article/4KQHJC49t8J8FPqaEVLv">OpenClaw 从意外爆红到「无人问津」：一个开源 AI Agent 的八个月过山车</a> — InfoQ</li>
+<li><a href="https://www.infoq.cn/article/rsiiPG7xwQakgyulC88D">「你以为买的是 DeepSeek Flash，到手可能是 1.5 bit 缩水版」：Pi 核心贡献者谈 AI Token 黑箱</a> — InfoQ</li>
+<li><a href="https://sspai.com/post/114055">派早报：OpenClaw 推出 2.0 版本更新，网易 CC 直播正式停运等</a> — 少数派</li>
+<li><a href="https://sspai.com/post/114041">派评 | 近期值得关注的 App</a> — 少数派</li>
+<li><a href="https://sspai.com/post/114043">本月玩什么｜Big Walk、潜龙谍影 大师合辑 Vol. 2</a> — 少数派（游戏推荐，相关性弱）</li>
+<li><a href="https://sspai.com/prime/story/home-made-beverages-4">家庭饮品 DIY 指南（四）：奶昔、柠檬和茶系列配方</a> — 少数派（生活向，相关性弱）</li>
+<li><a href="https://sspai.com/post/114027">屏幕之外，桌面之上：走过十年，明基探索了一束光的更多可能</a> — 少数派（硬件品牌向，相关性弱）</li>
+<li><a href="https://sspai.com/post/113827">全球仅剩三位数的物种，科学家却连一个准数都数不出来</a> — 少数派（科普向，相关性弱）</li>
+</ul>
+
+            </div>
+            <hr />
+
+            
+            <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.88rem;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-large waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fa fa-close"></i></a>
+            <h4 class="reward-title">写作不易，客官能否打赏一杯Cooffee？</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="https://wp-cdn.4ce.cn/v2/MJ8peBx.png" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="https://wp-cdn.4ce.cn/v2/yUS7sDT.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        <p class="reprint-tip">
+            <i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;
+            <span>转载规则</span>
+        </p>
+        
+            <div class="center-align">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                    <img alt=""
+                         style="border-width:0"
+                         src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
+                </a>
+            </div>
+            <br/>
+            <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
+                  property="dct:title" rel="dct:type">
+                    《智能体省钱、AI 重写短剧与研发链路：Uber/小红书/得物一线实践齐发｜2026-09-01 AI 早报》
+                </span> 由
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2026/09/01/2026/09/20260901-ai-news/" property="cc:attributionName"
+               rel="cc:attributionURL">
+                小乐
+            </a> 采用
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                知识共享署名 4.0 国际许可协议
+            </a>进行许可。
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+        </div>
+    </div>
+    <!-- 插入谷歌广告post -->
+    <ins class="adsbygoogle"
+    style="display:block"
+    data-ad-client="ca-pub-3969824567415808"
+    data-ad-slot="5525027918"
+    data-ad-format="auto"
+    data-full-width-responsive="true"></ins>
+    
+    
+    <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: 'Ov23liwpvtv7XfsKCkXW',
+        clientSecret: '364dbe0a734b080fb0559e395442e58f15c4dc31',
+        repo: 'leblog.github.io',
+        owner: 'leblog',
+        admin: "leblog",
+        id: '2026/09/01/2026/09/20260901-ai-news/',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2026/09/02/2026/09/20260902-ai-news/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://wp-cdn.4ce.cn/v2/MHJC0Sq.jpeg" class="responsive-img" alt="Fable 5.1 降价、Astra 被划入「关键」网安级、1200 个 Agent 集体越权：AI 的能力和边界同时加速｜2026-09-02 AI 早报">
+                        
+                        <span class="card-title">Fable 5.1 降价、Astra 被划入「关键」网安级、1200 个 Agent 集体越权：AI 的能力和边界同时加速｜2026-09-02 AI 早报</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            各位早今天是少见的「能力」和「边界」同一天加速的日子。
+模型侧，Anthropic 把 Fable 5.1 端了出来，八项公开基准全部第一，同时把缓存读取价格砍掉 75%——顶级模型开始正面比拼性价比；安全侧，OpenAI 抢在发布前主动宣
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2026-09-02
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%A7%91%E6%8A%80/" class="post-category" target="_blank">
+                                    科技
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/" target="_blank">
+                        <span class="chip bg-color">每日新闻</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2026/08/31/2026/08/20260831-ai-news/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://wp-cdn.4ce.cn/v2/7Aw0Rgx.jpeg" class="responsive-img" alt="国产大模型价格战再升级：智谱 GLM-5.3-Flash、阿里 Qwen3.8-Flash 同日开源，Agent 走向物理世界与全天候自主｜2026-08-31 AI 早报">
+                        
+                        <span class="card-title">国产大模型价格战再升级：智谱 GLM-5.3-Flash、阿里 Qwen3.8-Flash 同日开源，Agent 走向物理世界与全天候自主｜2026-08-31 AI 早报</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            各位早周一的 AI 圈，主线围绕「国产大模型开源降价」与「智能体从数字世界走向物理世界、走向全天候自主」展开。8 月 26 日晚，智谱与阿里接连发布并开源高性能大模型—— GLM-5.3-Flash（匿名模型「牛来」Ox-Alpha 正式亮
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2026-08-31
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%A7%91%E6%8A%80/" class="post-category" target="_blank">
+                                    科技
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/" target="_blank">
+                        <span class="chip bg-color">每日新闻</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 程序员小乐<br />'
+            + '作者: 小乐<br />'
+            + '链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () { bodyElement.removeChild(newdiv); }, 200);
+    });
+</script>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+        <!--广告图片-->
+        <div class="expanded col l3 hide-on-med-and-down">
+           <!-- <img src="https://wp-cdn.4ce.cn/v2/CY6RJoX.jpeg" alt="">-->
+        </div>
+
+    </div>
+
+    <!-- 插入谷歌广告 目录-->
+    <ins class="adsbygoogle"
+    style="display:block"
+    data-ad-client="ca-pub-3969824567415808"
+    data-ad-slot="5525027918"
+    data-ad-format="auto"
+    data-full-width-responsive="true"></ins>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h1, h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h1, h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+    
+
+    
+</main>
+
+
+    <ins class="adsbygoogle"
+style="display:block"
+data-ad-client="ca-pub-3969824567415808"
+data-ad-slot="5525027918"
+data-ad-format="auto"
+data-full-width-responsive="true"></ins>
+<footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            &copy; 2021-2099 程序员小乐. All Rights Reserved.
+            
+            &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+            <span class="white-color">712.6k</span>
+            
+
+            <br>
+            <span id="sitetime"></span>
+
+            
+            
+            <br>
+            
+            <span id="busuanzi_container_site_pv" style='display:none'>
+                <i class="fa fa-heart-o"></i>
+                本站总访问量 <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+
+            
+            
+            <span id="busuanzi_container_site_uv" style='display:none'>
+                人次,&nbsp;访客数 <span id="busuanzi_value_site_uv" class="white-color"></span> 人.
+            </span>
+            
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/leblog" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:lusifer9527@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+    <a href="https://user.qzone.qq.com/1260842695" class="tooltipped" target="_blank" data-tooltip="访问我的QQ空间" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fa fa-rss"></i>
+    </a>
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+<!-- 引入国内Mermaid库 -->
+<script src="https://cdn.staticfile.org/mermaid/10.6.1/mermaid.min.js"></script>
+<script>
+// 等待页面完全加载
+window.addEventListener('load', function() {
+    console.log('页面加载完成，开始处理Mermaid图表');
+    
+    // 更精确的选择器，适配不同Hexo主题可能生成的结构
+    const selectors = [
+        'pre.language-mermaid code'
+    ];
+    
+    let codeBlocks = [];
+    selectors.forEach(selector => {
+        const blocks = document.querySelectorAll(selector);
+        codeBlocks = [...codeBlocks, ...blocks];
+    });
+    
+    console.log(`找到 ${codeBlocks.length} 个可能的Mermaid代码块`);
+    
+    if (codeBlocks.length === 0) {
+        console.warn('未找到任何Mermaid代码块，请检查类名是否正确');
+        return;
+    }
+    
+    codeBlocks.forEach((codeBlock, index) => {
+        try {
+            const preBlock = codeBlock.closest('pre');
+            if (!preBlock) {
+                console.warn(`第${index+1}个代码块没有找到对应的pre父元素`);
+                return;
+            }
+            
+            // 提取并处理代码内容，还原所有HTML实体
+            let mermaidCode = codeBlock.textContent;
+            const entities = {
+                '&gt;': '>',
+                '&lt;': '<',
+                '&amp;': '&',
+                '&#39;': "'",
+                '&quot;': '"'
+            };
+            
+            // 还原所有转义字符
+            Object.keys(entities).forEach(entity => {
+                const regex = new RegExp(entity, 'g');
+                mermaidCode = mermaidCode.replace(regex, entities[entity]);
+            });
+            
+            console.log(`第${index+1}个代码块内容处理完成`);
+            
+            // 创建渲染容器
+            const mermaidContainer = document.createElement('div');
+            mermaidContainer.id = `mermaid-container-${index}`;
+            mermaidContainer.className = 'mermaid';
+            mermaidContainer.style.margin = '1rem 0';
+            mermaidContainer.textContent = mermaidCode;
+            
+            // 插入到页面中
+            preBlock.parentNode.insertBefore(mermaidContainer, preBlock);
+            
+            // 隐藏原始代码块
+            preBlock.style.display = 'none';
+            
+        } catch (error) {
+            console.error(`处理第${index+1}个代码块时出错:`, error);
+        }
+    });
+    
+    // 检查Mermaid是否加载成功
+    if (typeof mermaid === 'undefined') {
+        console.error('Mermaid库未加载成功，请检查CDN地址是否可用');
+        return;
+    }
+    
+    // 初始化Mermaid并添加错误处理
+    try {
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: {
+                curve: 'linear'
+            },
+            logLevel: 3 // 显示警告和错误信息
+        });
+        
+        console.log('Mermaid初始化完成，开始渲染图表');
+        
+        // 手动触发渲染（确保所有图表都被处理）
+        mermaid.run({
+            querySelector: '.mermaid'
+        }).then(() => {
+            console.log('Mermaid图表渲染完成');
+        }).catch(error => {
+            console.error('Mermaid渲染过程出错:', error);
+        });
+        
+    } catch (error) {
+        console.error('Mermaid初始化失败:', error);
+    }
+});
+</script>
+    
+    
+<!-- 谷歌广告 -->
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+<!-- 不蒜子计数初始值纠正 -->
+<script>
+    $(document).ready(function () {
+
+        var int = setInterval(fixCount, 50);// 50ms周期检测函数
+        var pvcountOffset = 80000;// 初始化首次数据
+        var uvcountOffset = 20000;
+
+        function fixCount() {
+            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
+                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
+                clearInterval(int);
+            }
+            if ($("#busuanzi_container_site_pv").css("display") != "none") {
+                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
+                clearInterval(int);// 停止检测
+            }
+        }
+    });
+</script>
+
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+        year - 作为date对象的年份，为4位年份值
+        month - 0-11之间的整数，做为date对象的月份
+        day - 1-31之间的整数，做为date对象的天数
+        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+        minutes - 0-59之间的整数，做为date对象的分钟数
+        seconds - 0-59之间的整数，做为date对象的秒数
+        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+        var t1 = Date.UTC(2017, 09, 11, 00, 00, 00); //北京时间2018-2-13 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "本站已运行 " + diffYears + " 年 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
+    siteTime();
+</script>
+
+    <!--百度统计-->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?952b50978d16e6ae6c408a7ff9097b48";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    <!--360统计-->
+    <script>
+        (function(b,a,e,h,f,c,g,s){b[h]=b[h]||function(){(b[h].c=b[h].c||[]).push(arguments)};
+        b[h].s=!!c;g=a.getElementsByTagName(e)[0];s=a.createElement(e);
+        s.src="//s.union.360.cn/"+f+".js";s.defer=!0;s.async=!0;g.parentNode.insertBefore(s,g)
+        })(window,document,"script","_qha",399925,false);
+    </script>
+
+    <!-- google统计 - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XNDRSTWEQ8"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-XNDRSTWEQ8');
+    </script>
+
+
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <script type="text/javascript"> var OriginTitile = document.title, st; document.addEventListener("visibilitychange", function () { document.hidden ? (document.title = "Σ(っ °Д °;)っ喔哟，崩溃啦！", clearTimeout(st)) : (document.title = "φ(゜▽゜*)♪咦，又好了！", st = setTimeout(function () { document.title = OriginTitile }, 3e3)) })
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XNDRSTWEQ8"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', 'G-XNDRSTWEQ8');
+</script>
+
+
+
+    
+    <script src="/libs/others/clicklove.js"></script>
+    
+
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    <!-- 雪花特效 -->
+    
+
+</body>
+
+</html>
