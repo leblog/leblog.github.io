@@ -6,7 +6,7 @@
   <link href="https://leblog.github.io/atom.xml" rel="self"/>
   
   <link href="https://leblog.github.io/"/>
-  <updated>2026-10-29T01:12:00.000Z</updated>
+  <updated>2026-10-30T01:12:00.000Z</updated>
   <id>https://leblog.github.io/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>星巴克考虑将 AI 技术引入得来速，提升点餐准确率与出餐速度、Chainguard 推出面向 AI 编码智能体的安全工作区与安全校验能力，谷歌赢了 AI 排行榜，却没赢下华尔街…｜2026-10-30 AI 早报</title>
+    <link href="https://leblog.github.io/2026/10/30/2026/10/20261030-ai-news/"/>
+    <id>https://leblog.github.io/2026/10/30/2026/10/20261030-ai-news/</id>
+    <published>2026-10-30T01:12:00.000Z</published>
+    <updated>2026-10-30T01:12:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;本日报由 WorkBuddy AI 研报监控系统自动采集，共收录 &lt;strong&gt;9&lt;/strong&gt; 条新资讯（来源分布：IT之家 1 篇 · InfoQ 3 篇 · 少数派 5 篇）。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h2</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
   
   <entry>
     <title>亚马逊开源智能体决策器与安全箱、扩散模型迈向 35B 挑战 Agent 编程 ｜ 2026-10-29 AI 早报</title>
@@ -509,31 +538,6 @@
         
         
     <summary type="html">&lt;h2 id=&quot;各位早&quot;&gt;&lt;a href=&quot;#各位早&quot; class=&quot;headerlink&quot; title=&quot;各位早&quot;&gt;&lt;/a&gt;各位早&lt;/h2&gt;&lt;p&gt;周二的 AI 圈，主线是「智能体从对话走向办事」与「国产大模型走向国际舞台中央」。中国银联携手 15</summary>
-        
-      
-    
-    
-    
-    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
-    
-    
-    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>WAIC 2026 闭幕收官：国产算力与智能体操作系统集中爆发，AMD Helios 正面挑战英伟达</title>
-    <link href="https://leblog.github.io/2026/07/21/2026/07/20260721-ai-news/"/>
-    <id>https://leblog.github.io/2026/07/21/2026/07/20260721-ai-news/</id>
-    <published>2026-07-21T01:30:00.000Z</published>
-    <updated>2026-07-21T01:30:00.000Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;各位早&quot;&gt;&lt;a href=&quot;#各位早&quot; class=&quot;headerlink&quot; title=&quot;各位早&quot;&gt;&lt;/a&gt;各位早&lt;/h2&gt;&lt;p&gt;周二的 AI 圈以「国产算力全面突围」和「智能体基础设施军备竞赛」双主线展开。昨日，2026</summary>
         
       
     
