@@ -1,0 +1,164 @@
+<h1 id="每日工作计划备忘录"><a href="#每日工作计划备忘录" class="headerlink" title="每日工作计划备忘录"></a>每日工作计划备忘录</h1><p>一个零依赖、纯前端的每日工作计划管理工具，支持拖拽排序、Excel导入导出、离线使用。</p>
+<h2 id="🚀-快速开始"><a href="#🚀-快速开始" class="headerlink" title="🚀 快速开始"></a>🚀 快速开始</h2><ol>
+<li>直接打开 <code>index.html</code> 文件即可使用</li>
+<li>无需安装任何软件或依赖</li>
+<li>支持离线使用，数据保存在浏览器本地存储中</li>
+</ol>
+<h2 id="📋-功能特性"><a href="#📋-功能特性" class="headerlink" title="📋 功能特性"></a>📋 功能特性</h2><h3 id="核心功能"><a href="#核心功能" class="headerlink" title="核心功能"></a>核心功能</h3><ul>
+<li><strong>周视图管理</strong>：周一到周日，上午/下午/晚上三时段</li>
+<li><strong>任务生命周期</strong>：创建、编辑、完成、删除、拖拽排序</li>
+<li><strong>重复任务</strong>：支持单次、每天、每周重复类型，智能排期</li>
+<li><strong>本地存储</strong>：自动保存，刷新页面不丢失</li>
+<li><strong>CSV导入导出</strong>：支持.csv格式，包含重复任务信息</li>
+</ul>
+<h3 id="交互操作"><a href="#交互操作" class="headerlink" title="交互操作"></a>交互操作</h3><ul>
+<li><strong>拖拽排序</strong>：任务可在同一时段内上下排序</li>
+<li><strong>拖拽排期</strong>：从任务池拖拽到具体时段</li>
+<li><strong>双击编辑</strong>：点击任务卡片编辑详情</li>
+<li><strong>键盘快捷键</strong>：<ul>
+<li><code>Ctrl+N</code>：新建任务</li>
+<li><code>Ctrl+S</code>：手动保存</li>
+<li><code>Ctrl+E</code>：导出Excel</li>
+</ul>
+</li>
+</ul>
+<h2 id="🎯-使用指南"><a href="#🎯-使用指南" class="headerlink" title="🎯 使用指南"></a>🎯 使用指南</h2><h3 id="创建任务"><a href="#创建任务" class="headerlink" title="创建任务"></a>创建任务</h3><ol>
+<li><strong>方式一</strong>：点击任务池中的”+”按钮，创建后拖拽到指定时段</li>
+<li><strong>方式二</strong>：点击任意时段单元格中的”+”按钮，直接创建到该时段</li>
+<li><strong>方式三</strong>：双击空白区域创建任务</li>
+</ol>
+<h3 id="任务管理"><a href="#任务管理" class="headerlink" title="任务管理"></a>任务管理</h3><ul>
+<li><strong>完成</strong>：点击任务前的复选框</li>
+<li><strong>编辑</strong>：点击任务卡片任意位置（复选框和删除按钮除外）</li>
+<li><strong>删除</strong>：点击任务右上角的×按钮</li>
+<li><strong>移动</strong>：拖拽任务到任意时段或任务池</li>
+</ul>
+<h3 id="Excel导入导出"><a href="#Excel导入导出" class="headerlink" title="Excel导入导出"></a>Excel导入导出</h3><h4 id="导出CSV"><a href="#导出CSV" class="headerlink" title="导出CSV"></a>导出CSV</h4><ol>
+<li>点击顶部”📊 CSV导出”按钮</li>
+<li>文件将自动下载，格式为 <code>weekly_plan_YYYY-MM-DD.csv</code></li>
+<li>包含所有任务信息：星期、时段、标题、时间、优先级、完成状态、备注、重复类型、选定星期</li>
+</ol>
+<h4 id="导入CSV"><a href="#导入CSV" class="headerlink" title="导入CSV"></a>导入CSV</h4><ol>
+<li>点击顶部”📥 CSV导入”按钮</li>
+<li>选择CSV文件上传</li>
+<li>预览任务数量后确认导入</li>
+<li>导入将覆盖当前所有任务，支持重复任务的识别和还原</li>
+</ol>
+<h4 id="CSV模板格式"><a href="#CSV模板格式" class="headerlink" title="CSV模板格式"></a>CSV模板格式</h4><table>
+<thead>
+<tr>
+<th>列名</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A列 - 星期</td>
+<td>周一到周日</td>
+<td>周一</td>
+</tr>
+<tr>
+<td>B列 - 时段</td>
+<td>上午/下午/晚上/重复任务</td>
+<td>上午</td>
+</tr>
+<tr>
+<td>C列 - 任务标题</td>
+<td>任务名称</td>
+<td>项目会议</td>
+</tr>
+<tr>
+<td>D列 - 开始时间</td>
+<td>HH:mm格式</td>
+<td>09:00</td>
+</tr>
+<tr>
+<td>E列 - 结束时间</td>
+<td>HH:mm格式</td>
+<td>10:00</td>
+</tr>
+<tr>
+<td>F列 - 优先级</td>
+<td>高/中/低</td>
+<td>高</td>
+</tr>
+<tr>
+<td>G列 - 是否完成</td>
+<td>是/否</td>
+<td>否</td>
+</tr>
+<tr>
+<td>H列 - 备注</td>
+<td>任务详情</td>
+<td>讨论项目进度</td>
+</tr>
+<tr>
+<td>I列 - 重复类型</td>
+<td>单次/每天/每周</td>
+<td>每周</td>
+</tr>
+<tr>
+<td>J列 - 选定星期</td>
+<td>逗号分隔的星期</td>
+<td>周一,周三,周五</td>
+</tr>
+</tbody></table>
+<h3 id="重复任务使用"><a href="#重复任务使用" class="headerlink" title="重复任务使用"></a>重复任务使用</h3><ul>
+<li><strong>添加任务</strong>：点击”+ 添加任务”按钮，选择重复类型（单次/每天/每周）</li>
+<li><strong>每周重复</strong>：选择”每周”时可指定具体星期几执行</li>
+<li><strong>一键排期</strong>：点击”一键排期”按钮，系统会根据任务时间和重复类型智能分配到对应时段</li>
+<li><strong>优先级排序</strong>：一键排期时会优先安排高优先级任务</li>
+</ul>
+<h2 id="🎨-主题设置"><a href="#🎨-主题设置" class="headerlink" title="🎨 主题设置"></a>🎨 主题设置</h2><p>支持三种主题：</p>
+<ul>
+<li><strong>浅色主题</strong>：默认主题，适合日常使用</li>
+<li><strong>深色主题</strong>：护眼模式，适合夜间使用</li>
+<li><strong>护眼绿主题</strong>：绿色配色，长时间使用更舒适</li>
+</ul>
+<h2 id="📱-移动端适配"><a href="#📱-移动端适配" class="headerlink" title="📱 移动端适配"></a>📱 移动端适配</h2><ul>
+<li><strong>响应式设计</strong>：自动适配不同屏幕尺寸</li>
+<li><strong>移动端手势</strong>：任务卡片可左右滑动完成或删除</li>
+<li><strong>悬浮按钮</strong>：移动端显示侧边栏切换按钮</li>
+</ul>
+<h2 id="💾-数据存储"><a href="#💾-数据存储" class="headerlink" title="💾 数据存储"></a>💾 数据存储</h2><ul>
+<li><strong>本地存储</strong>：所有数据保存在浏览器localStorage中</li>
+<li><strong>自动保存</strong>：每次操作后自动保存</li>
+<li><strong>手动保存</strong>：按Ctrl+S或点击相关按钮</li>
+<li><strong>清空数据</strong>：点击”清空本周”可重置所有任务</li>
+</ul>
+<h2 id="🔧-技术特性"><a href="#🔧-技术特性" class="headerlink" title="🔧 技术特性"></a>🔧 技术特性</h2><ul>
+<li><strong>零依赖</strong>：纯HTML/CSS/JavaScript实现</li>
+<li><strong>单文件</strong>：所有功能集成在index.html中</li>
+<li><strong>离线使用</strong>：支持PWA，可添加到主屏</li>
+<li><strong>兼容性</strong>：支持Chrome 88+、Edge 88+、Safari 14+</li>
+<li><strong>文件大小</strong>：&lt; 500KB</li>
+</ul>
+<h2 id="📊-数据模型"><a href="#📊-数据模型" class="headerlink" title="📊 数据模型"></a>📊 数据模型</h2><pre><code class="json">{
+  <span class="attr">"id"</span>: <span class="string">"任务唯一标识"</span>,
+  <span class="attr">"title"</span>: <span class="string">"任务标题"</span>,
+  <span class="attr">"start"</span>: <span class="string">"开始时间(HH:mm)"</span>,
+  <span class="attr">"end"</span>: <span class="string">"结束时间(HH:mm)"</span>,
+  <span class="attr">"priority"</span>: <span class="number">1</span>|<span class="number">2</span>|<span class="number">3</span>,
+  <span class="attr">"done"</span>: <span class="literal">true</span>|<span class="literal">false</span>,
+  <span class="attr">"doneAt"</span>: <span class="string">"完成时间戳"</span>,
+  <span class="attr">"weekday"</span>: <span class="number">1</span><span class="number">-7</span>,
+  <span class="attr">"slot"</span>: <span class="string">"AM|PM|EVENING|POOL"</span>,
+  <span class="attr">"note"</span>: <span class="string">"任务备注"</span>
+}</code></pre>
+<h2 id="🚨-注意事项"><a href="#🚨-注意事项" class="headerlink" title="🚨 注意事项"></a>🚨 注意事项</h2><ol>
+<li><strong>数据备份</strong>：建议定期导出Excel备份重要数据</li>
+<li><strong>浏览器兼容性</strong>：建议使用现代浏览器获得最佳体验</li>
+<li><strong>隐私保护</strong>：所有数据仅存储在本地，不会上传到服务器</li>
+<li><strong>存储限制</strong>：浏览器localStorage有存储上限（通常5-10MB）</li>
+</ol>
+<h2 id="🆘-常见问题"><a href="#🆘-常见问题" class="headerlink" title="🆘 常见问题"></a>🆘 常见问题</h2><p><strong>Q: 数据会丢失吗？</strong><br>A: 数据保存在浏览器本地存储中，除非清除浏览器数据或卸载应用，否则会一直保留。</p>
+<p><strong>Q: 如何迁移到另一台设备？</strong><br>A: 使用Excel导出功能，在新设备上导入即可。</p>
+<p><strong>Q: 支持多人协作吗？</strong><br>A: 目前为单机版，不支持多人协作。可通过Excel文件分享任务。</p>
+<p><strong>Q: 如何重置所有数据？</strong><br>A: 点击”清空本周”按钮，或清除浏览器localStorage中的’weeklyTasks’数据。</p>
+<h2 id="📞-联系支持"><a href="#📞-联系支持" class="headerlink" title="📞 联系支持"></a>📞 联系支持</h2><p>如有问题或建议，请通过以下方式联系：</p>
+<ul>
+<li>提交Issue到项目仓库</li>
+<li>发送邮件反馈</li>
+</ul>
+<hr>
+<p><strong>版本</strong>：v1.0.0<br><strong>更新日期</strong>：2024年<br><strong>许可证</strong>：MIT</p>
