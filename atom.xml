@@ -1,0 +1,596 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>程序员小乐</title>
+  
+  <subtitle>热爱生活</subtitle>
+  <link href="https://leblog.github.io/atom.xml" rel="self"/>
+  
+  <link href="https://leblog.github.io/"/>
+  <updated>2026-11-23T01:12:00.000Z</updated>
+  <id>https://leblog.github.io/</id>
+  
+  <author>
+    <name>小乐</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Anthropic 创纪录 IPO 遇冷、TorchNeuron 零代码迁移 Trainium、小鹏智驾落地欧洲｜2026-11-23 AI 早报</title>
+    <link href="https://leblog.github.io/2026/11/23/2026/11/20261123-ai-news/"/>
+    <id>https://leblog.github.io/2026/11/23/2026/11/20261123-ai-news/</id>
+    <published>2026-11-23T01:12:00.000Z</published>
+    <updated>2026-11-23T01:12:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;本日报共收录 &lt;strong&gt;8&lt;/strong&gt; 条新资讯（来源分布：InfoQ 6 篇 · IT之家 1 篇 · 少数派 1 篇）。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;InfoQ（6-篇）&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>智能体 AI 架构成挑战、Entire 重构 Git 协作、三星上线 AI 天气提醒｜2026-11-21 AI 早报</title>
+    <link href="https://leblog.github.io/2026/11/21/2026/11/20261121-ai-news/"/>
+    <id>https://leblog.github.io/2026/11/21/2026/11/20261121-ai-news/</id>
+    <published>2026-11-21T01:12:00.000Z</published>
+    <updated>2026-11-21T01:12:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;本日报共收录 &lt;strong&gt;5&lt;/strong&gt; 条新资讯（来源分布：IT之家 1 篇 · InfoQ 4 篇）。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;IT之家（1-篇）&quot;&gt;&lt;a href=&quot;#IT之家（1-篇）&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>腾讯混元 Hy4 登顶 OpenRouter、小鹏首发图灵 AI 共驾、OpenAI 推 dots 智能体｜2026-11-20 AI 早报</title>
+    <link href="https://leblog.github.io/2026/11/20/2026/11/20261120-ai-news/"/>
+    <id>https://leblog.github.io/2026/11/20/2026/11/20261120-ai-news/</id>
+    <published>2026-11-20T01:12:00.000Z</published>
+    <updated>2026-11-20T01:12:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;本日报共收录 &lt;strong&gt;11&lt;/strong&gt; 条新资讯（来源分布：IT之家 3 篇 · InfoQ 7 篇 · 少数派 1 篇）。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;IT之家（3-篇）&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>马斯克预警 2031 年 AI 超越人类、智能体 MCP 微服务危机、昇腾推理加速｜2026-11-19 AI 早报</title>
+    <link href="https://leblog.github.io/2026/11/19/2026/11/20261119-ai-news/"/>
+    <id>https://leblog.github.io/2026/11/19/2026/11/20261119-ai-news/</id>
+    <published>2026-11-19T01:12:00.000Z</published>
+    <updated>2026-11-19T01:12:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;本日报共收录 &lt;strong&gt;8&lt;/strong&gt; 条新资讯（来源分布：IT之家 1 篇 · InfoQ 7 篇）。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;IT之家（1-篇）&quot;&gt;&lt;a href=&quot;#IT之家（1-篇）&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>GitHub 让 AI 接管工作流、AI 生成代码开源之争、谷歌购地热电力供 AI 算力｜2026-11-18 AI 早报</title>
+    <link href="https://leblog.github.io/2026/11/18/2026/11/20261118-ai-news/"/>
+    <id>https://leblog.github.io/2026/11/18/2026/11/20261118-ai-news/</id>
+    <published>2026-11-18T01:12:00.000Z</published>
+    <updated>2026-11-18T01:12:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;本日报共收录 &lt;strong&gt;8&lt;/strong&gt; 条新资讯（来源分布：IT之家 2 篇 · InfoQ 5 篇 · 少数派 1 篇）。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;IT之家（2-篇）&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>AI 戒指创业、鸿蒙 AI 手机、智能体托管基建｜2026-11-17 AI 早报</title>
+    <link href="https://leblog.github.io/2026/11/17/2026/11/20261117-ai-news/"/>
+    <id>https://leblog.github.io/2026/11/17/2026/11/20261117-ai-news/</id>
+    <published>2026-11-17T01:12:00.000Z</published>
+    <updated>2026-11-17T01:12:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;本日报共收录 &lt;strong&gt;7&lt;/strong&gt; 条新资讯（来源分布：IT之家 3 篇 · InfoQ 4 篇）。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;IT之家（3-篇）&quot;&gt;&lt;a href=&quot;#IT之家（3-篇）&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Claude Fable 5.2 代码作画、GitLab 智能体治理、黄仁勋宣布辞职｜2026-11-16 AI 早报</title>
+    <link href="https://leblog.github.io/2026/11/16/2026/11/20261116-ai-news/"/>
+    <id>https://leblog.github.io/2026/11/16/2026/11/20261116-ai-news/</id>
+    <published>2026-11-16T01:12:00.000Z</published>
+    <updated>2026-11-16T01:12:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;本日报共收录 &lt;strong&gt;12&lt;/strong&gt; 条新资讯（来源分布：IT之家 1 篇 · InfoQ 7 篇 · 少数派 4 篇）。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;IT之家（1-篇）&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>OpenAI 募资 150 亿美元、英伟达黄仁勋时代落幕、谷歌推端侧 ML 新 API｜2026-11-13 AI 早报</title>
+    <link href="https://leblog.github.io/2026/11/13/2026/11/20261113-ai-news/"/>
+    <id>https://leblog.github.io/2026/11/13/2026/11/20261113-ai-news/</id>
+    <published>2026-11-13T01:12:00.000Z</published>
+    <updated>2026-11-13T01:12:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;本日报共收录 &lt;strong&gt;3&lt;/strong&gt; 条新资讯（来源分布：IT之家 2 篇 · InfoQ 1 篇）。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;IT之家（2-篇）&quot;&gt;&lt;a href=&quot;#IT之家（2-篇）&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>必应推 AI 答案关闭开关、Gemini Decision 1 发布、ANR 挑战 DLSS｜2026-11-12 AI 早报</title>
+    <link href="https://leblog.github.io/2026/11/12/2026/11/20261112-ai-news/"/>
+    <id>https://leblog.github.io/2026/11/12/2026/11/20261112-ai-news/</id>
+    <published>2026-11-12T01:12:00.000Z</published>
+    <updated>2026-11-12T01:12:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;本日报共收录 &lt;strong&gt;7&lt;/strong&gt; 条新资讯（来源分布：IT之家 2 篇 · InfoQ 4 篇 · 少数派 1 篇）。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;IT之家（2-篇）&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>火山引擎 IGA Pages 一步接大模型、Meta Muse Ember 硬刚 Claude Haiku、DeepSeek 发力 Agent 生态…｜2026-11-11 AI 早报</title>
+    <link href="https://leblog.github.io/2026/11/11/2026/11/20261111-ai-news/"/>
+    <id>https://leblog.github.io/2026/11/11/2026/11/20261111-ai-news/</id>
+    <published>2026-11-11T01:12:00.000Z</published>
+    <updated>2026-11-11T01:12:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;本日报共收录 &lt;strong&gt;7&lt;/strong&gt; 条新资讯（来源分布：IT之家 1 篇 · InfoQ 5 篇 · 少数派 1 篇）。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;IT之家（1-篇）&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>千问办公2.0 Team Agent、Gartner 预警智能体治理，Airbnb 用 Chronon 把推荐延迟压到秒级…｜2026-11-10 AI 早报</title>
+    <link href="https://leblog.github.io/2026/11/10/2026/11/20261110-ai-news/"/>
+    <id>https://leblog.github.io/2026/11/10/2026/11/20261110-ai-news/</id>
+    <published>2026-11-10T01:12:00.000Z</published>
+    <updated>2026-11-10T01:12:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;本日报共收录 &lt;strong&gt;11&lt;/strong&gt; 条新资讯（来源分布：IT之家 2 篇 · InfoQ 8 篇 · 少数派 1 篇）。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;IT之家（2-篇）&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>英伟达黄仁勋长女黄敏珊因“家庭原因”取消韩国之行、Agent 越用越多，企业为何仍不够 AI Native？，AI 生成视频何时才能告别“抽卡”？藏在高效生成背后的返工与成本难题…｜2026-11-09 AI 早报</title>
+    <link href="https://leblog.github.io/2026/11/09/2026/11/20261109-ai-news/"/>
+    <id>https://leblog.github.io/2026/11/09/2026/11/20261109-ai-news/</id>
+    <published>2026-11-09T01:12:00.000Z</published>
+    <updated>2026-11-09T01:12:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;本日报共收录 &lt;strong&gt;7&lt;/strong&gt; 条新资讯（来源分布：IT之家 1 篇 · InfoQ 5 篇 · 少数派 1 篇）。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;IT之家（1-篇）&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>李飞飞 World Labs 发 Frameboy、Claude Code 负责人入 OpenAI、谷歌启动 2000 亿「买断」…｜2026-11-06 AI 早报</title>
+    <link href="https://leblog.github.io/2026/11/06/2026/11/20261106-ai-news/"/>
+    <id>https://leblog.github.io/2026/11/06/2026/11/20261106-ai-news/</id>
+    <published>2026-11-06T01:41:00.000Z</published>
+    <updated>2026-11-06T01:41:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;本日报共收录 &lt;strong&gt;8&lt;/strong&gt; 条新资讯（来源分布：IT之家 2 篇 · InfoQ 5 篇 · 少数派 1 篇）。已剔除 5 条与 AI 无关的误命中（电商促销、MacBook</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>启元 T1 机器人首次 OTA 明日推送、启境 CEO 刘嘉铭称 L3 是下一代智能汽车分水岭，并非 L2 简单升级，美国 AI 扩张遭遇地方阻力…｜2026-11-05 AI 早报</title>
+    <link href="https://leblog.github.io/2026/11/05/2026/11/20261105-ai-news/"/>
+    <id>https://leblog.github.io/2026/11/05/2026/11/20261105-ai-news/</id>
+    <published>2026-11-05T01:12:00.000Z</published>
+    <updated>2026-11-05T01:12:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;本日报共收录 &lt;strong&gt;14&lt;/strong&gt; 条新资讯（来源分布：IT之家 5 篇 · InfoQ 5 篇 · 少数派 4 篇）。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;IT之家（5-篇）&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>AI教AI开车！百度首次披露Apollo World世界模型，让无人驾驶突破“不可能三角”、AI 改变的是数据接口，而不是查询引擎，前迪士尼 AI 高管出任 CPO，Utopai Studios 技术布局再提速…｜2026-11-04 AI 早报</title>
+    <link href="https://leblog.github.io/2026/11/04/2026/11/20261104-ai-news/"/>
+    <id>https://leblog.github.io/2026/11/04/2026/11/20261104-ai-news/</id>
+    <published>2026-11-04T01:12:00.000Z</published>
+    <updated>2026-11-04T01:12:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;本日报共收录 &lt;strong&gt;8&lt;/strong&gt; 条新资讯（来源分布：InfoQ 6 篇 · 少数派 2 篇）。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;InfoQ（6-篇）&quot;&gt;&lt;a href=&quot;#InfoQ（6-篇）&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>爱信开发全球首款 16nm STT-MRAM AI SoC，实现 50 倍目标检测能效、王兴兴，AI+艺术…｜2026-11-03 AI 早报</title>
+    <link href="https://leblog.github.io/2026/11/03/2026/11/20261103-ai-news/"/>
+    <id>https://leblog.github.io/2026/11/03/2026/11/20261103-ai-news/</id>
+    <published>2026-11-03T01:12:00.000Z</published>
+    <updated>2026-11-03T01:12:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;本日报共收录 &lt;strong&gt;8&lt;/strong&gt; 条新资讯（来源分布：IT之家 2 篇 · InfoQ 4 篇 · 少数派 2 篇）。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;IT之家（2-篇）&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>美团龙猫发布 LongCat-2.5 原生多模态 AI 模型、CI 出错后，谁来把关？Buildkite 的智能体新思路，ChatGPT Pro 额度翻倍…｜2026-11-02 AI 早报</title>
+    <link href="https://leblog.github.io/2026/11/02/2026/11/20261102-ai-news/"/>
+    <id>https://leblog.github.io/2026/11/02/2026/11/20261102-ai-news/</id>
+    <published>2026-11-02T01:12:00.000Z</published>
+    <updated>2026-11-02T01:12:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;本日报共收录 &lt;strong&gt;5&lt;/strong&gt; 条新资讯（来源分布：IT之家 1 篇 · InfoQ 3 篇 · 少数派 1 篇）。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;IT之家（1-篇）&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>星巴克考虑将 AI 技术引入得来速，提升点餐准确率与出餐速度、Chainguard 推出面向 AI 编码智能体的安全工作区与安全校验能力，谷歌赢了 AI 排行榜，却没赢下华尔街…｜2026-10-30 AI 早报</title>
+    <link href="https://leblog.github.io/2026/10/30/2026/10/20261030-ai-news/"/>
+    <id>https://leblog.github.io/2026/10/30/2026/10/20261030-ai-news/</id>
+    <published>2026-10-30T01:12:00.000Z</published>
+    <updated>2026-10-30T01:12:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;本日报由 WorkBuddy AI 研报监控系统自动采集，共收录 &lt;strong&gt;9&lt;/strong&gt; 条新资讯（来源分布：IT之家 1 篇 · InfoQ 3 篇 · 少数派 5 篇）。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h2</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>亚马逊开源智能体决策器与安全箱、扩散模型迈向 35B 挑战 Agent 编程 ｜ 2026-10-29 AI 早报</title>
+    <link href="https://leblog.github.io/2026/10/29/2026/10/20261029-ai-news/"/>
+    <id>https://leblog.github.io/2026/10/29/2026/10/20261029-ai-news/</id>
+    <published>2026-10-29T01:12:00.000Z</published>
+    <updated>2026-10-29T01:12:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;今日共收录 8 条 AI 领域新资讯（来源分布：IT之家 2 篇 · InfoQ 5 篇 · 少数派 1 篇）。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;IT之家（2-篇）&quot;&gt;&lt;a href=&quot;#IT之家（2-篇）&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>华为自带线全能充智能移动电源今日开售、智能指数得分创新高！蚂蚁百灵开源Ling-3.1-flash-1019，GPT-6.1 Terra 发布…｜2026-10-28 AI 早报</title>
+    <link href="https://leblog.github.io/2026/10/28/2026/10/20261028-ai-news/"/>
+    <id>https://leblog.github.io/2026/10/28/2026/10/20261028-ai-news/</id>
+    <published>2026-10-28T01:12:00.000Z</published>
+    <updated>2026-10-28T01:12:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;本日报由 WorkBuddy AI 研报监控系统自动采集，共收录 &lt;strong&gt;13&lt;/strong&gt; 条新资讯（来源分布：IT之家 1 篇 · InfoQ 4 篇 · 少数派 8 篇）。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h2</summary>
+        
+      
+    
+    
+    
+    <category term="科技" scheme="https://leblog.github.io/categories/%E7%A7%91%E6%8A%80/"/>
+    
+    
+    <category term="每日新闻" scheme="https://leblog.github.io/tags/%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
+  
+</feed>
